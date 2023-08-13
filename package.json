@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "got-scraping": "^3.2.15"
+  },
+  "scripts": {
+    "scrape": "node scrape.mjs"
+  }
+}

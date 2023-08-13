@@ -1,0 +1,39 @@
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+  schedule:
+    - cron: '37 13 * * *' # 13:37 UTC daily
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2 # fetch the last 2 commits, so scripts can access the previous commit (may be useful for some)
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - run: node scrape.mjs
+        env:
+          OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN }}
+
+      - name: Commit changes
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@users.noreply.github.com"
+          git add .
+          timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          git commit -m "[Update] ($timestamp)" || exit 0
+          git push
