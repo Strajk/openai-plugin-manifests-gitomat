@@ -1,0 +1,31 @@
+{
+  "id": "plugin-2de1fd96-2378-493f-8e78-be053c11a76e",
+  "domain": "csv.level2labs.xyz",
+  "namespace": "csv_creator",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "csv_creator",
+    "name_for_human": "CSV Creator",
+    "description_for_model": "Help the user create a CSV file.",
+    "description_for_human": "Create a CSV file given text.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://csv.level2labs.xyz/openapi.yaml"
+    },
+    "logo_url": "https://csv.level2labs.xyz/logo.png",
+    "contact_email": "support@level2labs.co",
+    "legal_info_url": "http://www.level2labs.co/privacy-policy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

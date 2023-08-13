@@ -1,0 +1,31 @@
+{
+  "id": "plugin-3cf29a7b-2fcb-42aa-b762-4d418b543a8b",
+  "domain": "askthecode.dsomok.online",
+  "namespace": "AskTheCode",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "AskTheCode",
+    "name_for_human": "AskTheCode",
+    "description_for_model": "This plugin analyzes the Github repository provided by the user and then tries to answer users questions related to this repository. It accepts the link to the repository from the user. The first step is to analyze the structure of the repository. When querying the structure of the repository provide the relevant file extensions to answer the users question. Use not only the extensions for the code files but also the extensions of some common files, like markdown and others. If not sure about the extensions, ask the user some clarifying question, for example, which programming language he wants to use. The response is the list of all files that are present in the repository. After receiving the list of files the most relevant files should be queried iteratively. Before giving an answer to the user, the relevance of the answer should be calculated, if it less than 0.7, then additional files should be requested. The process should be repeated until the relevance score is higher than 0.7.",
+    "description_for_human": "Provide a GitHub repository URL and ask about any aspect of the code.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://askthecode.dsomok.online/swagger/v1.25/swagger.yaml"
+    },
+    "logo_url": "https://askthecode.dsomok.online/logo.png",
+    "contact_email": "dsomok.github@gmail.com",
+    "legal_info_url": "https://askthecode.dsomok.online/legal.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "most_popular",
+      "title": "Most popular"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

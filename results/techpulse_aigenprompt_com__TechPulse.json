@@ -1,0 +1,31 @@
+{
+  "id": "plugin-84931206-4218-4631-884e-2fea57919a0e",
+  "domain": "techpulse.aigenprompt.com",
+  "namespace": "TechPulse",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "TechPulse",
+    "name_for_human": "TechPulse",
+    "description_for_model": "Display top(default)/new/ask/show/job stories from HackerNews. Also display related link using the following format: [related_title](related_url).",
+    "description_for_human": "Keeps you updated with top(default)/new/ask/show/job stories from HackerNews.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://techpulse.aigenprompt.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://techpulse.aigenprompt.com/logo.png",
+    "contact_email": "roberts@aigenprompt.com",
+    "legal_info_url": "https://techpulse.aigenprompt.com/legal-info.txt"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

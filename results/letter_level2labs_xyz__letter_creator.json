@@ -1,0 +1,31 @@
+{
+  "id": "plugin-3f39490a-25fd-4775-97ed-d66b1f5c77da",
+  "domain": "letter.level2labs.xyz",
+  "namespace": "letter_creator",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "letter_creator",
+    "name_for_human": "Letter Writer",
+    "description_for_model": "Help the user write and create professional letters in PDF format. Use Markdown styling to make the doc look nice.",
+    "description_for_human": "Create sleek, professional letters instantly. Business letters, cover letters, recommendation letters, and more.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://letter.level2labs.xyz/openapi.yaml"
+    },
+    "logo_url": "https://letter.level2labs.xyz/logo.png",
+    "contact_email": "support@level2labs.co",
+    "legal_info_url": "http://www.level2labs.co/privacy-policy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "plugin-10f7291a-fb18-44d2-857c-7c4e8e54e15e",
+  "domain": "plugin.thebolt.ai",
+  "namespace": "bolt",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "bolt",
+    "name_for_human": "The Bolt",
+    "description_for_model": "The user may use the command \"bolt [toolName]\" to explicitly execute a tool, or you will determine when the user intends for a tool to be executed.  You can determine the \"toolName\" value based on what the user enters or from the conversation context, utilizing the list of toolNames returned by a \"bolt init\" command.\n\nTools include the following:\n\nActlike: Lets you control ChatGPT's personality. You can save, list, and delete different personalities.\n\nForget: Erases memories you previously saved with the \"remember\" tool.\n\nNews: Fetches news articles from a news source you specify by name, e.g. \"CNN\".\n\nPhotos: Returns photos from Pixabay and/or Flickr, optionally searching by one or more tags.\n\nPrompt: A \"prompt manager\" that lets you control my behavior. You can save, list, and delete different prompts.\n\nProofread: Let me proofread a web page to check its grammar and punctuation.\n\nRecall: Recalls memories you have previously saved with the \"Remember\" tool.\n\nRemember: Lets you save information you want to later recall by saving memories encrypted in a database.\n\nScrape: Reads the web page at the specified URL and returns its plain text content.\n\nWebsearch: Searches the web for pages and videos.",
+    "description_for_human": "Energize your chat with tools from thebolt.ai that enhance your productivity and workflow.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://69ace208f282c454349d397a2b93921f.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "0f95ce3be26b4b78b8382fdbd2149488"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.thebolt.ai/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://thebolt.ai/images/BOLT-head_100.png",
+    "contact_email": "support@thebolt.ai",
+    "legal_info_url": "https://thebolt.ai/tos"
+  },
+  "oauth_client_id": "f9a964dff7d52cce014a781769bb5f17",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

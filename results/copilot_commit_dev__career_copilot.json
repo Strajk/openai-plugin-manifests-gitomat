@@ -1,0 +1,31 @@
+{
+  "id": "plugin-8132b150-043f-45d4-b561-cc46b6e898c0",
+  "domain": "copilot.commit.dev",
+  "namespace": "career_copilot",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "career_copilot",
+    "name_for_human": "Career Copilot",
+    "description_for_model": "A personal AI Agent that finds jobs for software engineers. Partner with Commit.dev to find a better job.",
+    "description_for_human": "A personal AI Agent that finds jobs for software engineers. Partner with Commit.dev to find a better job.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://copilot.commit.dev/openapi.yaml"
+    },
+    "logo_url": "https://copilot.commit.dev/images/logo.png",
+    "contact_email": "tech@commit.dev",
+    "legal_info_url": "https://commit.dev"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

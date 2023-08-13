@@ -1,0 +1,36 @@
+{
+  "id": "plugin-985f0d2e-45f1-495c-b293-72ec96b1857f",
+  "domain": "diary-chatgptplugin.derekxwang.com",
+  "namespace": "diary",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "diary",
+    "name_for_human": "Diary",
+    "description_for_model": "This plugin offers prompts for seamless diary management, coupled with a wealth of useful information related to maintaining a diary. It is particularly useful when users are working on their diaries and journals.",
+    "description_for_human": "Kickstart your diary journey. Keeping a diary is designed to be effortless and beneficial.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "6f4a6ab634264bda98df697b672b90c9"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://diary-chatgptplugin.derekxwang.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://diary-chatgptplugin.derekxwang.com/.well-known/logo.png",
+    "contact_email": "derekxinzhewang@gmail.com",
+    "legal_info_url": "https://diary.derekxwang.com/chatgptplugin/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-f2bee5bb-2a4d-4a9e-82df-92da0e8cebd6",
+  "domain": "api-chatgpt.phiture.com",
+  "namespace": "PHITURE",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "PHITURE",
+    "name_for_human": "PHITURE",
+    "description_for_model": "Search for keywords to obtain information about their popularity, impressions, etc.",
+    "description_for_human": "Search for keywords to obtain information about their popularity, impressions, etc.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api-chatgpt.phiture.com/openapi.json"
+    },
+    "logo_url": "https://phiture.com/wp-content/uploads/2022/08/icon-96x96.png",
+    "contact_email": "stepan.chatalyan@phiture.com",
+    "legal_info_url": "https://phiture.com/privacy-policy/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

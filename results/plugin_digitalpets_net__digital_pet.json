@@ -1,0 +1,39 @@
+{
+  "id": "plugin-832ddac4-32ce-4b6b-9eb3-c63487c4576c",
+  "domain": "plugin.digitalpets.net",
+  "namespace": "digital_pet",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "digital_pet",
+    "name_for_human": "A Digital Pet",
+    "description_for_model": "Use digital_pet to interact with a pet simulation game. Use the pet stats and the context received to develop fun and interactive stories, while staying in lane with the possibilities offered by the game. Try to always give action propositions to the player. Try to keep the answer size under 200 words.",
+    "description_for_human": "Take care of your digital pet, go on adventures, learn tricks, and interact with others digital pet owners!",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://51c0b2b6897e58bf149820cd4c8ef5ea.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "649930d8b8784b38a6302e387cb83149"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.digitalpets.net/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://digitalpets.net/logo.png",
+    "contact_email": "alexis@digitalpets.net",
+    "legal_info_url": "https://digitalpets.net/legal"
+  },
+  "oauth_client_id": "32896fb518408d818aa67819d8527ef3",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

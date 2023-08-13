@@ -1,0 +1,36 @@
+{
+  "id": "plugin-2232c759-cac9-4ffb-8940-80b8e8332c87",
+  "domain": "api.edmunds.com",
+  "namespace": "edmunds_cars",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "edmunds_cars",
+    "name_for_human": "Edmunds Cars",
+    "description_for_model": "When a user provides a car's make, model and year, this will lookup the Edmunds.com official review. A user can also ask for a sample of vehicles available near their zipcode it will return a list of vins.",
+    "description_for_human": "Use Edmunds to get trusted car reviews and local new and used vehicle listings.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "06fa75452268414c84d1aa203ee78913"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.edmunds.com/openapi.yaml"
+    },
+    "logo_url": "https://api.edmunds.com/logo.png",
+    "contact_email": "bigdataeng@edmunds.com",
+    "legal_info_url": "https://www.edmunds.com/about/visitor-agreement.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

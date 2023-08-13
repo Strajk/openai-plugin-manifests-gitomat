@@ -1,0 +1,39 @@
+{
+  "id": "plugin-f639a982-c139-4578-815b-e79efceb13f3",
+  "domain": "plugin.totalquery.co",
+  "namespace": "total_query_meta_search_engine",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "total_query_meta_search_engine",
+    "name_for_human": "TotalQuery Search",
+    "description_for_model": "This enables you to extend your knowledge base by searching the internet for the latest information available and go beyond your knowledge cutoff date. The search function allows you to search for the desired information online and provides you with search results merged from different sources to avoid bias. You should go through the full list of results and pick the information you find the most relevant regarding your search requirements. The search results include the information that was found as well as a link to the website it is extracted from. You can trust the results as they never contain broken links or references to invalid websites. To provide the reference to a specific search result you can use the link that is provided in the search result itself.",
+    "description_for_human": "Go beyond google search: harness the combined power of 70+ search engines for ultimate web discovery.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://f14661818ab7a5cf917eff1c173663de.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "3e032814fa2940888af6b1d7e6890724"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.totalquery.co/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://firebasestorage.googleapis.com/v0/b/totalquery.appspot.com/o/totalquery.svg?alt=media&token=46153d3a-26f5-44f2-b2e3-15b2a13b31a0",
+    "contact_email": "contact@plugin.totalquery.co",
+    "legal_info_url": "https://totalquery.co/terms"
+  },
+  "oauth_client_id": "6aa57d822b5c3e294a84a9c491a186a0",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

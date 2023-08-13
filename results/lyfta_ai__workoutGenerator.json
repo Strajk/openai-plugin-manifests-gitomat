@@ -1,0 +1,31 @@
+{
+  "id": "plugin-580dbe96-6dcb-4943-b741-117b3f8a9724",
+  "domain": "lyfta.ai",
+  "namespace": "workoutGenerator",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "workoutGenerator",
+    "name_for_human": "Workout Generator",
+    "description_for_model": "Display the workout using markdown, embed images",
+    "description_for_human": "Create strength training workouts, for goals like muscle building, strength, and fat loss.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://lyfta.ai/openapi.yaml"
+    },
+    "logo_url": "https://lyfta.ai/logo.png",
+    "contact_email": "support@lyfta.app",
+    "legal_info_url": "https://www.lyfta.app/general-5"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

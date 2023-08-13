@@ -1,0 +1,39 @@
+{
+  "id": "plugin-392582bb-64a6-42c2-8bc8-de3a23cda152",
+  "domain": "seo.quick-url.com",
+  "namespace": "quickSEO_gpt",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "quickSEO_gpt",
+    "name_for_human": "A+QuickSEO",
+    "description_for_model": "Use the A+QuickSEO plugin to generate a quick SEO Audit for a specific URL. The plugin will return some data about networks, SEO Audits, keywords, keywords pairs, internal links, external links, special links, and images.",
+    "description_for_human": "Get a quick SEO audit for a specific URL.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://c56d299e6952443f09a241b5da40d933.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "a406b309df5844348ab293a9072546d6"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://seo.quick-url.com/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://seo-be.quick-url.com/logo.jpg",
+    "contact_email": "contact@quick-url.com",
+    "legal_info_url": "https://seo-be.quick-url.com/api/terms"
+  },
+  "oauth_client_id": "4d207e9fb6cbc598cff9f9f93c4b65ad",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

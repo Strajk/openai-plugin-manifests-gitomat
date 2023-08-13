@@ -1,0 +1,31 @@
+{
+  "id": "plugin-b52c1db3-2646-4fd4-811e-f9958ff31577",
+  "domain": "whip.automateyournetwork.ca",
+  "namespace": "Abortion_Information",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Abortion_Information",
+    "name_for_human": "Abortion Information",
+    "description_for_model": "Abortionpolicyapi.com data. The data will include abortion information JSON data related to abortion policies in the United States. Please provide an initial summary of the Abortion Policy API JSON data, help the user understand it, and highlight anything important. Please be sensitive in your responses at all times.",
+    "description_for_human": "Abortion Information from the Abortion API.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://whip.automateyournetwork.ca/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://whip.automateyournetwork.ca/staticfiles/Artboard+9_rainbow3.png",
+    "contact_email": "ptcapo@gmail.com",
+    "legal_info_url": "https://whip.automateyournetwork.ca/.well-known/legal.txt"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

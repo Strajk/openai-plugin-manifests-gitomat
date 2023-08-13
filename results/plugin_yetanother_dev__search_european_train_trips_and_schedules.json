@@ -1,0 +1,39 @@
+{
+  "id": "plugin-6159170e-9e0a-4509-8482-761187f2d138",
+  "domain": "plugin.yetanother.dev",
+  "namespace": "search_european_train_trips_and_schedules",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "search_european_train_trips_and_schedules",
+    "name_for_human": "A+European Train",
+    "description_for_model": "A plugin that can give you the journey data between two European city for a given date time. The result will contain departure station, arrival station, departure time, arrival time, departure date, total duration and the list of every station that are being crossed during the journey (with arrival hour). It can possibly give you booking price. For every request you should give a \"from\" and a \"to\" parameter which represent the string literal cities and a date. If the user asks for more, feel free to look for train on a wider date range. You can also suggest some nearby cities.",
+    "description_for_human": "Search for train and bus connections in Europe with schedules.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://b5af6132894ed97d21e1e149f27e2e5d.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "426422d98f684a33900d551492398ca6"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.yetanother.dev/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://train-schedule.yetanother.dev/logo.png",
+    "contact_email": "contact@yetanother.dev",
+    "legal_info_url": "https://train-schedule.yetanother.dev/legal"
+  },
+  "oauth_client_id": "e215cd0c314b2da58a733abccc8eb42f",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

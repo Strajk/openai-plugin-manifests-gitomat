@@ -1,0 +1,31 @@
+{
+  "id": "plugin-f2d3c17e-4990-4596-8aa9-a4795dd0ba52",
+  "domain": "ukr-books-chatgpt-plugin.illia56.repl.co",
+  "namespace": "books",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "books",
+    "name_for_human": "Ukr-School-Books",
+    "description_for_model": "Plugin for interacting with a books database. You can list all books, get presentation, get biography of an author, get content of a book, get a random book, and get books that match a certain command.",
+    "description_for_human": "Interact with a books database. List, get content, and find books.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://ukr-books-chatgpt-plugin.illia56.repl.co/openapi.yaml"
+    },
+    "logo_url": "https://ukr-books-chatgpt-plugin.illia56.repl.co/logo.jpg",
+    "contact_email": "I.Ludogovskyi@gmail.com",
+    "legal_info_url": "https://butter-tangerine-f7b.notion.site/Ukr-Books-ChatGPT-ad1258cbc91b40e5ad78fa89f414dc09?pvs=4"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

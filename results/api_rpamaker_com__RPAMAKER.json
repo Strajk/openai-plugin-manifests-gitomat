@@ -1,0 +1,39 @@
+{
+  "id": "plugin-f4493d77-7551-48a9-91cd-1f3fd54453e7",
+  "domain": "api.rpamaker.com",
+  "namespace": "RPAMAKER",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "RPAMAKER",
+    "name_for_human": "RPAMAKER",
+    "description_for_model": "Run and deploy ROBOTFRAMEWORK scripts to RPAMAKER.",
+    "description_for_human": "Run and deploy ROBOTFRAMEWORK scripts to RPAMAKER.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://api.rpamaker.com/oauth",
+      "scope": "",
+      "authorization_url": "https://orquestador.rpamaker.com/accounts/oauth/authorization_code/",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "189de2f36c194ca784f1d6fe887cc0d1"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.rpamaker.com/openapi.yaml"
+    },
+    "logo_url": "https://api.rpamaker.com/logo",
+    "contact_email": "support@rpamaker.com",
+    "legal_info_url": "https://rpamaker.com/terms-conditions"
+  },
+  "oauth_client_id": "671fbb363d796c654fb64b1223be2b7108536c5effe5536ca8f3fef36bb6b605",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-87b98e26-4790-4008-892d-efa27e1de09f",
+  "domain": "findatour.replit.app",
+  "namespace": "findatour",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "findatour",
+    "name_for_human": "Find a Tour",
+    "description_for_model": "Find a tour, activity, or experience to do in locations across the world. Use keywords 'find', 'tour', 'activity', 'experience' to prompt the plugin.",
+    "description_for_human": "Find a tour, activity, or experience to do in locations across the world.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://findatour.replit.app/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://findatour.replit.app/logo.jpg",
+    "contact_email": "john.bralich@gmail.com",
+    "legal_info_url": "https://findatour.replit.app/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

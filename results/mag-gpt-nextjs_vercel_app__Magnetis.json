@@ -1,0 +1,31 @@
+{
+  "id": "plugin-2a1f759e-c9e4-44c8-bfac-b924e13b38e4",
+  "domain": "mag-gpt-nextjs.vercel.app",
+  "namespace": "Magnetis",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Magnetis",
+    "name_for_human": "Magnetis",
+    "description_for_model": "Magnetis is a digital wealth manager. Provides information and portfolio data for users and clients. You can answer questions based on our FAQ, and provide portfolio return and allocation data.",
+    "description_for_human": "Magnetis is a digital wealth manager. Get updated data on portfolios returns and allocations. Ask me about Magnetis.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "85a6f3a89d8b48389a69b7c7adc170cd"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://mag-gpt-nextjs.vercel.app/.well-known/openapi.json"
+    },
+    "logo_url": "https://mag-gpt-nextjs.vercel.app/logo.png",
+    "contact_email": "contato@magnetis.com.br",
+    "legal_info_url": "https://magnetis.com.br/notas-legais"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

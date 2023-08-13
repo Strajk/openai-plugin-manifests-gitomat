@@ -1,0 +1,31 @@
+{
+  "id": "plugin-30cf0b20-f773-4daa-977b-00b28d6f592c",
+  "domain": "service-provider-ext.onrender.com",
+  "namespace": "freelancetalent",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "freelancetalent",
+    "name_for_human": "Find Talent",
+    "description_for_model": "Find digital freelance talent for any occassion. Services include: Graphics & Design, Digital Marketing, Writing & Translation, Video & Animation, Music & Audio, Programming & Tech, PhotographyBusiness, AI Services",
+    "description_for_human": "Find digital freelance talent for any occasion.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://service-provider-ext.onrender.com/.well-known/openapi.json"
+    },
+    "logo_url": "https://service-provider-ext.onrender.com/.well-known/logo",
+    "contact_email": "hexcard.xyz",
+    "legal_info_url": "https://service-provider-ext.onrender.com/.well-known/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

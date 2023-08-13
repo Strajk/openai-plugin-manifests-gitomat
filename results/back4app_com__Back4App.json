@@ -1,0 +1,39 @@
+{
+  "id": "plugin-c7e9de3b-c61f-47b7-b230-e9cbacf6da4d",
+  "domain": "back4app.com",
+  "namespace": "Back4App",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Back4App",
+    "name_for_human": "Back4App",
+    "description_for_model": "Help the user with creating an app's backend using Back4App. Database, REST and GraphQL APIs, Cloud Code Functions, User Authentication, Access Control, and more.",
+    "description_for_human": "Use natural language to create, deploy, and scale apps, backend, databases, cloud functions, and APIs.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://www.back4app.com/authorize",
+      "scope": "baas-full-access",
+      "authorization_url": "https://dashboard.back4app.com/oauth/access-token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "b5bd9ca53bdb498eabdef070cb40de32"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgpt.back4app.com/openapi.yaml"
+    },
+    "logo_url": "https://www.back4app.com/_public/favicon.ico",
+    "contact_email": "community@back4app.com",
+    "legal_info_url": "https://www.back4app.com/terms-of-service.pdf"
+  },
+  "oauth_client_id": "49a35fd9-430e-4dc7-8677-69aeda2b3dc9",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

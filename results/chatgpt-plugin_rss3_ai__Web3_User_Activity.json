@@ -1,0 +1,31 @@
+{
+  "id": "plugin-a3377a35-88a7-4435-9c70-cab1d11baa59",
+  "domain": "chatgpt-plugin.rss3.ai",
+  "namespace": "Web3_User_Activity",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Web3_User_Activity",
+    "name_for_human": "Web3 User Activity",
+    "description_for_model": "Query RSS3 Network whenever a string starts with \"0x\" or ends with \".eth\", \".lens\", \".avax\", \".csb\", \".bit\", \".bnb\", \".arb\", \".crypto\", \".nft\", \".x\", \".wallet\", \".bitcoin\", \".dao\", \".888\", \".blockchain\" is detected in the prompt. To show activities of a specific type, add a 'tag' parameter to the API request from the following tags: collectible, donation, exchange, governance, metaverse, social, transaction. Render only the first 5 results if there are more than 5.",
+    "description_for_human": "View any Web3 user's activities by entering a 0x address, ENS, Lens, and many other name services on the RSS3 Network.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgpt-plugin.rss3.ai/openapi.json"
+    },
+    "logo_url": "https://chatgpt-plugin.rss3.ai/public/logo.svg",
+    "contact_email": "contact@rss3.io",
+    "legal_info_url": "https://rss3.io/tos"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

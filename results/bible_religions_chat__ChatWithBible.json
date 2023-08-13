@@ -1,0 +1,31 @@
+{
+  "id": "plugin-5d2ee58b-e667-49e8-b9eb-8066e98a0c75",
+  "domain": "bible.religions.chat",
+  "namespace": "ChatWithBible",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "ChatWithBible",
+    "name_for_human": "Chat with Bible",
+    "description_for_model": "Semantically search the Bible. This tool assists the user in finding the most relevant Biblical verses, chapters, and references according to their interests, religious beliefs, and preferences. You can search all books from the King James Version of the Bible. You can search semantically or look up a specific verse.",
+    "description_for_human": "Intuitively explore scriptures. Find relevant verses, understand parables, and gain insights.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://bible.religions.chat/openapi.yaml"
+    },
+    "logo_url": "https://bible.religions.chat/logo.png",
+    "contact_email": "brentably@gmail.com",
+    "legal_info_url": "https://bible.religions.chat/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

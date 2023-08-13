@@ -1,0 +1,31 @@
+{
+  "id": "plugin-a40835e1-5b00-4b0d-b03f-50cf35c668fb",
+  "domain": "daigr.am",
+  "namespace": "daigram",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "daigram",
+    "name_for_human": "daigr.am",
+    "description_for_model": "Plugin for visualizing data with charts and graphs.",
+    "description_for_human": "Build charts, graphs, and more.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://daigr.am/openapi.yaml"
+    },
+    "logo_url": "https://daigr.am/logo.png",
+    "contact_email": "support@daigr.am",
+    "legal_info_url": "http://daigr.am/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "most_popular",
+      "title": "Most popular"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

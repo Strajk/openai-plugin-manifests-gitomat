@@ -1,0 +1,31 @@
+{
+  "id": "plugin-71c69e91-22eb-487f-ab7c-fd76352e3698",
+  "domain": "gptfineart.azurewebsites.net",
+  "namespace": "ssfineart",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "ssfineart",
+    "name_for_human": "SuperStock Fine Art",
+    "description_for_model": "Returns a set of URLs to examples of fine art requested by user.",
+    "description_for_human": "Returns a set of URLs to examples of fine art requested by user.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://gptfineart.azurewebsites.net/static/openapi.yaml"
+    },
+    "logo_url": "https://gptfineart.azurewebsites.net/logo.png",
+    "contact_email": "rick@superstock.com",
+    "legal_info_url": "https://www.superstock.com/home/licensing"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

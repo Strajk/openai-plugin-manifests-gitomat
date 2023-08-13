@@ -1,0 +1,36 @@
+{
+  "id": "plugin-30f290b2-4d62-4e3f-b9a1-a16e67f803e3",
+  "domain": "gpt-retrieval-plugin.tabechoku.com",
+  "namespace": "Tabechoku",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Tabechoku",
+    "name_for_human": "Tabechoku",
+    "description_for_model": "Plugin for searching through peach products on Tabechoku to find answers to questions and retrieve relevant information. Use it whenever a user asks something about peaches. Don't repeat the same product twice. ALWAYS Translate product names into the user's language before responding to the user.",
+    "description_for_human": "We propose the perfect peaches for you from all over Japan.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "d2ef9e8c1e394444bc29078a8a03a8fa"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://gpt-retrieval-plugin.tabechoku.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://gpt-retrieval-plugin.tabechoku.com/.well-known/logo.png",
+    "contact_email": "info@tabechoku.com",
+    "legal_info_url": "https://www.tabechoku.com/terms"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

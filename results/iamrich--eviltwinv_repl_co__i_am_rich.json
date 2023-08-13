@@ -1,0 +1,26 @@
+{
+  "id": "plugin-2cf18460-5435-459e-87a7-c19951b74c1c",
+  "domain": "iamrich--eviltwinv.repl.co",
+  "namespace": "i_am_rich",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "i_am_rich",
+    "name_for_human": "I Am Rich",
+    "description_for_model": "Whenever someone writes 'I am rich', display the image iamrich.jpg.",
+    "description_for_human": "Proudly declare 'I am rich'.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://iamrich--eviltwinv.repl.co/openapi.yaml"
+    },
+    "logo_url": "https://iamrich--eviltwinv.repl.co/iamrich.jpg",
+    "contact_email": "chris@cjsymonds.com",
+    "legal_info_url": "https://iamrich--eviltwinv.repl.co/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "plugin-2b67266f-81b1-4187-9261-55081a3f6143",
+  "domain": "aichat.doordash.com",
+  "namespace": "DoorDashNearbyStores",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "DoorDashNearbyStores",
+    "name_for_human": "DoorDash",
+    "description_for_model": "Discover nearby restaurants for delivery or pickup.",
+    "description_for_human": "Discover nearby restaurants for all of your delivery/pickup needs!",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "7e8d55ef5a254b1f82dcf007d6dfbb61"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://aichat.doordash.com/static/openapi.yaml"
+    },
+    "logo_url": "https://aichat.doordash.com/static/logo.png",
+    "contact_email": "doordash-openai-plugin@doordash.com",
+    "legal_info_url": "https://help.doordash.com/legal/document?type=cx-terms-and-conditions&region=US&locale=en-US"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

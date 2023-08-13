@@ -1,0 +1,31 @@
+{
+  "id": "plugin-ef9f5f01-6cd7-4696-889b-aafc3565d51c",
+  "domain": "gpt-4albadocplugin.pranavbhatt402.repl.co",
+  "namespace": "albadoc",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "albadoc",
+    "name_for_human": "AlbaDOC",
+    "description_for_model": "This plugin retrieves detailed information about drugs and their active ingredients or active ingredients and their correspending drugs that they are used in. It can also generate images to help visualize drugs or active ingredients.",
+    "description_for_human": "Your trusted source for Canadian drug information.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://gpt-4albadocplugin.pranavbhatt402.repl.co/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://github.com/Pranav-Bha-tt/GPT-4_AlbaDOC_Plugin/raw/main/AlbaDOC%20Logo.png",
+    "contact_email": "pranav.bhatt@albadoctor.com",
+    "legal_info_url": "https://docs.google.com/document/d/13csNyS75gECA9ghZByK6KVJmLDzG9hOCcWnmh15VXg8/edit?usp=sharing"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

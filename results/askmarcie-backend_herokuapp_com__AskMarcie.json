@@ -1,0 +1,31 @@
+{
+  "id": "plugin-b280370d-c585-4657-8b26-7f0d76ba02da",
+  "domain": "askmarcie-backend.herokuapp.com",
+  "namespace": "AskMarcie",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "AskMarcie",
+    "name_for_human": "Ask Marcie",
+    "description_for_model": "For viewing house listings in Park City, Utah. You can get a search of all listings, or a search of listings that match your criteria.",
+    "description_for_human": "For viewing house listings in Park City, Utah.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://askmarcie-backend.herokuapp.com/openapi.yaml"
+    },
+    "logo_url": "https://askmarcie-backend.herokuapp.com/marcie-logo.png",
+    "contact_email": "will@askmarcie.com",
+    "legal_info_url": "https://askmarcie.com/terms"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

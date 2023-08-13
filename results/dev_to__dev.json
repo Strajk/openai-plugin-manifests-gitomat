@@ -1,0 +1,26 @@
+{
+  "id": "plugin-1e1fac93-e3f6-4b69-957d-ddd8f5f948b9",
+  "domain": "dev.to",
+  "namespace": "dev",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "dev",
+    "name_for_human": "DEV Community",
+    "description_for_model": "Recommending articles or users from DEV Community. Always link to a url for the resource returned.",
+    "description_for_human": "Recommending posts and members from DEV Community.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://dev.to/openapi.yml"
+    },
+    "logo_url": "https://dev.to/logo.png",
+    "contact_email": "yo@dev.to",
+    "legal_info_url": "https://dev.to/terms"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

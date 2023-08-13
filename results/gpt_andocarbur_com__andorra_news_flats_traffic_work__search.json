@@ -1,0 +1,31 @@
+{
+  "id": "plugin-d9a4b878-7b78-4db2-8bd5-39a9c03a7769",
+  "domain": "gpt.andocarbur.com",
+  "namespace": "andorra_news_flats_traffic_work__search",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "andorra_news_flats_traffic_work__search",
+    "name_for_human": "Andorra",
+    "description_for_model": "Integration with Andorra's news portal, traffic portal, flat search, and job portal.",
+    "description_for_human": "All of Andorra with the power of AI.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://gpt.andocarbur.com/openai.yaml"
+    },
+    "logo_url": "https://gpt.andocarbur.com/logo.png",
+    "contact_email": "erisco@icloud.com",
+    "legal_info_url": "https://ericrisco.github.io"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

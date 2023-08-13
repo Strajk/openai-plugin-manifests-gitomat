@@ -1,0 +1,31 @@
+{
+  "id": "plugin-9336df62-6605-4b4b-a2a4-2a915d17ee6b",
+  "domain": "shoppingtools.biz",
+  "namespace": "ShoppingTools",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "ShoppingTools",
+    "name_for_human": "Shopping tools",
+    "description_for_model": "ShoppingTools let you search for products to buy in AliExpress and eBay.",
+    "description_for_human": "Shopping tools let you search for products to buy in AliExpress and eBay.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://shoppingtools.biz/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://shoppingtools.biz/.well-known/logo.png",
+    "contact_email": "topdroidapps@gmail.com",
+    "legal_info_url": "https://www.privacypolicygenerator.info/live.php?token=KskRU3nhCHlqwAdPouBj0L6ponFujjKE"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-22dbf8d9-8afe-4372-b715-8e680a79ee0e",
+  "domain": "woxo.tech",
+  "namespace": "woxo",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "woxo",
+    "name_for_human": "WOXO",
+    "description_for_model": "Plugin for create video from prompt",
+    "description_for_human": "Turn your prompts into cool videos. Create eye-catching content in a snap!",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api-vidgpt.woxo.tech/.well-known/openai.yaml"
+    },
+    "logo_url": "https://res.cloudinary.com/dakp804eh/image/upload/v1599064778/Woxo/Logos/Woxo-Icon-512px.png",
+    "contact_email": "hello@woxo.tech",
+    "legal_info_url": "https://woxo.tech/legal/sla"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

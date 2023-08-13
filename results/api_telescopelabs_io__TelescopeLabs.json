@@ -1,0 +1,36 @@
+{
+  "id": "plugin-4477444e-310b-4da6-9ad0-5218f25b9902",
+  "domain": "api.telescopelabs.io",
+  "namespace": "TelescopeLabs",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "TelescopeLabs",
+    "name_for_human": "Telescope Labs",
+    "description_for_model": "Help the user with data retrieval, analysis and visualization related to web3 games. You can visualize KPIs, events, get data and reasoning about analysis.",
+    "description_for_human": "Data retrieval, analysis and visualizations related to web3 games who are onboarded as a blockchain game.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "23d65ccd74034c1aa4ae2a22350de81d"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.telescopelabs.io/gpt/schema"
+    },
+    "logo_url": "https://telescopefiles.blob.core.windows.net/userphotos/323621dc-a6f6-4b3d-bd79-aabc3077db1a.jpeg",
+    "contact_email": "hello@telescopelabs.io",
+    "legal_info_url": "https://www.telescopelabs.io/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "plugin-d63d6754-a384-4023-9b3d-8ff43313cbae",
+  "domain": "scholarly.maila.ai",
+  "namespace": "scholarly",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "scholarly",
+    "name_for_human": "Scholarly",
+    "description_for_model": "Scholarly is a search engine for finding summaries of research papers.",
+    "description_for_human": "Scholarly is an AI-powered search engine for exploring scientific literature.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://scholarly.maila.ai/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://scholarly.maila.ai/.well-known/logo.png",
+    "contact_email": "kevin@maila.ai",
+    "legal_info_url": "https://scholarly.maila.ai/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

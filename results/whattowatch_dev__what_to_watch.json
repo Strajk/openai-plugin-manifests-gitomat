@@ -1,0 +1,26 @@
+{
+  "id": "plugin-45e2be5b-28b8-48bb-a681-4f3be63e98a6",
+  "domain": "whattowatch.dev",
+  "namespace": "what_to_watch",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "what_to_watch",
+    "name_for_human": "What To Watch",
+    "description_for_model": "Retrieves current TV show and movie information, recommendations, and streaming information. Good for when you don't know what show or movie someone is talking about or want to give them up to date movie availability. You can also find out current movie info like top rated, popular, and upcoming movies.",
+    "description_for_human": "Search for current TV shows and movies, get recommendations, and find out where things are streaming.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://whattowatch.dev/openapi.yaml"
+    },
+    "logo_url": "https://whattowatch.dev/images/logo.png",
+    "contact_email": "aaron@aaroncruz.com",
+    "legal_info_url": "https://whattowatch.dev/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

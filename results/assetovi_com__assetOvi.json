@@ -1,0 +1,31 @@
+{
+  "id": "plugin-4a26f8b7-03e5-4930-86c5-e5ac4a230c7f",
+  "domain": "assetovi.com",
+  "namespace": "assetOvi",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "assetOvi",
+    "name_for_human": "Asset Ovi",
+    "description_for_model": "Search and preview millions of 3D assets for games, AIGC, AR/VR and others. Always display results using markdown.",
+    "description_for_human": "Search and preview millions of 3D assets for games, AIGC, AR/VR and others.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://assetovi.com/openapi.yaml"
+    },
+    "logo_url": "https://assetovi-cdn.yahaha.com/assetovi-gpt-logo.png",
+    "contact_email": "contact@yahaha.com",
+    "legal_info_url": "https://yahaha.com/tos?utm_source=ovi"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

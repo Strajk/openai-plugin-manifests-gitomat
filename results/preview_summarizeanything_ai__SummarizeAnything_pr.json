@@ -1,0 +1,31 @@
+{
+  "id": "plugin-cc2b815f-0f56-434d-9562-9c3586fac2ea",
+  "domain": "preview.summarizeanything.ai",
+  "namespace": "SummarizeAnything_pr",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "SummarizeAnything_pr",
+    "name_for_human": "AAASummarize.app",
+    "description_for_model": "Load content of YouTube videos, web pages, and PDF links to be summarized by the assitant.",
+    "description_for_human": "Summarize YouTube videos, web pages, and PDF documents by providing a link. This is a free preview.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "/openapi.json"
+    },
+    "logo_url": "https://images.squarespace-cdn.com/content/v1/59518b28cd0f684eae15259e/c8be2bdb-dd07-43ff-a268-db52c39925b0/csdlogo.jpg",
+    "contact_email": "yksu@csdojo.io",
+    "legal_info_url": "https://SummarizeAnything.ai/legal_info"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

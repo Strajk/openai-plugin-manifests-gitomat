@@ -1,0 +1,39 @@
+{
+  "id": "plugin-04e74c3e-1b15-493d-b041-4718a178ba0a",
+  "domain": "plugin.recombinant.ai",
+  "namespace": "RecombinantAI",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "RecombinantAI",
+    "name_for_human": "Recombinant AI™",
+    "description_for_model": " Recombinant AI is a conversional IDE. When a user refers to a repo with a url or \"Owner/repo\", format it as https://*github or gitlab*.com/Owner/Repo\" and a branch. The following options and instructions are paired with their typically used endpoints here:\n\n1. ALWAYS start new conversations by calling these endpoints first and greeting users. Use these endpoints You can ask for their changes to goals, and check for a current project they want to resume.  \n  - /welcome\n  - /user\n  -/project\n2. You can use these endpoints to give rich and holistic explanations of a codebase or file. You should act autonomously until you feel you've reached your intended goal. \n  -/get_repo_files\n  -/get_file_content \n  -/list_branches \n  -/project \n  -/user\n3. You can manage a user's data and use it to assist in simulating an IDE. You can create, delete, update a user or a project, as well as view past status messages for the user.\n  -/user\n  -/create_user\n  -/delete_user\n  -/update_user\n  -/project\n  -/create_project\n  -/delete_project\n  -/status\n4. You have access to GPT Engineer to improve our add to user's experience and augment functionality. You can enable GPT Engineer and either enter a new set of prompt files or use a previous project, and interact with GPT Engineer on this platform. You can use these endpoints\n  -/gpt_eng_exc\n  -/eng_prompt \n  -/eng_preprompts\n     - You can use this endpoint to change 8 different files by passing a parameter for each: Clarify, fix_code, generate, philosophy, respec, spec, unit_tests, and feedback.\n  -/eng_steps\n    - You can request the logs of the steps GPT Engineer took.\n\n5. You can provide help with errors or best practices by calling these endpoints\n  -/status\n  -/help\n  -/user\n  -/project",
+    "description_for_human": "Your new Conversational IDE! Input a Github repo URL an get a holistic, deep, relational understanding of the codebase.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://6e16cb13167806ea3daf810fae630ed4.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "f6fb1e7ac29b47989ffbf643ef8c8235"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.recombinant.ai/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://recombinant-ai.markzahm.repl.co/RecombLogo.png",
+    "contact_email": "markz@glassacres.com",
+    "legal_info_url": "https://recombinant.ai/legal"
+  },
+  "oauth_client_id": "789444dd03bdb74621459d795fb9ed53",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

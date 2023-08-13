@@ -1,0 +1,26 @@
+{
+  "id": "plugin-ee943b49-6a64-4d86-a8fd-9f27dd1d9953",
+  "domain": "opentrivia.drengskapur.workers.dev",
+  "namespace": "opentrivia",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "opentrivia",
+    "name_for_human": "Open Trivia",
+    "description_for_model": "This plugin provides the ability to fetch trivia questions from various categories and difficulty levels.",
+    "description_for_human": "Get trivia questions from various categories and difficulty levels.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "/openapi.json"
+    },
+    "logo_url": "https://raw.githubusercontent.com/drengskapur/open-trivia-database-chat-plugin/main/icon.png",
+    "contact_email": "service@drengskapur.com",
+    "legal_info_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

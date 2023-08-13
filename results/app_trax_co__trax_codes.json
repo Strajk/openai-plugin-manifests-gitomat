@@ -1,0 +1,39 @@
+{
+  "id": "plugin-82e76f0b-d033-4854-8b65-d9195b26ef88",
+  "domain": "app.trax.co",
+  "namespace": "trax_codes",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "trax_codes",
+    "name_for_human": "Trax Codes",
+    "description_for_model": "Help the user with finding information about Building Codes, Acts, Guides and other building related regulations in Canada.",
+    "description_for_human": "Access the largest collection of up-to-date Canadian building codes and other regulations for the construction industry.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://app.trax.co/authn/verifycopilot/chatgpt/hello",
+      "scope": "",
+      "authorization_url": "https://app.trax.co/auth/copilot",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "3f907f735e6d43ea9e5cc68438eedd87"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://app.trax.co/ai/openapi"
+    },
+    "logo_url": "https://app.trax.co/logo_v3.png",
+    "contact_email": "support@trax.co",
+    "legal_info_url": "https://www.trax.co/tos"
+  },
+  "oauth_client_id": "chatgpt",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

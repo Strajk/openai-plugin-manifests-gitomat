@@ -1,0 +1,31 @@
+{
+  "id": "plugin-de68d258-5f59-437b-ad57-c983ad543c7c",
+  "domain": "api.facethefacts-api.de",
+  "namespace": "FaceTheFacts",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "FaceTheFacts",
+    "name_for_human": "FaceTheFacts",
+    "description_for_model": "Facilitate user's access to comprehensive data on German politicians. The features include politician profile retrieval, search functionality, voting record display, side job analysis, political speech tracking, and party donation monitoring.",
+    "description_for_human": "Access profiles of German politicians, retrieve voting records, analyze side jobs, and monitor party donations.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.facethefacts-api.de/openapi.json"
+    },
+    "logo_url": "https://api.facethefacts-api.de/static/logo.png",
+    "contact_email": "info@facethefacts.app",
+    "legal_info_url": "https://facethefacts.app/legal-notice"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

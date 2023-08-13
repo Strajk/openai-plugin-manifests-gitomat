@@ -1,0 +1,31 @@
+{
+  "id": "plugin-06442362-4fe1-4d7f-a72d-fbbe49393fdf",
+  "domain": "ebay.acashback.com",
+  "namespace": "shoppingfinder",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "shoppingfinder",
+    "name_for_human": "Shopping Finder",
+    "description_for_model": "Search for products on EBay, conveniently find items, and quickly access deals and discounted products.",
+    "description_for_human": "EBay product shopping search, conveniently query products, get discounts and discounted products more quickly.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://ebay.acashback.com/openapi.yaml"
+    },
+    "logo_url": "https://www.acashback.com/wp-content/uploads/2023/08/logo-shopping-finder.png",
+    "contact_email": "support@acashback.com",
+    "legal_info_url": "https://www.acashback.com/373-2/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

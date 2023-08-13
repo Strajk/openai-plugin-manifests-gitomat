@@ -1,0 +1,31 @@
+{
+  "id": "plugin-cd3b8aa1-572b-47a4-bf84-c2abadb287f6",
+  "domain": "speech.maila.ai",
+  "namespace": "voiceover",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "voiceover",
+    "name_for_human": "VoiceOver",
+    "description_for_model": "Text-to-speech synthesis.",
+    "description_for_human": "Convert text into natural-sounding speech.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://speech.maila.ai/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://speech.maila.ai/.well-known/logo.png",
+    "contact_email": "kevin@maila.ai",
+    "legal_info_url": "https://speech.maila.ai/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-34329df2-976d-4519-9e65-8faa45edd1d5",
+  "domain": "prayer-times-plugin.vercel.app",
+  "namespace": "prayer_times",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "prayer_times",
+    "name_for_human": "Prayer Times",
+    "description_for_model": "If location or address is not provided,then use timings endpoint, otherwise use timingsByAddress or timingsByCity endpoint.",
+    "description_for_human": "Get Prayer Times for all over world in seconds.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://prayer-times-plugin.vercel.app/openapi.json"
+    },
+    "logo_url": "https://prayer-times-plugin.vercel.app/logo.png",
+    "contact_email": "haseebmir.hm@gmail.com",
+    "legal_info_url": "https://prayer-times-plugin.vercel.app/privacy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-542fdea9-3b9a-4939-9ce5-29dbaccf999d",
+  "domain": "eliza-api.mercari.com",
+  "namespace": "mercari_search",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "mercari_search",
+    "name_for_human": "Mercari",
+    "description_for_model": "Search products on Mercari, Japanese C2C marketplace. This allows user to search items by keyword.",
+    "description_for_human": "Explore a variety of products on Mercari, Japan’s largest C2C marketplace.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://eliza-api.mercari.com/eliza-api/openai/openapi.json"
+    },
+    "logo_url": "https://storage.googleapis.com/mercari-gpt-plugin-resource-prod/mercari_logo.png",
+    "contact_email": "support@mercari.jp",
+    "legal_info_url": "https://static.jp.mercari.com/tos"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

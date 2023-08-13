@@ -1,0 +1,39 @@
+{
+  "id": "plugin-6902f106-87bc-49df-8590-5cbb4922d531",
+  "domain": "api.calculator.tools",
+  "namespace": "calculatortools",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "calculatortools",
+    "name_for_human": "Calculator Tools",
+    "description_for_model": "Create, make, and deploy simple single page web applications directly to the web within a secure iframe.",
+    "description_for_human": "Create any app, calculator, tool, tracker, or game instantly with AI.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://api.calculator.tools/openai/oauth/",
+      "scope": "app:create",
+      "authorization_url": "https://api.calculator.tools/openai/oauth_exchange/",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "e8aa4f411af94ca8ae151e53711ee9bc"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.calculator.tools/openapi.yaml"
+    },
+    "logo_url": "https://calculator.tools/images/logo.png",
+    "contact_email": "info@calculator.tools",
+    "legal_info_url": "https://calculator.tools/privacy-policy/"
+  },
+  "oauth_client_id": "4aluqj49gjs00058g111",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

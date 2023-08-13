@@ -1,0 +1,36 @@
+{
+  "id": "plugin-aaef1eb5-31c8-497a-8ddc-815e036d7aec",
+  "domain": "apis.newegg.com",
+  "namespace": "newegg_ai_pcbuild",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "newegg_ai_pcbuild",
+    "name_for_human": "Newegg PC Builder",
+    "description_for_model": "Plugin for pc build with newegg products,request params including cpu, vga, motherboard, memory, ssd, power, case, cooling, use, game, resolution, fps, color and budget.",
+    "description_for_human": "Build and purchase a custom gaming PC based on your budget and needs.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "0310c20cf4304ed8a462f5911bf73308"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://apis.newegg.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://apis.newegg.com/.well-known/logo.png",
+    "contact_email": "Json.J.Hu@newegg.com",
+    "legal_info_url": "https://kb.newegg.com/knowledge-base/privacy-policy-newegg/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

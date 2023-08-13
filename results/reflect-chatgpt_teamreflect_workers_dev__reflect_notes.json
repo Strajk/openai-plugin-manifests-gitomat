@@ -1,0 +1,39 @@
+{
+  "id": "plugin-5d0dc36b-012a-4e75-bfce-1240c825196a",
+  "domain": "reflect-chatgpt.teamreflect.workers.dev",
+  "namespace": "reflect_notes",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "reflect_notes",
+    "name_for_human": "Reflect Notes",
+    "description_for_model": "Creates a Reflect note. For example, saving a summary of a conversation history to Reflect.",
+    "description_for_human": "Creates a Reflect note.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://reflect-chatgpt.teamreflect.workers.dev/auth",
+      "scope": "",
+      "authorization_url": "https://reflect-chatgpt.teamreflect.workers.dev/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "ca161bd40d4e4ccc868bf1c4ab2c6919"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://reflect-chatgpt.teamreflect.workers.dev/openapi.json"
+    },
+    "logo_url": "https://reflect.app/site/icons/512x512-rounded.png",
+    "contact_email": "support@reflect.app",
+    "legal_info_url": "https://reflect.app/terms"
+  },
+  "oauth_client_id": "openai",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

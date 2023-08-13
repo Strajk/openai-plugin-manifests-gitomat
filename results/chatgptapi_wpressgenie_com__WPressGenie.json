@@ -1,0 +1,31 @@
+{
+  "id": "plugin-5821e05e-4195-48b0-b266-c98e3a7df062",
+  "domain": "chatgptapi.wpressgenie.com",
+  "namespace": "WPressGenie",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "WPressGenie",
+    "name_for_human": "WPressGenie",
+    "description_for_model": "Manage a WordPress site: This will allows you to efficiently manage your WordPress website by providing functionalities such as retrieving, and get details of WordPress posts. To ensure security, the AI model does not generate any website addresses for the site param. Instead, it prompts users to input their WordPress site address.",
+    "description_for_human": "Manages a WordPress site. You can get, view and analyze details of WordPress posts and content.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgptapi.wpressgenie.com/openapi.yaml"
+    },
+    "logo_url": "https://chatgptapi.wpressgenie.com/logo.png",
+    "contact_email": "kingsofthewebofficial@gmail.com",
+    "legal_info_url": "https://chatgptapi.wpressgenie.com/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

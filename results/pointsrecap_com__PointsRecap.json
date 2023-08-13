@@ -1,0 +1,31 @@
+{
+  "id": "plugin-b7442aa9-30d6-4c31-a5fd-9eddd67b30bd",
+  "domain": "pointsrecap.com",
+  "namespace": "PointsRecap",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "PointsRecap",
+    "name_for_human": "PointsRecap",
+    "description_for_model": "PointsRecap is a user-friendly tool that provides daily summary from YouTube videos. It offers core functionalities such as extracting viewpoints, showcasing recent highlights, and geneate wordcloud from recent videos. Users can gain informed perspectives, market updates, key video summaries, and recent hot topics. An additional URL for more details will be provided as well, ensuring comprehensive information. Besides, PointsRecap provides a disclaimer for legal compliance for each request.",
+    "description_for_human": "Daily stock market updates, trading insights and view points summary from YouTube traders.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://pointsrecap.com/openapi.yaml"
+    },
+    "logo_url": "https://pointsrecap.com/PRIcon.png",
+    "contact_email": "contact-us@pointsrecap.com",
+    "legal_info_url": "https://pointsrecap.com/terms"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

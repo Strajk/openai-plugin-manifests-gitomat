@@ -1,0 +1,39 @@
+{
+  "id": "plugin-2e82140c-c80a-4c0e-b745-8b4afc97c62a",
+  "domain": "api.replypdf.com",
+  "namespace": "export_to_pdf",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "export_to_pdf",
+    "name_for_human": "Export to PDF",
+    "description_for_model": "Export your AI chat history or responses to a stylized PDF document/text for easy file sharing.",
+    "description_for_human": "Export your AI chat history or responses to a stylized PDF document/text for easy file sharing.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://auth.replypdf.com",
+      "scope": "app:read,app:write,pdf:read,pdf:write",
+      "authorization_url": "https://auth.replypdf.com/api/authorize",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "758fd69654c6437da15b408d69553429"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.replypdf.com/openapi.yaml"
+    },
+    "logo_url": "https://api.replypdf.com/logo.png",
+    "contact_email": "legal@replypdf.com",
+    "legal_info_url": "https://replypdf.com/legal"
+  },
+  "oauth_client_id": "NWkKHCBCPt1cgfFkipq07SFNRssCVD5F",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "plugin-c845123e-8736-4f70-ad47-0845d1aaf93f",
+  "domain": "api.companiesintheuk.co.uk",
+  "namespace": "CompaniesInTheUK",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "CompaniesInTheUK",
+    "name_for_human": "Companies In The UK",
+    "description_for_model": "Provides financial information on UK Companies. You can search for companies by name, or by 'Companies House Number' and get information on their financial status, directors, people in charge, addresses and more.",
+    "description_for_human": "Provides financial information on UK Companies.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "f7a7c1cb86f045fb8b5909fbfff5fad1"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.companiesintheuk.co.uk/openapi.yaml"
+    },
+    "logo_url": "https://api.companiesintheuk.co.uk/img/logo-bw-512x512.png",
+    "contact_email": "api@companiesintheuk.co.uk",
+    "legal_info_url": "https://www.companiesintheuk.co.uk/support/terms"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

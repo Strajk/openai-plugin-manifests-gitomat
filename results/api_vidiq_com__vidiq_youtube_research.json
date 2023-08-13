@@ -1,0 +1,36 @@
+{
+  "id": "plugin-a384745d-3dac-4d01-87ce-eb2004c3e0f6",
+  "domain": "api.vidiq.com",
+  "namespace": "vidiq_youtube_research",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "vidiq_youtube_research",
+    "name_for_human": "vidIQ",
+    "description_for_model": "This is a tool for finding trending videos and shorts on YouTube for specific topics and countries. Use it whenever a user asks for trending videos on YouTube and summarizing YouTube videos.",
+    "description_for_human": "Discover and summarize trending videos on YouTube.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "5d3f29dc5dbb48edaffe3440b85dc4f4"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.vidiq.com/chatgpt-plugin/openapi.json"
+    },
+    "logo_url": "https://api.vidiq.com/chatgpt-plugin/logo/logo.svg",
+    "contact_email": "chatgpt-plugin@vidiq.com",
+    "legal_info_url": "https://vidiq.com/terms/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

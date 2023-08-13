@@ -1,0 +1,31 @@
+{
+  "id": "plugin-b3b56796-3e4e-4eaf-8a87-52c4ecfae9b2",
+  "domain": "pilots.aerodex.xyz",
+  "namespace": "AeroDex",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "AeroDex",
+    "name_for_human": "AeroDex",
+    "description_for_model": "This interacts with the an aviation API allowing you to get information useful for pilots",
+    "description_for_human": "Aviation data from aviationweather.gov for entertainment. Not for pre-flight decision making.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://pilots.aerodex.xyz/openapi.yaml"
+    },
+    "logo_url": "https://pilots.aerodex.xyz/logo.jpg",
+    "contact_email": "davide.zambiasi@gmail.com",
+    "legal_info_url": "https://www.aerodex.xyz/policy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-e91c7353-3570-4227-be77-debea64b893d",
+  "domain": "esportsplugin.feednews.com",
+  "namespace": "eSportsLive",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "eSportsLive",
+    "name_for_human": "Live Game",
+    "description_for_model": "Get real-time scores and news updates from the world of eSports. LOL, Dota2, CSGO, PUBG live scores and news.",
+    "description_for_human": "Get real-time scores and news updates from the world of eSports. LOL, Dota2, CS:GO, PUBG live scores and news.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://esportsplugin.feednews.com/openapi.yaml"
+    },
+    "logo_url": "https://img.feednews.com/assets/v2/fd71368e63d245e6b6c4b87aab704ca8",
+    "contact_email": "aiplugins-contact-list@opera.com",
+    "legal_info_url": "https://legal.opera.com/terms/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

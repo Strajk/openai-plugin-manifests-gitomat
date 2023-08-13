@@ -1,0 +1,31 @@
+{
+  "id": "plugin-dec406a1-3a95-4ab9-b01d-c3cd9d9bfc2e",
+  "domain": "ticketmaster-gcp-n4h577ynxq-uc.a.run.app",
+  "namespace": "ticketmaster",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "ticketmaster",
+    "name_for_human": "ticketmaster",
+    "description_for_model": "Get direct tickets from  ticketmaster.",
+    "description_for_human": "Discover can't-miss concerts, games, theater and more. Get them directly from ticketmaster.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://ticketmaster-gcp-n4h577ynxq-uc.a.run.app/openapi.yaml"
+    },
+    "logo_url": "https://ticketmaster-gcp-n4h577ynxq-uc.a.run.app/logo.png",
+    "contact_email": "info@ticketmaster-ai.com",
+    "legal_info_url": "https://coral-app-9ioqe.ondigitalocean.app/legal.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

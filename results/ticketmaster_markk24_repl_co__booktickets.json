@@ -1,0 +1,31 @@
+{
+  "id": "plugin-4be067b2-5af2-4446-8172-5148d9de3c94",
+  "domain": "ticketmaster.markk24.repl.co",
+  "namespace": "booktickets",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "booktickets",
+    "name_for_human": "Book Tickets",
+    "description_for_model": "Book Tickets helps you find events based on location, date range, and event type.",
+    "description_for_human": "Explore and secure tickets for a variety of events around the world.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://ticketmaster.markk24.repl.co/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://lh3.googleusercontent.com/drive-viewer/AITFw-wY5OBdDNQ0Xi4DArqRgp2D0RYp960WQTVtcDLUQ9-X1kGAcO4Tdt_RfTdeMtnhIN811y9oex5dHspSBfvtaWNlZX_y_g=s1600",
+    "contact_email": "mark@promptadvisers.com",
+    "legal_info_url": "https://chatgpt-plugin-booked-tickets.framer.ai/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

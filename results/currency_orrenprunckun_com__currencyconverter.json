@@ -1,0 +1,31 @@
+{
+  "id": "plugin-a33d2909-e0a6-4a05-bff0-c4043f660680",
+  "domain": "currency.orrenprunckun.com",
+  "namespace": "currencyconverter",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "currencyconverter",
+    "name_for_human": "Currency Converter",
+    "description_for_model": "Convert currencies based on real-time rates. Include the following words in your prompt - 'convert', 'amount', 'from' and 'to'.",
+    "description_for_human": "Convert currencies based on real-time rates!",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://currency.orrenprunckun.com/openapi.yaml"
+    },
+    "logo_url": "https://currency.orrenprunckun.com/icon.png",
+    "contact_email": "hello@createmorecustomers.com",
+    "legal_info_url": "https://currency.orrenprunckun.com/terms.php"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

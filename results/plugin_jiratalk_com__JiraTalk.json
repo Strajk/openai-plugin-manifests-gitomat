@@ -1,0 +1,39 @@
+{
+  "id": "plugin-5ca5b4f9-f509-49fd-85d3-f74b9d2be451",
+  "domain": "plugin.jiratalk.com",
+  "namespace": "JiraTalk",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "JiraTalk",
+    "name_for_human": "JiraTalk",
+    "description_for_model": "A smart plugin for ChatGPT and JIRA. Used whenever user mentions any of the JIRA entitiies. Allows for managing users, projects, boards, sprints and issues. Always respond with data which is returned from the various endpoints, do not make stuff up and always reference data from the API response. When creating a new issue, check for required fields and types and values for an issue by calling GetIssueTypesByProjectId. Auto select the most suitable value and ensure it is added to the issue in the fomat defined when the issue is being created. After the issue is created, inform the user of the required field selected and other available options. Show them in a numbered and lettered list so its easy for the user to provide selection for update if needed. Remember selection till requested to update again. Always capitalize project id or key if not found use project search to find it.",
+    "description_for_human": "Boost Jira’s efficiency via automated project management operations, strategic user insights, and detailed analytics.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://plugin.jiratalk.com",
+      "scope": "",
+      "authorization_url": "https://plugin.jiratalk.com/auth/ocallback",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "ce6b295607c94d1bbd7e77a5f4b51f00"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.jiratalk.com/openapi.yaml"
+    },
+    "logo_url": "https://plugin.jiratalk.com/logo.png",
+    "contact_email": "support@jiratalk.com",
+    "legal_info_url": "https://jiratalk.com/terms"
+  },
+  "oauth_client_id": "123.app.jiratalk.com",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

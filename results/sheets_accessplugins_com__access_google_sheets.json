@@ -1,0 +1,26 @@
+{
+  "id": "plugin-67edd640-2f6a-42d7-8597-07193b0537aa",
+  "domain": "sheets.accessplugins.com",
+  "namespace": "access_google_sheets",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "access_google_sheets",
+    "name_for_human": "Access Google Sheet",
+    "description_for_model": "Plugin for accessing Google Sheets and Docs. Use it whenever a user asks something about a specific URL they provide.",
+    "description_for_human": "Ask your Google Sheets questions & chat with excel. Enter Google Drive link to start!",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://sheets.accessplugins.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://sheets.accessplugins.com/.well-known/logo.png",
+    "contact_email": "dominickmalzone@gmail.com",
+    "legal_info_url": "https://sheets.accessplugins.com/legal-info"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

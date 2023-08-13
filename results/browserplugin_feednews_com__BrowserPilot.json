@@ -1,0 +1,31 @@
+{
+  "id": "plugin-b897b459-3291-422a-8ec2-2043f79f5d87",
+  "domain": "browserplugin.feednews.com",
+  "namespace": "BrowserPilot",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "BrowserPilot",
+    "name_for_human": "BrowserPilot",
+    "description_for_model": "This tool allows users to provide a URL (or URLs) and optionally interact with it. And whether users need specific information or intend to conduct a search, this tool connects to a search engine and provide real-time relevant content. For example, the user's intention may be to find or enquire about restaurants, rentals, weather, shopping, this tool can connect to the internet and return the latest results. \\n\\n Rules:\\n\\n 1.When using this tool, the 'link' field is a mandatory requirement for making a request.\\n 2.When a user does not directly provide a link in their request, include a clear statement of the user’s request in the user's language in the field ‘link', which can be used as a search query and may include search operators. This helps this tool better understand the user's needs. 3.When the user directly provides a link, your request should only include this link. For example, the user input 'Information about fruits on example.com', the 'link' field should be: 'example.com'.",
+    "description_for_human": "Deliver real-time search results, fetch and analyze info in multiple URLs.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://browserplugin.feednews.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://openapi-af.op-mobile.opera.com/openapi/browserplugin/.well-known/logo.png",
+    "contact_email": "aiplugins-contact-list@opera.com",
+    "legal_info_url": "https://legal.apexnews.com/terms/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

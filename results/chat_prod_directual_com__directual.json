@@ -1,0 +1,39 @@
+{
+  "id": "plugin-0911ae2b-5476-4de4-86ad-50ca85c0a279",
+  "domain": "chat.prod.directual.com",
+  "namespace": "directual",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "directual",
+    "name_for_human": "Directual",
+    "description_for_model": "Directual is a full-stack no-code platform that gives you the scalability and flexibility to launch your app’s MVP and go beyond scaling it without limits!",
+    "description_for_human": "Directual is a full-stack no-code platform that is great for launching web and web3 apps of any complexity and scale.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://identity.directual.com/oauth2/authorize",
+      "scope": "profile",
+      "authorization_url": "https://identity.directual.com/oauth2/token",
+      "authorization_content_type": "application/x-www-form-urlencoded",
+      "verification_tokens": {
+        "openai": "7d1b96fcea2f4549992d6f9b40ab98ee"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chat.prod.directual.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://chat.prod.directual.com/static/logo.png",
+    "contact_email": "team@directual.com",
+    "legal_info_url": "https://www.directual.com/legal/privacy-policy"
+  },
+  "oauth_client_id": "openai",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

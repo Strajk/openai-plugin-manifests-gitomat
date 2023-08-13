@@ -1,0 +1,31 @@
+{
+  "id": "plugin-d24b32ba-2af6-4817-89df-8e1ae636cf5b",
+  "domain": "twtdata.com",
+  "namespace": "twtData",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "twtData",
+    "name_for_human": "twtData",
+    "description_for_model": "A tool to allow users access to a wealth of information about any public Twitter account's profile, including their name, bio, follower count and more.",
+    "description_for_human": "Get Twitter data on any public Twitter account's including their name, bio, follower count and much more.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://www.twtdata.com/openapi.yaml"
+    },
+    "logo_url": "https://www.twtdata.com/static/images/new_logo_small.jpeg",
+    "contact_email": "sales@twtdata.com",
+    "legal_info_url": "https://www.twtdata.com/about-us"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

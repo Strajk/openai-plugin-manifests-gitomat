@@ -1,0 +1,36 @@
+{
+  "id": "plugin-770c9945-e912-4d88-8998-ef73c2c84b77",
+  "domain": "serpstat-seo-tool-yqua7m5dya-uc.a.run.app",
+  "namespace": "serpstat_seo_tool",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "serpstat_seo_tool",
+    "name_for_human": "Serpstat SEO Tool",
+    "description_for_model": "A tool for SEO keyword gathering and domain SEO metrics/backlink analysis.",
+    "description_for_human": "Discover SEO keywords for a specific topic and analyze SEO metrics/backlink data for a domain with Serpstat.com.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "e78000db653b4d4f8d40558ddb47e16a"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://serpstat-seo-tool-yqua7m5dya-uc.a.run.app/openapi.yaml"
+    },
+    "logo_url": "https://serpstat-seo-tool-yqua7m5dya-uc.a.run.app/logo.png",
+    "contact_email": "m.yehorenko@serpstat.com",
+    "legal_info_url": "https://serpstat.com/users/privacy-policy/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

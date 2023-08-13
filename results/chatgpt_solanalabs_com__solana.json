@@ -1,0 +1,31 @@
+{
+  "id": "plugin-6068d5f0-c24b-4f06-a1c8-3f7a3dc92f04",
+  "domain": "chatgpt.solanalabs.com",
+  "namespace": "solana",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "solana",
+    "name_for_human": "Solana Labs",
+    "description_for_model": "This extension is for querying the Solana blockchain to find answers to questions and retrieve relevant information. Use it whenever a user asks something that might be related to their Solana account.",
+    "description_for_human": "Explore Solana blockchain data.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgpt.solanalabs.com/openapi.yaml"
+    },
+    "logo_url": "https://chatgpt.solanalabs.com/logo.ico",
+    "contact_email": "noah.gundotra@solana.com",
+    "legal_info_url": "https://solanapay.com/tos"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

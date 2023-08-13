@@ -1,0 +1,36 @@
+{
+  "id": "plugin-5e1765e3-1824-4d1d-8bb8-d770e16d188d",
+  "domain": "gpt-plugin.vg.no",
+  "namespace": "askvg",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "askvg",
+    "name_for_human": "Ask VG",
+    "description_for_model": "Plugin for searching through VG's articles to find answers to questions and retrieve relevant information. Use it whenever a user asks something related to news events, people in Norway, current events.",
+    "description_for_human": "Search through VG's content archive.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "5adf4adaff824c51ae2b08e08aa376ae"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://gpt-plugin.vg.no/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://gpt-plugin.vg.no/.well-known/logo.png",
+    "contact_email": "Sverre.Norberg-Schulz.Hagen@vg.no",
+    "legal_info_url": "https://www.vg.no/informasjon/brukervilkar"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

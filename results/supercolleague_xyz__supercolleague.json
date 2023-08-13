@@ -1,0 +1,39 @@
+{
+  "id": "plugin-671419cf-35b2-4e3c-a52c-aaaa3d7c9973",
+  "domain": "supercolleague.xyz",
+  "namespace": "supercolleague",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "supercolleague",
+    "name_for_human": "SuperColleague",
+    "description_for_model": "A plugin that executes various AI workflows based on the user's need and returns the output. Read the OpenAPI specification to know what it can do.",
+    "description_for_human": "Let AI tools do your work.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://f8da0779ef0eb55d8d890ded2a973e20.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "3dda41793c094dff9eb33f090b35ba22"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://supercolleague.xyz/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://super-colleague.iamnazzty.repl.co/logo.png",
+    "contact_email": "najmuzzaman@hey.com",
+    "legal_info_url": "https://najmuzzaman.notion.site/GarageSpace-Inc-9d696295bed3415ba8d70985c4c8069b"
+  },
+  "oauth_client_id": "4d775d34cbe25677c31e700ff2c3f7cd",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

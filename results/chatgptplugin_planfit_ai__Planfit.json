@@ -1,0 +1,31 @@
+{
+  "id": "plugin-730917c2-14a2-4c86-a0ce-5c9055326a68",
+  "domain": "chatgptplugin.planfit.ai",
+  "namespace": "Planfit",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Planfit",
+    "name_for_human": "Planfit",
+    "description_for_model": "Plugin for recommending workout routines. It also provides instructions for each exercise, videos included.",
+    "description_for_human": "Get your tailored workout plan and instructions with videos - AI-powered Workout Coach, Planfit.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgptplugin.planfit.ai/openapi.yaml"
+    },
+    "logo_url": "https://chatgptplugin.planfit.ai/logo.png",
+    "contact_email": "hello@planfit.ai",
+    "legal_info_url": "https://www.planfit.ai/chatgpt-plugin-legal-info"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

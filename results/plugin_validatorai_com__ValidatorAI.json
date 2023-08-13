@@ -1,0 +1,31 @@
+{
+  "id": "plugin-e1cf09da-b5a6-4234-bdbf-11732299227d",
+  "domain": "plugin.validatorai.com",
+  "namespace": "ValidatorAI",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "ValidatorAI",
+    "name_for_human": "ValidatorAI",
+    "description_for_model": "Give user good advice and tips in starting a business.",
+    "description_for_human": "Get objective feedback and an elevator pitch for your business idea.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.validatorai.com/openapi.json"
+    },
+    "logo_url": "https://plugin.validatorai.com/img/v-logo.png",
+    "contact_email": "info@napkin.com",
+    "legal_info_url": "https://validatorai.com/privacy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

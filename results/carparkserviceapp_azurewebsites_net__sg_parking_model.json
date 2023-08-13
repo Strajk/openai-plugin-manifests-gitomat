@@ -1,0 +1,31 @@
+{
+  "id": "plugin-29fd7fcb-12d3-4b68-b129-c33f8f005dd9",
+  "domain": "carparkserviceapp.azurewebsites.net",
+  "namespace": "sg_parking_model",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "sg_parking_model",
+    "name_for_human": "SG Parking",
+    "description_for_model": "Real-time HDB carpark availability in Singapore, searchable and retrieves all carpark addresses.",
+    "description_for_human": "Offers real-time HDB carpark availability in Singapore. Search by address for nearby parking space info.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://carparkserviceapp.azurewebsites.net/swagger/v1/swagger.json"
+    },
+    "logo_url": "https://carparkserviceapp.azurewebsites.net/icon-512.png",
+    "contact_email": "spwwj@whalejay.com",
+    "legal_info_url": "https://spirifyqrcode.azurewebsites.net/legalinfo"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-6f53c4e1-b946-4ec0-a7d1-dded3d125894",
+  "domain": "mifuzi.com",
+  "namespace": "domainNameDiscovery",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "domainNameDiscovery",
+    "name_for_human": "Mifuzi Domain AI",
+    "description_for_model": "Help the user with discovering domain names and checking if they are available based on their chat messages.",
+    "description_for_human": "Discover domain names based on your creative ideas and check their availability status.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://mifuzi.com/openapi.yaml"
+    },
+    "logo_url": "https://mifuzi.com/logo.png",
+    "contact_email": "hakunabuluka@gmail.com",
+    "legal_info_url": "https://mifuzi.com/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

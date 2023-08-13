@@ -1,0 +1,31 @@
+{
+  "id": "plugin-67e89154-7b25-42b0-a4bf-57df7ebfb5ac",
+  "domain": "lumin8ed.com",
+  "namespace": "daily_learning",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "daily_learning",
+    "name_for_human": "Daily Learning",
+    "description_for_model": "Creates a learning plan and daily lessons for a subject. If no weeks given, estimate necessary length of course to learn subject.",
+    "description_for_human": "Unlock your full potential with a personalized education journey featuring custom-tailored lesson plans!",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://lumin8ed.com/openapi.yaml"
+    },
+    "logo_url": "https://lumin8ed.com/logo.png",
+    "contact_email": "illumin8tellc@gmail.com",
+    "legal_info_url": "https://lumin8ed.com/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

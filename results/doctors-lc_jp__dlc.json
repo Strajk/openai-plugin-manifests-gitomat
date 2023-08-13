@@ -1,0 +1,31 @@
+{
+  "id": "plugin-fae046bd-051b-41c8-9bb8-f1e3efec6f80",
+  "domain": "doctors-lc.jp",
+  "namespace": "dlc",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "dlc",
+    "name_for_human": "Doctor's Life Career",
+    "description_for_model": "Searching Japanese medical doctors' jobs based on your preferences.",
+    "description_for_human": "Searching Japanese medical doctors' jobs based on your preferences.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://doctors-lc.jp/jobs/api/v1/manifest.yaml"
+    },
+    "logo_url": "https://doctors-lc.jp/favicon.ico",
+    "contact_email": "md@doctors-lc.jp",
+    "legal_info_url": "https://doctors-lc.jp/jobs/privacypolicy.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

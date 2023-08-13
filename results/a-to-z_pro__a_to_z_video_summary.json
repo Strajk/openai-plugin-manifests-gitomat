@@ -1,0 +1,39 @@
+{
+  "id": "plugin-042c48d6-ef25-4a0e-b120-89cac05916b1",
+  "domain": "a-to-z.pro",
+  "namespace": "a_to_z_video_summary",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "a_to_z_video_summary",
+    "name_for_human": "A-to-Z Video Summary",
+    "description_for_model": "This plugin creates summaries for YouTube videos and provides useful information about them.",
+    "description_for_human": "YouTube Summaries. You can also search for videos and navigate through popular ones.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://a-to-z.pro/openai/auth/start",
+      "scope": "",
+      "authorization_url": "https://a-to-z.pro/openai/auth/callback",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "e319233e8e334def970ac56c2539611e"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://a-to-z.pro/openai/openapi.yaml"
+    },
+    "logo_url": "https://a-to-z.pro/plugin-static/a-to-z-youtube-logo.jpg",
+    "contact_email": "contact@a-to-z.pro",
+    "legal_info_url": "https://a-to-z.pro/openai/privacy-policy"
+  },
+  "oauth_client_id": "c9d7b16fba149978e4cf683709272d6bfafa81d7",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

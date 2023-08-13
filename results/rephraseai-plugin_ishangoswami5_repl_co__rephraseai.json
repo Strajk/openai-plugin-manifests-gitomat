@@ -1,0 +1,31 @@
+{
+  "id": "plugin-6f6aeaf2-b3cb-4355-a61c-f239b691a748",
+  "domain": "rephraseai-plugin.ishangoswami5.repl.co",
+  "namespace": "rephraseai",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "rephraseai",
+    "name_for_human": "Rephrase AI",
+    "description_for_model": "This app can be used to convert text to avatar videos using Rephrase AI. It can generate an access token, create a campaign, and export a campaign.",
+    "description_for_human": "Use Rephrase AI to convert text into talking avatar videos.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://rephraseai-plugin.ishangoswami5.repl.co/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://media.licdn.com/dms/image/C4E0BAQExDtiCSz-JrQ/company-logo_200_200/0/1634930595063?e=2147483647&v=beta&t=aty2xc8wiaBMKmmfSiBfk9DF6H7K5KgC0awACYt63r8",
+    "contact_email": "support@rephrase.ai",
+    "legal_info_url": "https://www.rephrase.ai/terms-of-service"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

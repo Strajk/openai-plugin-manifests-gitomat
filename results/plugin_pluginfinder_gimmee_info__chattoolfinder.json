@@ -1,0 +1,31 @@
+{
+  "id": "plugin-2443661c-614d-48dc-b544-bb32d0235cc2",
+  "domain": "plugin.pluginfinder.gimmee.info",
+  "namespace": "chattoolfinder",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "chattoolfinder",
+    "name_for_human": "Chat Tool Finder",
+    "description_for_model": "Find the tool in here that can help you. Search by name, category or description.",
+    "description_for_human": "Find the tool in here that can help you. Search by name, category or description.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.pluginfinder.gimmee.info/.well-known/swagger.json"
+    },
+    "logo_url": "https://plugin.pluginfinder.gimmee.info/Images/logo.png",
+    "contact_email": "greg@gimmee.info",
+    "legal_info_url": "https://gimmee.info/privacy-policy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

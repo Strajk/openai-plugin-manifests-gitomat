@@ -1,0 +1,26 @@
+{
+  "id": "plugin-1f6d1966-ca1b-4cf3-a660-11bf9e47aa9a",
+  "domain": "llamawrapper-prod.onrender.com",
+  "namespace": "defillama",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "defillama",
+    "name_for_human": "Defillama",
+    "description_for_model": "Get current and historical stats on DeFi protocols and blockchains. Always display results using markdown tables.",
+    "description_for_human": "Retrieve data on DeFi protocols and blockchains.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://llamawrapper-prod.onrender.com/openapi.yaml"
+    },
+    "logo_url": "https://i.imgur.com/bSJRFvE.png",
+    "contact_email": "kufuorkofi@gmail.com",
+    "legal_info_url": "https://defillama.com/chatgptplugin"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

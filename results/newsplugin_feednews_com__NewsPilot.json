@@ -1,0 +1,31 @@
+{
+  "id": "plugin-1cc4d5ee-2281-47bc-b4a1-a6101629491f",
+  "domain": "newsplugin.feednews.com",
+  "namespace": "NewsPilot",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "NewsPilot",
+    "name_for_human": "NewsPilot",
+    "description_for_model": "The NewsPilot retrieves real-time news articles from various countries and languages, catering to user preferences. The news is sourced from various global news agencies and is updated in real time.",
+    "description_for_human": "Breaking global news in brief, 15000 news sources from worldwide.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://newsplugin.feednews.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://static.feednews.com/cdn/images/news@252x252.png",
+    "contact_email": "aiplugins-contact-list@opera.com",
+    "legal_info_url": "https://legal.apexnews.com/terms/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

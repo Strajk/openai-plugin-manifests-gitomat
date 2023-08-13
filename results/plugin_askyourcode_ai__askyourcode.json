@@ -1,0 +1,26 @@
+{
+  "id": "plugin-862e407e-a59c-498a-b570-33692dfee664",
+  "domain": "plugin.askyourcode.ai",
+  "namespace": "askyourcode",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "askyourcode",
+    "name_for_human": "AskYourCode",
+    "description_for_model": "Provides summarization and search capability over the source code and documentation of a software project. Facilitates discovering the project gradually, retrieving only the parts relevant for reasoning about the task at hand.",
+    "description_for_human": "Ask your code without having to copy-paste it. Works with most popular programming languages.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.askyourcode.ai/openapi.yaml"
+    },
+    "logo_url": "https://askyourcode.ai/logo.png",
+    "contact_email": "info@askyourcode.ai",
+    "legal_info_url": "https://askyourcode.ai/legal/"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "plugin-9bed41ed-f172-4e35-aca7-9b2669a23850",
+  "domain": "sem.quickcreator.io",
+  "namespace": "ads",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "ads",
+    "name_for_human": "QuickCreator Marketing Tools",
+    "description_for_model": "Generating google ads.",
+    "description_for_human": "The generated Google campaign includes Campaign, AdGroup, Ad, and Keywords.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://accounts.google.com/o/oauth2/auth",
+      "scope": "https://www.googleapis.com/auth/userinfo.email",
+      "authorization_url": "https://accounts.google.com/o/oauth2/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "ec6963bdda0f475697aa598414c81d5a"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://sem.quickcreator.io/openapi.yaml"
+    },
+    "logo_url": "https://sem.quickcreator.io/logo.png",
+    "contact_email": "support@quickcreator.io",
+    "legal_info_url": "https://quickcreator.io"
+  },
+  "oauth_client_id": "397507949395-lecsesat4k9tnjc9a9jj22o0rajs73o6.apps.googleusercontent.com",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

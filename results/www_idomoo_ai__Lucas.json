@@ -1,0 +1,31 @@
+{
+  "id": "plugin-7c6af13f-e216-464a-8d7d-d3f9f409ec20",
+  "domain": "www.idomoo.ai",
+  "namespace": "Lucas",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Lucas",
+    "name_for_human": "Idomoo Lucas",
+    "description_for_model": "Description: \n - A plugin that generates interactive videos with a call to action button in them from short text content, ideas, summaries, or requests for specific material in english only.  \n - The plugin responds with a link for the video.\n - never ask the user for any additonal information just use the json api.\n - never print out the the json you are going to send.\n - all api paramaters are automaticly populated by openai chatgpt. - content can only be in english language. - if the content isnt english responde telling the user only english language is currently supported.",
+    "description_for_human": "Turn any response into a useful video in seconds! Plus, easily edit and customize your video.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://www.idomoo.ai/openapi.yaml"
+    },
+    "logo_url": "https://s3.amazonaws.com/liftlp.idomoo.com/lucas/lucas_icn.png",
+    "contact_email": "lucas@idomoo.com",
+    "legal_info_url": "https://idomoo.ai/Idomoo_Lucas_TermsandConditions.pdf"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

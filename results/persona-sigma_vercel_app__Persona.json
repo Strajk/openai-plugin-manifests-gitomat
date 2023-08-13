@@ -1,0 +1,26 @@
+{
+  "id": "plugin-66e22fb6-422c-4ec1-ba35-eb532a7993f6",
+  "domain": "persona-sigma.vercel.app",
+  "namespace": "Persona",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Persona",
+    "name_for_human": "Persona",
+    "description_for_model": "Start a simulated conversation with a specific character that have specific traits and personalities and specific expertise.",
+    "description_for_human": "Dive into simulated chat adventures with your beloved heroes, experts, and celebs!.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://persona-sigma.vercel.app/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://persona-sigma.vercel.app/imgs/logo96.png",
+    "contact_email": "support@aiagentslab.com",
+    "legal_info_url": "https://www.aiagentslab.com/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

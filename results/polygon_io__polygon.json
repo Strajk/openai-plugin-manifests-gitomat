@@ -1,0 +1,36 @@
+{
+  "id": "plugin-f4c74dea-7bee-4f77-9717-34668bbd05b9",
+  "domain": "polygon.io",
+  "namespace": "polygon",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "polygon",
+    "name_for_human": "Polygon",
+    "description_for_model": "Market data, news, and financial filings for stocks, options, forex, and crypto.",
+    "description_for_human": "Market data, news, and fundamentals for stocks, options, forex, and crypto from Polygon.io.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "4c21ee4d47ba43dbaeca2de0ca81befb"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://polygon.io/chatgpt/openapi.json"
+    },
+    "logo_url": "https://polygon.io/imgs/favicon.png",
+    "contact_email": "legal@polygon.io",
+    "legal_info_url": "https://polygon.io/terms"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

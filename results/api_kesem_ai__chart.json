@@ -1,0 +1,39 @@
+{
+  "id": "plugin-fac4e968-c6a5-4fc9-b578-11d958122868",
+  "domain": "api.kesem.ai",
+  "namespace": "chart",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "chart",
+    "name_for_human": "Charts by Kesem AI",
+    "description_for_model": "Generate charts. The user can request a chart to be generated.",
+    "description_for_human": "Generate charts. The user can request a chart to be generated.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://app.kesem.ai/login",
+      "scope": "",
+      "authorization_url": "https://api.kesem.ai/auth/oauth_exchange",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "c6d85516a5f44e96a96321fa2fba91b9"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.kesem.ai/openapi.json"
+    },
+    "logo_url": "https://app.kesem.ai/images/logo.svg",
+    "contact_email": "hello@kesem.ai",
+    "legal_info_url": "http://app.kesem.ai/terms"
+  },
+  "oauth_client_id": "474480292958-cjuv2hh070hr6ad6ei8h9slved6vng0d.apps.googleusercontent.com",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

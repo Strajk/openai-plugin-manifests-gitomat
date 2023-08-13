@@ -1,0 +1,31 @@
+{
+  "id": "plugin-77176a5f-b6c8-4012-99de-0b0aecac1e49",
+  "domain": "drippy.ssense.com",
+  "namespace": "ssense_recommendations",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "ssense_recommendations",
+    "name_for_human": "SSENSE",
+    "description_for_model": "Plugin for getting product recommendations from the luxury fashion e-commerce store SSENSE based on a conversational description of what the user wants to buy or search for.",
+    "description_for_human": "Enjoy personalized product recommendations from over 500 luxury and lifestyle brands.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://drippy.ssense.com/openapi.yaml"
+    },
+    "logo_url": "https://img.ssensemedia.com/image/upload/v1688655927/chatgpt/logo_1x.png",
+    "contact_email": "kyle.khoury@ssense.com",
+    "legal_info_url": "https://www.ssense.com/en/privacy-policy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

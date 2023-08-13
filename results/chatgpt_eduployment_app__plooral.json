@@ -1,0 +1,31 @@
+{
+  "id": "plugin-15237467-f43a-42bb-b3c6-519d0add1360",
+  "domain": "chatgpt.eduployment.app",
+  "namespace": "plooral",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "plooral",
+    "name_for_human": "Plooral",
+    "description_for_model": "Retrieve jobs and courses from the Plooral Eduployment platform. Present job listings and courses in a clear and concise manner.",
+    "description_for_human": "Explore the Plooral Eduployment platform and search for jobs and learning content.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgpt.eduployment.app/docs/openapi.yaml"
+    },
+    "logo_url": "https://chatgpt.eduployment.app/assets/logo.png",
+    "contact_email": "ai@eduployment.app",
+    "legal_info_url": "https://chatgpt.eduployment.app/legal/info.txt"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

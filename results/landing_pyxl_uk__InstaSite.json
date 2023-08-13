@@ -1,0 +1,31 @@
+{
+  "id": "plugin-1dd108ed-1779-46fb-a485-5109ffd3b43d",
+  "domain": "landing.pyxl.uk",
+  "namespace": "InstaSite",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "InstaSite",
+    "name_for_human": "InstaSite",
+    "description_for_model": "## When to Use This Plugin\r\nYou should use this plugin when people want to create a landing page.\r\nExamples of user prompts in which you should use this plugin:\r\n\"Create a landing page\"\r\n\"I need a landing page...\"\r\n\"Show me ... panding page.\"\r\n\r\n## Before IP plugin call\r\nIf not clear from the request, ask the user to give extra info:\r\n    - describe the target audience\r\n    - services provided that the user wants to focus on\r\n    - unique proposition (how does it differ from the same companies)\r\n\r\nIf the user does not give a well defined answer (or wants to create a random one), come up with content that would fit the best and would look solid.\r\n\r\nAfter receiving the answer to the questions, layout key assumptions to the user briefly and immidiately call the plugin right after.\r\n\r\n## Interpreting the API response\r\nThis section comes after receiving the api response, follow these steps in order:\r\n\r\n1. Link to open a new tab: Say \"[You can view this landing page in a new tab.](link)\".\r\n2. Link to open Admin a new tab: Say \"[You can edit text or image this landing page in a new tab.](linkAdmin)\".\r\n3. Additional Information: Display additional information.\r\n\r\n## Handling error messages from the API response\r\n- If an error message is included in the response: fix the request and resubmit it according to the error description, no need to show comments to the user and make a description.",
+    "description_for_human": "Ask to create a landing page - get a one-page website that can be a presentation of your project.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://landing.pyxl.uk/openapi.yaml"
+    },
+    "logo_url": "https://landing.pyxl.uk/logo.png",
+    "contact_email": "maxim.danni@gmail.com",
+    "legal_info_url": "https://landing.pyxl.uk/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

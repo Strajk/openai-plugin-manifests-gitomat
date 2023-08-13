@@ -1,0 +1,31 @@
+{
+  "id": "plugin-43fe9e1c-665a-4c22-a0f4-2a2ec195da51",
+  "domain": "kayak.com",
+  "namespace": "KAYAK",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "KAYAK",
+    "name_for_human": "KAYAK",
+    "description_for_model": "Search flights, stays & rental cars or get recommendations where you can go on your budget",
+    "description_for_human": "Search flights, stays & rental cars or get recommendations where you can go on your budget.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://www.kayak.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://content.r9cdn.net/apple-touch-icon-120x120.png",
+    "contact_email": "google@kayak.com",
+    "legal_info_url": "https://www.kayak.com/terms-of-use"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "most_popular",
+      "title": "Most popular"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

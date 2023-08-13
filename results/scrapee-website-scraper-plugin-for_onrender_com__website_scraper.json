@@ -1,0 +1,31 @@
+{
+  "id": "plugin-827680a1-f85b-43a2-b7fd-691c7f0ca5fd",
+  "domain": "scrapee-website-scraper-plugin-for.onrender.com",
+  "namespace": "website_scraper",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "website_scraper",
+    "name_for_human": "Scrapee",
+    "description_for_model": "Scrape the text content of a website.",
+    "description_for_human": "Scrape the text content of any website.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://scrapee-website-scraper-plugin-for.onrender.com/openapi.json"
+    },
+    "logo_url": "https://scrapee-website-scraper-plugin-for.onrender.com/logo.png",
+    "contact_email": "maxime.bounaas@gmail.com",
+    "legal_info_url": "https://maxime-ferret.vercel.app"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

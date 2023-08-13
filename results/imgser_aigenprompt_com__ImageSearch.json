@@ -1,0 +1,31 @@
+{
+  "id": "plugin-e7315224-2343-4bb0-81ef-cdc12bdad288",
+  "domain": "imgser.aigenprompt.com",
+  "namespace": "ImageSearch",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "ImageSearch",
+    "name_for_human": "ImageSearch",
+    "description_for_model": "Find images and display each image with title using the following markdown format: [title] \n ![the image](url)  [Download Raw](download_url)  Photo by [author_name](author_website) on [Unsplash](unsplash_website) \n. Also display related link using the following format: [related_title](related_url).",
+    "description_for_human": "Discover complimentary images to enhance your generated article or to highlight specific paragraphs from Unsplash.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://imgser.aigenprompt.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://imgser.aigenprompt.com/logo.png",
+    "contact_email": "roberts@aigenprompt.com",
+    "legal_info_url": "https://imgser.aigenprompt.com/legal-info.txt"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-9a7e1111-ea31-43db-80af-50ce9f93a7cf",
+  "domain": "onepage.report",
+  "namespace": "find_stock_ideas",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "find_stock_ideas",
+    "name_for_human": "OnePage Stock Ideas",
+    "description_for_model": "Find stock ideas given a news or an article.",
+    "description_for_human": "Find a list of stock ideas by asking it or feeding it with news or article.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://onepage.report/openapi.yaml"
+    },
+    "logo_url": "https://onepagestorage.blob.core.windows.net/media/onepage-logo.svg",
+    "contact_email": "admin@onepage.report",
+    "legal_info_url": "https://app.onepage.report/t&c"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

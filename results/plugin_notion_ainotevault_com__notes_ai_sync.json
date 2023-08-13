@@ -1,0 +1,39 @@
+{
+  "id": "plugin-11c9b2a8-f715-4992-a4de-d07293a20cf0",
+  "domain": "plugin.notion.ainotevault.com",
+  "namespace": "notes_ai_sync",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "notes_ai_sync",
+    "name_for_human": "NotesAISync",
+    "description_for_model": "Unofficial connector to Notion for interactive note-taking.",
+    "description_for_human": "Unofficial connector to Notion for interactive note-taking.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://plugin.notion.ainotevault.com/api/auth/oauth",
+      "scope": "",
+      "authorization_url": "https://plugin.notion.ainotevault.com/api/auth/authorize",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "503b2fa5c8974e8695dd3aa6eb0a0ca8"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.notion.ainotevault.com/openapi.json"
+    },
+    "logo_url": "https://plugin.notion.ainotevault.com/logo.png",
+    "contact_email": "indieplatforms@gmail.com",
+    "legal_info_url": "https://notion.ainotevault.com/legal"
+  },
+  "oauth_client_id": "chatgpt-plugin",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

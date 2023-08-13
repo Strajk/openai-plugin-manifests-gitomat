@@ -1,0 +1,31 @@
+{
+  "id": "plugin-70cf14b2-f1d1-4344-90aa-2818818d4d64",
+  "domain": "pdfmagic.level2labs.xyz",
+  "namespace": "pdf_maker",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "pdf_maker",
+    "name_for_human": "PDF Magic",
+    "description_for_model": "Help the user create a PDF. Make sure you escape special characters for JSON string used in API call. Use Markdown styling to make the doc look nice.",
+    "description_for_human": "Create beautiful PDFs instantly. Resumes, cover letters, reports, agreements, forms, and more.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://pdfmagic.level2labs.xyz/openapi.yaml"
+    },
+    "logo_url": "https://pdfmagic.level2labs.xyz/logo.png",
+    "contact_email": "support@level2labs.co",
+    "legal_info_url": "http://www.level2labs.co/privacy-policy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "plugin-a8d650f4-2293-4923-82a7-afc8b2575708",
+  "domain": "chat-sudoku-api.bricks.cool",
+  "namespace": "Sudoku",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Sudoku",
+    "name_for_human": "Sudoku",
+    "description_for_model": "I am a sudoku game master. I will give you a problem and check your answer.",
+    "description_for_human": "This is a sudoku game. You use voice or text to play.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chat-sudoku-api.bricks.cool/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://chat-sudoku-api.bricks.cool/.well-known/logo.png",
+    "contact_email": "hello@chat-sudoku-api.bricks.cool",
+    "legal_info_url": "https://chat-sudoku-api.bricks.cool/.well-known/legal-info.txt"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

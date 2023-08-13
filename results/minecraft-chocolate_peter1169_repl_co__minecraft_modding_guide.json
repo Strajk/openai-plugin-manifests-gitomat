@@ -1,0 +1,31 @@
+{
+  "id": "plugin-f27c0aec-ae6e-465a-bac5-d554c700d59f",
+  "domain": "minecraft-chocolate.peter1169.repl.co",
+  "namespace": "minecraft_modding_guide",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "minecraft_modding_guide",
+    "name_for_human": "Minecraft Chocolate",
+    "description_for_model": "Help the user to get mod recomendations for the required minecraft version and modloader.",
+    "description_for_human": "Ask for recomendations about Minecraft mods and modpacks. Uses Modrinth API.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://minecraft-chocolate.peter1169.repl.co/openapi.yaml"
+    },
+    "logo_url": "https://minecraft-chocolate.peter1169.repl.co/logo.png",
+    "contact_email": "peter1169tech@gmail.com",
+    "legal_info_url": "https://github.com/Peter1169/Minecraft-Chocolate-ChatGPT-Plugin/blob/master/LICENSE"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

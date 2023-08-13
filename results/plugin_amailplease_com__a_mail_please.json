@@ -1,0 +1,39 @@
+{
+  "id": "plugin-5210f38c-621f-4971-b6d4-907177006781",
+  "domain": "plugin.amailplease.com",
+  "namespace": "a_mail_please",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "a_mail_please",
+    "name_for_human": "A Mail Please",
+    "description_for_model": "The a_mail_please plugin can send an email to the current user. The content of the email is related to the current conversation and the users request. The user can specify how to format the content, like a list, a table, an html table, raw data, etc. All generated formats should be visually elegant, even if the user doesn't specify the format. Tables are looking better with a 1px border instead of the default large html border. The user can ask to send an email to himself only and this email address is already provided via the plugin oAuth login process. The plugin will return the email delivery status (generally something like 'email sent successfully ' or 'error, email not sent'). It can also be used for backup or archiving of conversations.",
+    "description_for_human": "Get emailed with useful content from your conversations. Format the content as you want (list, table, html, etc.)",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://d86e3926b4ea65a4909ccffdca8e1137.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "250f94eccc90437da9aae73c7c163827"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.amailplease.com/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://www.amailplease.com/logo.png",
+    "contact_email": "hello@amailplease.com",
+    "legal_info_url": "https://www.amailplease.com/legal"
+  },
+  "oauth_client_id": "4d311b0017c8f3919de3ee3184da958f",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

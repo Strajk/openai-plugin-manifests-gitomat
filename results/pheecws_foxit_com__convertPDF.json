@@ -1,0 +1,36 @@
+{
+  "id": "plugin-c8bed042-49f8-4aec-9ab0-3dedbea0caf9",
+  "domain": "pheecws.foxit.com",
+  "namespace": "convertPDF",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "convertPDF",
+    "name_for_human": "Foxit PDF Assistant",
+    "description_for_model": "This plugin converts PDF and Office documents interchangeably, supporting formats like Word, Excel, and PowerPoint.",
+    "description_for_human": "This plugin converts PDF and Office documents interchangeably, supporting formats like Word, Excel, and PowerPoint.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "da9447e2fffa4aecb3e637835415d1bd"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://pheecws.foxit.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://pheecws.foxit.com/.well-known/img/plugin-logo.png",
+    "contact_email": "appent@foxitsoftware.com",
+    "legal_info_url": "https://www.foxit.com/product/foxit-product-terms-of-service.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

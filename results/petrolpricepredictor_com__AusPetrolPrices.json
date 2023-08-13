@@ -1,0 +1,31 @@
+{
+  "id": "plugin-21bce2d9-e5ad-4f30-ae98-b4fae5fd5e97",
+  "domain": "petrolpricepredictor.com",
+  "namespace": "AusPetrolPrices",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "AusPetrolPrices",
+    "name_for_human": "Aus Petrol Prices",
+    "description_for_model": "Ask for the average daily petrol price for any state or capital city region in Australia!",
+    "description_for_human": "Ask for the average daily petrol price for any state or capital city region in Australia!",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://petrolpricepredictor.com/ai-plugin/openapi.yaml"
+    },
+    "logo_url": "https://petrolpricepredictor.com/petrol-price-predictor-icon.png",
+    "contact_email": "hello@orrenprunckun.com",
+    "legal_info_url": "https://petrolpricepredictor.com/terms.htm"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-504add18-72ab-4f96-8d0d-68a79e9fc659",
+  "domain": "openai-plugin.qeeq.com",
+  "namespace": "QEEQ",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "QEEQ",
+    "name_for_human": "QEEQ",
+    "description_for_model": "Founded in 2017, we provide services to tens of millions of travelers every year. Our mission is to make journeys more enjoyable and bring better travel experiences to QEEQ with the help of technology.",
+    "description_for_human": "Our mission is to make journeys more enjoyable and bring better travel experiences to QEEQ with the help of technology.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://openai-plugin.qeeq.com/openapi.yaml"
+    },
+    "logo_url": "https://openai-plugin.qeeq.com/logo.png",
+    "contact_email": "support@qeeq.com",
+    "legal_info_url": "https://www.qeeq.com/term?info=privacypolicy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

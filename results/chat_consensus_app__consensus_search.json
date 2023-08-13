@@ -1,0 +1,31 @@
+{
+  "id": "plugin-9ccd7bc8-1194-4bfb-aeed-74bad76472a5",
+  "domain": "chat.consensus.app",
+  "namespace": "consensus_search",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "consensus_search",
+    "name_for_human": "Consensus Search",
+    "description_for_model": "Ask a question, get conclusions from research papers. Consensus Search is a search engine that finds answers to your questions, from the common to the technical. Querying the API yields a list of claims and the research papers that support each claim.",
+    "description_for_human": "Get answers & insights directly from 200M+ scientific papers. To use, just ask a research question.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chat.consensus.app/openapi.yaml"
+    },
+    "logo_url": "https://chat.consensus.app/images/logo-min.png",
+    "contact_email": "support@consensus.app",
+    "legal_info_url": "https://consensus.app/home/privacy-policy/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

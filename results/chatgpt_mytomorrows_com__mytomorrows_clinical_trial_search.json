@@ -1,0 +1,31 @@
+{
+  "id": "plugin-64013e8b-7cfe-46ef-ac50-ca5038be7f3d",
+  "domain": "chatgpt.mytomorrows.com",
+  "namespace": "mytomorrows_clinical_trial_search",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "mytomorrows_clinical_trial_search",
+    "name_for_human": "myTomorrows Search",
+    "description_for_model": "Plugin for getting the latest information on clinical trials, expanded access programs and investigational drugs",
+    "description_for_human": "Discover and filter clinical trials worldwide; updated daily.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgpt.mytomorrows.com/openapi.yaml"
+    },
+    "logo_url": "https://chatgpt.mytomorrows.com/logo.png",
+    "contact_email": "beta@mytomorrows.com",
+    "legal_info_url": "https://mytomorrows.com/en/terms-and-conditions"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

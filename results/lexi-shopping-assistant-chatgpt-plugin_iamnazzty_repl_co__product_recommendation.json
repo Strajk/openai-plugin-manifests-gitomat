@@ -1,0 +1,26 @@
+{
+  "id": "plugin-fe987041-b0b8-4f97-918a-c39b8af60eb9",
+  "domain": "lexi-shopping-assistant-chatgpt-plugin.iamnazzty.repl.co",
+  "namespace": "product_recommendation",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "product_recommendation",
+    "name_for_human": "Lexi Shopper",
+    "description_for_model": "A plugin that recommends a product from the local Amazon store based on a user request and also provides an explanation of why that product was recommended.",
+    "description_for_human": "Get product recommendations from your local Amazon store.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://lexi-shopping-assistant-chatgpt-plugin.iamnazzty.repl.co/openapi.yaml"
+    },
+    "logo_url": "https://lexi-shopping-assistant-chatgpt-plugin.iamnazzty.repl.co/logo.png",
+    "contact_email": "najmuzzaman@hey.com",
+    "legal_info_url": "https://tnc.garagespace.co"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

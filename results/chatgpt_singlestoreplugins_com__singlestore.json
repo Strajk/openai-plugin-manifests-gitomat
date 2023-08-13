@@ -1,0 +1,39 @@
+{
+  "id": "plugin-26b29eb2-3009-44e4-9c68-c2fa33b25634",
+  "domain": "chatgpt.singlestoreplugins.com",
+  "namespace": "singlestore",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "singlestore",
+    "name_for_human": "SingleStore",
+    "description_for_model": "Query your SingleStore database in English.",
+    "description_for_human": "Query your SingleStore database in English.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://chatgpt.singlestoreplugins.com/auth",
+      "scope": "email",
+      "authorization_url": "https://chatgpt.singlestoreplugins.com/auth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "86a87f453933497eb5a417487c802713"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgpt.singlestoreplugins.com/openapi.yaml"
+    },
+    "logo_url": "https://chatgpt.singlestoreplugins.com/logo.png",
+    "contact_email": "team@singlestore.com",
+    "legal_info_url": "https://www.singlestore.com/contact"
+  },
+  "oauth_client_id": "s2-chatgpt-plugin",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

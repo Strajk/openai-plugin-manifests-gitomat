@@ -1,0 +1,31 @@
+{
+  "id": "plugin-1d6b753a-cfa4-4535-a3b1-78bb23a34778",
+  "domain": "web-sum.replit.app",
+  "namespace": "websum",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "websum",
+    "name_for_human": "Webpage Summarizer",
+    "description_for_model": "Allows the user to enter a URL and have the contents (a webpage or PDF file) understood and remembered for future use by the bot which, by default, will return a summary of the article.",
+    "description_for_human": "Allow the bot to access information contained in a webpage via its URL, by default returning a summary.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://web-sum.replit.app/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://web-sum.replit.app/.well-known/logo.png",
+    "contact_email": "sunnys2327@gmail.com",
+    "legal_info_url": "https://web-sum.replit.app/legal/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

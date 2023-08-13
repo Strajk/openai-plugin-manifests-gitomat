@@ -1,0 +1,31 @@
+{
+  "id": "plugin-6ae5d0a3-615a-49a1-9b00-7eee9fb05714",
+  "domain": "gpt-etihad.botim.me",
+  "namespace": "Etihad_Airline",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Etihad_Airline",
+    "name_for_human": "Etihad Airline",
+    "description_for_model": "Search flights, and answer other related questions of flights.",
+    "description_for_human": "Search flights, and answer other related questions of flights.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://gpt-etihad.botim.me/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://gpt-etihad.botim.me/.well-known/App_icon.png",
+    "contact_email": "songkuan.zheng@algento.com",
+    "legal_info_url": "https://www.etihad.com/en-us/legal/terms-and-conditions"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

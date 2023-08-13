@@ -1,0 +1,31 @@
+{
+  "id": "plugin-990a6a04-ea5e-42b4-8b08-bdace2d560c0",
+  "domain": "halifax-bylaws-874e9d5b302a.herokuapp.com",
+  "namespace": "retrieval",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "retrieval",
+    "name_for_human": "Halifax Bylaws",
+    "description_for_model": "Search through Halifax, Nova Scotia's Bylaws to find answers to legal questions and retrieve relevant information. Use it whenever a user asks something that might be found in the laws of the Halifax Regional Minicipality (HRM)",
+    "description_for_human": "Your Halifax Bylaw's Expert.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://halifax-bylaws-874e9d5b302a.herokuapp.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://halifax-bylaws-874e9d5b302a.herokuapp.com/.well-known/logo.png",
+    "contact_email": "tyler.batten@saltwire.com",
+    "legal_info_url": "https://www.saltwire.com/terms-of-use/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

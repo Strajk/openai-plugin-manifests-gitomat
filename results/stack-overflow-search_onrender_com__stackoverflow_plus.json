@@ -1,0 +1,31 @@
+{
+  "id": "plugin-11d34cfc-1505-4556-b059-c82fc98dade6",
+  "domain": "stack-overflow-search.onrender.com",
+  "namespace": "stackoverflow_plus",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "stackoverflow_plus",
+    "name_for_human": "StackOverflow Plus",
+    "description_for_model": "Get recent answers to your questions from Stack Overflow.",
+    "description_for_human": "Expand your knowledge beyond 2021/09/01. Get recent questions and answers from Stack Overflow.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://stack-overflow-search.onrender.com/.well-known/openapi.json"
+    },
+    "logo_url": "https://stack-overflow-search.onrender.com/.well-known/logo",
+    "contact_email": "gary@parrot.ink",
+    "legal_info_url": "https://stack-overflow-search.onrender.com/.well-known/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

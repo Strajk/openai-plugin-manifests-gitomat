@@ -1,0 +1,26 @@
+{
+  "id": "plugin-7998fa1d-368c-43f0-bb30-54e505bd3b37",
+  "domain": "68710b76-3f25-4983-88de-9d97e87ed0f0.playlistfollow.com",
+  "namespace": "PlaylistFollow",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "PlaylistFollow",
+    "name_for_human": "Playlist Follow",
+    "description_for_model": "Create a Spotify playlist with Playlist Follow. The AI will autonomously assign a unique playlist name.",
+    "description_for_human": "Create and find the best music playlists, all in one place.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://68710b76-3f25-4983-88de-9d97e87ed0f0.playlistfollow.com/openai.yaml"
+    },
+    "logo_url": "https://playlistfollow.com/img/playlist-follow-logo.png",
+    "contact_email": "dev@playlistfollow.com",
+    "legal_info_url": "https://playlistfollow.com/legal.html"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

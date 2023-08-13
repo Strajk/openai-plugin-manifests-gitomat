@@ -1,0 +1,31 @@
+{
+  "id": "plugin-7a10cf41-6903-4f37-bfcb-c9a84a7eb579",
+  "domain": "googletrends.anonymuswatch.repl.co",
+  "namespace": "googletrends",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "googletrends",
+    "name_for_human": "Google Trends Plugin",
+    "description_for_model": "Fetch search interest data for keywords, locations, and timeframes. Get realtime search trends, and top charts.",
+    "description_for_human": "Fetch search interest data for keywords, locations, and timeframes. Get realtime search trends, and top charts.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://googletrends.anonymuswatch.repl.co/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://www.modernsolution.net/mediafiles/Bilder/googletrends.png",
+    "contact_email": "aaronglaser329@gmail.com",
+    "legal_info_url": "https://www.freeprivacypolicy.com/live/f27c8141-46b6-4dd3-8540-76338fd09d16"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

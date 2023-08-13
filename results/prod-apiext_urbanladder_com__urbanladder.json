@@ -1,0 +1,31 @@
+{
+  "id": "plugin-21327c35-8d5c-4626-bdd0-271692675648",
+  "domain": "prod-apiext.urbanladder.com",
+  "namespace": "urbanladder",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "urbanladder",
+    "name_for_human": "Urban Ladder",
+    "description_for_model": "This enables individual to search products from Urban Ladder product catalog and display the list of the products to the user.",
+    "description_for_human": "Search & Browse from Urban Ladder Product Catalog.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://prod-apiext.urbanladder.com/v1/plugin/openapi"
+    },
+    "logo_url": "https://www.urbanladder.com/android-chrome-192x192.png",
+    "contact_email": "hello@urbanladder.com",
+    "legal_info_url": "https://www.urbanladder.com/privacy-policy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

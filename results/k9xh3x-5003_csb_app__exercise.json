@@ -1,0 +1,31 @@
+{
+  "id": "plugin-2af617ff-4b5e-4f70-a3f1-26570d5b0543",
+  "domain": "k9xh3x-5003.csb.app",
+  "namespace": "exercise",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "exercise",
+    "name_for_human": "Exercise Consulting",
+    "description_for_model": "Plugin for managing an exercise routine, you can view exercises for different body parts and get details about each exercise.",
+    "description_for_human": "Manage your exercise routine. You can view exercises for different body parts and get details about each exercise.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://k9xh3x-5003.csb.app/openapi.yaml"
+    },
+    "logo_url": "https://k9xh3x-5003.csb.app/logo.png",
+    "contact_email": "i.ludogovskyi@gmail.com",
+    "legal_info_url": "https://butter-tangerine-f7b.notion.site/Legal-2abb64353b4e49dab2d7a7e54a5b8f26?pvs=4"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

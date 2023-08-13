@@ -1,0 +1,31 @@
+{
+  "id": "plugin-43ad711c-a877-4e77-878b-1612154b15d6",
+  "domain": "infojobs.andocarbur.com",
+  "namespace": "infojobs",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "infojobs",
+    "name_for_human": "InfoJobs",
+    "description_for_model": "Plugin for searching jobs on InfoJobs.",
+    "description_for_human": "Search jobs on InfoJobs.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://infojobs.andocarbur.com/openai.yaml"
+    },
+    "logo_url": "https://infojobs.andocarbur.com/logo.png",
+    "contact_email": "erisco@icloud.com",
+    "legal_info_url": "https://ericrisco.github.io"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

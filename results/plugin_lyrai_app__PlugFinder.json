@@ -1,0 +1,31 @@
+{
+  "id": "plugin-9de556ac-3e98-4df0-9307-e4bd11587ffb",
+  "domain": "plugin.lyrai.app",
+  "namespace": "PlugFinder",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "PlugFinder",
+    "name_for_human": "PlugFinder",
+    "description_for_model": "You can search for plugins using this plugin",
+    "description_for_human": "Describe the addin you want, and we will help you find the most suitable one.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.lyrai.app/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://plugin.lyrai.app/.well-known/logo.png",
+    "contact_email": "support@lyrai.app",
+    "legal_info_url": "https://pluginfinder.lyrai.app/privacy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

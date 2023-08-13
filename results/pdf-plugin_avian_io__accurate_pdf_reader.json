@@ -1,0 +1,31 @@
+{
+  "id": "plugin-eab9ea33-f2f4-4059-8495-4f1873044a49",
+  "domain": "pdf-plugin.avian.io",
+  "namespace": "accurate_pdf_reader",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "accurate_pdf_reader",
+    "name_for_human": "Accurate PDF",
+    "description_for_model": "Ask the user for a URL to a PDF, then take the users input and segment it into semantic search queries and call our API. In absence of query, ask 'Summarise the PDF'.",
+    "description_for_human": "Interactive conversations with PDFs of any length, with accurate quotes and page citations. Powered by Avian.io",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://pdf-plugin.avian.io/openapi.yaml/"
+    },
+    "logo_url": "https://avian.io/static/images/plugins/accurate_pdf.png",
+    "contact_email": "support@avian.io",
+    "legal_info_url": "https://avian.io/terms/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

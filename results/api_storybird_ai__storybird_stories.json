@@ -1,0 +1,26 @@
+{
+  "id": "plugin-d1f4d125-cbe7-40ba-8ade-411370fcc237",
+  "domain": "api.storybird.ai",
+  "namespace": "storybird_stories",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "storybird_stories",
+    "name_for_human": "Stories",
+    "description_for_model": "Generate stories from a prompt. Submit the query to API with 'prompt' as JSON input and render the story based on information received in the response.",
+    "description_for_human": "Create beautiful, illustrated stories easily.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.storybird.ai/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://api.storybird.ai/.well-known/logo.png",
+    "contact_email": "steven@storybird.ai",
+    "legal_info_url": "https://storybird.ai/"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

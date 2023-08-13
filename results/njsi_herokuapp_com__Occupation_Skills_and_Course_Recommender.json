@@ -1,0 +1,31 @@
+{
+  "id": "plugin-339ac7b6-8ed1-4856-a081-5dce9d47839c",
+  "domain": "njsi.herokuapp.com",
+  "namespace": "Occupation_Skills_and_Course_Recommender",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Occupation_Skills_and_Course_Recommender",
+    "name_for_human": "NJSI Beta by SSG",
+    "description_for_model": "Firstly presents a disclaimer to users. The tool aids in searching for adjacent occupations that will provide a higher salary than the current occupation, where occupation adjacency is measured through common skills required by the occupations, as well as provide insights on current vs target occupation skill and pay gap. The occupations are defined by the Singapore Standard Occupation Classification or SSOC 2020 version. Additionally, it recommends courses that can help develop the required skills for the suggested occupations.",
+    "description_for_human": "National Jobs Skills Intelligence. Skillsfuture Singapore AI Graph for insights and relationships in the JS landscape.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://njsi.herokuapp.com/openapi.yaml"
+    },
+    "logo_url": "https://njsi.herokuapp.com/logo.png",
+    "contact_email": "lois@dsaid.gov.sg",
+    "legal_info_url": "https://njsi.herokuapp.com/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

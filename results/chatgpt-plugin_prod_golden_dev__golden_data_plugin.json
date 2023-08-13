@@ -1,0 +1,26 @@
+{
+  "id": "plugin-b5afd6e8-080c-4376-967d-716df8da0fa0",
+  "domain": "chatgpt-plugin.prod.golden.dev",
+  "namespace": "golden_data_plugin",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "golden_data_plugin",
+    "name_for_human": "Golden",
+    "description_for_model": "Plugin for fact-checking a specific input relating to a single entity. This returns current factual data from up until May 2023, no cutoff.",
+    "description_for_human": "Get current factual data on companies from the Golden knowledge graph.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgpt-plugin.prod.golden.dev/openapi.yaml"
+    },
+    "logo_url": "https://chatgpt-plugin.prod.golden.dev/logo.png",
+    "contact_email": "support@golden.com",
+    "legal_info_url": "https://golden.com/about/terms-of-service"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

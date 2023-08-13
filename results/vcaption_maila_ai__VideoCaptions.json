@@ -1,0 +1,31 @@
+{
+  "id": "plugin-20840d02-ed98-421b-ab57-5bcd5170ffce",
+  "domain": "vcaption.maila.ai",
+  "namespace": "VideoCaptions",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "VideoCaptions",
+    "name_for_human": "Video Captions",
+    "description_for_model": "Converts YouTube video into Text. If totalSegments are more than 1, transcribe each portion of the video separately until the full video is transcribed.",
+    "description_for_human": "Convert Youtube links into transcribed text, enable asking questions, create chapters, and summarize its content.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://vcaption.maila.ai/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://vcaption.maila.ai/.well-known/logo.png",
+    "contact_email": "kevin@maila.ai",
+    "legal_info_url": "https://vcaption.maila.ai/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

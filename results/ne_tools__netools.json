@@ -1,0 +1,31 @@
+{
+  "id": "plugin-89f96bc0-5097-4cb4-860e-5bd14ed5f7f2",
+  "domain": "ne.tools",
+  "namespace": "netools",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "netools",
+    "name_for_human": "ne.tools",
+    "description_for_model": "Resolve DNS records like A, AA, MX, CNAME, NS, TXT and more, look up whois records for domains and IPs.",
+    "description_for_human": "Network diagnostic tool for DNS record lookup (A, AA, MX, NS and more) and WHOIS queries for domains and IP addresses.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://ne.tools/api/netools/openapi.json"
+    },
+    "logo_url": "https://ne.tools/images/pluginshq-logo.png",
+    "contact_email": "support@ne.tools",
+    "legal_info_url": "https://ne.tools/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

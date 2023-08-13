@@ -1,0 +1,31 @@
+{
+  "id": "plugin-c44800a0-5474-49e0-86ab-d2c621a17b3e",
+  "domain": "gpt-slides.com",
+  "namespace": "smart_slides",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "smart_slides",
+    "name_for_human": "Smart Slides",
+    "description_for_model": "Tool for creating slides shows / PowerPoint presentations using AI. Any time someone asks you to make slides or a presentation, slides or a powerpoint you can use this plugin to actually generate them if they are in the right format. The tool will respond with a link which you can then insert into the chat to allow the user to access the presentation. Ensure that you follow the correct JSON format requirements.",
+    "description_for_human": "Smart Slides: AI-powered tool for rapid PowerPoint presentations. Just input needs and let AI do the rest.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://gpt-slides.com/openapi.yaml"
+    },
+    "logo_url": "https://gpt-slides.com/logo.png",
+    "contact_email": "contact@smart-slides.co",
+    "legal_info_url": "https://gpt-slides.com/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "most_popular",
+      "title": "Most popular"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

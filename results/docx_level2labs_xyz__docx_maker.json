@@ -1,0 +1,31 @@
+{
+  "id": "plugin-6e947c0f-d909-41ac-b5b6-57c6dc9dd782",
+  "domain": "docx.level2labs.xyz",
+  "namespace": "docx_maker",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "docx_maker",
+    "name_for_human": "DOCX Maker",
+    "description_for_model": "Help the user create a DOCX file.",
+    "description_for_human": "Create a DOCX file from text.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://docx.level2labs.xyz/openapi.yaml"
+    },
+    "logo_url": "https://docx.level2labs.xyz/logo.png",
+    "contact_email": "support@level2labs.co",
+    "legal_info_url": "http://www.level2labs.co/privacy-policy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

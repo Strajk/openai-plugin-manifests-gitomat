@@ -1,0 +1,39 @@
+{
+  "id": "plugin-31110439-5293-431a-8da6-6ad654fe524b",
+  "domain": "7qcx23lxrx.quickcreator.io",
+  "namespace": "QuickBlog",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "QuickBlog",
+    "name_for_human": "QuickBlog",
+    "description_for_model": "Generating blog page.",
+    "description_for_human": "Generate SEO-Optimized Blog Pages Quickly with AI and Publish to the Internet with One Click.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://quickcreator.io/home/chatgptoauth",
+      "scope": "https://www.googleapis.com/auth/userinfo.email",
+      "authorization_url": "https://api.quickcreator.io/landing-page-service/user/oauth/access",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "02e3ab4a19ac4218aa51e7da2f2a26be"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://7qcx23lxrx.quickcreator.io/openapi.yaml"
+    },
+    "logo_url": "https://7qcx23lxrx.quickcreator.io/logo.png",
+    "contact_email": "support@quickcreator.io",
+    "legal_info_url": "https://quickcreator.io"
+  },
+  "oauth_client_id": "0239230s9f023200230quickblog",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

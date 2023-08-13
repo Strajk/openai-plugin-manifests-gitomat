@@ -1,0 +1,26 @@
+{
+  "id": "plugin-ac297e93-7cfd-4aee-92ab-08db5b07ddc9",
+  "domain": "aifinder.properties",
+  "namespace": "property_finder_uk",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "property_finder_uk",
+    "name_for_human": "Property Finder UK",
+    "description_for_model": "Help human to find a property for sale or to rent in the UK.",
+    "description_for_human": "Find properties for sale or rent in the UK.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://aifinder.properties/openapi.yaml"
+    },
+    "logo_url": "https://aifinder.properties/logo.png",
+    "contact_email": "ml.vilela@gmail.com",
+    "legal_info_url": "https://aifinder.properties/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

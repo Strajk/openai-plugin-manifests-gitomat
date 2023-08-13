@@ -1,0 +1,31 @@
+{
+  "id": "plugin-675f24fb-0d56-46c0-a9bd-bf5ada9c7bb7",
+  "domain": "iron-kegel.herokuapp.com",
+  "namespace": "TestosteronBoostDiet",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "TestosteronBoostDiet",
+    "name_for_human": "Testosterone Meals",
+    "description_for_model": "[no instructions needed for this]",
+    "description_for_human": "Designed diet plans that aim to boost your testosterone levels naturally.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://iron-kegel.herokuapp.com/documentation.yaml"
+    },
+    "logo_url": "https://iron-kegel.herokuapp.com/ironkegel_icon.png",
+    "contact_email": "hello@softroids.com",
+    "legal_info_url": "https://ironkegel.com/app-terms-and-conditions/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

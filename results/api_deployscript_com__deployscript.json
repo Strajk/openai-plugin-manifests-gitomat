@@ -1,0 +1,39 @@
+{
+  "id": "plugin-4b2e0423-5ecd-45f2-8a5f-125dcdf1d053",
+  "domain": "api.deployscript.com",
+  "namespace": "deployscript",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "deployscript",
+    "name_for_human": "DeployScript",
+    "description_for_model": "DeployScript can create web apps, websites, custom code and more! Turn prompts into apps in seconds!",
+    "description_for_human": "DeployScript can create web apps, websites, custom code and more! Turn prompts into apps in seconds!",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://auth.deployscript.com",
+      "scope": "app:create,app:read,app:create_file,app:read_file",
+      "authorization_url": "https://auth.deployscript.com/api/authorize",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "fbf85d59a09e42a4a5f8aded02154ee6"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.deployscript.com/openapi.yaml"
+    },
+    "logo_url": "https://api.deployscript.com/logo.png",
+    "contact_email": "legal@deployscript.com",
+    "legal_info_url": "http://deployscript.com/legal"
+  },
+  "oauth_client_id": "4PMwTrqvY2VeBgnUpjMHigVgqZutFmSF",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

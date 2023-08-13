@@ -1,0 +1,31 @@
+{
+  "id": "plugin-68d2b757-a728-47de-98f2-24dc1eb1e4ce",
+  "domain": "smartercontracts.ai",
+  "namespace": "smarter_contracts",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "smarter_contracts",
+    "name_for_human": "Smarter Contracts",
+    "description_for_model": "Analyze smart contracts and tokens on Ethereum. Use it when a user asks about a token, a smart contract, or an NFT.",
+    "description_for_human": "Analyze smart contracts and tokens on Ethereum.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://smartercontracts.ai/openapi.yaml"
+    },
+    "logo_url": "https://smartercontracts.ai/logo.png",
+    "contact_email": "netdragonx@pm.me",
+    "legal_info_url": "https://smartercontracts.ai/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-d6ac1409-99b6-4499-bd39-bf7148032c09",
+  "domain": "chatgpt-plugin.mindfuldataai.com",
+  "namespace": "mindful_data_ai",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "mindful_data_ai",
+    "name_for_human": "MindfulDataAI",
+    "description_for_model": "Plugin for searching the web with Google and asking a question about something recent. Always embed sources and links to the original content. If a response requires up to date information or multiple searches, feel free to search multiple times.",
+    "description_for_human": "Search with Google. You can search the web with Google when you are asking a question about something recent.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgpt-plugin.mindfuldataai.com/openapi.yaml"
+    },
+    "logo_url": "https://chatgpt-plugin.mindfuldataai.com/logo.png",
+    "contact_email": "support@mindfuldataai.com",
+    "legal_info_url": "https://mindfuldataai.com/terms-and-conditions.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

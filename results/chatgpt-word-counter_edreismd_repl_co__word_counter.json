@@ -1,0 +1,31 @@
+{
+  "id": "plugin-625e22a6-045b-4af5-9192-57977fba1cda",
+  "domain": "chatgpt-word-counter.edreismd.repl.co",
+  "namespace": "word_counter",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "word_counter",
+    "name_for_human": "Word Counter",
+    "description_for_model": "Count the number of words, and characters (with and without spaces). The API accepts text input through POST /count containing the text to be counted and returns a JSON response with the number of 'words', 'characters_no_spaces', and 'characters_with_spaces'. If the user is asking you to write a text with certain number of words, lines or characters, first write and show the text for the user, then, in the end of the message, ask if that text is fine to be counted. Only then, call the API in a new message.",
+    "description_for_human": "Count the number of words, and characters (with and without spaces).",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "/openapi.json"
+    },
+    "logo_url": "https://chatgpt-word-counter.edreismd.repl.co/logo.png",
+    "contact_email": "chatwordcount@gmail.com",
+    "legal_info_url": "https://chatgpt-word-counter.edreismd.repl.co/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

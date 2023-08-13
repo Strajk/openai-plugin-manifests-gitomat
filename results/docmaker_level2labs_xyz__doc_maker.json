@@ -1,0 +1,31 @@
+{
+  "id": "plugin-fa28ff04-0901-42ff-8267-2c7b317ab585",
+  "domain": "docmaker.level2labs.xyz",
+  "namespace": "doc_maker",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "doc_maker",
+    "name_for_human": "A+ Doc Maker",
+    "description_for_model": "Help the user create a PDF, DOCX, CSV, XLSX or HTML file. Make sure you escape special characters for JSON string used in API call.",
+    "description_for_human": "Generate beautiful PDFs in seconds. Resumes, cover letters, proposals and more. Also supports DOCX, XLSX, CSV and HTML.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://docmaker.level2labs.xyz/openapi.yaml"
+    },
+    "logo_url": "https://docmaker.level2labs.xyz/logo.png",
+    "contact_email": "support@level2labs.co",
+    "legal_info_url": "http://www.level2labs.co/privacy-policy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "most_popular",
+      "title": "Most popular"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

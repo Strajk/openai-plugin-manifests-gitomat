@@ -1,0 +1,31 @@
+{
+  "id": "plugin-1f4c4cba-c0d3-4427-8f2a-a674353f1169",
+  "domain": "api.dayapp.net",
+  "namespace": "DayApp",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "DayApp",
+    "name_for_human": "DayApp",
+    "description_for_model": "Get connected to representative or human without waiting in any US company",
+    "description_for_human": "Get connected with any company representative without waiting on hold or pressing buttons in IVR.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.dayapp.net/openapi.yaml"
+    },
+    "logo_url": "https://api.dayapp.net/logo.png",
+    "contact_email": "day@dayapp.net",
+    "legal_info_url": "https://www.dayapp.net/privacy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

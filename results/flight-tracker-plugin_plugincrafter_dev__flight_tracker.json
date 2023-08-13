@@ -1,0 +1,39 @@
+{
+  "id": "plugin-5aec1963-05f2-4ac7-8c89-3006c8a40ada",
+  "domain": "flight-tracker-plugin.plugincrafter.dev",
+  "namespace": "flight_tracker",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "flight_tracker",
+    "name_for_human": "Flight Tracker",
+    "description_for_model": "What Flight Tracker Does\n\n\"Flight Tracker\" delivers real-time updates and in-depth historical data on flights across the globe. Users can effortlessly access information on flight statuses, delays, airline details, departure and arrival times, terminals, gates, and even live tracking for certain flights. By inputting specific parameters like flight numbers, IATA/ICAO codes, airlines, and dates, users can obtain precise flight details tailored to their needs.\n\nExpected Flow\n\n1. Initialisation: Users input specific parameters to refine their flight search criteria.\n2. Query Execution: Flight Tracker processes the search, tapping into a vast database of real-time and historical flight data.\n3. Result Processing: The returned data offers a comprehensive overview of each flight, encompassing details such as flight status, departure and arrival times, terminals, gates, delays, airline specifics, and for select flights, live tracking with real-time latitude, longitude, altitude, and speed.\n4. Output Delivery: Users are presented with a curated list of flight details in a user-friendly format, ensuring all necessary information is readily available.\n\nAdditional Helpful Information\n\n\"Flight Tracker\" is an indispensable tool crafted for frequent travelers, aviation aficionados, business professionals, and anyone requiring up-to-the-minute flight data. With its advanced search functionalities and broad customization options, users are guaranteed to receive the most relevant flight insights. Whether planning a trip, awaiting a loved one's flight, or simply satisfying a curiosity, \"Flight Tracker\" simplifies the process of travel planning and monitoring, ensuring users are always informed and their journey hassle-free.",
+    "description_for_human": "Access real-time flight statuses and dive into extensive historical flight data instantly.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://fbef03d4a64414d3e135415173dee419.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "62407a7e027247a1bcfe594024c5d719"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://flight-tracker-plugin.plugincrafter.dev/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://flight-tracker.plugincrafter.dev/logo",
+    "contact_email": "contact@plugincrafter.dev",
+    "legal_info_url": "https://flight-tracker.plugincrafter.dev/legal"
+  },
+  "oauth_client_id": "9ebeb33adcc8e7e4fbf1239bf34e13e6",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

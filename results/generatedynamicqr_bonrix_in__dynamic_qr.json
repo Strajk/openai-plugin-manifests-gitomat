@@ -1,0 +1,36 @@
+{
+  "id": "plugin-aa4d425d-4d73-4451-a04a-d711f1c49052",
+  "domain": "generatedynamicqr.bonrix.in",
+  "namespace": "dynamic_qr",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "dynamic_qr",
+    "name_for_human": "Bonrix Dynamic QR",
+    "description_for_model": "Plugin for Generating Dynamic Payment QR code to easily receive payments via UPI.",
+    "description_for_human": "Generate UPI QR Sticker to pay with easy-to-scan QR codes for UPI transactions by passing UPI ID and amount.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "f3caacdec2cd48a099f5c031f5f505a2"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://generatedynamicqr.bonrix.in/openapi.yaml"
+    },
+    "logo_url": "https://generatedynamicqr.bonrix.in/logo.png",
+    "contact_email": "bonrix@gmail.com",
+    "legal_info_url": "https://www.bonrix.co.in/tnc.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

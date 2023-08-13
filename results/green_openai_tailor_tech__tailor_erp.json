@@ -1,0 +1,39 @@
+{
+  "id": "plugin-045f07e2-a357-4a90-af47-ad3669ab1c61",
+  "domain": "green.openai.tailor.tech",
+  "namespace": "tailor_erp",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "tailor_erp",
+    "name_for_human": "Tailor ERP Generator",
+    "description_for_model": "Create a custom Headless ERP Application, and perform CRUD operations to the application with prompts.",
+    "description_for_human": "Create a custom Headless ERP Application, and perform CRUD operations to the application with prompts.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://green.openai.tailor.tech/oauth",
+      "scope": "",
+      "authorization_url": "https://green.openai.tailor.tech/auth/oauth_exchange",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "ac1673ed97e647d58e1bedf28853f051"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://green.openai.tailor.tech/openapi.yaml"
+    },
+    "logo_url": "https://green.openai.tailor.tech/logo_tailor.png",
+    "contact_email": "naoto_yamamoto@tailor.tech",
+    "legal_info_url": "https://about.tailor.tech/"
+  },
+  "oauth_client_id": "829a7d6016d5ba262403244f61f599bc",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

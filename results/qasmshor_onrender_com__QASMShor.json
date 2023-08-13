@@ -1,0 +1,31 @@
+{
+  "id": "plugin-80cc48fc-a1db-4524-a1f2-89a17d5c354b",
+  "domain": "qasmshor.onrender.com",
+  "namespace": "QASMShor",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "QASMShor",
+    "name_for_human": "Shor in QASM",
+    "description_for_model": "Generate quantum circuits for Shor's algorithm in QASM format.",
+    "description_for_human": "Generate quantum circuits for Shor's algorithm in QASM format.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://qasmshor.onrender.com/openapi.yaml"
+    },
+    "logo_url": "https://qasmshor.onrender.com/logo.svg",
+    "contact_email": "c@DataCivilization.com",
+    "legal_info_url": "https://qasmshor.onrender.com/tou.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

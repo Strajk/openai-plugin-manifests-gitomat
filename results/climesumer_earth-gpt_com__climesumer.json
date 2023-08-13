@@ -1,0 +1,31 @@
+{
+  "id": "plugin-323ea7c4-a209-4eaa-ada8-e48d31b2e2cf",
+  "domain": "climesumer.earth-gpt.com",
+  "namespace": "climesumer",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "climesumer",
+    "name_for_human": "Climesumer",
+    "description_for_model": "Find sustainable alternatives to products based on the name of the product",
+    "description_for_human": "Find sustainable alternatives to products.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://climesumer.earth-gpt.com/openapi.json"
+    },
+    "logo_url": "https://climesumer.earth-gpt.com/static/logo.png",
+    "contact_email": "climesumer@earth-gpt.com",
+    "legal_info_url": "https://climesumer.earth-gpt.com/static/legal.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

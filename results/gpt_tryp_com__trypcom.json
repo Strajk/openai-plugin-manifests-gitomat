@@ -1,0 +1,31 @@
+{
+  "id": "plugin-043a68ec-eee5-4f00-8dba-d2b9a42a8fb7",
+  "domain": "gpt.tryp.com",
+  "namespace": "trypcom",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "trypcom",
+    "name_for_human": "Tryp.com",
+    "description_for_model": "Tryp.com's AI-driven inspirational travel engine, allows adventurous souls to travel way more, for way less!",
+    "description_for_human": "Tryp.com's AI-driven inspirational travel engine, allows adventurous souls to travel way more, for way less!",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://gpt.tryp.com/openapi.yaml"
+    },
+    "logo_url": "https://gpt.tryp.com/assets/logo.png",
+    "contact_email": "info@tryp.com",
+    "legal_info_url": "https://www.tryp.com/en/terms-and-conditions"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

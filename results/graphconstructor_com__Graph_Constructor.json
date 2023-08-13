@@ -1,0 +1,31 @@
+{
+  "id": "plugin-b2c8b3e7-1b88-48bf-844c-a9dd6cdba310",
+  "domain": "graphconstructor.com",
+  "namespace": "Graph_Constructor",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Graph_Constructor",
+    "name_for_human": "Graph Constructor",
+    "description_for_model": "A tool for creating spider and bar graphs.",
+    "description_for_human": "A tool for creating spider and bar graphs.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://graphconstructor.com/openapi.yaml"
+    },
+    "logo_url": "https://graphconstructor.com/logo.png",
+    "contact_email": "devin@graphconstructor.com",
+    "legal_info_url": "https://graphconstructor.com/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

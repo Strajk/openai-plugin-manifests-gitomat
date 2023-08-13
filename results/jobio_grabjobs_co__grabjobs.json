@@ -1,0 +1,31 @@
+{
+  "id": "plugin-3cd06b5a-c7bd-449f-8093-53369e4347eb",
+  "domain": "jobio.grabjobs.co",
+  "namespace": "grabjobs",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "grabjobs",
+    "name_for_human": "GrabJobs",
+    "description_for_model": "Help the user to find a job and apply in GrabJobs.",
+    "description_for_human": "Your personal job search assistant. Find the best full-time jobs, part-time jobs and internships worldwide.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://jobio.grabjobs.co/openapi.yaml"
+    },
+    "logo_url": "https://grabjobs.co/img/ic_logo.svg",
+    "contact_email": "cs@grabjobs.co",
+    "legal_info_url": "https://grabjobs.co/terms/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

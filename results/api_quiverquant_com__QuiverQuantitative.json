@@ -1,0 +1,36 @@
+{
+  "id": "plugin-5f777815-002f-4cfb-be32-325428978808",
+  "domain": "api.quiverquant.com",
+  "namespace": "QuiverQuantitative",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "QuiverQuantitative",
+    "name_for_human": "Quiver Quantitative",
+    "description_for_model": "Access data on congressional stock trading, lobbying, insider trading, and proposed legislation.",
+    "description_for_human": "Access data on congressional stock trading, lobbying, insider trading, and proposed legislation.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "e691045bdb8c4297889049e5d148e216"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.quiverquant.com/static/openapi.yaml"
+    },
+    "logo_url": "https://api.quiverquant.com/static/img/logo-black-bg.jpg",
+    "contact_email": "info@quiverquant.com",
+    "legal_info_url": "https://www.quiverquant.com/termsofservice/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

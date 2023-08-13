@@ -1,0 +1,36 @@
+{
+  "id": "plugin-c76fb52a-69a0-45ba-81d0-0da4d4e4fd69",
+  "domain": "openai-chat-plugin.welocalize.com",
+  "namespace": "qe_val",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "qe_val",
+    "name_for_human": "TranslationRater",
+    "description_for_model": "Welocalize plugin for estimating quality of translations. Rate a translation by ChatGPT or provided source and target text.",
+    "description_for_human": "How good is a translation? Prompt for translation or type your own. Welocalize TranslationRater will evaluate it.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "9fb69bf2877e4c76a157b14bed2e45e8"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://openai-chat-plugin.welocalize.com/openapi.yaml"
+    },
+    "logo_url": "https://openai-chat-plugin.welocalize.com:8443/welo-logo.png",
+    "contact_email": "boris.strepacki@welocalize.com",
+    "legal_info_url": "https://www.welocalize.com/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "plugin-c8d02ebe-d60e-49a4-8c7e-a02d96efce97",
+  "domain": "commonevents.io",
+  "namespace": "CommonEvents",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "CommonEvents",
+    "name_for_human": "CommonEvents",
+    "description_for_model": "This plugin searches for cultural and artistic performances, exhibitions, movies, and events near you in South Korea. You must show the user any images included in the response.",
+    "description_for_human": "Search nearby events in Korea.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://commonevents.io/openapi.yaml"
+    },
+    "logo_url": "https://commonevents.io/logo.png",
+    "contact_email": "contact@commoncoding.io",
+    "legal_info_url": "https://commonevents.io/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

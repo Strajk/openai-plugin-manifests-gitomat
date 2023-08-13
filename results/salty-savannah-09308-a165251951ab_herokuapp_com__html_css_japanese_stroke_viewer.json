@@ -1,0 +1,31 @@
+{
+  "id": "plugin-9a9cccfe-e8c4-4753-9839-190363ba4801",
+  "domain": "salty-savannah-09308-a165251951ab.herokuapp.com",
+  "namespace": "html_css_japanese_stroke_viewer",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "html_css_japanese_stroke_viewer",
+    "name_for_human": "Japanese Strokes",
+    "description_for_model": "Educational tool to help with learning Japanese writing strokes using animations.",
+    "description_for_human": "Educational tool to help with learning Japanese writing strokes using animations.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://salty-savannah-09308-a165251951ab.herokuapp.com/openapi.json"
+    },
+    "logo_url": "https://salty-savannah-09308-a165251951ab.herokuapp.com/static/logo.png",
+    "contact_email": "karima.askour@ezducate.ai",
+    "legal_info_url": "https://ezducate.ai/legal-disclaimer"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

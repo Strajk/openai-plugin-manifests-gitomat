@@ -1,0 +1,31 @@
+{
+  "id": "plugin-1b1c6ba0-fc6d-42ef-98f1-23933f67c650",
+  "domain": "plugin.scrapingbee.com",
+  "namespace": "scrapingbee",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "scrapingbee",
+    "name_for_human": "ScrapingBee",
+    "description_for_model": "Search Google for finding general information and urls. Or scrape websites for the most real-time specific information.",
+    "description_for_human": "Search Google for finding general information and urls. Or scrape websites for the most real-time specific information.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.scrapingbee.com/openapi.json"
+    },
+    "logo_url": "https://plugin.scrapingbee.com/logo.png",
+    "contact_email": "contact@scrapingbee.com",
+    "legal_info_url": "https://www.scrapingbee.com/terms-and-conditions"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

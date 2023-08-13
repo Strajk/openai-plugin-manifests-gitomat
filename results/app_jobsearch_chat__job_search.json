@@ -1,0 +1,31 @@
+{
+  "id": "plugin-f2dfac50-6e02-4aff-a585-00b4c8f01b99",
+  "domain": "app.jobsearch.chat",
+  "namespace": "job_search",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "job_search",
+    "name_for_human": "Job Search",
+    "description_for_model": "Job Search",
+    "description_for_human": "Searching for jobs made easy.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://app.jobsearch.chat/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://app.jobsearch.chat/images/logo.png",
+    "contact_email": "hello@jobsearch.chat",
+    "legal_info_url": "https://jobsearch.chat/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

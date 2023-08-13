@@ -1,0 +1,31 @@
+{
+  "id": "plugin-bb9bc2de-a9b6-471e-9c77-f994700a96e0",
+  "domain": "currency-convert-chatgpt-plugin.vercel.app",
+  "namespace": "currencyconverter",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "currencyconverter",
+    "name_for_human": "Currency Converter",
+    "description_for_model": "Help the user convert currencies using the CoinGecko API.",
+    "description_for_human": "Convert currencies using the CoinGecko API.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://currency-convert-chatgpt-plugin.vercel.app/openapi.yaml"
+    },
+    "logo_url": "https://cdn-icons-png.flaticon.com/512/71/71123.png",
+    "contact_email": "apinanapinan@icloud.com",
+    "legal_info_url": "https://currency-convert-chatgpt-plugin.vercel.app/license"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

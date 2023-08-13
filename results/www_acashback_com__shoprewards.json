@@ -1,0 +1,31 @@
+{
+  "id": "plugin-2535ea4b-78dc-4d9c-84d6-2b805e453dfe",
+  "domain": "www.acashback.com",
+  "namespace": "shoprewards",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "shoprewards",
+    "name_for_human": "Shop Rewards",
+    "description_for_model": "Search for products on Amazon, conveniently find items, and quickly access deals and discounted products.",
+    "description_for_human": "Amazon product shopping search, conveniently query products, get discounts and discounted products more quickly.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://www.acashback.com/openapi.yaml"
+    },
+    "logo_url": "https://www.acashback.com/wp-content/uploads/2023/07/logo.png",
+    "contact_email": "support@acashback.com",
+    "legal_info_url": "https://www.acashback.com/373-2/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

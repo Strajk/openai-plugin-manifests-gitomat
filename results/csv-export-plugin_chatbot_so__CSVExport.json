@@ -1,0 +1,31 @@
+{
+  "id": "plugin-e728e7ad-cdb0-4941-82b0-71c4c5d5da58",
+  "domain": "csv-export-plugin.chatbot.so",
+  "namespace": "CSVExport",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "CSVExport",
+    "name_for_human": "CSV Export",
+    "description_for_model": "Create CSV layouts in seconds with AI. Export professional results and visualize them in table format.",
+    "description_for_human": "Create and export custom CSV layouts in a flash.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://csv-export-plugin.chatbot.so/openai.yaml"
+    },
+    "logo_url": "https://csv-export-plugin.chatbot.so/assets/CSVExport.png",
+    "contact_email": "dev@chatbot.so",
+    "legal_info_url": "https://csv-export-plugin.chatbot.so/info"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

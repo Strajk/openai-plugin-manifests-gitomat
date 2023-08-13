@@ -1,0 +1,31 @@
+{
+  "id": "plugin-8bf76a41-be6c-4255-9b5c-714821decc39",
+  "domain": "assistant.convert.com",
+  "namespace": "convert_assistant",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "convert_assistant",
+    "name_for_human": "Convert Assistant",
+    "description_for_model": "Designed to retrieve relevant information from Convert.com's knowledge base about anything related to Convert.com, AB Testing, or Experimentation. Use it whenever the user inquires about these topics.",
+    "description_for_human": "Provides guidance regarding Convert.com's AB testing tool.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://assistant.convert.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://assistant.convert.com/.well-known/logo.png",
+    "contact_email": "info@convert.com",
+    "legal_info_url": "https://www.convert.com/terms-of-use/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

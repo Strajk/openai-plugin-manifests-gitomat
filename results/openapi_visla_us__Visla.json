@@ -1,0 +1,36 @@
+{
+  "id": "plugin-d2451505-86c4-40b4-b945-f6d13f081535",
+  "domain": "openapi.visla.us",
+  "namespace": "Visla",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Visla",
+    "name_for_human": "Visla",
+    "description_for_model": "The Visla plugin generates a short video from stock footage. The model must extract the required video topic from the user's input. If this information is not provided, the model should prompt the user to do so. Optional properties such as video idea, video tone, video type, publish platform, aspect ratio, as well as video metadata (including title, description, and tags) and BGM related parameters (such as moods, genres, and instruments) can be extracted from the user's input. However, if they are not present, the model should generate them without seeking additional user input. After processing, Visla returns a shareable video link, a claim code for saving or editing the video, along with the video metadata (including title, description, and tags). These details including video link, video title, description, tags, and claim code should be presented to the user, with a reminder that the claim code expires after 24 hours. Display the claim code in bold. The user should also be informed that video creation may take a minute and any extracted or generated video properties will be used in the video creation process.",
+    "description_for_human": "Turn your idea into a captivating video. AI scripts, selects stock footage, and creates magic!",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "53a28479dc204a8e925bffb09fecb244"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://openapi.visla.us/chatgpt-plugin/v2/openapi.json"
+    },
+    "logo_url": "https://www.visla.us/static/resources/img/logo-206.png",
+    "contact_email": "info@visla.us",
+    "legal_info_url": "https://www.visla.us/privacy"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

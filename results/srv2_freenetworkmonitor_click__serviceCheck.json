@@ -1,0 +1,36 @@
+{
+  "id": "plugin-f5d58ba0-0df8-4674-b7a5-b47d16cdd61c",
+  "domain": "srv2.freenetworkmonitor.click",
+  "namespace": "serviceCheck",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "serviceCheck",
+    "name_for_human": "Service Check",
+    "description_for_model": "Check if services are running and how fast they are resonding . Services available are CheckHttp for website html page load time checking , CheckSmtp for testing a helo message to email servers, CheckDns for a dns lookup of the host address and CheckImcp to ping the host address.",
+    "description_for_human": "Check if services are running and how fast they are responding. You can check Website, Email, Domain Lookup and Ping.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "969de6d9e91d476ca78afce96cf4705f"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://srv2.freenetworkmonitor.click/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://freenetworkmonitor.click/img/logo-square.png",
+    "contact_email": "support@freenetworkmonitor.click",
+    "legal_info_url": "https://freenetworkmonitor.click/privacypolicy.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

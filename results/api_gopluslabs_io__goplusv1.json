@@ -1,0 +1,31 @@
+{
+  "id": "plugin-d22fea61-9bb5-434d-b160-108815426d1a",
+  "domain": "api.gopluslabs.io",
+  "namespace": "goplusv1",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "goplusv1",
+    "name_for_human": "GoPlus Security AI",
+    "description_for_model": "Get security information of crypto tokens, malicious addresses, NFTs, token approvals, dApps, signature data encode info by using GoPlus Security API.",
+    "description_for_human": "Get crypto security information by using GoPlus Security API.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.gopluslabs.io/openapi.yaml"
+    },
+    "logo_url": "https://api.gopluslabs.io/logo.png",
+    "contact_email": "service@gopluslabs.io",
+    "legal_info_url": "https://docs.gopluslabs.io"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

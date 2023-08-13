@@ -1,0 +1,31 @@
+{
+  "id": "plugin-12406867-1ab7-49ba-ab5d-b618f9661746",
+  "domain": "gpt.storybooks.app",
+  "namespace": "storybooks",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "storybooks",
+    "name_for_human": "Storybooks",
+    "description_for_model": "Help the user create bedtime stories",
+    "description_for_human": "Create bedtime stories that instill a love for reading, spark creativity, and build important life skills.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://gpt.storybooks.app/openapi.yaml"
+    },
+    "logo_url": "https://gpt.storybooks.app/logo.png",
+    "contact_email": "alex@storybooks.app",
+    "legal_info_url": "https://www.storybooks.app/terms"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

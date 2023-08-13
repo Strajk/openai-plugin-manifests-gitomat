@@ -1,0 +1,34 @@
+{
+  "id": "plugin-cd706658-b005-409a-ae69-57ec39d95d5d",
+  "domain": "plugin.redefined.cloud",
+  "namespace": "three_sentence_service",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "three_sentence_service",
+    "name_for_human": "3 Sentence Service",
+    "description_for_model": "Managing a three sentence service list. You can add, remove, view and invoke your 3 sentence services.",
+    "description_for_human": "Managing a three sentence service. You can add, remove, view and invoke your 3 sentence services.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://github.com/login/oauth/authorize",
+      "scope": "",
+      "authorization_url": "https://github.com/login/oauth/access_token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "3533835c8fd84bee9c309a1e87364cd3"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin.redefined.cloud/.well-known/openapi.json"
+    },
+    "logo_url": "https://plugin.redefined.cloud/static/logo.png",
+    "contact_email": "contact@redefined.cloud",
+    "legal_info_url": "https://redefined.cloud/#plugin-legal-info"
+  },
+  "oauth_client_id": "efda8df0a5a0c86fe36b",
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "plugin-1fcd45c0-8b30-4862-ba37-9d543f338b9c",
+  "domain": "quakeph-plugin.chatbot.so",
+  "namespace": "QuakePH",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "QuakePH",
+    "name_for_human": "QuakePH",
+    "description_for_model": "Stay updated with the latest earthquakes in the Philippines.",
+    "description_for_human": "Stay updated with the latest earthquakes in the Philippines.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://quakeph-plugin.chatbot.so/openai.yaml"
+    },
+    "logo_url": "https://quakeph-plugin.chatbot.so/assets/Quake PH Logo.png",
+    "contact_email": "dev@chatbot.so",
+    "legal_info_url": "https://quakeph-plugin.chatbot.so/info"
+  },
+  "oauth_client_id": null,
+  "categories": [],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}

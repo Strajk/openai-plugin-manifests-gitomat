@@ -1,0 +1,31 @@
+{
+  "id": "plugin-eeb32e6d-5ec8-49f6-9367-33adb28589ea",
+  "domain": "saltwire-retrieval.herokuapp.com",
+  "namespace": "retrieval",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "retrieval",
+    "name_for_human": "Saltwire Search",
+    "description_for_model": "Search through Saltwire articles (A news publisher in the Canadian Maritimes) to find answers to questions and retrieve relevant information. Use it whenever a user asks something that might be found in a Saltwire Article.",
+    "description_for_human": "Interact with the news instead of just reading it.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://saltwire-retrieval.herokuapp.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://saltwire-retrieval.herokuapp.com/.well-known/logo.png",
+    "contact_email": "tyler.batten@saltwire.com",
+    "legal_info_url": "https://www.saltwire.com/terms-of-use/"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-13T19:00:08.641Z"
+}
