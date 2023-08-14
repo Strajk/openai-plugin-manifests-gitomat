@@ -1,0 +1,50 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Find Talent",
+    "description": "Find digital freelance talent for any occasion. Services include: Graphics & Design, Digital Marketing, Writing & Translation, Video & Animation, Music & Audio, Programming & Tech, PhotographyBusiness, AI Services",
+    "version": "1.0.0",
+    "contact": {
+      "email": "hexcard.xyz"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://service-provider-ext.onrender.com/app/fiverr_recommender"
+    }
+  ],
+  "paths": {
+    "/query": {
+      "get": {
+        "operationId": "service_list",
+        "summary": "Fetch URL for freelance services based on a query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The keyword(s) for the service(s) to be searched."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "URL for the requested freelance service",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "https://www.fiverr.com/search/gigs?utm_source=754449&utm_medium=cx_affiliate&utm_campaign=searchbox_widget&afp=&cxd_token=754449_26563459&show_join=true&query=graphic+design"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}

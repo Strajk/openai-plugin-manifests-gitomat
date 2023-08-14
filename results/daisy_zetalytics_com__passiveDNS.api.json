@@ -1,0 +1,734 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ZETAlytics Chat-GPT APIs",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/chatGPT/domain2ns": {
+      "get": {
+        "operationId": "getNS4Domain",
+        "summary": "Accepts a domain name aka FQDN aka hostname. Returns that domains authoritative name servers. Sourced from ZETAlytics historical passive DNS collection. Returns FQDN of NS that serves the domain, first seen, last seen.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "A domain name aka FQDN aka hostname."
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The start of a date range filter."
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The end of a date range filter."
+          },
+          {
+            "in": "query",
+            "name": "tsfield",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "first_seen",
+                "last_seen",
+                "all"
+              ]
+            },
+            "required": false,
+            "description": "Identify the field to be used for the query date range. Accepted values are first_seen, last_seen, or all."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getResultsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chatGPT/ip2nsglue": {
+      "get": {
+        "operationId": "getGlueByCIDR",
+        "summary": "Accepts a CIDR or IP address. Sourced from TLD registry zone file NS glue records and thus is incomplete for ccTLDs. Returns FQDN of known NS found in glue records, first seen, and last seen date fields.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "A CIDR or IP address that hosts authoritative name services."
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The start of a date range filter."
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The end of a date range filter."
+          },
+          {
+            "in": "query",
+            "name": "tsfield",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "first_seen",
+                "last_seen",
+                "all"
+              ]
+            },
+            "required": false,
+            "description": "Identify the field to be used for the query date range. Accepted values are first_seen, last_seen, or all."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getNSGlueResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chatGPT/domain2nsglue": {
+      "get": {
+        "operationId": "getGlueByBaseDomain",
+        "summary": "Accepts the base domain underpinning one or more authoritative name servers. Sourced from TLD registry zone file NS glue records and thus is incomplete for ccTLDs. Returns FQDN of known NS and their associated IP addresses found in glue records, first seen, and last seen date fields.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The base domain underpinning one or more authoritative name server hosts."
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The start of a date range filter."
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The end of a date range filter."
+          },
+          {
+            "in": "query",
+            "name": "tsfield",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "first_seen",
+                "last_seen",
+                "all"
+              ]
+            },
+            "required": false,
+            "description": "Identify the field to be used for the query date range. Accepted values are first_seen, last_seen, or all."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getNSGlueResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chatGPT/qname": {
+      "get": {
+        "operationId": "getQnames",
+        "summary": "Processes strings to match against hostnames in subset of passive DNS collection. Default to past five days unless date is specified. Results from qname field in DNS observations aka hostname, domain name, FQDN. Can't provide complete subdomain list nor first seen date due to limited scope.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mustQname",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "A comma separated list of strings that must be contained in the qname"
+          },
+          {
+            "in": "query",
+            "name": "noSubdomains",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "default": "false"
+            },
+            "required": false,
+            "description": "A value of true excludes subdomains from mustLength/shouldLength pattern queries"
+          },
+          {
+            "in": "query",
+            "name": "shouldQname",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "A comma separated list of strings that should be contained in the qname"
+          },
+          {
+            "in": "query",
+            "name": "shouldLength",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "A dot seprated count of DNS label lengths that domains should match.  For example, www.example.com matches 3.7.3 and all subdomains"
+          },
+          {
+            "in": "query",
+            "name": "mustLength",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "A dot seprated count of DNS label lengths that domains must match.  For example, www.example.com matches 3.7.3 and all subdomains"
+          },
+          {
+            "in": "query",
+            "name": "mustNotQname",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "A comma separated list of strings that must not be contained in the qname"
+          },
+          {
+            "in": "query",
+            "name": "shouldLengthAny",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "A comma separated list of DNS label lengths that should be found anywhere in the hostname.  For example, 7 matches example in www.example.com"
+          },
+          {
+            "in": "query",
+            "name": "mustLengthAny",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "A comma separated list of DNS label lengths that must be found anywhere in the hostname.  For example, 7 matches example in www.example.com"
+          },
+          {
+            "in": "query",
+            "name": "minShould",
+            "schema": {
+              "type": "number"
+            },
+            "required": false,
+            "description": "Set the minimum number of should values that must match"
+          },
+          {
+            "in": "query",
+            "name": "day",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Restrict the search to a specific day, using the UTC timezone."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getQnameResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chatGPT/domain_stats": {
+      "get": {
+        "operationId": "getDomainStats",
+        "summary": "Takes a domain name and returns a count of DNS records from ZETAlytics complete historical collection as well as first seen and last seen.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The domain name to query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "name": "result"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "A message to the user"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chatGPT/domain2ip": {
+      "get": {
+        "operationId": "getDomainIPs",
+        "summary": "Takes a domain aka qname aka FQDN aka hostname as input. Sourced from ZETAlytics complete historical collection of passive DNS observations. Returns all subdomains, all associated IP addresses, first seen and last seen dates.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Domain/qname/FQDN/hostname to query."
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The start of a date range filter."
+          },
+          {
+            "in": "query",
+            "name": "noSubdomains",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "default": "false"
+            },
+            "required": false,
+            "description": "A value of true excludes matches for subdomains of the query"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The end of a date range filter."
+          },
+          {
+            "in": "query",
+            "name": "tsfield",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "first_seen",
+                "last_seen",
+                "all"
+              ]
+            },
+            "required": false,
+            "description": "Select which date the date range of the query applies to.  Accepted values are first_seen, last_seen, or all."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getResultsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chatGPT/ip": {
+      "get": {
+        "operationId": "getDomainsForIP",
+        "summary": "For a given CIDR or IP address, fetch hostnames seen resolving there, along with their first and last seen dates in the complete collection of ZETAlytics passive DNS.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "CIDR range or single IP address"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The start of a date range filter"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The end of a date range filter"
+          },
+          {
+            "in": "query",
+            "name": "tsfield",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "first_seen",
+                "last_seen",
+                "all"
+              ]
+            },
+            "required": false,
+            "description": "Select which field the date range of the query applies to.  Accepted values are first_seen, last_seen, or all"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getResultsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chatGPT/ns2domain": {
+      "get": {
+        "operationId": "getDomainsForNS",
+        "summary": "For a given NS aka authoritative name server, return domains served, along with their first and last seen dates observed from TLD registry zone files or the complete collection of ZETAlytics passive DNS.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "An authoritative name server hostname aka NS"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The start of a date range filter"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The end of a date range filter"
+          },
+          {
+            "in": "query",
+            "name": "tsfield",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "first_seen",
+                "last_seen",
+                "all"
+              ]
+            },
+            "required": false,
+            "description": "Select which field the date range of the query applies to.  Accepted values are first_seen, last_seen, or all"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getNS2DomainResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "getNSGlueResponse": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "Count of results in ZETAlytics collection"
+          },
+          "msg": {
+            "type": "string",
+            "description": "A message to the user"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "first_seen": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "last_seen": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "hname": {
+                  "type": "string",
+                  "description": "Nameserver hostname"
+                },
+                "ip": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "getQnameResponse": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "description": "A message to the user"
+          },
+          "total": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "integer",
+                "description": "Count of results matching the requested critera using rapid search methods"
+              },
+              "relation": {
+                "type": "string",
+                "description": "A value of eq means the total is accurate, and a value of gte means the total is a minimum count"
+              }
+            }
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "qname": {
+                  "type": "string",
+                  "description": "The qname field of a DNS query, typically a Fully Qualified Domain Name (FQDN) aka hostname or domain name"
+                },
+                "day": {
+                  "type": "string",
+                  "description": "The day a change in IP or other RRtype was noted in passive DNS for a qname."
+                }
+              }
+            }
+          }
+        }
+      },
+      "getNS2DomainResults": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "description": "Count of results in a combination of TLD registry zone files and the complete ZETAlytics passive DNS collection"
+              },
+              "limitReached": {
+                "type": "boolean",
+                "description": "If true, the search size limit was exceeded; therefore, the total count may be inaccurate."
+              }
+            }
+          },
+          "msg": {
+            "type": "string",
+            "description": "A message to the user"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "first_seen": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "last_seen": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "domain": {
+                  "type": "string"
+                },
+                "qname": {
+                  "type": "string"
+                },
+                "ns": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "inZF": {
+                  "type": "boolean",
+                  "descrition": "If true, the record was sourced from a current TLD registry zone file."
+                }
+              }
+            }
+          }
+        }
+      },
+      "getResultsResponse": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "Count of results in ZETAlytics collection"
+          },
+          "recentTotal": {
+            "type": "integer"
+          },
+          "msg": {
+            "type": "string",
+            "description": "A message to the user"
+          },
+          "returning": {
+            "type": "integer"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "first_seen": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "last_seen": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "qtype": {
+                  "type": "string"
+                },
+                "domain": {
+                  "type": "string"
+                },
+                "qname": {
+                  "type": "string"
+                },
+                "value_ip": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                },
+                "geoip": {
+                  "type": "object",
+                  "properties": {
+                    "country_iso_code": {
+                      "type": "string"
+                    },
+                    "continent_name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

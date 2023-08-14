@@ -1,0 +1,58 @@
+openapi: 3.0.1
+info:
+  title: Paperpile Literature Search
+  description: Allows students and researchers to discover scientific articles
+  version: 'v1'
+servers:
+  - url: https://gpt.paperpile.com
+paths:
+  /paperpile:
+    get:
+      operationId: searchAbstracts
+      summary: Get relevant paper abstracts by keywords search
+      parameters:
+        - name: q
+          in: query
+          description: keywords the user is interested in to discover relevant literature
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchAbstractsResponse'
+components:
+  schemas:
+    searchAbstractsResponse:
+      type: object
+      properties:
+        abstracts:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the paper.
+              abstract:
+                type: string
+                description: Summary of the of the paper highlighting the main findings.
+              url:
+                type: string
+                description: URL to publisher website where the paper can be accessed.
+              pdf_url:
+                type: string
+                description: URL to fulltext PDF version of the paper.
+              year:
+                type: string
+                description: Year of publication.
+              authors:
+                type: array
+                items:
+                  type: string
+                  description: List of authors of the paper.
+          description: The list of relevant abstracts.

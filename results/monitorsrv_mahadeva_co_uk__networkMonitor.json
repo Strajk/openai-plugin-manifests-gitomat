@@ -1,0 +1,36 @@
+{
+  "id": "plugin-acbb70ab-5b24-4bb3-853e-6ba1afc1cea7",
+  "domain": "monitorsrv.mahadeva.co.uk",
+  "namespace": "networkMonitor",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "networkMonitor",
+    "name_for_human": "Network Monitor",
+    "description_for_model": "Monitor websites, email servers, check dns resolution, ping services and check for quantum safe encryption. The user can view and query hosts stored in the api database. If a user wants to add a host then they need to supply an email address. This will allow them to receive alerts when the host they add is down. When a user adds a host with theie email address they are given an EditAuthKey this can be used in future sessions to authenticate the user.",
+    "description_for_human": "Monitor websites, email servers, check dns resolution, ping services and check for quantum safe encryption.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "f1e70287499d4074bf856b0ecdc6d789"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://monitorsrv.mahadeva.co.uk/swagger/v1/swagger.json"
+    },
+    "logo_url": "https://monitorsrv.mahadeva.co.uk/logo-square.png",
+    "contact_email": "support@mahadeva.co.uk",
+    "legal_info_url": "https://monitorsrv.mahadeva.co.uk/privacypolicy.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-14T11:22:40.699Z"
+}

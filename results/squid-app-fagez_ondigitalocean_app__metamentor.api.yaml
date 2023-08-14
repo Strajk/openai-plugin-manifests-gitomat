@@ -1,0 +1,481 @@
+openapi: 3.0.1
+info:
+  title: MetaMentor
+  description: Generates a personalized study guides, user manuals, and content for a learning objective, making PDF, HTML or DOCX files. Use same user's language, ALWAYS call /start first to create a session
+  version: 'v1'
+servers:
+  - url: https://squid-app-fagez.ondigitalocean.app
+paths:
+  /get_advices:
+    post:
+      operationId: AdviceMe
+      summary: PUser manual, directions, and help if errors.
+      description: It retrieves a help to best use of this tool, use the user language.    
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /start:
+    post:
+      operationId: Start
+      summary: Starts the application before to begin a new learning session
+      description: Creates a new session, retrieves user information to adecuate the learning plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:            
+                nombre:
+                  type: string
+                  description: User's name
+                level:
+                  type: string
+                  description: The complexity level of language to explain the topic (example children, basic, intermediate, college, technical, advanced)
+                idioma:
+                  type: string
+                  description: User's prompting language
+                extension:
+                  type: string
+                  description: (Default = short). Topic extensions, one of the following = short, normal, long, very_long. DEFAULT value must be short                  
+      responses:
+        '200':
+          description: Successful initiation of session, return the uid for this session
+        '500':
+          description: Failure to start session
+  /change_title:
+    post:
+      operationId: changeTitle
+      summary: Change the title for the current manual, study guide or document
+      description: Change the title for the current manual, study guide or document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:        
+                uid:
+                  type: string
+                  description: The uid of the learning session                     
+                new_title:
+                  type: string
+                  description: The new title for the document we are creating
+      responses:
+        '200':
+          description: Title succesfully changed
+        '500':
+          description: Failed to change the title, title is incorrect maybe
+  /make_study_guide:
+    post:
+      operationId: createStudyGuide
+      summary: Creates a study guide based on user's overall objective. Use ISO-8859-1 strings ONLY
+      description: This command must be used before starting to build any learning guide. Use ISO-8859-1 strings ONLY
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  description: The uid of the learning session                
+                objetivo:
+                  type: string
+                  description: A very brief and summarized title for the general learning objective given by the user.
+                nivel:
+                  type: string
+                  description: The difficulty level of the essay 
+                  example: basic, intermediate, advanced, expert, for children, research, etc.
+                idioma:
+                  type: string
+                  description: The preferred language of the user (language user is prompting)
+                especialidad:
+                  type: string
+                  description: Act as an expert in the field and user level you want to explain.
+                  example: physicology, science for children, physics, elementary school maths, etc.
+                temario:
+                  type: array
+                  description: Create a guide of topics and subtopics that breaks down the learning objective in many specific concepts. Each item in the list represents a lesson and its sub-lessons.
+                  items:
+                    type: object
+                    properties:
+                      lesson:
+                        type: string
+                        description: The title of the lesson.
+                      sub-lessons:
+                        type: array
+                        items:
+                          type: string
+                        description: The sub-lessons related to the main lesson.  At least 1 sub-lesson per lesson.
+                  example: '{"uid": "sqJxADnK23215112062023", "objetivo": "Las Frutas", "nivel": "infantil", "idioma": "español", "especialidad": "kinder", "temario": [{"lesson": "Las frutas", "sub-lessons": ["La Piña", "Las Manzanas", "Otra frutas"]}]}'
+      responses:
+        '200':
+          description: Successful creation of study guide
+        '500':
+          description: Failure to create study guide
+  /add_new_lesson:
+    post:
+      operationId: addLesson
+      summary: Add a new lesson to the learning plan or document. Use ISO-8859-1 strings ONLY
+      description: Add a new lesson to the learning plan or document. Use ISO-8859-1 strings ONLY
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  description: The uid of the learning session                
+                subject_with_lessons:
+                  type: object
+                  description: The lesson with its subtopics that breaks down the learning objective.                  
+                  properties:
+                    lesson:
+                      type: string
+                      description: The title of the lesson.
+                    sub-lessons:
+                      type: array
+                      items:
+                        type: string
+                      description: The sub-lessons related to the main lesson. At least 1 sub-lesson per lesson.
+      responses:
+        '200':
+          description: Successful creation of study guide
+        '500':
+          description: Failure to create study guide
+  /delete_lesson:
+    post:
+      operationId: deleteLesson
+      summary: Removes a lesson or sub-lesson from the learning plan.
+      description: Removes a lesson or sub-lesson from the learning plan by its index
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  description: The uid of the learning session        
+                index:
+                  type: string
+                  description: The index of the lesson or the sub-lesson you want to delete                             
+      responses:
+        '200':
+          description: Lesson deleted succesfully
+        '500':
+          description: Failed to delete the lesson     
+  /explain_topic:
+    post:
+      operationId: explainTopic
+      summary: Explains a specific topic, give the user examples, exercises with solutions, important facts, etc.
+      description: Adds a summary of a specific topic using its index (example= 1.1, 'Explaination of the topic here...').
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  description: The uid of the learning session                
+                summary:
+                  type: string
+                  description: A summarized explaination of the topic. Use ISO-8859-1 characters ONLY. Every paragraph within <p> </p> tags. If links provided, use <a href> tags.
+                yt_query:
+                  type: string
+                  description: How would you find the BEST video on YouTube according to the summary? Is a search string for youtube.
+                index:
+                  type: string
+                  description: The index or position of the topic in the guide (1.1, 1.2, 2.1, 2.2... etc)
+      responses:
+        '200':
+          description: Successful explanation of topic
+        '500':
+          description: Failure to explain topic
+  /expand_topic:
+    post:
+      operationId: expandTopic
+      summary: Expand a topic given the previous explaination in max 50 words, give examples and analogies. Don't call it if extension = short.
+      description: Expand a topic given the previous explaination in max 50 words, give examples and analogies. Don't call it if extension = short. 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  description: The uid of the learning session                
+                expanded_content:
+                  type: string
+                  description: A detailed explaination of the topic. Use ISO-8859-1 characters ONLY. Every paragraph within <p> </p> tags. If links provided, use <a href> tags.
+                index:
+                  type: string
+                  description: The index or position of the topic in the guide (1.1, 1.2, 2.1, 2.2... etc)
+      responses:
+        '200':
+          description: Successful expantion of topic
+        '500':
+          description: Failure to expand topic
+  /read_learning_guide:
+    post:
+      operationId: readLearningGuide
+      summary: Retrieves the current learning guide
+      description: Use it to recall or lose context of the whole learning plan or goal to achieve.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  description: The uid of the learning session                
+                index:
+                  type: string
+                  description: The index of a main topic to read from the guide, '' to retrieve the whole guide
+      responses:
+        '200':
+          description: Successful retrieval of learning guide
+        '500':
+          description: Failure to retrieve learning guide
+  /find_books:
+    post:
+      operationId: findBooks
+      summary: Find a list of books giving a topic or possible title for a book related to the topic
+      description: Recieve a possible title for the topic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:            
+                topic:
+                  type: string
+                  description: A text that best matches a search for possible books for the topic
+                num:
+                  type: integer
+                  description: The max number of results wanted
+      responses:
+        '200':
+          description: A list of book names with their ISBN codes and Amazon links
+        '500':
+          description: No topic provided       
+  /create_pdf:
+    post:
+      operationId: createPDF
+      summary: Creates a PDF, HTML and DOCX containing the study guide
+      description: When ALL lessons and sub-lessons have a content, this will give a PDF, HTML and DOCX files to the user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  description: The uid of the learning session        
+                resumen:
+                  type: string
+                  description: The summary that explains the PDF and DOCX content    
+                keyword:
+                  type: string
+                  description: Summarize the resumen in the one most important word that defines its content                      
+                css_style:
+                  type: string
+                  description: One of these styles depending on the type of content = ('manual', 'scholar', 'casual','research')                                          
+      responses:
+        '200':
+          description: Successful creation of PDF, HTML and DOCX links 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pdf_url:
+                    type: string
+                    description: The URL of the created PDF
+                  html_url:
+                    type: string
+                    description: The URL of the created web page         
+                  docx_url:
+                    type: string
+                    description: The URL of the created Word .docx file                                   
+                  message:
+                    type: string
+                    description: Additional message for the user
+                  directions:
+                    type: string
+                    description: How to call /recommend_book with title and isbn to recommend a book
+        '500':
+          description: Failure to create PDF, HTML and DOCX files
+
+  /create_exam:
+      post:
+        operationId: createExam
+        summary: Create a new exam to evaluate the user in the current learning objective
+        description: Create a new exam with a unique identifier (uid), a set of questions and answers, and a time limit.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uid:
+                    type: string
+                    description: The uid of the learning session                     
+                  questions:
+                    type: array
+                    description: A list of questions for the exam.
+                    items:
+                      type: object
+                      properties:
+                        question:
+                          type: string
+                          description: The text of the question. DON'T USE '' or "" 
+                          example: What is the capital of France?                      
+                    example: [{'question': 'What is the capital of France?'}, {'question': 'What language is spoken in France?'}]
+                  time_limit:
+                    type: integer
+                    description: The time limit for the exam in minutes.
+                    example: 30
+                  caption_enviar:
+                    type: string
+                    description: The caption "ENVIAR EXAMEN" in the language user is prompting.
+                    example: SEND EXAM, ENVIAR EXAMEN, ENVOYER L'EXAMEN, etc   
+                  caption_final:
+                    type: string
+                    description: The caption "PUEDES PEDIRLE A CHATGPT QUE TE CALIFIQUE" in the language user is prompting.
+                    example: YOU CAN ASK CHATGPT TO RATE YOU, PUEDES PEDIRLE A CHATGPT QUE TE CALIFIQUE, VOUS POUVEZ DEMANDER À CHATGPT DE VOUS NOTER, etc                       
+        responses:
+          '200':
+            description: Exam created successfully.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      description: Status message indicating the exam was created.
+                      example: "Exam created"
+                    uid:
+                      type: string
+                      description: The uid of the learning session 
+                      example: "1234abcd"
+                    exam_link:
+                      type: string
+                      description: The link to the created exam.
+                      example: "https://squid-app-fagez.ondigitalocean.app/exam/1234abcd.html"
+
+          '500':
+            description: There was an error creating the exam.
+
+  /review_exam:
+      post:
+        operationId: reviewExam
+        summary: Review an existing exam
+        description: Retrieve the data of an exam by the learning objective (uid) for review purposes.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uid:
+                    type: string
+                    description: The uid of the learning session
+                    example: "1234abcd"
+        responses:
+          '200':
+            description: Exam data retrieved successfully.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    uid:
+                      type: string
+                      description: The uid of the learning session
+                      example: "1234abcd"
+                    Exam_data:
+                      type: array
+                      items:
+                        type: object
+                        description: A list of summarized questions, and the answers provided by the user.
+                        properties:
+                          question:
+                            type: string
+                          user_answer:
+                            type: string
+                      example: [{'question': 'What is the capital of France?', 'user_answer': 'Paris'}]
+                    directions:
+                      type: string
+                      description: Instructions for the next steps.
+                      example: Call /grade_exam to give feedback to the user
+          '500':
+            description: Internal server error or Exam not found.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      description: Status message indicating an error.                      
+                    message:
+                      type: string
+                      description: Error message.
+  /grade_exam:
+    post:
+      operationId: gradeQuestion
+      summary: Grade a Question of the exam  
+      description: Grade the exam question by question and return the scores and feedback.
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  description: The uid of the learning session         
+                qcount:
+                  type: integer
+                  description: The question number being graded, go one by one sequentially. starts by qcount 1.                           
+                question:
+                  type: string
+                  description: The text of the question being evaluated
+                user_answer:
+                  type: string
+                  description: The answer given by the user to this question
+                feedback:
+                  type: string
+                  description: A brief feedback if the user_answer was not 1 (perfect). If correct, just put "Good!" or something like that
+                score:
+                  type: string
+                  description: A float number between 0 and 1, according to how correct or complete is the user_answer
+      responses:
+        '200':
+          description: Current question number, score, feedback and Instructions for what to do next
+        '500':
+          description: Failure to grade the question, provides a description of the error
+  

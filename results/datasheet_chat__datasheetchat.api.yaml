@@ -1,0 +1,66 @@
+openapi: 3.0.1
+info:
+  title: Datasheet.Chat API
+  description: Electrical Components Datasheet Data.
+  version: 'v1'
+servers:
+  - url: https://datasheet.chat
+paths:
+  /parts/{pn}/detail:
+   get:
+     operationId: queryPartDetail
+     summary: Get part detail info
+     parameters:
+     - in: path
+       name: pn
+       schema:
+           type: string
+       required: true
+       description: The product number of the part.
+     responses:
+       "200":
+         description: OK
+         content:
+           plain/text:
+             schema:
+               type: string
+  /parts/{pn}/replaces:
+   get:
+     operationId: queryPartReplaces
+     summary: Get the list of part replaces
+     parameters:
+     - in: path
+       name: pn
+       schema:
+           type: string
+       required: true
+       description: The product number of the part.
+     responses:
+       "200":
+         description: OK
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/queryPartReplaces'
+components:
+  schemas:
+    queryPartReplaces:
+      type: object
+      properties:
+        parts:
+          type: array
+          items:
+            type: string
+          description: The list of product number.
+    queryPartDetail:
+      type: string
+      description: The part detail.
+    queryPartAttribute:
+      type: object
+      required:
+      - result
+      properties:
+        result:
+          type: string
+          description: The attribute of part.
+          required: true

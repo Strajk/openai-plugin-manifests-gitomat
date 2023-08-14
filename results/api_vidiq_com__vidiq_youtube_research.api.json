@@ -1,0 +1,1105 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "vidiq-chatgpt-plugin",
+    "description": "Provides some vidIQ features in a ChatGPT-friendly way.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/chatgpt-plugin/channel_details": {
+      "get": {
+        "summary": "Get Channel Details",
+        "description": "Returns some stats and metadata on a YouTube channel.\nIt can also provide a better vidIQ-enhanced channel URL when available.",
+        "operationId": "get_channel_details_chatgpt_plugin_channel_details_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "channel_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Channel Id"
+            }
+          },
+          {
+            "name": "openai-ephemeral-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Ephemeral-User-Id"
+            }
+          },
+          {
+            "name": "openai-conversation-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Conversation-Id"
+            }
+          },
+          {
+            "name": "openai-subdivision-1-iso-code",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Subdivision-1-Iso-Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/YouTubeChannel"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChannelNotFound"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chatgpt-plugin/find_channel_id_by_name": {
+      "get": {
+        "summary": "Get Find Channel",
+        "description": "Find channels with names that match a given channel name\nand return the channel ID.",
+        "operationId": "get_find_channel_chatgpt_plugin_find_channel_id_by_name_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "channel_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Channel Name"
+            }
+          },
+          {
+            "name": "openai-ephemeral-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Ephemeral-User-Id"
+            }
+          },
+          {
+            "name": "openai-conversation-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Conversation-Id"
+            }
+          },
+          {
+            "name": "openai-subdivision-1-iso-code",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Subdivision-1-Iso-Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChannelNameIdMap"
+                  },
+                  "title": "Response Get Find Channel Chatgpt Plugin Find Channel Id By Name Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chatgpt-plugin/transcript": {
+      "get": {
+        "summary": "Get Transcript",
+        "description": "Return the transcript of a YouTube video, if available. Pagination for long\nvideos is available with the page parameter. Pagination should be used if\ntotal_pages_available is greater than 1.",
+        "operationId": "get_transcript_chatgpt_plugin_transcript_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "video_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "A YouTube video ID"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Page number in case of a long transcript",
+              "default": 1
+            }
+          },
+          {
+            "name": "openai-ephemeral-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Ephemeral-User-Id"
+            }
+          },
+          {
+            "name": "openai-conversation-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Conversation-Id"
+            }
+          },
+          {
+            "name": "openai-subdivision-1-iso-code",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Subdivision-1-Iso-Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transcript"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chatgpt-plugin/trending_videos": {
+      "get": {
+        "summary": "Get Trending Videos",
+        "description": "Return trending YouTube videos, optionally by country. Sorted by\nviews_per_hour. Users want to see the views_per_hour for each video.",
+        "operationId": "get_trending_videos_chatgpt_plugin_trending_videos_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "country_code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 3,
+              "description": "Two letter country code such as 'US', 'CA', or 'GB'. Can be 'any'.",
+              "default": "any",
+              "title": "Country Code"
+            },
+            "description": "Two letter country code such as 'US', 'CA', or 'GB'. Can be 'any'."
+          },
+          {
+            "name": "openai-ephemeral-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Ephemeral-User-Id"
+            }
+          },
+          {
+            "name": "openai-conversation-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Conversation-Id"
+            }
+          },
+          {
+            "name": "openai-subdivision-1-iso-code",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Subdivision-1-Iso-Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrendingVideos"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chatgpt-plugin/video_details": {
+      "get": {
+        "summary": "Get Video Details",
+        "description": "Returns some basic stats and metadata on a YouTube video,\nsuch as title, description, tags, channel ID, view count,\nlike count, and comment count.",
+        "operationId": "get_video_details_chatgpt_plugin_video_details_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "video_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Video Id"
+            }
+          },
+          {
+            "name": "openai-ephemeral-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Ephemeral-User-Id"
+            }
+          },
+          {
+            "name": "openai-conversation-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Conversation-Id"
+            }
+          },
+          {
+            "name": "openai-subdivision-1-iso-code",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Openai-Subdivision-1-Iso-Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIVideo"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoNotFound"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "APIVideo": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags"
+          },
+          "channel_id": {
+            "type": "string",
+            "title": "Channel Id"
+          },
+          "views": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Views"
+          },
+          "likes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Likes"
+          },
+          "comments": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comments"
+          },
+          "published_at": {
+            "type": "string",
+            "title": "Published At"
+          },
+          "video_id": {
+            "type": "string",
+            "title": "Video Id"
+          },
+          "duration": {
+            "type": "string",
+            "title": "Duration"
+          },
+          "made_for_kids": {
+            "type": "boolean",
+            "title": "Made For Kids"
+          },
+          "topics": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Topics"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "description",
+          "tags",
+          "channel_id",
+          "views",
+          "likes",
+          "comments",
+          "published_at",
+          "video_id",
+          "duration",
+          "made_for_kids",
+          "topics",
+          "category"
+        ],
+        "title": "APIVideo"
+      },
+      "AuthError": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail",
+            "default": "No valid credentials provided."
+          }
+        },
+        "type": "object",
+        "title": "AuthError",
+        "description": "Error model for when the user's credentials are bogus."
+      },
+      "ChannelNameIdMap": {
+        "properties": {
+          "channel_name": {
+            "type": "string",
+            "title": "Channel Name"
+          },
+          "channel_id": {
+            "type": "string",
+            "title": "Channel Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "channel_name",
+          "channel_id"
+        ],
+        "title": "ChannelNameIdMap"
+      },
+      "ChannelNotFound": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail",
+            "default": "Channel can not be found or does not exist."
+          }
+        },
+        "type": "object",
+        "title": "ChannelNotFound",
+        "description": "Error model for when we can't find a YouTube channel."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Transcript": {
+        "properties": {
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text"
+          },
+          "no_transcript_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "No Transcript Reason"
+          },
+          "current_page": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Page"
+          },
+          "total_pages_available": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Pages Available"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags"
+          }
+        },
+        "type": "object",
+        "title": "Transcript"
+      },
+      "TrendingVideos": {
+        "properties": {
+          "videos": {
+            "items": {
+              "$ref": "#/components/schemas/Video"
+            },
+            "type": "array",
+            "title": "Videos"
+          }
+        },
+        "type": "object",
+        "required": [
+          "videos"
+        ],
+        "title": "TrendingVideos"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "Video": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "views_per_hour": {
+            "type": "integer",
+            "title": "Views Per Hour"
+          },
+          "video_id": {
+            "type": "string",
+            "title": "Video Id"
+          },
+          "channel_id": {
+            "type": "string",
+            "title": "Channel Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "url",
+          "views_per_hour",
+          "video_id",
+          "channel_id"
+        ],
+        "title": "Video"
+      },
+      "VideoNotFound": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail",
+            "default": "Video is either private or does not exist."
+          }
+        },
+        "type": "object",
+        "title": "VideoNotFound",
+        "description": "Error model for when we can't find a YouTube video."
+      },
+      "YouTubeChannel": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "channel_id": {
+            "type": "string",
+            "title": "Channel Id"
+          },
+          "views": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Views"
+          },
+          "subscribers": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subscribers"
+          },
+          "videos": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Videos"
+          },
+          "published_at": {
+            "type": "string",
+            "title": "Published At"
+          },
+          "topics": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Topics"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country"
+          },
+          "channel_url": {
+            "type": "string",
+            "title": "Channel Url"
+          },
+          "thirty_day_subscribers_growth_percentage": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thirty Day Subscribers Growth Percentage"
+          },
+          "thirty_day_views_growth_percentage": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thirty Day Views Growth Percentage"
+          },
+          "minimum_estimated_earnings_in_dollars": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Minimum Estimated Earnings In Dollars"
+          },
+          "maximum_estimated_earnings_in_dollars": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maximum Estimated Earnings In Dollars"
+          },
+          "engagement_rate_percentage": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Engagement Rate Percentage"
+          },
+          "worldwide_rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Worldwide Rank"
+          },
+          "category_rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Rank"
+          },
+          "country_rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country Rank"
+          },
+          "category_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "description",
+          "channel_id",
+          "views",
+          "subscribers",
+          "videos",
+          "published_at",
+          "topics",
+          "country",
+          "channel_url"
+        ],
+        "title": "YouTubeChannel"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

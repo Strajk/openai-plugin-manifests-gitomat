@@ -1,0 +1,237 @@
+openapi: 3.0.1
+info:
+  title: myTomorrows Search
+  description: A plugin that allows the user to search through clinical trials, expanded access programs and pre-approval drugs.
+  version: 'v1'
+servers:
+  - url: https://chatgpt.mytomorrows.com
+paths:
+  /search_for_trials:
+    post:
+      operationId: SearchForTrials
+      summary: Retrieve clinical trials for a given disease and/or other terms.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchForTrialsRequest'
+      responses:
+        "200":
+          description: OK
+  
+  /search_for_eaps:
+    post:
+      operationId: SearchForEAPs
+      summary: Only used if no clinical trials are found for a search. Retrieve expanded access programs for a disease and/or other terms.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchForEAPsRequest'
+      responses:
+        "200":
+          description: OK
+
+  /get_trial_by_id:
+    post:
+      operationId: getTrialById
+      summary: Get a clinical trial or expanded access program by its ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - trial_ids
+              properties:
+                trial_ids:
+                  type: array
+                  items:
+                    type: string
+                  description: The IDs to retrieve.
+                  required: true
+                fields:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - id
+                      - title
+                      - phase
+                      - overall_status
+                      - start_date
+                      - interventions
+                      - brief_summary
+                      - detailed_description
+                      - location
+                      - eligibility
+                      - countries_and_sites
+                      - minimum_age
+                      - maximum_age
+                      - reports_as_closed
+                  description: A list of fields per trial to return in the results; eligibility means the patient eligibility criteria.
+                  required: false
+                  default: [id, title, interventions]
+      responses:
+        "200":
+          description: OK
+
+  /request_access:
+    post:
+      operationId: requestAccess
+      summary: Request access to a clinical trial by its ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - trial_id
+              properties:
+                trial_id:
+                  type: string
+                  description: The ID of the trial to request access to.
+                  required: true
+      responses:
+        "200":
+          description: OK
+
+  /request_site_contact_details:
+    post:
+      operationId: requestSiteContactDetails
+      summary: Request the contact details of the site running a clinical trial by its ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - trial_id
+              properties:
+                trial_id:
+                  type: string
+                  description: The ID of the trial to request access to.
+                  required: true
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    SearchForTrialsRequest:
+      type: object
+      properties:
+        disease:
+          type: string
+          description: The disease to search for; this or other_terms is required.
+          required: false
+        other_terms:
+          type: string
+          description: Other terms to search for in the trial title or description. This or disease is required.
+          required: false
+        country:
+          type: string
+          description: The country to limit the search to; not to be combined with location.
+          required: false
+        location:
+          type: string
+          description: The location to limit the search from by distance. Can be a city, state or address; needs to be combined with distance.
+          required: false
+        distance:
+          type: int
+          description: The distance to limit the search to, in kilometers; needs to be combined with location.
+          required: false
+          default: 100
+        limit:
+          type: int
+          description: The maximum number of results to return.
+          required: false
+          default: 10
+        offset:
+          type: int
+          description: The offset to start returning results from.
+          required: false
+          default: 0
+        phase:
+          type: array
+          items:
+            type: string
+            enum:
+              - Phase 1
+              - Phase 1/2
+              - Phase 2
+              - Phase 2/3
+              - Phase 3
+          description: A list of phases to filter the results by; if someone asks for 1, they should get both 1 and 1/2, etc.
+          required: false
+        fields:
+          type: array
+          items:
+            type: string
+            enum:
+              - id
+              - title
+              - phase
+              - overall_status
+              - start_date
+              - interventions
+              - brief_summary
+              - detailed_description
+              - location
+              - eligibility
+              - countries_and_sites
+              - minimum_age
+              - maximum_age
+              - reports_as_closed
+            description: A list of fields per trial to return in the results; eligibility means the patient eligibility criteria.
+            required: false
+          default: [id, title, interventions]
+    SearchForEAPsRequest:
+      type: object
+      properties:
+        disease:
+          type: string
+          description: The disease to search for; this or other_terms is required.
+          required: false
+        other_terms:
+          type: string
+          description: Other terms to search for in the title or description. This or disease is required.
+          required: false
+        country:
+          type: string
+          description: The country to limit the search to;
+          required: false
+        limit:
+          type: int
+          description: The maximum number of results to return.
+          required: false
+          default: 10
+        offset:
+          type: int
+          description: The offset to start returning results from.
+          required: false
+          default: 0
+        fields:
+          type: array
+          items:
+            type: string
+            enum:
+              - id
+              - title
+              - overall_status
+              - start_date
+              - interventions
+              - brief_summary
+              - detailed_description
+              - location
+              - eligibility
+              - minimum_age
+              - maximum_age
+            description: A list of fields per trial to return in the results; eligibility means the patient eligibility criteria.
+            required: false
+          default: [id, title, interventions]

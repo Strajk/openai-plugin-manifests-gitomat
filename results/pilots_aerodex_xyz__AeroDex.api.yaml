@@ -1,0 +1,239 @@
+openapi: 3.0.0
+info:
+  title: Aviation API
+  description: Interact with the aviation API to retrieve information useful for flight planning.
+  version: 1.0.0
+servers:
+  - url: https://pilots.aerodex.xyz
+paths:
+  /multiple-stations-metar:
+    post:
+      summary: Get the latest Metar from multiple stations
+      operationId: multipleStationsMetar
+      description: This API returns the details of the latest Metar for the specific weather stations the user inputs. Use this endpoint when the user requests the weather for multiple stations. Give the user the raw version as well.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stations:
+                  type: array
+                  items:
+                    type: string
+                  description: The stations to get the latest metar from
+      responses:
+        "200":
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  decoded:
+                    type: array
+                    items:
+                      type: object
+                    description: The decoded metar details
+                  raw:
+                    type: array
+                    items:
+                      type: object
+                    description: The metar details
+        "404":
+          description: Not found
+        "500":
+          description: Server error
+  /metar-with-taf:
+    post:
+      summary: Get the latest Metar including TAF.
+      operationId: metarWithTaf
+      description: This API returns the details of the latest Metar including TAF for the specific weather stations the user inputs. Use this endpoint when the user requests the weather with TAF, it can be one or more stations. Give the user the raw version as well.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stations:
+                  type: array
+                  items:
+                    type: string
+                  description: The stations to get the latest metar from
+      responses:
+        "200":
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  decoded:
+                    type: array
+                    items:
+                      type: object
+                    description: The decoded metar details with TAF
+                  raw:
+                    type: array
+                    items:
+                      type: object
+                    description: The metar details
+  /get-pireps-standard:
+    post:
+      summary: Get pireps within 200 sm of the station
+      operationId: getPireps
+      description: This API returns the pireps reported within 200 sm from the station given by the user. Use this endpoint when the user asks for pireps without specifing a radius. Tell the user these are pireps reported within 200 sm from the station.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                station:
+                  type: string
+                  description: The station to get pireps for
+      responses:
+        "200":
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: The pireps
+        "404":
+          description: Not found
+        "500":
+          description: Server error
+  /get-pireps-within-range:
+    post:
+      summary: Get pireps within a range specified by the user
+      operationId: getPirepsWithRange
+      description: This API returns the pireps reported the range from the station given by the user. Use this endpoint when the user specifies a distance from the station.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                station:
+                  type: string
+                  description: The station to get pireps for
+                range:
+                  type: string
+                  description: The range to get pireps from the station
+      responses:
+        "200":
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: The pireps
+        "404":
+          description: Not found
+        "500":
+          description: Server error
+  /airport-data:
+    post:
+      summary: Get airpot data based on a city
+      operationId: airportData
+      description: This API returns the details of airports present in the city gave by the user. Only take the name of the city, this endpoint does not accept states or regions and returns all the airports matching  city.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                city:
+                  type: string
+                  description: The city to find airports at
+      responses:
+        "200":
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: The airports details
+        "404":
+          description: Not found
+        "500":
+          description: Server error
+  /get-sigmet:
+    post:
+      summary: Get the active airmets and sigmets
+      operationId: getSigmets
+      description: This API returns the decoded active sigmets.
+      responses:
+        "200":
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: The decoded active sigmets
+        "404":
+          description: Not found
+        "500":
+          description: Server error
+  /get-airmet:
+    post:
+      summary: Get the active airmets
+      operationId: getAirmets
+      description: This API returns the decoded active airmets.
+      responses:
+        "200":
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: The decoded active sigmets
+        "404":
+          description: Not found
+        "500":
+          description: Server error
+  /forecast-discussion:
+    post:
+      summary: Get the forecast discussion for an area.
+      operationId: forecastDiscussion
+      description: This API returns the forecast discussion for an area specified by the user. Convert the area name ot its forecast discussion code if the user didn't specify a code.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: The code of the area to get the forecast discussion.
+      responses:
+        "200":
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: The forecast discussion
+        "404":
+          description: Not found
+        "500":
+          description: Server error

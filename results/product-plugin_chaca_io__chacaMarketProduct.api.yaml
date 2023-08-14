@@ -1,0 +1,49 @@
+openapi: 3.0.1
+info:
+  title: Chaca Market Product  
+  description: Search products in Chaca Market easily and without hassle 
+  version: 'v1'
+servers:
+  - url: https://product-plugin.chaca.io
+paths:
+  /products:
+    get:
+      operationId: getProducts
+      summary: Get all products, when the product link is provided, append it to this string "https://chaca.io/ad/".
+      parameters:
+        - in: query
+          name: condition
+          schema:
+            type: string
+          required: true
+          example: like_new
+          description: Describing the state or conditin of the product, if the condition requested by the user is not one of new, like new, good, or enough, make the condition default to good and let the user know.
+        - in: query
+          name: district
+          schema:
+            type: string
+          required: true
+          example: Kecamatan Denpasar Timur
+          description: Describing the district of the products, for example only show product in Kecamatan Denpasar Timur.
+      responses:
+        '200':
+          description: OK
+          content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/getProductsResponse'
+
+components:
+  schemas:
+    getProductsResponse:
+      type: object
+      properties:
+        retreivedProducts:
+          type: array
+          items:
+            type: object
+            properties:
+              title: 
+                type: string
+              slug: 
+                type: string

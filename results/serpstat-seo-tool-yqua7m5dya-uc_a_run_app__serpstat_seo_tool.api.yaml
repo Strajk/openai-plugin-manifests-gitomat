@@ -1,0 +1,296 @@
+openapi: 3.0.1
+info:
+  title: Serpstat SEO Tool
+  description: A tool that allows to retrieve a list of related keywords along with their metrics and analyze SEO metrics/backlink data for a domain.
+  version: 'v1'
+servers:
+  - url: https://serpstat-seo-tool-yqua7m5dya-uc.a.run.app
+paths:
+  /keywords/get_related_keywords:
+    get:
+      operationId: getRelatedKeywords
+      summary: Get a list of related keywords.
+      parameters:
+      - in: query
+        name: keyword
+        schema:
+          type: string
+        required: true
+        description: Seed keyword.
+      - in: query
+        name: country
+        schema:
+          type: string
+        required: true
+        description: The two-letter country code entered by the user.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRelatedKeywordsResp'
+  /domain/summary:
+    get:
+      operationId: getDomainTrafficInfo
+      summary: Get a list of SEO metrics, such as organic traffic or the number of keywords in Google, for a domain within a specific country.
+      parameters:
+      - in: query
+        name: domain
+        schema:
+          type: string
+        required: true
+        description: The domain name entered by the user to be researched.
+      - in: query
+        name: country
+        schema:
+          type: string
+        required: true
+        description: The two-letter country code entered by the user.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getDomainTrafficInfoResp'
+  /domain/link_profile:
+    get:
+      operationId: getDomainLinkProfile
+      summary: Get an overview of the backlink profile for the domain.
+      parameters:
+        - in: query
+          name: domain
+          schema:
+            type: string
+          required: true
+          description: The domain name entered by the user to be researched.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getDomainLinkProfileResp'
+
+
+components:
+  schemas:
+    getRelatedKeywordsResp:
+      type: object
+      properties:
+        keywords:
+          type: array
+          items:
+            type: object
+            properties:
+              keyword:
+                type: string
+                description: Suggested keyword.
+              cpc:
+                type: number
+                description: Cost per click, $.
+              competition:
+                type: integer
+                description: Keyword competition in the PPC (0-100%).
+              serp_difficulty:
+                type: number
+                description: The assessment of the level of competition for a keyword to advance in organic search in the top-10 (from 0 to 100).
+              search volume:
+                type: integer
+                description: Search volume in a selected region
+          description: A list of keywords presented in a table format along with the metrics.
+        full_report_link:
+          type: string
+          description: A link to the full report.
+      description: A list of related keywords with metrics and a link to the full report.
+    getDomainTrafficInfoResp:
+      type: object
+      properties:
+        domain_summary:
+          type: array
+          items:
+            type: object
+            properties:
+              domain:
+                type: string
+              visible:
+                type: number
+                description: Visibility of a domain in top-20 Google. It's a relative indicator, which is calculated as a ratio of the amount and popularity of keywords a domain is shown for.
+              keywords:
+                type: integer
+                description: Number of keywords found in the chosen search engine.
+              traff:
+                type: integer
+                description: Estimated search traffic based on keyword positions and search volume.
+              visible_dynamic:
+                type: number
+                description: Change in visibility since the last monitoring.
+              keywords_dynamic:
+                type: integer
+                description: Change in the number of keywords since the last monitoring.
+              traff_dynamic:
+                type: number
+                description: Traffic change since the last monitoring.
+              ads_dynamic:
+                type: integer
+                description: Dynamics of changes in PPC Ads.
+              new_keywords:
+                type: integer
+                description: Number of new keywords for the domain since the last monitoring.
+              out_keywords:
+                type: integer
+                description: Number of keywords lost by a domain since the last monitoring.
+              rised_keywords:
+                type: integer
+                description: Number of domain keywords for which positions have improved since the last monitoring.
+              down_keywords:
+                type: integer
+                description: Number of domain keywords for which positions have dropped since the last monitoring.
+              ad_keywords:
+                type: integer
+                description: Number of keywords in PPC.
+              ads:
+                type: integer
+                description: Number of PPC Ads.
+              prev_date:
+                type: string
+                description: Previous verification date.
+          description: A list of domains with their SEO metrics.
+        full_report_link:
+          type: string
+          description: A link to the full report.
+      description: Domain SEO overview report and a link to the full report.
+    getDomainLinkProfileResp:
+      type: object
+      properties:
+        domain_link_profile:
+          type: object
+          properties:
+            domain:
+              type: string
+            sersptat_domain_rank:
+              type: integer
+              description: Serpstat Domain Rank (SDR) — an indicator of domain authority.
+            referring_domains:
+              type: integer
+              description: Number of referring domains.
+            referring_domains_change:
+              type: integer
+              description: Change in the number of links during the last 7 days.
+            redirected_domains:
+              type: integer
+              description: Number of referring redirecting domains.
+            referring_malicious_domains:
+              type: integer
+              description: Number of referring malicious domains.
+            referring_malicious_domains_change:
+              type: integer
+              description: Change in the number of referrin malicious domains during the last 7 days.
+            referring_ip_addresses:
+              type: integer
+              description: Number of referring IP-addresees
+            referring_ip_addresses_change:
+              type: integer
+              description: Change in the number of referring IP-addresees during the last 7 days.
+            referring_subnets:
+              type: integer
+              description: Number of referring subnets.
+            referring_subnets_change:
+              type: integer
+              description: Change in the number of referring subnets during the last 7 days.
+            backlinks:
+              type: integer
+              description: Number of backlinks.
+            backlinks_change:
+              type: integer
+              description: Change in the number of backlinks during the last 7 days.
+            backlinks_from_mainpages:
+              type: integer
+              description: Number of backlinks from mainpages.
+            backlinks_from_mainpages_change:
+              type: integer
+              description: Change in the number of backlinks from mainpages during the last 7 days.
+            nofollow_backlinks:
+              type: integer
+              description: Number of nofollow backlinks.
+            nofollow_backlinks_change:
+              type: integer
+              description: Change in the number of nofollow backlinks during the last 7 days.
+            dofollow_backlinks:
+              type: integer
+              description: Number of dofollow backlinks.
+            dofollow_backlinks_change:
+              type: integer
+              description: Change in the number of dofollow backlinks during the last 7 days.
+            text_backlinks:
+              type: integer
+              description: Number of text backlinks.
+            text_backlinks_change:
+              type: integer
+              description: Change in the number of text backlinks during the last 7 days.
+            image_backlinks:
+              type: integer
+              description: Number of image backlinks.
+            image_backlinks_change:
+              type: integer
+              description: Change in the number of image backlinks during the last 7 days.
+            redirect_backlinks:
+              type: integer
+              description: Number of referring redirects.
+            redirect_backlinks_change:
+              type: integer
+              description: Change in the number of referring redirects during the last 7 days.
+            canonical_backlinks:
+              type: integer
+              description: Number of backlinks rel="canonical"
+            canonical_backlinks_change:
+              type: integer
+              description: Change in the number of backlinks rel="canonical" during the last 7 days.
+            alternate_backlinks:
+              type: integer
+              description: Number of backlinks from tag.
+            alternate_backlinks_change:
+              type: integer
+              description: Change in the number of backlinks from tag during the last 7 days.
+            rss_backlinks:
+              type: integer
+              description: Number of RSS backlinks.
+            rss_backlinks_change:
+              type: integer
+              description: Change in the number of RSS backlinks during the last 7 days.
+            frame_backlinks:
+              type: integer
+              description: Number of <frame> backlinks.
+            frame_backlinks_change:
+              type: integer
+              description: Change in the number of <frame> backlinks during the last 7 days.
+            form_backlinks:
+              type: integer
+              description: Number of <form> backlinks.
+            form_backlinks_change:
+              type: integer
+              description: Change in the number of <form> backlinks during the last 7 days.
+            external_domains:
+              type: integer
+              description: Number of domains to which the analyzed domain links.
+            external_domains_change:
+              type: integer
+              description: Change in the number of domains to which the analyzed domain links during the last 7 days.
+            external_malicious_domains:
+              type: integer
+              description: Number of malicious domains to which the analyzed domain links.
+            external_malicious_domains_change:
+              type: integer
+              description: Change in the number of malicious domains to which the analyzed domain links during the last 7 days.
+            external_links:
+              type: integer
+              description: Number of links from the analyzed domain.
+            external_links_change:
+              type: integer
+              description: Change in the number of links from the analyzed domain during the last 7 days.
+          description: Domain backlinks profile overview.
+        full_report_link:
+          type: string
+          description: A link to the full report.
+      description: Domain backlink profile overview and a link to the full report.

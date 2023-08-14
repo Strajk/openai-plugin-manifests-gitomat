@@ -1,0 +1,53 @@
+
+openapi: 3.1.0
+info:
+  title: 'Lucid Software ChatGPT Plugin API'
+  description: An API that allows for diagram creation from a description in Mermaid format.
+  version: 'v1'
+servers:
+  - url: https://lucid.app
+paths:
+  /ai/createDiagram:
+    post:
+      operationId: createDiagram
+      summary: Create a new diagram
+      description: Accepts a JSON object with the diagram to be created, using Mermaid syntax. Returns a link to an image of the diagram. If the mermaid diagram is of type `flowchart`, it will also include a link to edit the diagram in Lucidchart.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createDiagram'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createDiagramResponse'
+components:
+  schemas:
+    createDiagram:
+      type: object
+      properties:
+        validDiagramCode:
+          description: |
+                       The valid Mermaid code for the diagram. `flowchart` diagrams should be preferred, but all Mermaid diagram types are supported.
+                       Mermaid Guidelines:
+                        - All node labels should be enclosed in square brackets and double quotes. For example, if you wanted node A to display `[Fe(CN)6]4-`, it should be written as `A["[Fe(CN)6]4-"]`
+                        - A line from node A to node B is denoted `A --> B`
+                        - Subgraphs should be used sparingly, and not to enclose an entire diagram
+          type: string
+      required:
+        - validDiagramCode
+    createDiagramResponse:
+      type: object
+      properties:
+        imageLink:
+          description: The link to the image of the diagram, to be displayed as an embedded image via Markdown.
+          type: string
+        error:
+          description: Any errors encountered while handling the request.
+          type: string
+        editLink:
+          description: A link to an editable version of the diagram in Lucidchart for flowchart diagrams.
+          type: string

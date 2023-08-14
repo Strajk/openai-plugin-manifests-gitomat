@@ -1,0 +1,125 @@
+openapi: 3.0.1
+info:
+  title: TheKnot
+  description: Search for wedding vendors.
+  version: 'v1'
+servers:
+  - url: https://pro-tkww-chatgpt-plugin-useast1.svc.nuptic.com
+paths:
+  /storefront:
+    get:
+      operationId: searchVendors
+      summary: Search for wedding vendors.
+      parameters:
+        - in: query
+          name: city
+          description: The city to filter by. If provided, the returned wedding vendors will be as close as possible to this city. Must not include address, state, or anything else other than the name of the city (e.g. "Austin" is correct, but "Austin, TX" is incorrect).
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: state
+          description: The postal abbreviation of the state that the city belongs to (e.g. "TX")
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: service
+          description: The service that the wedding vendor offers or belongs to.
+          required: false
+          schema:
+            type: string
+            enum:
+              - Reception Venues
+              - Wedding Photographers
+              - Videographers
+              - Bridal Salons
+              - Beauty
+              - DJs
+              - Wedding Bands
+              - Florists
+              - Wedding Planners
+              - Hotel Room Blocks
+              - Jewelers
+              - Wedding Cakes
+              - Bar Services & Beverages
+              - Caterers
+              - Dance Lessons
+              - Decor
+              - Ensembles & Soloists
+              - Favors & Gifts
+              - Invitations & Paper Goods
+              - Officiants & Premarital Counseling
+              - Photo Booths
+              - Rehearsal Dinners, Bridal Showers & Parties
+              - Rentals
+              - Transportation
+              - Travel Specialists
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getStorefrontsResponse'
+
+components:
+  schemas:
+    storefront:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the wedding vendor
+        description:
+          type: string
+          description: The description of the wedding vendor
+        category:
+          type: string
+          description: The type of wedding vendor (e.g. "Wedding Photographers")
+        city:
+          type: string
+          description: The name of the city where the wedding vendor is located (e.g. "Austin")
+        state:
+          type: string
+          description: The postal abbreviation of the state where the wedding vendor is located (e.g. "TX")
+        url:
+          type: string
+          format: uri
+          description: The URL of the wedding vendor's website
+        reviewsCount:
+          type: integer
+          description: The number of user reviews that the wedding vendor has
+        reviewsRating:
+          type: number
+          description: The overall rating for the wedding vendor according to user reviews
+        capacity:
+          type: string
+          description: The number of guests that the wedding venue can allocate
+        priceRange:
+          type: string
+          description: An indicator of the vendor's price range. Measured in dollar signs. One dollar sign is the cheapest, and the more dollar signs, the more expensive.
+        startingPrice:
+          type: string
+          description: The vendor's starting price range (in dollars).
+        mainPhotoUrl:
+          type: string
+          format: uri
+          description: The URL of the wedding vendor's main photo.
+        businessAttributes:
+          type: array
+          items:
+            type: string
+          description: List of strings where each element is an attribute of the wedding vendor (e.g. "Asian-owned business")
+        settings:
+          type: array
+          items:
+            type: string
+          description: List of strings where each element is a setting offered by the wedding venue (e.g. "Beach", "Ballroom")
+    getStorefrontsResponse:
+      type: object
+      properties:
+        storefronts:
+          type: array
+          items:
+            $ref: '#/components/schemas/storefront'

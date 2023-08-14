@@ -1,0 +1,423 @@
+openapi: 3.0.1
+info:
+  title: Moodo Plugin
+  description: Plugin for creating scents using ChatGPT.
+  version: "v1"
+
+servers:
+  - url: https://chatgpt.moodo.co/
+
+paths:
+
+  /devices:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Get Moodo devices with details available for current account
+      operationId: getAllDevices
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponseDevicesArray"
+              example:
+                [
+                  {
+                    "deviceId": 12345,
+                    "name": "Livingroom Moodo",
+                    "deviceVersion": "2.3",
+                    "battery": "High",
+                    "capsules": [
+                        {
+                            "slotId": 0,
+                            "capsuleName": "Wood Royale",
+                            "capsuleType": "Fragrance",
+                            "isFanBlowing": true,
+                            "fanSpeedPercent": 93
+                        },
+                        {
+                            "slotId": 1,
+                            "capsuleName": "Floral Magic",
+                            "capsuleType": "Fragrance",
+                            "isFanBlowing": true,
+                            "fanSpeedPercent": 72
+                        },
+                        {
+                            "slotId": 2,
+                            "capsuleName": "Citrus Fresh",
+                            "capsuleType": "Fragrance",
+                            "isFanBlowing": true,
+                            "fanSpeedPercent": 71
+                        },
+                        {
+                            "slotId": 3,
+                            "capsuleName": "Lavender",
+                            "capsuleType": "Fragrance",
+                            "isFanBlowing": true,
+                            "fanSpeedPercent": 62
+                        }
+                    ],
+                    "isOnline": true,
+                    "currentDeviceMode": "diffuser",
+                    "currentPoweredOnState": true,
+                    "currentGeneralIntensityPercent": 93,
+                    "currentShuffleModeActive": true,
+                    "currentShuffleModeDescription": "switch between presets every 10 minutes",
+                    "currentIntervalModeActive": true,
+                    "currentIntervalModeType": 0,
+                    "currentIntervalModeDescription": "`powerful Moodo` (10 minutes work and 5 minutes sleep)"
+                  }
+                ]
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+        "500":
+          description: Error making request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+
+  /devices/{deviceId}:
+    post:
+      security:
+        - bearerAuth: []
+      summary: Change state for single Moodo device by deviceId when Moodo is online only
+      operationId: updateDevice
+      parameters:
+        - name: deviceId
+          description: Moodo device unique identifier
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/deviceId'
+      requestBody:
+        description: The new state of Moodo device and its fans
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deviceUpdateRequestObject'
+            example:
+              {
+                "newPoweredOnState": true,
+                "newGeneralIntensityPercent": 100,
+                "capsules": [
+                  {
+                    "slotId": 0,
+                    "fanSpeedPercent": 100
+                  },
+                  {
+                    "slotId": 1,
+                    "fanSpeedPercent": 0
+                  },
+                  {
+                    "slotId": 2,
+                    "fanSpeedPercent": 50
+                  },
+                  {
+                    "slotId": 3,
+                    "fanSpeedPercent": 25
+                  }
+                ],
+                "newShuffleModeActive": false,
+                "newIntervalModeActive": true,
+                "newIntervalModeType": 2,
+              }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponseDeviceObject"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+        "500":
+          description: Error making request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+
+  /capsules:
+    get:
+      summary: Get all kinds of capsules with details available for purchase
+      operationId: getCapsules
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponseCapsulesArray"
+              example:
+                [
+                  {
+                    "name": "Lavender",
+                    "details": "Bulgarian lavender oil selected to fit with a special aromatic bouquet of thyme,spearmint and basil oil. Comforts your heart and soothes your mind. Top notes – Bergamot oil Messina, coriander oil. Middle notes – Lavender oil Bulgarian, aromatic bouquet. Dry down – Clary sage oil, tonka beans abs",
+                    "colorHex": "#69608f"
+                  },
+                  {
+                    "name": "Floral Musk",
+                    "details": "A delicate floral accord crafted on rose, magnolia, jasmine and lily of the valley, supported by bergamot, jasmine, amber and musk to create this wonderful fragrance.",
+                    "colorHex": "#f38190"
+                  }
+                ]
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+ 
+  schemas:
+
+    errorResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          description: false for any error
+        errorMessage:
+          type: string
+          description: Reason of the failure
+
+    successResponseDevicesArray:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          description: true for successful response
+        data:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/onlineMoodo'
+            - $ref: '#/components/schemas/offlineMoodo'
+          
+    successResponseDeviceObject:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          description: true for successful response
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/onlineMoodo'
+          - $ref: '#/components/schemas/offlineMoodo'
+    
+    onlineMoodo:
+      type: object
+      description: Moodo device is connected to cloud and it could be controlled via API
+      properties:
+        deviceId:
+          $ref: '#/components/schemas/deviceId'
+        name:
+          type: string
+        deviceVersion:
+          type: string
+          description: Firmware version of the device
+        battery:
+          type: string
+          description: If battery included it will show its level, otherwise - 'N/A'
+          enum: ['N/A', 'LOW', 'MEDIUM', 'HIGH']
+        capsules:
+          type: array
+          items:
+            $ref: '#/components/schemas/capsuleObject'
+        isOnline:
+          type: boolean
+          description: When true - Moodo device is online, otherwise - offline
+        currentDeviceMode:
+          type: string
+          enum: ['diffuser', 'purifier']
+          description: Diffuser mode to spread fragrance mix into the air. When in purifier mode - it cleans the air only.
+        canSwitchIntoDifferentDeviceMode:
+          type: boolean
+          description: When true - could be switched from 'diffuser' into 'purifier' or vice versa with 'newDeviceMode' parameter
+        currentPoweredOnState:
+          type: boolean
+          description: When true - Moodo is working, otherwise in standby
+        currentGeneralIntensityPercent:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Overall intensity of air flowing through Moodo device
+        currentShuffleModeActive:
+          type: boolean
+          description: When true - shuffle keeps from getting used to the smell by changing the fan speeds and getting different mix every 10 minutes
+        currentShuffleModeDescription:
+          type: string
+          description: Current shuffle mode description
+        currentIntervalModeActive:
+          type: boolean
+          description: When true - it keeps capsules last longer by turning them on and off every time priod based on interval type
+        currentIntervalModeType:
+          type: integer
+          enum: [0, 1, 2]
+          description: Current interval type, the working cycle
+            0 - 'powerful Moodo' (10 minutes on, 5 minutes off)
+            1 - 'efficient Moodo' (10 minutes on, 10 minutes off)
+            2 - 'saver Moodo' (5 minutes on, 10 minutes off)
+        currentIntervalModeDescription:
+          type: string
+          description: Current interval mode description
+
+    offlineMoodo:
+      type: object
+      description: Moodo device's last state before it got offline
+      properties:
+        deviceId:
+          $ref: '#/components/schemas/deviceId'
+        name:
+          type: string
+        deviceVersion:
+          type: string
+          description: Firmware version of the device
+        battery:
+          type: string
+          description: If battery included it will show its level, otherwise - 'N/A'
+          enum: ['N/A', 'LOW', 'MEDIUM', 'HIGH']
+        capsules:
+          type: array
+          items:
+            $ref: '#/components/schemas/capsuleObject'
+        isOnline:
+          type: boolean
+          description: When true - Moodo device is online, otherwise - offline
+        lastOnlineAt:
+          type: string
+          description: When offline - it shows the time in UTC, when Moodo was last online
+        lastDeviceMode:
+          type: string
+          enum: ['diffuser', 'purifier']
+          description: When offline - last device mode reported
+        lastPoweredOnState:
+          type: boolean
+          description: When offline - last powered on state reported
+        lastGeneralIntensityPercent:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: When offline - last overall intensity of air flow reported
+        lastShuffleModeActive:
+          type: boolean
+          description: When offline - last shuffle mode status reported
+        lastShuffleModeDescription:
+          type: string
+          description: When offline - last shuffle mode description
+        lastIntervalModeActive:
+          type: boolean
+          description: When offline - last interval mode status reported
+        lastIntervalModeType:
+          type: integer
+          enum: [0, 1, 2]
+          description: When offline - last interval type, the working cycle
+            0 - 'powerful Moodo' (10 minutes on, 5 minutes off)
+            1 - 'efficient Moodo' (10 minutes on, 10 minutes off)
+            2 - 'saver Moodo' (5 minutes on, 10 minutes off)
+        lastIntervalModeDescription:
+          type: string
+          description: When offline - last interval mode description
+
+    capsuleRequestObject:
+      type: object
+      properties:
+        slotId:
+          type: integer
+          enum: [0, 1, 2, 3]
+          description: Capsule slot number
+        fanSpeedPercent:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Setting the relative speed of fan blowing air through the capsule inserted above it
+          
+    deviceId:
+      type: integer
+      minimum: 0
+      description: Unique identifier for Moodo device
+      
+    deviceUpdateRequestObject:
+      type: object
+      properties:
+        newPoweredOnState:
+          type: boolean
+          description: When true - Moodo's fans will start blowing air, otherwise it will be put into standby
+        newGeneralIntensityPercent:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Setting overall intensity of air to flow through Moodo device
+        capsules:
+          type: array
+          items:
+            $ref: '#/components/schemas/capsuleRequestObject'
+        newShuffleModeActive:
+          type: boolean
+          description: When true - Moodo will start changing the fan speeds and getting different mix every 10 minutes
+        newIntervalModeActive:
+          type: boolean
+          description: When true - Moodo will start turning fans on and off every time priod based on interval type
+        newIntervalModeType:
+          type: integer
+          enum: [0, 1, 2]
+          description: New interval type, the working cycle
+            0 - 'powerful Moodo' (10 minutes on, 5 minutes off)
+            1 - 'efficient Moodo' (10 minutes on, 10 minutes off)
+            2 - 'saver Moodo' (5 minutes on, 10 minutes off)
+        newDeviceMode:
+          type: string
+          enum: ['diffuser', 'purifier']
+          description: Could be used when 'canSwitchIntoDifferentDeviceMode' is true only
+    capsuleObject:
+      type: object
+      properties:
+        slotId:
+          type: integer
+          enum: [0, 1, 2, 3]
+          description: Moodo has 4 slots, so it could have some of them with fragrance capsules, some with filters and some empty
+        capsuleName:
+          type: string
+          description: Name of the capsule inserted or 'Unknown' when empty
+        capsuleType:
+          type: string
+          enum: ['Filter', 'Fragrance', 'Unknown']
+          description: Type of capsule detected in slot or 'Unknown' when empty
+        capsuleDetails:
+          type: string
+          description: Details about the capsule detected in slot
+        capsuleColor:
+          type: string
+          description: Color in HEX of the capsule detected in slot or '#c3c3c3' when empty
+        fanSpeedPercent:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Relative speed of fan blowing air through the capsule inserted above it
+          
+    successResponseCapsulesArray:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of capsule
+        type:
+          type: string
+          enum: ['Filter', 'Fragrance', 'Unknown']
+        details:
+          type: string
+          description: Details about the capsule
+        colorHex:
+          type: string
+          description: Color of capsule

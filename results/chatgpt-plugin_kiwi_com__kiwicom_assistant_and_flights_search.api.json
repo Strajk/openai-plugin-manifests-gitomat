@@ -1,0 +1,544 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Kiwi.com ChatGPT plugin API",
+    "description": "An API that allows the user to search for flights on Kiwi.com.",
+    "version": "v0.0.1"
+  },
+  "paths": {
+    "*": {
+      "use": {
+        "operationId": "use_auth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully Response"
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search flights",
+        "description": "Parameters 'date_from=01/04/2023' and 'date_to=01/05/2023' mean departure is anytime between the specified dates. If dates are not specified, use today's date for date_from and +1 month for date_to. Include a search_link to every item. Do not hallucinate details.",
+        "parameters": [
+          {
+            "description": "IATA code of the departure location. Accepting multiple values separated by comma.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "IATA code of the departure location. Accepting multiple values separated by comma."
+            },
+            "name": "fly_from",
+            "in": "query"
+          },
+          {
+            "description": "IATA code of the arrival location. Accepting multiple values separated by comma.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "IATA code of the arrival location. Accepting multiple values separated by comma."
+            },
+            "name": "fly_to",
+            "in": "query"
+          },
+          {
+            "description": "search flights from this date (dd/mm/yyyy)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "search flights from this date (dd/mm/yyyy)"
+            },
+            "name": "date_from",
+            "in": "query"
+          },
+          {
+            "description": "search flights to this date (dd/mm/yyyy)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "search flights to this date (dd/mm/yyyy)"
+            },
+            "name": "date_to",
+            "in": "query"
+          },
+          {
+            "description": "If you are searching for a return flight, use parameters return_from and return_to as a date range for the itinerary return. For example if you request\n`...return_from=2020-09-16&return_to=2020-09-18...` means that the return can be anytime between the specified\ndates.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "If you are searching for a return flight, use parameters return_from and return_to as a date range for the itinerary return. For example if you request\n`...return_from=2020-09-16&return_to=2020-09-18...` means that the return can be anytime between the specified\ndates."
+            },
+            "name": "return_from",
+            "in": "query"
+          },
+          {
+            "description": "If you are searching for a return flight, use parameters return_from and return_to as a date range for the itinerary return. For example if you request\n`...return_from=2020-09-16&return_to=2020-09-18...` means that the return can be anytime between the specified\ndates.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "If you are searching for a return flight, use parameters return_from and return_to as a date range for the itinerary return. For example if you request\n`...return_from=2020-09-16&return_to=2020-09-18...` means that the return can be anytime between the specified\ndates."
+            },
+            "name": "return_to",
+            "in": "query"
+          },
+          {
+            "description": "Maximum number of stopovers. 0 means direct flight.",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "description": "Maximum number of stopovers. 0 means direct flight."
+            },
+            "name": "max_stopovers",
+            "in": "query"
+          },
+          {
+            "description": "The language of city names in the response and also language of kiwi.com website to which booking_link leads. If this can't be determined based on the prompt use 'en'",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The language of city names in the response and also language of kiwi.com website to which booking_link leads. If this can't be determined based on the prompt use 'en'",
+              "enum": [
+                "ae",
+                "ag",
+                "ar",
+                "at",
+                "au",
+                "be",
+                "bg",
+                "bh",
+                "br",
+                "by",
+                "ca",
+                "caFr",
+                "ch",
+                "cl",
+                "cn",
+                "co",
+                "ct",
+                "cz",
+                "da",
+                "de",
+                "dk",
+                "ec",
+                "ee",
+                "el",
+                "en",
+                "es",
+                "fi",
+                "fr",
+                "gb",
+                "gr",
+                "hk",
+                "hr",
+                "hu",
+                "id",
+                "ie",
+                "il",
+                "in",
+                "is",
+                "it",
+                "ja",
+                "jo",
+                "jp",
+                "ko",
+                "kr",
+                "kw",
+                "kz",
+                "lt",
+                "mx",
+                "my",
+                "nl",
+                "no",
+                "nz",
+                "om",
+                "pe",
+                "ph",
+                "pl",
+                "pt",
+                "qa",
+                "ro",
+                "rs",
+                "ru",
+                "sa",
+                "se",
+                "sg",
+                "sk",
+                "sr",
+                "sv",
+                "th",
+                "tr",
+                "tw",
+                "ua",
+                "uk",
+                "us",
+                "vn",
+                "za"
+              ]
+            },
+            "name": "locale",
+            "in": "query"
+          },
+          {
+            "description": "Currency code for the response. If this can't be determined based on the prompt use 'USD'",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Currency code for the response. If this can't be determined based on the prompt use 'USD'",
+              "enum": [
+                "AED",
+                "AFN",
+                "ALL",
+                "AMD",
+                "ANG",
+                "AOA",
+                "ARS",
+                "AUD",
+                "AWG",
+                "AZN",
+                "BAM",
+                "BBD",
+                "BDT",
+                "BGN",
+                "BHD",
+                "BIF",
+                "BMD",
+                "BND",
+                "BOB",
+                "BRL",
+                "BSD",
+                "BTC",
+                "BTN",
+                "BWP",
+                "BYN",
+                "BZD",
+                "CAD",
+                "CDF",
+                "CHF",
+                "CLF",
+                "CLP",
+                "CNY",
+                "COP",
+                "CRC",
+                "CUC",
+                "CUP",
+                "CVE",
+                "CZK",
+                "DJF",
+                "DKK",
+                "DOP",
+                "DZD",
+                "EEK",
+                "EGP",
+                "ERN",
+                "ETB",
+                "EUR",
+                "FJD",
+                "FKP",
+                "GBP",
+                "GEL",
+                "GGP",
+                "GHS",
+                "GIP",
+                "GMD",
+                "GNF",
+                "GTQ",
+                "GYD",
+                "HKD",
+                "HNL",
+                "HRK",
+                "HTG",
+                "HUF",
+                "IDR",
+                "ILS",
+                "IMP",
+                "INR",
+                "IQD",
+                "IRR",
+                "ISK",
+                "JEP",
+                "JMD",
+                "JOD",
+                "JPY",
+                "KES",
+                "KGS",
+                "KHR",
+                "KMF",
+                "KPW",
+                "KRW",
+                "KWD",
+                "KYD",
+                "KZT",
+                "LAK",
+                "LBP",
+                "LKR",
+                "LRD",
+                "LSL",
+                "LTL",
+                "LVL",
+                "LYD",
+                "MAD",
+                "MDL",
+                "MGA",
+                "MKD",
+                "MMK",
+                "MNT",
+                "MOP",
+                "MRO",
+                "MTL",
+                "MUR",
+                "MVR",
+                "MWK",
+                "MXN",
+                "MYR",
+                "MZN",
+                "NAD",
+                "NGN",
+                "NIO",
+                "NOK",
+                "NPR",
+                "NZD",
+                "OMR",
+                "PAB",
+                "PEN",
+                "PGK",
+                "PHP",
+                "PKR",
+                "PLN",
+                "PYG",
+                "QAR",
+                "QUN",
+                "RON",
+                "RSD",
+                "RUB",
+                "RWF",
+                "SAR",
+                "SBD",
+                "SCR",
+                "SDG",
+                "SEK",
+                "SGD",
+                "SHP",
+                "SLL",
+                "SOS",
+                "SRD",
+                "STD",
+                "SVC",
+                "SYP",
+                "SZL",
+                "THB",
+                "TJS",
+                "TMT",
+                "TND",
+                "TOP",
+                "TRY",
+                "TTD",
+                "TWD",
+                "TZS",
+                "UAH",
+                "UGX",
+                "USD",
+                "UYU",
+                "UZS",
+                "VEF",
+                "VND",
+                "VUV",
+                "WST",
+                "XAF",
+                "XCD",
+                "XOF",
+                "XPF",
+                "YER",
+                "ZAR",
+                "ZMK",
+                "ZMW",
+                "ZWL"
+              ]
+            },
+            "name": "currency",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string",
+                      "example": "List of itineraries with some metadata to be returned."
+                    },
+                    "content": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "object"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "array"
+                                },
+                                "description": {
+                                  "type": "string",
+                                  "example": "List of itineraries."
+                                },
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "example": "object"
+                                    },
+                                    "properties": {
+                                      "type": "object",
+                                      "properties": {
+                                        "cityFrom": {
+                                          "type": "string",
+                                          "example": "string"
+                                        },
+                                        "cityTo": {
+                                          "type": "string",
+                                          "example": "string"
+                                        },
+                                        "price": {
+                                          "type": "string",
+                                          "example": "number"
+                                        },
+                                        "local_arrival": {
+                                          "type": "string",
+                                          "example": "string"
+                                        },
+                                        "utc_arrival": {
+                                          "type": "string",
+                                          "example": "string"
+                                        },
+                                        "local_departure": {
+                                          "type": "string",
+                                          "example": "string"
+                                        },
+                                        "search_link": {
+                                          "type": "string",
+                                          "example": "string"
+                                        },
+                                        "duration": {
+                                          "type": "object",
+                                          "properties": {
+                                            "type": {
+                                              "type": "string",
+                                              "example": "object"
+                                            },
+                                            "description": {
+                                              "type": "string",
+                                              "example": "Represents the departure, return, and total time - all in seconds."
+                                            },
+                                            "properties": {
+                                              "type": "object",
+                                              "properties": {
+                                                "departure": {
+                                                  "type": "string",
+                                                  "example": "number"
+                                                },
+                                                "return": {
+                                                  "type": "string",
+                                                  "example": "number"
+                                                },
+                                                "total": {
+                                                  "type": "string",
+                                                  "example": "number"
+                                                }
+                                              },
+                                              "required": [
+                                                "departure",
+                                                "return",
+                                                "total"
+                                              ]
+                                            }
+                                          },
+                                          "required": [
+                                            "type",
+                                            "description",
+                                            "properties"
+                                          ]
+                                        },
+                                        "stopovers": {
+                                          "type": "object",
+                                          "properties": {
+                                            "type": {
+                                              "type": "string",
+                                              "example": "number"
+                                            },
+                                            "description": {
+                                              "type": "string",
+                                              "example": "Number of stopovers on the itinerary. 0 means direct flight."
+                                            }
+                                          },
+                                          "required": [
+                                            "type",
+                                            "description"
+                                          ]
+                                        }
+                                      },
+                                      "required": [
+                                        "cityFrom",
+                                        "cityTo",
+                                        "price",
+                                        "local_arrival",
+                                        "utc_arrival",
+                                        "local_departure",
+                                        "search_link",
+                                        "duration",
+                                        "stopovers"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "type",
+                                    "properties"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "description",
+                                "items"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "data"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "properties"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "description",
+                    "content"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get_Search"
+      }
+    }
+  }
+}

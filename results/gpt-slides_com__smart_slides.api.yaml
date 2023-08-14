@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  title: Presentation Plugin
+  description: A plugin that allows the user to create slides, presentations or powerpoints using ChatGPT. It allows you to say different things and it will return the right slides back as a URL link. You should share the link to the slides so the user can download them. You should imagine you are a mckinsey consultant who is very experienced at making slides. They should be concise yet informative. With the first slide the format is different so make sure you make the subheading not more than two lines. The other slides have a heading and some bullet points that can be more detailed but the bullet points should be concise. 
+  version: 'v1'
+servers:
+  - url: https://gpt-slides.com
+paths:
+  /presentation/link:
+    post:
+      operationId: getPresentationLink
+      summary: Get the download link for the presentation file
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/addPresentationRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/presentationLinkResponse'
+
+  /presentation/download/{presentation_id}:
+    get:
+      operationId: downloadPresentation
+      summary: Download the presentation file using a unique identifier
+      parameters:
+        - name: presentation_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/pptx:
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    addPresentationRequest:
+      type: object
+      required:
+        - slide_data
+        - user_id
+      properties:
+        user_id:
+          type: string
+          description: The user ID of the user who wants to create the presentation, use default if it is not available or use the userid that you have available in the chat
+        slide_data:
+          type: array
+          description: You need to pass in an object with slide_data then an array of objects in a json array with a heading (string), content (an array of points that will be mentioned on the slide)
+          items:
+            type: object
+            required:
+              - heading
+              - content
+            properties:
+              heading:
+                type: string
+              content: 
+                type: array
+                items:
+                  type: string
+    presentationLinkResponse:
+      type: object
+      properties:
+        download_link:
+          type: string

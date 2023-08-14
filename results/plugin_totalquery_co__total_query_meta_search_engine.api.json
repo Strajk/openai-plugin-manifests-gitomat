@@ -1,0 +1,285 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/search": {
+      "get": {
+        "operationId": "search",
+        "summary": "Search the internet for anything.",
+        "description": "Search the internet for news articles, blog posts, scientific papers, videos, images, Q&A sites and much more.",
+        "parameters": [
+          {
+            "name": "q",
+            "required": true,
+            "in": "query",
+            "description": "The search query.",
+            "example": "Why is vim still the best editor as of 2023",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "engines",
+            "required": false,
+            "in": "query",
+            "description": "A comma-separated list of search engines to use. Mandatory.",
+            "schema": {
+              "format": "comma-separated",
+              "type": "array",
+              "items": {
+                "enum": [
+                  "9gag",
+                  "annas archive",
+                  "apk mirror",
+                  "apple app store",
+                  "ahmia",
+                  "arch linux wiki",
+                  "archive is",
+                  "artic",
+                  "arxiv",
+                  "bandcamp",
+                  "wikipedia",
+                  "bing",
+                  "bing images",
+                  "bing news",
+                  "bing videos",
+                  "bitbucket",
+                  "btdigg",
+                  "ccc-tv",
+                  "openverse",
+                  "crossref",
+                  "crowdview",
+                  "yep",
+                  "curlie",
+                  "currency",
+                  "deezer",
+                  "deviantart",
+                  "ddg definitions",
+                  "docker hub",
+                  "erowid",
+                  "wikidata",
+                  "duckduckgo",
+                  "duckduckgo images",
+                  "duckduckgo weather",
+                  "apple maps",
+                  "emojipedia",
+                  "tineye",
+                  "etymonline",
+                  "1x",
+                  "fdroid",
+                  "flickr",
+                  "free software directory",
+                  "frinkiac",
+                  "genius",
+                  "gentoo",
+                  "gitlab",
+                  "github",
+                  "codeberg",
+                  "google",
+                  "google images",
+                  "google news",
+                  "google videos",
+                  "google scholar",
+                  "google play apps",
+                  "google play movies",
+                  "gpodder",
+                  "habrahabr",
+                  "hoogle",
+                  "imdb",
+                  "ina",
+                  "invidious",
+                  "jisho",
+                  "kickass",
+                  "library genesis",
+                  "z-library",
+                  "library of congress",
+                  "lingva",
+                  "lobste.rs",
+                  "azlyrics",
+                  "metacpan",
+                  "mixcloud",
+                  "npm",
+                  "nyaa",
+                  "mankier",
+                  "openairedatasets",
+                  "openairepublications",
+                  "openstreetmap",
+                  "openrepos",
+                  "packagist",
+                  "pdbe",
+                  "photon",
+                  "piped",
+                  "piped.music",
+                  "piratebay",
+                  "pub.dev",
+                  "pubmed",
+                  "pypi",
+                  "qwant",
+                  "qwant news",
+                  "qwant images",
+                  "qwant videos",
+                  "reddit",
+                  "sepiasearch",
+                  "soundcloud",
+                  "stackoverflow",
+                  "askubuntu",
+                  "superuser",
+                  "searchcode code",
+                  "framalibre",
+                  "semantic scholar",
+                  "startpage",
+                  "tokyotoshokan",
+                  "solidtorrents",
+                  "torch",
+                  "twitter",
+                  "unsplash",
+                  "yahoo",
+                  "yahoo news",
+                  "youtube",
+                  "dailymotion",
+                  "vimeo",
+                  "wiby",
+                  "alexandria",
+                  "wikibooks",
+                  "wikinews",
+                  "wikiquote",
+                  "wikisource",
+                  "wikispecies",
+                  "wiktionary",
+                  "wikiversity",
+                  "wikivoyage",
+                  "wolframalpha",
+                  "dictzone",
+                  "mymemory translated",
+                  "1337x",
+                  "duden",
+                  "seznam",
+                  "mojeek",
+                  "naver",
+                  "rubygems",
+                  "peertube",
+                  "mediathekviewweb",
+                  "rumble",
+                  "wordnik",
+                  "woxikon.de synonyme",
+                  "sjp.pwn",
+                  "wikimini",
+                  "wttr.in",
+                  "brave",
+                  "petalsearch",
+                  "petalsearch images",
+                  "lib.rs",
+                  "sourcehut",
+                  "goo",
+                  "bt4g"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/engines": {
+      "get": {
+        "operationId": "list_engines",
+        "summary": "Get a list of all the available search engines.",
+        "description": "Get a list of all the available search engines, categorized by type.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "TotalQuery Search",
+    "description": "TotalQuery Search description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "components": {
+    "schemas": {
+      "SearchResultDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the search result.",
+            "example": "Vim - the ubiquitous text editor"
+          },
+          "link": {
+            "type": "string",
+            "description": "The link to the search result.",
+            "example": "https://www.vim.org/"
+          },
+          "imageLink": {
+            "type": "string",
+            "description": "The link to the search result image, if applicable. Should be preferred over link that points to the web page itself.",
+            "example": "https://www.vim.org/images/vim_header.gif"
+          },
+          "thumbnailLink": {
+            "type": "string",
+            "description": "The link to the search result thumbnail. Should be displayed as a preview.",
+            "example": "https://i.ytimg.com/vi/d8XtNXutVto/hqdefault.jpg"
+          },
+          "duration": {
+            "type": "string",
+            "description": "The duration of the search result, if applicable.",
+            "example": "1:07:19"
+          },
+          "textContent": {
+            "type": "string",
+            "description": "The curated search result content as plain text.",
+            "example": "Vim is a highly configurable text editor built to enable efficient text editing. It is an improved version of the vi editor distributed with most UNIX systems. Vim is distributed free as charityware."
+          }
+        },
+        "required": [
+          "title",
+          "link"
+        ]
+      },
+      "SearchResponseDto": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "description": "The search results that match the given query.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchResultDto"
+            }
+          }
+        },
+        "required": [
+          "results"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://plugin.totalquery.co"
+    }
+  ]
+}

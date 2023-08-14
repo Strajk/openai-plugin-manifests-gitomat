@@ -1,0 +1,90 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "A+QuickVoice API",
+    "description": "API for converting text into an audio file."
+  },
+  "paths": {
+    "/api/convert": {
+      "get": {
+        "operationId": "generateAudio",
+        "summary": "Convert text to audio",
+        "description": "Converts the provided text into an audio file based on the specified language and gender.",
+        "parameters": [
+          {
+            "name": "text",
+            "in": "query",
+            "description": "Text to be converted into audio.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language to use for voice generation in ISO format.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z]{2}-[A-Z]{2}$"
+            }
+          },
+          {
+            "name": "speaker",
+            "in": "query",
+            "description": "Voice to be used for file generation (male or female).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "male",
+                "female"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful conversion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "URL where the generated file will be available."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://voice.quick-url.com"
+    }
+  ]
+}

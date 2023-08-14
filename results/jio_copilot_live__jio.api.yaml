@@ -1,0 +1,658 @@
+openapi: 3.0.1
+info:
+  title: >-
+    Explore TiraBeauty, JioCinema, JioMart, and JioFiber in one go. Shop,
+    stream, and surf with ease!
+  description: >-
+    Introducing an all-encompassing tool, designed to seamlessly interact with
+    TiraBeauty, JioCinema, JioMart, and JioFiber, catering to multiple facets of
+    your digital lifestyle.
+
+    Our JioMart integration simplifies your online shopping journey, providing a
+    wide selection of products, from clothing and electronics to grocery items,
+    all in one convenient location. JioMart can help to buy ingredients from
+    recipes.
+
+    With TiraBeauty functionality, you can explore a wide array of health and
+    beauty products, effortlessly manage your shopping cart, and share your cart
+    selections via a QR code within the ecosystem of www.tirabeauty.com - your
+    comprehensive ecommerce destination for beauty products and accessories.
+
+    The JioCinema feature takes you on an immersive streaming adventure,
+    offering access to a diverse range of television shows, movies, sports
+    content, and much more. Easily search and stream content to match your mood,
+    directly from this interface.
+
+    Finally, the JioFiber functionality empowers you to navigate through a range
+    of lightning-fast internet and data plans from this leading broadband
+    service provider. Explore and choose from a comprehensive list of prepaid
+    and postpaid plans to meet your connectivity needs.
+
+    Equip yourself with this multifunctional tool and experience a streamlined,
+    efficient digital experience across a variety of platforms.
+  version: v1
+servers:
+  - url: https://jio.copilot.live/v1
+paths:
+  /jiomart/products:
+    get:
+      tags:
+        - jiomart
+        - products
+      operationId: jioMartProductsSearch
+      summary: Product Search for JioMart Marketplace
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: product search query
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+          required: false
+          description: page size for products per page.
+        - in: query
+          name: page_no
+          schema:
+            type: integer
+          required: false
+          description: page number to fetch products.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JioMartProductsResponse'
+  /tira/products:
+    get:
+      tags:
+        - tira
+        - search
+      operationId: tiraProductsSearch
+      summary: Product Search for TiraBeauty Marketplace
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: search query.
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+          required: false
+          description: page size for products per page.
+        - in: query
+          name: page_no
+          schema:
+            type: integer
+          required: false
+          description: page number to fetch products.
+        - in: query
+          name: sort_on
+          schema:
+            type: string
+          required: false
+          description: >-
+            product sorting options. default option is `relevance`. to fetch
+            latest products use `latest`. to fetch by populatity use `popular`.
+            to sort by lowest price use `price_asc`. to sort by highest price
+            use `price_dsc`. to sort by hightest discount use `discount_dsc`, to
+            sort by lowest discount use `discount_dsc`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productsSearchResponse'
+  /tira/cart:
+    get:
+      tags:
+        - tira
+        - cart
+      operationId: tiraGetCart
+      summary: >-
+        Retrieve the cart with items, a sharable cart Link, and a QR code PNG
+        image link from TiraBeauty. Always render Cart QR code image.
+      responses:
+        '200':
+          description: Cart fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCartResponse'
+        '400':
+          description: Bad Request
+    post:
+      tags:
+        - tira
+        - cart
+      operationId: tiraAddItemsToCart
+      summary: >-
+        Add items to the cart on TiraBeauty. Quantity, size, and uid are
+        required fields for all items. Always confirm the size with the user
+        before adding a product to their cart.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddItemsToCartRequest'
+      responses:
+        '200':
+          description: Product has been added to your bag
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddItemsToCartResponse'
+        '400':
+          description: Bad Request
+    put:
+      tags:
+        - tira
+        - cart
+      operationId: tiraUpdateCartItem
+      summary: >-
+        Update existing items in the cart on TiraBeauty. Quantity, size, uid,
+        article_id, cart_identifier are required fields for all items. This
+        operation cannot remove any items from the cart. Zero quantity for any
+        items is not allowed. This only updates item quantities.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCartItemsRequest'
+      responses:
+        '200':
+          description: Items successfully updated in the cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCartItemsResponse'
+        '400':
+          description: Bad Request
+  /tira/cart/remove:
+    post:
+      tags:
+        - tira
+        - cart
+        - remove
+      operationId: tiraDeleteCartItem
+      summary: >-
+        delete items from the cart on TiraBeauty. Size, uid, article_id,
+        cart_identifier are required fields for all items. This operation will
+        remove the selected items from the cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCartItemsRequest'
+      responses:
+        '200':
+          description: Item removed from bag
+        '400':
+          description: Bad Request
+  /jiofiber/plans:
+    get:
+      tags:
+        - jiofiber
+        - plans
+      operationId: getJioFiberPlans
+      summary: get all postpaid or pospaid plans with the feature list
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: plan type `prepaid` or `postpaid`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JioFiberPlansResponse'
+  /jiocinema:
+    get:
+      tags:
+        - jiocinema
+        - movies
+        - shows
+        - ott
+      operationId: getJioCinemaMedia
+      summary: get movies, shows, sports etc from jiocinema
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: movies, shows and more search query
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+          required: false
+          description: page size for products per page.
+        - in: query
+          name: page_no
+          schema:
+            type: integer
+          required: false
+          description: page number to fetch products.
+        - in: query
+          name: mediaType
+          schema:
+            type: string
+          required: false
+          description: Media type such as MOVIE,EPISODE,SHOW,LIVECHANNEL,SHOW,CAC etc.
+        - in: query
+          name: languages
+          schema:
+            type: string
+          required: false
+          description: Languages of the media.
+        - in: query
+          name: genres
+          schema:
+            type: string
+          required: false
+          description: Genres of the media.
+        - in: query
+          name: releaseYear
+          schema:
+            type: integer
+          required: false
+          description: The release year of the media.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JioCinemaResponse'
+components:
+  schemas:
+    product:
+      type: object
+      properties:
+        uid:
+          type: integer
+          description: unique ID of the product.
+        name:
+          type: string
+          description: name of the product.
+        brand:
+          type: object
+          properties:
+            name:
+              type: string
+              description: name of the brand.
+            logo:
+              type: string
+              description: URL of the brand logo.
+        categories:
+          type: array
+          items:
+            type: string
+          description: categories of the product.
+        price:
+          type: integer
+          description: price of the product.
+        discount:
+          type: string
+          description: discount on the product.
+        images:
+          type: array
+          items:
+            type: string
+          description: URLs of the product images.
+        url:
+          type: string
+          description: URL of the product.
+        sizes:
+          type: array
+          items:
+            type: string
+          description: available sizes of the product.
+    productsSearchResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/product'
+          description: list of products.
+        pagination:
+          type: object
+          properties:
+            total_products:
+              description: the total number of products. for the search query.
+            total_pages:
+              description: the total number of pages.
+            page_no:
+              description: the requested page number
+            page_size:
+              description: the requested page size
+          description: pagination details
+    AddItemsToCartRequest:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+    AddItemsToCartResponse:
+      type: object
+      properties:
+        cart_id:
+          type: string
+          description: ID of the cart
+        message:
+          type: string
+          description: status of the request
+        cart_items:
+          type: array
+          description: list of added cart items
+          items:
+            $ref: '#/components/schemas/CartItem'
+    DeleteCartItemsRequest:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeleteCartItem'
+    UpdateCartItemsRequest:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateCartItem'
+    UpdateCartItemsResponse:
+      type: object
+      properties:
+        cart_id:
+          type: string
+          description: ID of the cart
+        message:
+          type: string
+          description: status of the request
+    CartItem:
+      type: object
+      required:
+        - uid
+        - size
+        - quantity
+      properties:
+        uid:
+          type: integer
+          description: ID of the product to be added to the cart
+        size:
+          type: string
+          description: size of the product to be added from product sizes
+        quantity:
+          type: integer
+          description: quantity of the item to be added
+        article_id:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+        cart_identifier:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+    UpdateCartItem:
+      type: object
+      required:
+        - uid
+        - size
+        - quantity
+        - article_id
+        - cart_identifier
+      properties:
+        uid:
+          type: integer
+          description: ID of the product to be added to the cart
+        size:
+          type: string
+          description: size of the product to be added from product sizes
+        quantity:
+          type: integer
+          description: quantity of the item to be added
+        article_id:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+        cart_identifier:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+    DeleteCartItem:
+      type: object
+      required:
+        - uid
+        - quantity
+        - article_id
+        - cart_identifier
+      properties:
+        uid:
+          type: integer
+          description: ID of the product to be added to the cart
+        size:
+          type: string
+          description: size of the product to be added from product sizes
+        article_id:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+        cart_identifier:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+    GetCartResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+          properties:
+            uid:
+              type: integer
+              description: unique ID of the product.
+            cart_id:
+              type: integer
+              description: cart id.
+            name:
+              type: string
+              description: name of the product.
+            brand:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: name of the brand.
+            price:
+              type: integer
+              description: price of the product.
+            discount:
+              type: string
+              description: discount on the product.
+            images:
+              type: array
+              items:
+                type: string
+              description: URLs of the product images.
+            size:
+              type: string
+              description: URL of the product.
+        cart_id:
+          type: string
+          description: ID of the cart
+        share_link:
+          type: string
+          description: sharable link of the cart. This can be used to generate a QR Code.
+        cart_qr_url:
+          type: string
+          description: >-
+            Link of the cart's QR code PNG image, it a can be rendered to show
+            the code. This link returns the PNG image. Render this link always
+            if cart is not empty. Whenever a user asks for their QR code, render
+            this image.
+        cart_items:
+          type: array
+          description: list of added cart items
+          items:
+            $ref: '#/components/schemas/UpdateCartItem'
+    JioFiberPlansResponse:
+      type: object
+      properties:
+        plans:
+          type: array
+          description: list of jio fiber plans.
+          items:
+            $ref: '#/components/schemas/JioFiberPlans'
+    JioFiberPlans:
+      type: object
+      properties:
+        category:
+          type: string
+          description: plan category. also known as plan duration
+        sub_categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/JioFiberPlanSubCategory'
+          description: plan sub-categories list
+    JioFiberPlanSubCategory:
+      type: object
+      properties:
+        category:
+          type: string
+          description: plan sub category name. also known as plan speed
+        description:
+          type: string
+          description: detailed description about the broadband plan
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/JioFiberPlanFeatures'
+          description: plan sub-categories features list
+    JioFiberPlanFeatures:
+      type: object
+      properties:
+        header:
+          type: string
+          description: feature title name
+        value:
+          type: string
+          description: feature description/details
+    JioMartProductsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          description: list of products from jiomart.
+          items:
+            $ref: '#/components/schemas/JioMartProduct'
+        pagination:
+          type: object
+          properties:
+            total_products:
+              description: the total number of products. for the search query.
+            total_pages:
+              description: the total number of pages.
+            page_no:
+              description: the requested page number
+            page_size:
+              description: the requested page size
+          description: pagination details
+    JioMartProduct:
+      type: object
+      properties:
+        slug:
+          description: product url.
+        image:
+          description: product image.
+        price:
+          description: average selling price.
+        name:
+          type: string
+          description: product name
+        brand:
+          type: string
+          description: brand name
+        id:
+          type: integer
+          description: product id
+        categories:
+          type: array
+          items:
+            type: string
+          description: categories of the product.
+      description: jiomart product details
+    JioCinemaResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          description: list of movies, shows, more from jiocinema.
+          items:
+            $ref: '#/components/schemas/JioCinemaItem'
+        pagination:
+          type: object
+          properties:
+            total_items:
+              description: the total number of items. for the search query.
+            total_pages:
+              description: the total number of pages.
+            page_no:
+              description: the requested page number
+            page_size:
+              description: the requested page size
+          description: pagination details
+    JioCinemaItem:
+      type: object
+      properties:
+        slug:
+          description: movie,show, etc url.
+        image:
+          description: product image.
+        name:
+          type: string
+          description: movie, show name
+        share_link:
+          type: string
+          description: shareable link
+        id:
+          type: string
+          description: product id
+        media_type:
+          type: string
+          description: type of media. movie, show, sport, live etc
+        description:
+          type: string
+          description: short synopsis.
+      description: OTT details

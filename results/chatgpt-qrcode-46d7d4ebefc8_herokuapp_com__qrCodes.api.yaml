@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: QR Code
+  description: A plugin that generates a QR code for a URL.".
+  version: 'v1'
+servers:
+  - url: https://chatgpt-qrcode-46d7d4ebefc8.herokuapp.com
+paths:
+  /qrCode:
+    post:
+      operationId: qrCode
+      summary: Generate a QR code
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: The URL to generate a QR code from.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getQRResponse'
+components:
+  schemas:
+    getQRResponse:
+      type: object
+      properties:
+        qrCode:
+          type: array
+          items:
+            type: string
+          description: The string of qr.

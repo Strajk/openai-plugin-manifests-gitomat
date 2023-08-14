@@ -1,0 +1,32 @@
+openapi: 3.0.1
+info:
+  title: LegalQA Plugin
+  description: A plugin answers any inquiries related to Chinese law in any languages.
+  version: 'v1'
+servers:
+  - url: https://legal-qa-chatgpt-prod.azurewebsites.net
+paths:
+  /answer/{inquiry}:
+    get:
+      operationId: answerInquiry
+      summary: Answer Chinese law inquiries.
+      parameters:
+      - in: path
+        name: inquiry
+        schema:
+            type: string
+        required: true
+        description: The user's inquiry.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/answerInquiryResponse'
+
+components:
+  schemas:
+    answerInquiryResponse:
+      type: string
+      description: The response to the user's inquiry.

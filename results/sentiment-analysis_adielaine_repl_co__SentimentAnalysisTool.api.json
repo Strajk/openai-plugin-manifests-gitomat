@@ -1,0 +1,196 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Sentiment Analysis Tool",
+    "description": "A tool that allows the user to perform sentiment analysis on text using logical tools.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://sentiment-analysis.adielaine.repl.co"
+    }
+  ],
+  "paths": {
+    "/analyze": {
+      "post": {
+        "operationId": "analyzeText",
+        "summary": "Perform sentiment analysis on the provided text and provide detailed feedback",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/analyzeTextRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/analyzeTextResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sentiment": {
+      "get": {
+        "operationId": "getSentiment",
+        "summary": "Get the sentiment analysis results",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getSentimentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteSentiment",
+        "summary": "Delete a sentiment analysis result",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/deleteSentimentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/instructions": {
+      "get": {
+        "operationId": "getInstructions",
+        "summary": "Get instructions on how to use the API",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getInstructionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/score": {
+      "post": {
+        "operationId": "getScore",
+        "summary": "Returns the sentiment score of a given text",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/analyzeTextRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/analyzeTextResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "analyzeTextRequest": {
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text to perform sentiment analysis on."
+          }
+        }
+      },
+      "analyzeTextResponse": {
+        "type": "object",
+        "properties": {
+          "sentiment_scores": {
+            "type": "object",
+            "description": "The sentiment scores of the text."
+          },
+          "sentiment_analysis_result": {
+            "type": "string",
+            "description": "The detailed sentiment analysis result."
+          }
+        }
+      },
+      "getSentimentResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "sentiment_scores": {
+              "type": "object",
+              "description": "The sentiment scores of the text."
+            },
+            "sentiment_analysis_result": {
+              "type": "string",
+              "description": "The detailed sentiment analysis result."
+            }
+          }
+        }
+      },
+      "deleteSentimentRequest": {
+        "type": "object",
+        "required": [
+          "sentiment_idx"
+        ],
+        "properties": {
+          "sentiment_idx": {
+            "type": "integer",
+            "description": "The index of the sentiment analysis result to delete."
+          }
+        }
+      },
+      "getInstructionsResponse": {
+        "type": "object",
+        "properties": {
+          "commands": {
+            "type": "object",
+            "description": "Commands to interact with the API."
+          },
+          "examples": {
+            "type": "object",
+            "description": "Examples of how to use the commands."
+          }
+        }
+      }
+    }
+  }
+}

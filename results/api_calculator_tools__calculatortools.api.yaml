@@ -1,0 +1,47 @@
+openapi: 3.0.1
+info:
+  title: Calculator Tools
+  description: Create any simple app, calculator, tool, tracker, or game instantly using AI.
+  version: 'v1'
+servers:
+  - url: https://api.calculator.tools/
+paths:
+  /openai/create/:
+    post:
+      operationId: create
+      summary: Create the simple app from a very detailed description prompt.
+      description: Take complete HTML for a working single page web application and upload it online instantly.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                html:
+                  type: string
+                  description: The complete single page web app code to be created including HTML title, meta description, and meta keywords.
+              required:
+                - html
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getCreateResponse'
+components:
+  schemas:
+    getCreateResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the new app.
+        url:
+          type: string
+          description: The url of the app.
+        time_estimate:
+          type: int
+          description: The estimated time to complete the app in seconds.
+        

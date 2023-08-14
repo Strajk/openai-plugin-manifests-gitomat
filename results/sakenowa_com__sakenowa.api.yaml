@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sakenowa</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,shrink-to-fit=no,viewport-fit=cover">
+    <meta name="apple-itunes-app" content="app-id=725541484"/>
+    <meta name="theme-color" content="#451e6f">
+    <meta name="twitter:site" content="@sakenowaapp"/>
+    <meta property="og:site_name" content="さけのわ" />
+    <meta property="fb:app_id" content="264142450390307"/>
+    <meta name="prerender-status-code" content="404">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" sizes="128x128" href="/icons/Icon-128.png">
+    <link rel="apple-touch-icon" sizes="256x256" href="/icons/Icon-256.png">
+    <link rel="apple-touch-icon" sizes="384x384" href="/icons/Icon-384.png">
+    <meta name="apple-mobile-web-app-capable" content="true">
+    <script src="https://use.fontawesome.com/a9f13d6477.js"></script>
+    <style>
+        body > div {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        body > div > a {
+            font-size: 24px;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div>
+<h1><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>404 NOT FOUND</h1>
+<a href="https://sakenowa.com">Top</a>
+</div>
+</body>
+</html>

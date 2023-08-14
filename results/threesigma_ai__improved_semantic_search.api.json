@@ -1,0 +1,213 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Three Sigma Plugin OpenAPI schema",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/plugin/documents": {
+      "post": {
+        "summary": "List documents with an optional search_query parameter.",
+        "operationId": "list_documents_documents_post",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Search Query",
+              "type": "string"
+            },
+            "name": "search_query",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response List Documents Documents Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/plugin/document/completion": {
+      "post": {
+        "summary": "Answer a question about a document. 'search_query' is a query to search documents on or a document_id",
+        "operationId": "public_document_completion_document_completion_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginDocumentPromptRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Public Document Completion Document Completion Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/plugin/tutorial": {
+      "get": {
+        "summary": "Explain how to use the Three Sigma plugin.",
+        "operationId": "tutorial_tutorial_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Tutorial Tutorial Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plugin/openapi": {
+      "get": {
+        "summary": "Get Openapi Schema",
+        "operationId": "get_openapi_schema_openapi_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Openapi Schema Openapi Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "PluginDocumentPromptRequest": {
+        "title": "PluginDocumentPromptRequest",
+        "required": [
+          "user_prompt",
+          "search_query"
+        ],
+        "type": "object",
+        "properties": {
+          "user_prompt": {
+            "title": "User Prompt",
+            "maxLength": 4000,
+            "type": "string"
+          },
+          "search_query": {
+            "title": "Search Query",
+            "type": "string"
+          }
+        },
+        "description": "Search query is a query to search documents on or a document_id."
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/login/access-token"
+          }
+        }
+      }
+    }
+  }
+}

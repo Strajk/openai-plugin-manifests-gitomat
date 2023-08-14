@@ -1,0 +1,97 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getAppConfig",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generate-image": {
+      "post": {
+        "operationId": "GeneratorController_generateImage",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateImageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "nest9-boilerplate",
+    "description": "nest9-boilerplate API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "components": {
+    "schemas": {
+      "GenerateImageDto": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "artStyle": {
+            "type": "string",
+            "enum": [
+              "general",
+              "realistic",
+              "anime",
+              "emoji",
+              "paper",
+              "voxel",
+              "steampunk",
+              "cyberpunk",
+              "texture",
+              "vector",
+              "futuristic",
+              "fantasy"
+            ]
+          },
+          "width": {
+            "type": "number",
+            "minimum": 320,
+            "maximum": 1024
+          },
+          "height": {
+            "type": "number",
+            "minimum": 320,
+            "maximum": 1024
+          },
+          "negativePrompt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "prompt",
+          "artStyle"
+        ]
+      }
+    }
+  }
+}

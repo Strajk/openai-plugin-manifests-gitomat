@@ -1,0 +1,831 @@
+components:
+  schemas:
+    AnniversaryRings:
+      properties:
+        style:
+          anyOf:
+          - enum:
+            - Anniversary
+            type: string
+          - enum:
+            - Eternity
+            type: string
+          - enum:
+            - All Styles
+            type: string
+          default: All Styles
+          title: Style
+        type:
+          enum:
+          - ring
+          title: Type
+          type: string
+      required:
+      - type
+      title: AnniversaryRings
+      type: object
+    Bracelets:
+      properties:
+        style:
+          anyOf:
+          - enum:
+            - Tennis
+            type: string
+          - enum:
+            - Bangle
+            type: string
+          - enum:
+            - Fashion
+            type: string
+          - enum:
+            - Chain
+            type: string
+          - enum:
+            - All Styles
+            type: string
+          default: All Styles
+          title: Style
+        type:
+          enum:
+          - bracelet
+          title: Type
+          type: string
+      required:
+      - type
+      title: Bracelets
+      type: object
+    Clarity:
+      properties:
+        name:
+          title: Name
+          type: string
+      required:
+      - name
+      title: Clarity
+      type: object
+    ClarityEnum:
+      description: An enumeration.
+      enum:
+      - FL
+      - IF
+      - VVS1
+      - VVS2
+      - VS1
+      - VS2
+      - SI1
+      - SI2
+      - I1
+      - I2
+      title: ClarityEnum
+      type: string
+    Color:
+      properties:
+        name:
+          title: Name
+          type: string
+      required:
+      - name
+      title: Color
+      type: object
+    ColorEnum:
+      description: An enumeration.
+      enum:
+      - D
+      - E
+      - F
+      - G
+      - H
+      - I
+      - J
+      - K
+      - L
+      - M
+      - N
+      title: ColorEnum
+      type: string
+    Cut:
+      properties:
+        name:
+          title: Name
+          type: string
+      required:
+      - name
+      title: Cut
+      type: object
+    CutEnum:
+      description: An enumeration.
+      enum:
+      - Ideal
+      - Excellent
+      - Very Good
+      - Good
+      - Fair
+      - Poor
+      title: CutEnum
+      type: string
+    Diamond:
+      properties:
+        description:
+          title: Description
+          type: string
+        media:
+          $ref: '#/components/schemas/Media'
+        price:
+          title: Price
+          type: integer
+        stone:
+          $ref: '#/components/schemas/Stone'
+        title:
+          title: Title
+          type: string
+        url:
+          title: Url
+          type: string
+      required:
+      - title
+      - description
+      - price
+      - url
+      - media
+      - stone
+      title: Diamond
+      type: object
+    DiamondSort:
+      description: An enumeration.
+      enum:
+      - BestMatch
+      - PriceAsc
+      - PriceDesc
+      - CaratDesc
+      - CutDesc
+      - ClarityDesc
+      - Soonest
+      title: DiamondSort
+      type: string
+    Earrings:
+      properties:
+        style:
+          anyOf:
+          - enum:
+            - Stud
+            type: string
+          - enum:
+            - Hoop
+            type: string
+          - enum:
+            - Drop/Dangle
+            type: string
+          - enum:
+            - Halo
+            type: string
+          - enum:
+            - All Styles
+            type: string
+          default: All Styles
+          title: Style
+        type:
+          enum:
+          - earring
+          title: Type
+          type: string
+      required:
+      - type
+      title: Earrings
+      type: object
+    EngagementRing:
+      properties:
+        style:
+          anyOf:
+          - enum:
+            - Solitaire
+            type: string
+          - enum:
+            - "Pav\xE9"
+            type: string
+          - enum:
+            - Channel Set
+            type: string
+          - enum:
+            - Side-Stone
+            type: string
+          - enum:
+            - Three Stone
+            type: string
+          - enum:
+            - Tension
+            type: string
+          - enum:
+            - Vintage
+            type: string
+          - enum:
+            - Halo
+            type: string
+          - enum:
+            - All Styles
+            type: string
+          default: All Styles
+          title: Style
+        type:
+          enum:
+          - engagement_ring
+          title: Type
+          type: string
+      required:
+      - type
+      title: EngagementRing
+      type: object
+    FloatRange:
+      properties:
+        high:
+          title: High
+          type: number
+        low:
+          default: 1.0
+          title: Low
+          type: number
+      title: FloatRange
+      type: object
+    FlourescenceEnum:
+      description: An enumeration.
+      enum:
+      - None
+      - Faint
+      - Medium
+      - Strong
+      title: FlourescenceEnum
+      type: string
+    FourCs:
+      properties:
+        carat:
+          anyOf:
+          - $ref: '#/components/schemas/FloatRange'
+          - type: number
+          default:
+            high: null
+            low: null
+          title: Carat
+        clarity:
+          anyOf:
+          - $ref: '#/components/schemas/Range'
+          - $ref: '#/components/schemas/ClarityEnum'
+          default:
+            high: null
+            low: null
+          title: Clarity
+        color:
+          anyOf:
+          - $ref: '#/components/schemas/Range'
+          - $ref: '#/components/schemas/ColorEnum'
+          default:
+            high: null
+            low: null
+          title: Color
+        cut:
+          anyOf:
+          - $ref: '#/components/schemas/Range'
+          - $ref: '#/components/schemas/CutEnum'
+          default:
+            high: null
+            low: null
+          title: Cut
+      title: FourCs
+      type: object
+    FullName:
+      properties:
+        fullName:
+          title: Fullname
+          type: string
+      required:
+      - fullName
+      title: FullName
+      type: object
+    GemstoneTypes:
+      description: An enumeration.
+      enum:
+      - Blue Sapphire
+      - Ruby
+      - Green Emerald
+      - Diamond
+      - Rough Diamond
+      - Gemstone
+      - Pink Sapphire
+      - Yellow Sapphire
+      - Orange Sapphire
+      - Green Sapphire
+      - Garnet
+      - Amethyst
+      - Aquamarine
+      - Peridot
+      - Opal
+      title: GemstoneTypes
+      type: string
+    JewelSort:
+      description: An enumeration.
+      enum:
+      - PriceAsc
+      - PriceDesc
+      title: JewelSort
+      type: string
+    Jewelry:
+      properties:
+        bs:
+          title: Bs
+          type: boolean
+        description:
+          title: Description
+          type: string
+        media:
+          $ref: '#/components/schemas/Media'
+        price:
+          title: Price
+          type: number
+        productType:
+          title: Producttype
+          type: string
+        salePrice:
+          title: Saleprice
+          type: number
+        sku:
+          title: Sku
+          type: string
+        sold_count:
+          title: Sold Count
+          type: integer
+        title:
+          title: Title
+          type: string
+        url:
+          title: Url
+          type: string
+      required:
+      - sku
+      - productType
+      - title
+      - description
+      - url
+      - media
+      title: Jewelry
+      type: object
+    LabEnum:
+      description: An enumeration.
+      enum:
+      - AGS
+      - GIA
+      - IGI
+      - EGL
+      - GSI
+      - HRD
+      - EGS
+      - IGL
+      - DGI
+      title: LabEnum
+      type: string
+    Media:
+      properties:
+        gallery:
+          title: Gallery
+          type: string
+        stage:
+          title: Stage
+          type: string
+        thumb:
+          title: Thumb
+          type: string
+      title: Media
+      type: object
+    Name:
+      properties:
+        name:
+          title: Name
+          type: string
+      required:
+      - name
+      title: Name
+      type: object
+    Necklaces:
+      properties:
+        style:
+          anyOf:
+          - enum:
+            - Pendant
+            type: string
+          - enum:
+            - Letters
+            type: string
+          - enum:
+            - Bar
+            type: string
+          - enum:
+            - Chain
+            type: string
+          - enum:
+            - All Styles
+            type: string
+          default: All Styles
+          title: Style
+        type:
+          enum:
+          - necklace
+          title: Type
+          type: string
+      required:
+      - type
+      title: Necklaces
+      type: object
+    PolishEnum:
+      description: An enumeration.
+      enum:
+      - Ideal
+      - Excellent
+      - Very Good
+      - Good
+      - Fair
+      - Poor
+      title: PolishEnum
+      type: string
+    PublicMetalTypes:
+      description: An enumeration.
+      enum:
+      - White Gold
+      - Yellow Gold
+      - Rose Gold
+      - Platinum
+      title: PublicMetalTypes
+      type: string
+    Range:
+      properties:
+        high:
+          title: High
+        low:
+          default: 1
+          title: Low
+      title: Range
+      type: object
+    Shape:
+      properties:
+        name:
+          title: Name
+          type: string
+      required:
+      - name
+      title: Shape
+      type: object
+    ShapeEnum:
+      description: An enumeration.
+      enum:
+      - round
+      - princess
+      - radiant
+      - emerald
+      - marquise
+      - oval
+      - pear
+      - heart
+      - asscher
+      - cushion
+      title: ShapeEnum
+      type: string
+    Stone:
+      properties:
+        carat:
+          title: Carat
+          type: number
+        clarity:
+          $ref: '#/components/schemas/Clarity'
+        color:
+          $ref: '#/components/schemas/Color'
+        cut:
+          $ref: '#/components/schemas/Cut'
+        depth:
+          title: Depth
+          type: number
+        isLabDiamond:
+          title: Islabdiamond
+          type: boolean
+        lab:
+          $ref: '#/components/schemas/Name'
+        lab2:
+          $ref: '#/components/schemas/Name'
+        measurements:
+          title: Measurements
+          type: string
+        polish:
+          $ref: '#/components/schemas/FullName'
+        shape:
+          $ref: '#/components/schemas/Shape'
+        symmetry:
+          $ref: '#/components/schemas/FullName'
+        tableSize:
+          title: Tablesize
+          type: number
+      required:
+      - measurements
+      - isLabDiamond
+      - carat
+      - shape
+      - color
+      - cut
+      - clarity
+      - lab
+      - lab2
+      - polish
+      - symmetry
+      - tableSize
+      - depth
+      title: Stone
+      type: object
+    SymmetryEnum:
+      description: An enumeration.
+      enum:
+      - Ideal
+      - Excellent
+      - Very Good
+      - Good
+      - Fair
+      - Poor
+      title: SymmetryEnum
+      type: string
+    WeddingRingsMen:
+      properties:
+        gender:
+          enum:
+          - men
+          title: Gender
+          type: string
+        style:
+          anyOf:
+          - enum:
+            - Classic
+            type: string
+          - enum:
+            - Diamond
+            type: string
+          - enum:
+            - Carved
+            type: string
+          - enum:
+            - Band
+            type: string
+          - enum:
+            - Alternative
+            type: string
+          - enum:
+            - All Styles
+            type: string
+          default: All Styles
+          title: Style
+        type:
+          enum:
+          - wedding_ring
+          title: Type
+          type: string
+      required:
+      - type
+      - gender
+      title: WeddingRingsMen
+      type: object
+    WeddingRingsWomen:
+      properties:
+        gender:
+          enum:
+          - women
+          title: Gender
+          type: string
+        style:
+          anyOf:
+          - enum:
+            - Classic
+            type: string
+          - enum:
+            - Diamond
+            type: string
+          - enum:
+            - All Styles
+            type: string
+          default: All Styles
+          title: Style
+        type:
+          enum:
+          - wedding_ring
+          title: Type
+          type: string
+      required:
+      - type
+      - gender
+      title: WeddingRingsWomen
+      type: object
+info:
+  title: plugin.main
+  version: 0.1.0
+openapi: 3.0.3
+paths:
+  /diamonds:
+    post:
+      description: ''
+      operationId: get_diamonds
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                adv_certificate:
+                  default: []
+                  items:
+                    $ref: '#/components/schemas/LabEnum'
+                  type: array
+                adv_depth:
+                  $ref: '#/components/schemas/FloatRange'
+                adv_flourescence:
+                  allOf:
+                  - $ref: '#/components/schemas/FlourescenceEnum'
+                  default: None
+                adv_polish:
+                  default: []
+                  items:
+                    $ref: '#/components/schemas/PolishEnum'
+                  type: array
+                adv_symmetry:
+                  default: []
+                  items:
+                    $ref: '#/components/schemas/SymmetryEnum'
+                  type: array
+                adv_table:
+                  $ref: '#/components/schemas/FloatRange'
+                extra_context:
+                  title: Extra Context
+                  type: string
+                fourCs:
+                  allOf:
+                  - $ref: '#/components/schemas/FourCs'
+                  default:
+                    carat:
+                      high: null
+                      low: null
+                    clarity:
+                      high: SI1
+                      low: null
+                    color:
+                      high: H
+                      low: null
+                    cut:
+                      high: null
+                      low: Excellent
+                  title: Fourcs
+                isLabDiamond:
+                  default: false
+                  title: Islabdiamond
+                  type: boolean
+                page:
+                  default: 1
+                  title: Page
+                  type: integer
+                price:
+                  title: Price
+                  type: integer
+                shape:
+                  $ref: '#/components/schemas/ShapeEnum'
+                sort:
+                  allOf:
+                  - $ref: '#/components/schemas/DiamondSort'
+                  default: PriceDesc
+              required:
+              - extra_context
+              title: DiamondRequest
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  diamonds:
+                    items:
+                      $ref: '#/components/schemas/Diamond'
+                    title: Diamonds
+                    type: array
+                  num_results:
+                    title: Num Results
+                    type: integer
+                required:
+                - diamonds
+                - num_results
+                title: DiamondResult
+                type: object
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    title: Error
+                    type: string
+                required:
+                - error
+                title: ErrorResult
+                type: object
+          description: ''
+      summary: Get diamonds from JamesAllen.com. When user asks about diamonds, ALWAYS
+        ask them for 1. Price and 2. Shape. The rest of the params are optional. When
+        listing them, list price and shape first. Then describe the other relevant
+        ones in one paragraph. Always ask for price. Always provide context.
+  /internal-docs:
+    get:
+      description: ''
+      operationId: search_internal_docs
+      parameters:
+      - in: query
+        name: question
+        schema:
+          title: Question
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  sources:
+                    items:
+                      type: string
+                    title: Sources
+                    type: array
+                required:
+                - sources
+                title: InternalDocsResponse
+                type: object
+          description: ''
+      summary: Search the JamesAllen.com internal docs for up-to-date responses to
+        a query. Use this tool for any questions related to JamesAllen. Be brief in
+        your answer.
+  /jewelry:
+    post:
+      description: ''
+      operationId: get_jewelry
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                extra_context:
+                  title: Extra Context
+                  type: string
+                gemstone:
+                  items:
+                    $ref: '#/components/schemas/GemstoneTypes'
+                  type: array
+                jewelry:
+                  anyOf:
+                  - $ref: '#/components/schemas/EngagementRing'
+                  - $ref: '#/components/schemas/WeddingRingsWomen'
+                  - $ref: '#/components/schemas/WeddingRingsMen'
+                  - $ref: '#/components/schemas/AnniversaryRings'
+                  - $ref: '#/components/schemas/Necklaces'
+                  - $ref: '#/components/schemas/Bracelets'
+                  - $ref: '#/components/schemas/Earrings'
+                  title: Jewelry
+                metal:
+                  $ref: '#/components/schemas/PublicMetalTypes'
+                page:
+                  default: 1
+                  title: Page
+                  type: integer
+                price:
+                  title: Price
+                  type: integer
+                sort:
+                  allOf:
+                  - $ref: '#/components/schemas/JewelSort'
+                  default: PriceDesc
+              required:
+              - price
+              - extra_context
+              - jewelry
+              title: JewelryRequest
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  jewelry:
+                    items:
+                      $ref: '#/components/schemas/Jewelry'
+                    title: Jewelry
+                    type: array
+                  num_results:
+                    title: Num Results
+                    type: integer
+                required:
+                - jewelry
+                - num_results
+                title: JewelryResult
+                type: object
+          description: ''
+      summary: ALWAYS ask for "price" and "style". When user asks about jewelry, prompt
+        them to supply 1. Type, 2. Price and 3. Style. NEVER ask about metal or gemstones.
+        Only ask for Style if Type is already supplied since each type has its own
+        styles. Ask questions if unsure. Always provide context.

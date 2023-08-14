@@ -1,0 +1,160 @@
+openapi: 3.0.1
+info:
+  title: Daily Learning Plugin
+  description: This plugin acts as a personalizd tutor to learn a subject.
+  version: "v1"
+paths:
+  /outline:
+    post:
+      operationId: outline
+      summary: Generates a course input subject, and context
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CourseRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CourseResponse"
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /course:
+    post:
+      operationId: course
+      summary: Generates a course based on a subject, and user context (user description and objectives)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CourseRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CourseResponse"
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /lesson:
+    post:
+      operationId: lesson
+      summary: Generates the lesson content for the current day
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LessonRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LessonResponse"
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /add-user:
+    post:
+      operationId: add-user
+      summary: Adds a new user to the system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddUserRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddUserResponse"
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    CourseRequest:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: The subject of the course
+        context:
+          type: string
+          description: Suggestion for chatbot - provide any useful context about the user and what they need from the course that can help generate a customized course outline for the subject. For the best user experience, ask them questions.
+    CourseResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        instructionsForAgent:
+          type: string
+        courseId:
+          type: string
+    LessonRequest:
+      type: object
+      properties:
+        courseId:
+          type: string
+          description: The ID of the course to generate the lesson for
+        feedback:
+          type: string
+          description: Feedback from the user about the lesson
+    LessonResponse:
+      type: object
+      properties:
+        lessonSubject:
+          type: string
+        lessonContent:
+          type: string
+        suggestionToChatBot:
+          type: string
+        chatBotpassThisObjectInForNextLesson:
+          type: object
+          description: The chatbot should pass this object in for the next lesson to get the next lesson. The chatbot should not modify this object.
+        message:
+          type: string
+    AddUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email of the user to add
+        courseId:
+          type: string
+          description: The ID of the course to generate the lesson for
+    AddUserResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string

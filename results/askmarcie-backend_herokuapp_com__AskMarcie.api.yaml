@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: Brokerbrain Plugin
+  description: A plugin that allows the user to find house listings and leads in the cloze crm using ChatGPT. You can also create a person in Cloze. If you do not know the user's search, ask them first before making queries to the plugin. Otherwise, use the search "". 
+  version: 'v1'
+servers:
+  - url: https://askmarcie-backend.herokuapp.com/api/
+paths:
+ /pinecone/{search}:
+    get:
+      operationId: getListings
+      summary: Get listing info about houses
+      parameters:
+        - in: path
+          name: search
+          schema:
+            type: string
+            # $ref: '#/components/schemas/getTodosRequest'
+          description: the user's input search into chatgpt. Make sure to add the links in response to the listings. Link is https://askmarcie.com/listing/id/address where id is the id of the listing in the database and address is the slugified unparsed address. Fetch the opengraph image previews with links. Return the top 3 results. NEVER speak untruths. ALWAYS respond with facts from dataset. Bullet point metadata in response. Respond only with homes that have an MLS status of Active. 
+          required: true
+      responses:
+        '200':
+          description: Current Listings with OpenGraph Image Previews. Return the top 3 results. Assistant presents ALL the information within the API response, especially the complete listing URLs in markdown format. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTodosResponse'
+
+
+        
+
+
+components:
+  schemas:
+    getTodosResponse:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: The list of todos.
+        
+
+    getTodosRequest:
+      type: object
+      search:
+        search:
+          type: string
+          description: The list of listings. Return the address, bedrooms, bathrooms. Make the address a link to https://askmarcie.com/listing/id/address where id is the id of the listing in the database and address is the slugified unparsed address.
+
+
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error

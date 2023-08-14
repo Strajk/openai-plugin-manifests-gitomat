@@ -1,0 +1,327 @@
+components:
+  parameters:
+  headers:
+    AccessControlAllowOrigin:
+      description: >
+        The Service allows cross-origin resource sharing (CORS).
+
+
+        Standard HTTP
+        [CORS](https://fetch.spec.whatwg.org/#http-access-control-allow-origin)
+        header
+      required: false
+      schema:
+        type: string
+        example: '*'
+  schemas: {}
+    
+openapi: "3.0.0"
+info:
+  title: "TomTom Maps API"
+  description: "Search API is a RESTful API that allows developers to run a single line fuzzy search for addresses and POIs. Search API returns the latitude/longitude of a specific address, cross street, geographic feature, or point of interest (POI)."
+  version: "1.0.1"
+  contact:
+    name: "Contact Us"
+    url: "https://developer.tomtom.com/contact-us"
+
+paths:
+  /traffic/services/5/incidentDetails:
+    get:
+      operationId: incidentDetails # unique string to identify this operation
+      parameters:
+        - in: query
+          name: bbox
+          required: true
+          schema:
+            type: string
+          description: "The corners of the area to report on, expressed in the EPSG:4326 projection. Values: minLon,minLat,maxLon,maxLat."
+      responses:
+        "200":
+          description: Successful operation
+  /route-map-preview-url/{startLat}/{startLong}/{endLat}/{endLong}/:
+    get:
+      operationId: getRouteMapPreview
+      summary: Use this method to generate map preview with route url for display of the map in PNG
+      description: This endpoint provides a route map preview between two points. It optionally accepts waypoints to include in the route.
+      parameters:
+        - name: startLat
+          in: path
+          required: true
+          description: The latitude of the starting point.
+          schema:
+            type: string
+            format: float
+        - name: startLong
+          in: path
+          required: true
+          description: The longitude of the starting point.
+          schema:
+            type: string
+            format: float
+        - name: endLat
+          in: path
+          required: true
+          description: The latitude of the ending point.
+          schema:
+            type: string
+            format: float
+        - name: endLong
+          in: path
+          required: true
+          description: The longitude of the ending point.
+          schema:
+            type: string
+            format: float
+        - name: waypoints
+          in: query
+          required: false
+          description: Optional waypoints to include in the route, separated by '|'.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation. Returns a route map preview.
+        '400':
+          description: Invalid parameters supplied. Check the input parameters.
+        '500':
+          description: Internal server error. Something went wrong on the server.
+  /map-preview-url/{minLat}/{minLon}/{maxLat}/{maxLon}/:
+    get:
+      operationId: geteMapPreview
+      summary: Use this method to generate map preview url for display of the map in PNG
+      description: This endpoint provides a map preview between two points. It optionally accepts waypoints to include in the route.
+      parameters:
+        - name: minLat
+          in: path
+          required: true
+          description: The latitude of the min point.
+          schema:
+            type: string
+            format: float
+        - name: minLon
+          in: path
+          required: true
+          description: The longitude of the min point.
+          schema:
+            type: string
+            format: float
+        - name: maxLat
+          in: path
+          required: true
+          description: The latitude of the max point.
+          schema:
+            type: string
+            format: float
+        - name: maxLon
+          in: path
+          required: true
+          description: The longitude of the max point.
+          schema:
+            type: string
+            format: float
+        - name: entryPoints
+          in: query
+          required: false
+          description: Optional points to display in the map, separated by '|'.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation. Returns a route map preview.
+        '400':
+          description: Invalid parameters supplied. Check the input parameters.
+        '500':
+          description: Internal server error. Something went wrong on the server.
+  /routing/1/calculateRoute/{routePlanningLocations}/{contentType}:
+    get:
+      operationId: calculateRoute # unique string to identify this operation
+      parameters:
+        - in: path
+          name: routePlanningLocations
+          required: true
+          schema:
+            type: string
+          description: Colon separated locations for route planning. example 43.48986,-72.13689:43.64243,-72.25059
+        - in: path
+          name: contentType
+          required: true
+          schema:
+            type: string
+            enum: [json]
+          description: The content type of the response.
+        - in: query
+          name: instructionsType
+          required: false
+          schema:
+            type: string
+            enum: [coded,text,tagged]
+          description: The type of instructions for the route.
+        - in: query
+          name: language
+          required: false
+          schema:
+            type: string
+          description: The language for the route instructions.
+        - in: query
+          name: routeRepresentation
+          required: true
+          schema:
+            type: string
+            enum: [polyline, summaryOnly,none]
+        - in: "query"
+          name: "userintent"
+          required: true
+          description: "Please add up to 20 words description of end-user conversation intent this helps the service to respond in optimal way"
+          schema:
+            type: string
+        # ... and so on for the remaining parameters
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input parameters
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /routing/waypointoptimization/1:
+    post:
+      summary: Optimize waypoints order
+      operationId: optimizeWaypoints
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                waypoints:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      point:
+                        type: object
+                        properties:
+                          latitude:
+                            type: number
+                          longitude:
+                            type: number
+                options:
+                  type: object
+                  properties:
+                    travelMode:
+                      type: string
+                      enum: [car, truck]
+                    vehicleMaxSpeed:
+                      type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  optimizedOrder:
+                    type: array
+                    items:
+                      type: integer
+  /search/2/searchAlongRoute/{query}.{ext}:
+    post:
+      summary: Perform a fuzzy search for POIs along a specified route. Needs polyline representation of route, use all route points.
+      operationId: "searchAlongOperation"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                route:
+                  type: object
+                  properties:
+                    points:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          lat:
+                            type: number
+                          lon:
+                            type: number
+                  required:
+                    - points
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        '500':
+          description: Internal Server Error
+      parameters:
+        - name: query
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: ext
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: maxDetourTime
+          in: query
+          description: "Max detour time in seconds, do not exceed 3600"
+          required: true
+          schema:
+            maximum: 3600
+            type: integer        
+  /search/2/search/{query}.json:
+    get:
+      summary: "Search endpoint to be used for fuzzy location search of POIs and adresses, this service is not providing ranks of places or top categories etc."
+      operationId: "searchOperation"
+      parameters:
+        - name: "query"
+          in: "path"
+          required: true
+          description: "Search query like name and location of POI"
+          schema:
+            type: "string"
+        - in: "query"
+          name: "limit"
+          required: true
+          description: "Maximum number of search results that will be returned."
+          schema:
+            maximum: 1
+            type: integer
+        - in: "query"
+          name: "userintent"
+          required: true
+          description: "Please provide the end-goal of the conversation with user as well as intermediate task you are trying to achieve. This helps the service to respond in optimal way"
+          schema:
+            type: string
+        # Additional parameters go here
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+        "400":
+          description: "Invalid parameter provided"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+servers:
+  -
+    url: "https://api.gpt-plugin.tomtom.com"

@@ -1,0 +1,120 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OCR Plugin",
+    "description": "The best way to read text from any document. Extract text from scanned PDFs, photos, and even handwriting.",
+    "version": "v1"
+  },
+  "paths": {
+    "/upload_url": {
+      "post": {
+        "operationId": "uploadUrl",
+        "summary": "Upload a URL to a file and return the OCR data. After the first upload, the job_id and next_token should be provided in the request body to continue the request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "The URL of the file"
+                  },
+                  "job_id": {
+                    "type": "string",
+                    "description": "The OCR job ID"
+                  },
+                  "next_token": {
+                    "type": "string",
+                    "description": "The next token to use for paginated responses"
+                  },
+                  "has_more": {
+                    "type": "boolean",
+                    "description": "Indicates that ChatGPT should continue the request and re-provide the job_id and next_token."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string",
+                      "description": "The OCR data for the file"
+                    },
+                    "job_id": {
+                      "type": "string",
+                      "description": "The OCR job ID",
+                      "nullable": true
+                    },
+                    "next_token": {
+                      "type": "string",
+                      "description": "The next token to use for paginated responses",
+                      "nullable": true
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Whether more OCR data is available for pagination. When true, this indicates there should be another call to the /upload_url endpoint."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/queryDoc": {
+      "post": {
+        "operationId": "queryDoc",
+        "summary": "Query a previously uploaded document. The job_id and query should be included in the request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "job_id": {
+                    "type": "string",
+                    "description": "The OCR job ID"
+                  },
+                  "query": {
+                    "type": "string",
+                    "description": "The query about the uploaded document"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string",
+                      "description": "The queried data for the file"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

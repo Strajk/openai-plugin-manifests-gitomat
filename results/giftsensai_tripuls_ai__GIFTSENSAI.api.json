@@ -1,0 +1,167 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "GIFTSENSAI",
+    "description": "A plugin that helps the user to get personalized gift suggestions using ChatGPT. Ask a few questions that will help you to create a comprehensive persona of the recipient, e.g. age, interests, occasion, personality, relationship or other topics, before making queries to the plugin.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://giftsensai.tripuls.ai"
+    }
+  ],
+  "paths": {
+    "/search": {
+      "post": {
+        "operationId": "getGiftRecommendations",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "persona": {
+                    "type": "string",
+                    "required": true,
+                    "description": "A persona of the gift recipient, as detailed as possible, about 4 to 8 sentences long. Important to find the perfect gift, so make sure anything essential describing the person is included."
+                  },
+                  "budget": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The budget in USD"
+                  },
+                  "occasion": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The occasion for the gift in english"
+                  },
+                  "relationship": {
+                    "type": "string",
+                    "required": false,
+                    "description": "The relationship between the user and the gift recipient"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": [
+          {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/searchResponse"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/unauthorizedResponse"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "500": {
+              "description": "KO",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/errorResponse"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "searchResponse": {
+        "type": "object",
+        "properties": {
+          "context": {
+            "type": "object",
+            "properties": {
+              "occasion": {
+                "type": "string",
+                "description": "The occasion for the gift in english"
+              },
+              "relationship": {
+                "type": "string",
+                "description": "The relationship between the user and the gift recipient"
+              },
+              "budget": {
+                "type": "string",
+                "description": "The budget limit in USD"
+              }
+            }
+          },
+          "instruction": {
+            "type": "string",
+            "description": ""
+          },
+          "suggestions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "The name of the suggested gift"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "The category of the suggested gift"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "The affiliate link to the item at amazon.com"
+                },
+                "reasoning": {
+                  "type": "string",
+                  "description": ""
+                },
+                "cost": {
+                  "type": "string",
+                  "description": "The cost of the gift is roughly this amount"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "unauthorizedResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The token was unauthorized to request this endpoint."
+          }
+        }
+      },
+      "errorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "There was unexpected error during the process and this message help the user to understand it."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,103 @@
+openapi: 3.0.1
+info:
+  title: Opera Esports Plugin
+  description: A plugin that provides users with real-time eSports events and game news.
+  version: 'v1'
+servers:
+  - url: https://esportsplugin.feednews.com
+paths:
+  /get_game_series:
+    post:
+      operationId: GetGameSeries
+      summary: Get a game series
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/getGameRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGameSeriesResponse'
+  /get_game_news:
+    post:
+      operationId: GetGameNews
+      summary: Get game news
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/getGameRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGameNewsResponse'
+
+components:
+  schemas:
+    getGameSeriesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                description: E-sports event name.
+              start:
+                type: string
+                description: E-sports event start time.
+              participants:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The names of the teams participating in this e-sports event.
+                  abbr:
+                    type: string
+                    description: team initials.
+                  image:
+                    type: string
+                    description: team logo.
+                  score:
+                    type: int
+                    description: Team score for this match.
+                  winner:
+                    type: bool
+                    sedcription: Was the match won.
+    getGameRequest:
+      type: object
+      required:
+      - game_name
+      properties:
+        game_name:
+          type: string
+          description: Abbreviation of game name.
+          required: true
+    getGameNewsResponse:
+      type: object
+      properties:
+        articles:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                description: game news title.
+              summary:
+                type: string
+                description: game news summary.
+              url:
+                type: string
+                description: game news url.

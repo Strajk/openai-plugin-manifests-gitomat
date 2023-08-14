@@ -1,0 +1,149 @@
+openapi: 3.0.1
+info:
+  title: UPI QR Code Generator
+  description: An API endpoint to generate UPI QR codes.
+  version: 'v1'
+servers:
+  - url: https://generatedynamicqr.bonrix.in/
+paths:
+  /upi_qr:
+    post:
+      operationId: generateUpiQr
+      summary: Generate UPI QR code
+      requestBody:
+        description: The JSON object containing UPI details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpiQrRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpiQrResponse'
+      security:
+        - HTTPBearer: [ ]
+
+  /upi_qr_sticker:
+    post:
+      operationId: generateUpiQrSticker
+      summary: Generate UPI QR code Sticker
+      requestBody:
+        description: The JSON object containing UPI details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpiQrRequest_s'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpiQrResponse_s'
+      security:
+        - HTTPBearer: [ ]
+
+  /upi_qr_stkr_without_amt:
+    post:
+      operationId: generateUpiQrWOA
+      summary: Generate UPI QR code sticker without amount
+      requestBody:
+        description: The JSON object containing UPI details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpiQrRequestWOA'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpiQrResponseWOA'
+      security:
+        - HTTPBearer: [ ]
+components:
+  schemas:
+    UpiQrRequest:
+      type: object
+      properties:
+        upiID:
+          type: string
+          description: The UPI ID for payment
+        amount:
+          type: number
+          description: The amount to be paid
+        merchantName:
+          type: string
+          description: The name of the merchant (optional)
+      required:
+        - upiID
+        - amount
+    UpiQrRequest_s:
+      type: object
+      properties:
+        upiID_s:
+          type: string
+          description: The UPI ID for payment
+        amount_s:
+          type: number
+          description: The amount to be paid
+        merchantName_s:
+          type: string
+          description: The name of the merchant (optional)
+      required:
+        - upiID_s
+        - amount_s
+    UpiQrRequestWOA:
+      type: object
+      properties:
+        upiID:
+          type: string
+          description: The UPI ID for payment
+        merchantName:
+          type: string
+          description: The name of the merchant (optional)
+      required:
+        - upiID
+    UpiQrResponse:
+      type: object
+      properties:
+        qr_image_url:
+          type: string
+          format: uri
+          description: The URL of the generated QR code image
+        html:
+          type: string
+          description: HTML code containing the QR code image
+    UpiQrResponse_s:
+      type: object
+      properties:
+        qr_image_url:
+          type: string
+          format: uri
+          description: The URL of the generated QR code image
+        html:
+          type: string
+          description: HTML code containing the QR code image
+    UpiQrResponseWOA:
+      type: object
+      properties:
+        qr_image_url:
+          type: string
+          format: uri
+          description: The URL of the generated QR code image
+        html:
+          type: string
+          description: HTML code containing the QR code image
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+
+

@@ -1,0 +1,70 @@
+openapi: 3.1.0
+info:
+  title: FileChat
+  description: File management, in-depth analysis, and quick information retrieval.
+  version: v1
+
+servers:
+  - url: https://plugin.respondperfect.com
+
+paths:
+  /retrieve_info:
+    post:
+      operationId: retrieveInformation
+      summary: Retrieve relevant information given an user_id and a query
+      description: |
+        Use relevant information from an user's personal data to concisely answer query in paragraph form.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              required:
+                - query
+                - uuid
+              properties:
+                query:
+                  description: The question to answer.
+                  type: string
+                uuid:
+                  description: The unique user_id.
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalResponse'
+  /help:
+    get:
+      operationId: helpInformation
+      summary: Help information on how to use FileChat plugin
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+
+
+components:
+  schemas:
+    RetrievalResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          total_text_count:
+            type: integer
+            description: The total number of retrieved text pieces.
+          total_token_count:
+            type: integer
+            description: The total number of retrieved tokens.
+          text_list:
+            type: array
+            items:
+              type: string
+            description: The list of retrieved text.

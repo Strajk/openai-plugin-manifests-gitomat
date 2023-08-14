@@ -1,0 +1,653 @@
+openapi: 3.0.3
+info:
+  title: TaskML API
+  version: 0.1.0
+servers:
+  - url: https://taskml.com/api
+paths:
+  # PROJECTS
+  /projects:
+    get:
+      tags:
+        - Projects
+      summary: Get all projects
+      operationId: getProjects
+      parameters:
+        - name: name
+          in: query
+          description: Filter projects by name
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Filter projects by description
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Filter projects by a single status
+          schema:
+            $ref: '#/components/schemas/Status'
+        - name: status[]
+          in: query
+          description: Filter projects by multiple statuses. NB. Param name MUST BE 'status[]' and NOT 'status'.
+          schema:
+            $ref: '#/components/schemas/Statuses'
+          style: form
+          explode: true
+        # due_date
+        - name: due_date
+          in: query
+          description: Filter projects by an exact due_date match (ISO 8601 date). This should not be used in conjunction with the other due_date parameters (due_date[lt], due_date[lte], due_date[gt], due_date[gte]).
+          example: '2023-07-20'
+          schema:
+            type: string
+            format: date
+        - name: due_date[lt]
+          in: query
+          description: Filter projects for those whose due_date is < than the provided (ISO 8601 date) value.
+          example: '2023-07-20'
+          schema:
+            type: string
+            format: date
+        - name: due_date[lte]
+          in: query
+          description: Filter projects for those whose due_date is <= than the provided (ISO 8601 date) value.
+          example: '2023-07-20'
+          schema:
+            type: string
+            format: date
+        - name: due_date[gt]
+          in: query
+          description: Filter projects for those whose due_date is > than the provided (ISO 8601 date) value.
+          example: '2023-07-20'
+          schema:
+            type: string
+            format: date
+        - name: due_date[gte]
+          in: query
+          description: Filter projects for those whose due_date is >= than the provided (ISO 8601 date) value.
+          example: '2023-07-20'
+          schema:
+            type: string
+            format: date
+        # completed_at
+        - name: completed_at[lt]
+          in: query
+          description: Filter projects for those whose completed_at is < than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: completed_at[lte]
+          in: query
+          description: Filter projects for those whose completed_at is <= than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: completed_at[gt]
+          in: query
+          description: Filter projects for those whose completed_at is > than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: completed_at[gte]
+          in: query
+          description: Filter projects for those whose completed_at is >= than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time            
+        # created_at
+        - name: created_at[lt]
+          in: query
+          description: Filter projects for those whose created_at is < than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: created_at[lte]
+          in: query
+          description: Filter projects for those whose created_at is <= than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: created_at[gt]
+          in: query
+          description: Filter projects for those whose created_at is > than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: created_at[gte]
+          in: query
+          description: Filter projects for those whose created_at is >= than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectWithID'
+    post:
+      tags:
+        - Projects
+      summary: Create a new project
+      operationId: createProject
+      requestBody:
+        description: The project to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreate'
+      responses:
+        '201':
+          description: Project successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWithID'
+        '422':
+          description: Invalid input, project could not be created
+  /projects/{id}:
+    get:
+      tags:
+        - Project
+      summary: Get a project by its ID
+      operationId: getProject
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the project
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWithID'
+        '401':
+          description: Not authorized or project doesn't exist
+    put:
+      tags:
+        - Projects
+      summary: Edit a project
+      operationId: editProject
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The unique ID of the project to edit
+      requestBody:
+        description: The project data to edit
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdate'
+      responses:
+        '200':
+          description: Project successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWithID'
+        '422':
+          description: Invalid input, project could not be updated
+        '401':
+          description: Not authorized or project doesn't exist
+    delete:
+      tags:
+        - Projects
+      summary: Delete a project
+      operationId: deleteProject
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The unique ID of the project to delete
+      responses:
+        '204':
+          description: Project successfully deleted
+        '401':
+          description: Not authorized or project doesn't exist
+
+  # TASKS
+  /tasks:
+    get:
+      tags:
+        - Tasks
+      summary: Get all tasks
+      operationId: getTasks
+      parameters:
+        - name: name
+          in: query
+          description: Filter tasks by name
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Filter tasks by description
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Filter tasks by a single status
+          schema:
+            $ref: '#/components/schemas/Status'
+        - name: status[]
+          in: query
+          description: Filter tasks by multiple statuses. NB. Param name MUST BE 'status[]' and NOT 'status'.
+          schema:
+            $ref: '#/components/schemas/Statuses'
+          style: form
+          explode: true
+        - name: project_id
+          in: query
+          description: Filter tasks by project_id
+          schema:
+            type: integer
+        # due_date
+        - name: due_date
+          in: query
+          description: Filter tasks by an exact due_date match (ISO 8601 date). This should not be used in conjunction with the other due_date parameters (due_date[lt], due_date[lte], due_date[gt], due_date[gte]).
+          example: '2023-07-20'
+          schema:
+            type: string
+            format: date
+        - name: due_date[lt]
+          in: query
+          description: Filter tasks for those whose due_date is < than the provided (ISO 8601 date) value.
+          example: '2023-07-20'
+          schema:
+            type: string
+            format: date
+        - name: due_date[lte]
+          in: query
+          description: Filter tasks for those whose due_date is <= than the provided (ISO 8601 date) value.
+          example: '2023-07-20'
+          schema:
+            type: string
+            format: date
+        - name: due_date[gt]
+          in: query
+          description: Filter tasks for those whose due_date is > than the provided (ISO 8601 date) value.
+          example: '2023-07-20'
+          schema:
+            type: string
+            format: date
+        - name: due_date[gte]
+          in: query
+          description: Filter tasks for those whose due_date is >= than the provided (ISO 8601 date) value.
+          example: '2023-07-20'
+          schema:
+            type: string
+            format: date
+        # completed_at
+        - name: completed_at[lt]
+          in: query
+          description: Filter tasks for those whose completed_at is < than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: completed_at[lte]
+          in: query
+          description: Filter tasks for those whose completed_at is <= than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: completed_at[gt]
+          in: query
+          description: Filter tasks for those whose completed_at is > than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: completed_at[gte]
+          in: query
+          description: Filter tasks for those whose completed_at is >= than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time            
+        # created_at
+        - name: created_at[lt]
+          in: query
+          description: Filter tasks for those whose created_at is < than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: created_at[lte]
+          in: query
+          description: Filter tasks for those whose created_at is <= than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: created_at[gt]
+          in: query
+          description: Filter tasks for those whose created_at is > than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time
+        - name: created_at[gte]
+          in: query
+          description: Filter tasks for those whose created_at is >= than the provided (ISO 8601 datetime) value.
+          example: '2023-07-20T08:28:40Z'
+          schema:
+            type: string
+            format: date-time            
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskWithID'
+    post:
+      tags:
+        - Tasks
+      summary: Create a new task (this requires a valid project_id from an existing project)
+      operationId: createTask
+      requestBody:
+        description: The task to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: Task successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWithID'
+        '422':
+          description: Invalid input, task could not be created
+  /tasks/{id}:
+    get:
+      tags:
+        - Task
+      summary: Get a task by its ID
+      operationId: getTask
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the task
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWithID'
+        '401':
+          description: Not authorized or task doesn't exist
+    put:
+      tags:
+        - Tasks
+      summary: Edit a task
+      operationId: editTask
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The unique ID of the task to edit
+      requestBody:
+        description: The task data to edit
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Task successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWithID'
+        '422':
+          description: Invalid input, task could not be updated
+        '401':
+          description: Not authorized or task doesn't exist
+    delete:
+      tags:
+        - Tasks
+      summary: Delete a task
+      operationId: deleteTask
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The unique ID of the task to delete
+      responses:
+        '204':
+          description: Task successfully deleted
+        '401':
+          description: Not authorized or task doesn't exist
+
+components:
+  schemas:
+    # STATUS
+    Status:
+        type: string
+        enum: ["todo", "in progress", "complete", "paused", "canceled"]
+        description: The status of the item.
+
+    # STATUSES
+    Statuses:
+        type: array
+        items:
+          type: string
+          enum: ["todo", "in progress", "complete", "paused", "canceled"]
+        description: An array of valid item statuses.
+
+    # COMPLETED_AT
+    CompletedAt:
+      type: string
+      format: date-time
+      description: The date and time when the item was completed. i.e. When its status was set to 'complete'. This field is read-only.
+      example: '2023-07-20T08:28:40.933681Z'
+
+    # CREATED_AT
+    CreatedAt:
+      type: string
+      format: date-time
+      description: The date and time when the item was created. This field is read-only.
+      example: '2023-07-20T08:28:40.933681Z'
+
+    # PROJECTS
+    ProjectCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 512
+          description: The project name/title.
+        description:
+          type: string
+          maxLength: 10000
+          description: The project description including extra information. e.g. Useful links, rationale etc.
+        status:
+          $ref: '#/components/schemas/Status'
+        due_date:
+          type: string
+          format: date
+          description: The due date for the project in the ISO 8601 Date format.
+          example: '2023-07-26'
+      required:
+        - name
+
+    ProjectUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 512
+          description: The project name/title.
+        description:
+          type: string
+          maxLength: 10000
+          description: The project description including extra information. e.g. Useful links, rationale etc.
+        status:
+          $ref: '#/components/schemas/Status'
+        due_date:
+          type: string
+          format: date
+          description: The due date for the project in the ISO 8601 Date format.
+          example: '2023-07-26'
+
+    ProjectWithID:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique ID for the project.
+        name:
+          type: string
+          maxLength: 512
+          description: The project name/title.
+        description:
+          type: string
+          maxLength: 10000
+          description: The project description including extra information. e.g. Useful links, rationale etc.
+        status:
+          $ref: '#/components/schemas/Status'
+        due_date:
+          type: string
+          format: date
+          description: The due date for the project in the ISO 8601 Date format.
+          example: '2023-07-26'
+        completed_at:
+          $ref: '#/components/schemas/CompletedAt'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+      required:
+        - id
+        - name
+        - status
+    
+    # TASKS
+    TaskCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 512
+          description: The task name/title.
+        description:
+          type: string
+          maxLength: 10000
+          description: The task description including extra information. e.g. Steps involved, useful links, rationale etc.
+        status:
+          $ref: '#/components/schemas/Status'
+        project_id:
+          type: integer
+          description: The unique ID of the project the task belongs to. Note, this project must already exist or be created before creating the task. Tasks must have a valid project id and cannot exist without an associated project. This field is is not the project name.
+        due_date:
+          type: string
+          format: date
+          description: The due date for the task in the ISO 8601 Date format.
+          example: '2023-07-26'
+      required:
+        - name
+        - project_id
+
+    TaskUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 512
+          description: The task name/title.
+        description:
+          type: string
+          maxLength: 10000
+          description: The task description including extra information. e.g. Steps involved, useful links, rationale etc.
+        status:
+          $ref: '#/components/schemas/Status'
+        project_id:
+          type: integer
+          description: The unique ID of the project the task belongs to. Note, this project must already exist or be created before creating the task. Tasks must have a valid project id and cannot exist without an associated project. This field is is not the project name.
+        due_date:
+          type: string
+          format: date
+          description: The due date for the task in the ISO 8601 Date format.
+          example: '2023-07-26'
+
+    TaskWithID:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique ID for the task.
+        name:
+          type: string
+          maxLength: 512
+          description: The task name/title.
+        description:
+          type: string
+          maxLength: 10000
+          description: The task description including extra information. e.g. Steps involved, useful links, rationale etc.
+        status:
+          $ref: '#/components/schemas/Status'
+        project_id:
+          type: integer
+          description: The unique ID of the project the task belongs to. Note, tasks must have a valid project id and cannot exist without an associated project. This field is is not the project name.
+        project_name:
+          type: string
+          maxLength: 512
+          description: The name of the project the task belongs to.
+        due_date:
+          type: string
+          format: date
+          description: The due date for the task in the ISO 8601 Date format.
+          example: '2023-07-26'
+        completed_at:
+          $ref: '#/components/schemas/CompletedAt'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+      required:
+        - id
+        - name
+        - status
+        - project_id
+
+tags:
+  - name: Projects
+    description: Operations related to projects
+  - name: Tasks
+    description: Operations related to tasks

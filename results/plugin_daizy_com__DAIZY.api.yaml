@@ -1,0 +1,751 @@
+openapi: 3.0.1
+info:
+  title: DAIZY Plugin
+  description: Plugin for getting price, performance, risk and sustainability data for a stock, an ETF, a crypto, or a portfolio. Plugin is also for searching, finding, filtering and sorting stocks or ETFs. User can sort the results by various factors such as by AUM, or by ESG score. The search can also return information about individual holdings and stocks within an ETF asset.
+  version: 2.0.0
+servers:
+  - url: https://plugin.daizy.com
+
+paths:
+  /assets/details:
+    post:
+      operationId: getAssetDetails
+      summary: Get the latest details and analysis of individual stocks, etfs, or cryptos.
+      description: This path returns extensive details on an individual stock, etf, or crypto. Details include performance, risk, metrics, stats, sustainability, sentiment and the latest news stories driving the stock.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/assetAnalysisRequestBody'
+      responses:
+        '200':
+          description: Returns asset_analysis which contains data based on the analysis_Type which should be summarised by ChatGPT, and markdown syntax which should be displayed by ChatGPT.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/assetAnalysisSuccessfulResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+
+  /portfolio/details:
+    post:
+      operationId: getPortfolioDetails
+      summary: Get the latest details and analysis of a user defined portfolio.
+      description: This path returns analysis results for a portfolio only. Details include performance, risk, metrics, stats, sustainability, sentiment and the latest news stories driving the portfolio.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/portfolioAnalysisRequestBody'
+            examples:
+              portfolio1:
+                prompt: Create a portfolio for me with $500 Apple and $100 MSFT and 50$ of cash
+                analysisType: createOrEdit
+                portfolio: 
+                  isEquallyWeighted: false
+                  assets:
+                    - assetId: AAPL
+                      assetType: stock
+                      assetName: Apple Inc.
+                      currentMarketValue: 500
+                    - assetId: MSFT
+                      assetType: stock
+                      assetName: Microsoft Inc.
+                      currentMarketValue: 100
+                    - assetId: CUR:USD
+                      assetType: cash
+                      assetName: USD Cash
+                      currentMarketValue: 50
+              portfolio2:
+                prompt: I have portfolio with $5k TSLA bought in October 2022 and 1000 usd coke stock bought on 5th April 2023
+                analysisType: createOrEdit
+                portfolio: 
+                  isEquallyWeighted: false
+                  assets:
+                    - assetId: TSLA
+                      assetType: stock
+                      assetName: Tesla Inc.
+                      currentMarketValue: 5000
+                      purchaseDate: 2022-10-01
+                    - assetId: KO
+                      assetType: stock
+                      assetName: Coca-Cola Co
+                      currentMarketValue: 1000
+                      purchaseDate: 2023-04-05
+              portfolio3:
+                prompt: AAPL stock $10000 01/02/23, MSFT stock $9000 01/02/23, NVDA stock $9000 01/02/23, CAT stock $8000 01/02/23
+                analysisType: summary
+                portfolio: 
+                  isEquallyWeighted: false
+                  assets:
+                    - assetId: AAPL
+                      assetType: stock
+                      currentMarketValue: 10000
+                      purchaseDate: 2023-02-01
+                    - assetId: MSFT
+                      assetType: stock
+                      currentMarketValue: 9000
+                      purchaseDate: 2023-02-01
+                    - assetId: NVDA
+                      assetType: stock
+                      currentMarketValue: 9000
+                      purchaseDate: 2023-02-01
+                    - assetId: CAT
+                      assetType: stock
+                      currentMarketValue: 8000
+                      purchaseDate: 2023-02-01
+      responses:
+        '200':
+          description: Returns portfolio_analysis which contains data based on the analysis_Type which should be summarised by ChatGPT, and markdown syntax which should be displayed by ChatGPT.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/portfolioAnalysisSuccessfulResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+                
+  /search/etfs:
+    post:
+      operationId: getEtfsSearch
+      summary: Get ETFs search results. Returns markdown that must be presented in table format.
+      description: Allows searching for ETFs by categories or investment themes, filter on tickers held or not held, and sort the results by various factors. Returns markdown that must be displayed in table format.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/etfsSearchRequestBody'
+      responses:
+        '200':
+          description: Returns markdown that must be displayed in table format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchSuccessfulResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+
+                
+  /search/stocks:
+    post:
+      operationId: getStocksSearch
+      summary: Get stocks search results, best presented in table format.
+      description: Returns collections of stocks based on search results. Searches include filters and sort orders. The path returns markdown syntax which should be formatted and displayed by ChatGPT in a table format.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/stocksSearchRequestBody'
+      responses:
+        '200':
+          description: Returns markdown syntax which should be formatted and displayed by ChatGPT in a table format.
+          content:
+            application/json:
+              description: The markdown syntax which should be formatted and displayed by ChatGPT in a table format.
+              schema:
+                $ref: '#/components/schemas/searchSuccessfulResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+
+  /etfs/lookthrough:
+    post:
+      operationId: getEtfsHoldings
+      summary: Give info on holdings within an ETF.
+      description: This path returns results based on queries about the holdings within a specified ETF. Used for queries that are based on the constituents of an ETF as well as exposures to a specific sector.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/etfsHoldingsRequestBody'
+      responses:
+        '200':
+          description: Returns markdown syntax which should be formatted and displayed by ChatGPT in a table format.
+          content:
+            application/json:
+              description: The markdown syntax which should be formatted and displayed by ChatGPT in a table format.
+              schema:
+                $ref: '#/components/schemas/searchSuccessfulResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+components:
+  schemas:
+    etfsSearchRequestBody:
+      title: etfsSearchRequestBody
+      type: object
+      required:
+        - prompt
+      properties:
+        prompt:
+          type: string
+          description: The prompt that user asked.
+        limit:
+          type: integer
+          description: The maximum number of search results to return.
+          default: 10
+        tickersHeld:
+          type: array
+          description: The list of security tickers that must all be held within the ETF. Used when user asks about the ETFs having them, ETFs holding them, the ETFs exposure to them, or weight being held by ETFs. If user prompt contains 'or', make separate requests.
+          items:
+            type: string
+          example: ['AAPL', 'GOOGL', 'TSLA']
+        tickersNotHeld:
+          type: array
+          description: The list of security tickers that must all not be held within the ETF. Used when user asks about the ETFs not having them, the ETFs not holding them, or about the absense of ETFs exposure to them. If user prompt contains 'or' or 'nor', make separate requests.
+          items:
+            type: string
+          example: ['MSFT', 'AMZN']
+        filters:
+          type: object
+          description: Used to specify the theme or category of the ETFs. Allows to filter ETFs by theme or category.
+          properties:
+            includeLabels:
+              type: array
+              description: Used to specify the themes of the ETFs in order to filter the ETFs by these labels. The parameter must only include values from the provided enum.
+              items:
+                $ref: 'https://plugin.daizy.com/nested-schemas/etf-labels.yaml'
+            excludeLabels:
+              type: array
+              description: Used to specify themes of the ETFs. Allows to filter ETFs by which labels should be excluded. The parameter must only include values from the provided enum.
+              items:
+                $ref: 'https://plugin.daizy.com/nested-schemas/etf-labels.yaml'
+            etfCategory:
+              type: string
+              description: Used to specify category of the ETFs. Allows to filter ETFs by categories.
+              enum: [Agricultural Commodities, All Cap Equities, Alternative Energy Equities, Asia Pacific Equities, Building & Construction, California Munis, China Equities, Commodities, Commodity Producers Equities, Communications Equities, Consumer Discretionary Equities, Consumer Staples Equities, Corporate Bonds, Currency, Diversified Portfolio, Emerging Markets Bonds, Emerging Markets Equities, Energy Equities, Europe Equities, Financials Equities, Foreign Large Cap Equities, Foreign Small & Mid Cap Equities, Global Equities, Global Real Estate, Government Bonds, Health & Biotech Equities, Hedge Fund, High Yield Bonds, Industrials Equities, Inflation-Protected Bonds, International Government Bonds, Inverse Bonds, Inverse Commodities, Inverse Equities, Inverse Volatility, Japan Equities, Large Cap Blend Equities, Large Cap Growth Equities, Large Cap Value Equities, Latin America Equities, Leveraged Bonds, Leveraged Commodities, Leveraged Currency, Leveraged Equities, Leveraged Multi-Asset, Leveraged Real Estate, Leveraged Volatility, Long-Short, MLPs, Materials, Metals, Mid Cap Blend Equities, Mid Cap Growth Equities, Mid Cap Value Equities, Money Market, Mortgage Backed Securities, National Munis, New York Munis, Oil & Gas, Precious Metals, Preferred Stock/Convertible Bonds, Real Estate, Small Cap Blend Equities, Small Cap Growth Equities, Small Cap Value Equities, Technology Equities, Total Bond Market, Transportation Equities, Utilities Equities, Volatility, Volatility Hedged Equity, Water Equities]
+            marketCap:
+              type: string
+              description: Market capitalization filter.
+              enum: [Small-Cap (< $2b), Mid-Cap ($2b - $10b), Large-Cap (> $10b)]
+            dividendYield:
+              type: string
+              description: Dividend Yield capitalization filter.
+              enum: [No Dividend, Low Dividend Yield (<2%), Average Dividend Yield (2% to 4%), High Dividend Yield (>4%)]   
+            peRatio:
+              type: string
+              description: PE Ration capitalization filter.
+              enum: [Low P/E Ratio (<15), Average P/E Ratio (15-20), High P/E Ratio (>20)]
+            netExpenseRatio:
+              type: string
+              description: Net Expense Ration filter.
+              enum: [Low Net Expense Ratio (<0.2%), Average Net Expense Ratio (0.2% to 0.7%), High Net Expense Ratio (>0.7%)]
+            regionOrCountry:
+              type: string
+              description: A region or a country ISO code.
+              $ref: 'https://plugin.daizy.com/nested-schemas/regionOrCountry.yaml'
+            currency:
+              type: string
+              description: Currency-based filter.
+              enum: [AED, ARS, AUD, BRL, BWP, BYN, CAD, CHF, CLP, CNH, CNY, CZK, DKK, EGP, EUR, FJD, GBP, GHS, HKD, HUF, IDR, ILS, INR, JPY, KRW, KWD, MDL, MKD, MXN, MYR, NOK, NZD, OMR, PEN, PHP, PLN, RUB, SEK, SGD, SZL, THB, TRY, TTD, TWD, UAH, USD, UYU, XAG, XAU, XPD, ZAR]
+        sortOrders:
+          type: array
+          maxItems: 2
+          description: Use this parameter to provide the user sort order for the list of ETFs returned by the API. Multiple sort orders can be specified in priority order. If none specified by the user, 'MarketCapitalization' will be used by default.
+          items:
+            type: string
+            enum: [PeriodReturnSI, PeriodReturn10Years, PeriodReturn7Years, PeriodReturn5Years, PeriodReturn3Years, PeriodReturn2Years, PeriodReturn1Year, PeriodReturnYTD, PeriodReturn6Months, PeriodReturn3Months, PeriodReturn1Month, PeriodReturn1Week, PeriodReturn1Day, PeriodReturnLastYear, PeriodReturn2YearsAgo, PeriodReturn3YearsAgo, PeriodReturn4YearsAgo, PeriodReturn5YearsAgo, PeriodReturnLastMonth, PeriodReturn2MonthsAgo, PeriodReturn3MonthsAgo, PeriodReturnLastQuarter, PeriodReturn2QuartersAgo, AnnualisedReturn2Years, AnnualisedReturn3Years, AnnualisedReturn5Years, PeriodReturnMTD, PeriodReturnQTD, AnnualisedReturn, AverageReturn, StandardDeviation, AnnualisedStandardDeviation, Variance, Covariance, Correlation, RegressionAlpha, RegressionBeta, ParametricVaR, HistoricalSimulationVaR, PotentialUpside, SharpeRatio, PeriodLow, PeriodHigh, PositiveReturns, NegativeReturns, GainsLossesRatio, MaximumDrawdown, NormalisedRelativeRisk, UpCaptureRatio, DownCaptureRatio, UpNumberRatio, DownNumberRatio, UpOutperformRatio, DownOutperformRatio, UpUnderperformRatio, DownUnderperformRatio, DividendYield, MarketCapitalization, PERatio, Beta, AUM, ExpenseRatio, AverageDailyVolume, DividentAmount, AnnualHoldingsTurnover, HoldingsCount, ESG_ENVIRONMENTAL_SCORE, ESG_GOVERNANCE_SCORE, ESG_SOCIAL_SCORE, ESG_RATING_NoValue, ADULT_ENTERTAINMENT, ALCOHOL, POOR_ANIMAL_WELFARE, CONTROLVERSIAL_WEAPONS, EDUCATION, FUND_ESG_LAGGARDS_PCT, FUND_ESG_LEADERS_PCT, FEMALE_DIRECTORS, CIVILIAN_FIREARMS, GAMBLING, GENETIC_ENGINEERING, DISEASE_TREATMENT, POLLUTION_PREVENTION, SUSTAINABLE_WATER, THERMAL_COAL, TOBACCO, CONVENTIONAL_WEAPONS, CARBON_EXPOSURE, ESG_SCORE, WEIGHT_OF_HOLDING, AFFORDABLE_HOUSING, ALTERNATIVE_ENERGY, DIGITAL_DIVIDE, ENERGY_EFFICIENCY, GREEN_BUILDING, NUTRITION, SANITARY_PRODUCTS, SME_FINANCE, SUSTAINABLE_AGRICULTURE]
+        sortType:
+          type: string
+          description: Orders the search results in ascending or descending order. Supports prompts asking for the best or worst, or top or bottom.
+          enum: [asc, desc]
+          default: desc
+
+    stocksSearchRequestBody:
+      title: stocksSearchRequestBody
+      type: object
+      required:
+        - prompt
+      properties:
+        prompt:
+          type: string
+          description: The prompt that user asked.
+        limit:
+          type: integer
+          description: The maximum number of search results to return.
+          default: 10
+        filters:
+          type: object
+          description: Use this parameter to narrow down the search results based on various criteria. Multiple filters can be used simultaneously.
+          properties:             
+            sectorOrIndustry:
+              type: string
+              description: Represents the sector - the broad economic category a company operates in, such as Energy or Technology, or the industry - a narrower category within a sector, such as 'Oil & Gas' within Energy.
+              $ref: 'https://plugin.daizy.com/nested-schemas/sectorOrDaizyIndustry.yaml'
+            marketCap:
+              type: string
+              description: Market capitalization filter.
+              enum: [Small-Cap (< $2b), Mid-Cap ($2b - $10b), Large-Cap (> $10b)]
+            dividendYield:
+              type: string
+              description: Dividend Yield capitalization filter.
+              enum: [No Dividend, Low Dividend Yield (<2%), Average Dividend Yield (2% to 4%), High Dividend Yield (>4%)]   
+            peRatio:
+              type: string
+              description: PE Ration capitalization filter.
+              enum: [Low P/E Ratio (<15), Average P/E Ratio (15-20), High P/E Ratio (>20)]
+            ethicalFlags:
+              type: array
+              description: Ethical consideration filters.
+              items:
+                type: string
+                enum: [Adult Entertainment - No, Adult Entertainment - Yes, Alcohol - No, Alcohol - Yes, Animal Welfare - No, Animal Welfare - Yes, Civilian Firearms - No, Civilian Firearms - Yes, Cluster Munitions Manufacturing - No, Cluster Munitions Manufacturing - Yes, Board Diversity - Yes, Board Diversity - No, Gambling - No, Gambling - Yes, Genetic Engineering - No, Genetic Engineering - Yes, Thermal Coal - No, Thermal Coal - Yes, Tobacco - No, Tobacco - Yes, Weapons - No, Weapons - Yes]
+            regionOrCountry:
+              type: string
+              description: A region or a country ISO code.
+              $ref: 'https://plugin.daizy.com/nested-schemas/regionOrCountry.yaml'
+            currency:
+              type: string
+              description: Currency-based filter.
+              enum: [AED, ARS, AUD, BRL, BWP, BYN, CAD, CHF, CLP, CNH, CNY, CZK, DKK, EGP, EUR, FJD, GBP, GHS, HKD, HUF, IDR, ILS, INR, JPY, KRW, KWD, MDL, MKD, MXN, MYR, NOK, NZD, OMR, PEN, PHP, PLN, RUB, SEK, SGD, SZL, THB, TRY, TTD, TWD, UAH, USD, UYU, XAG, XAU, XPD, ZAR]
+            signal:
+              type: string
+              description: An event, by which traders usually enter or exit positions.
+              enum: [Top Gainers, Top Losers, New High, New Low, Most Volatile, Most Active, Unusual Volume, Overbought, Oversold, Downgrades, Upgrades, Earnings Before, Earnings After, Recent Insider Buying, Recent Insider Selling, Major News]
+        sortOrders:
+          type: array
+          maxItems: 2
+          description: Use this parameter to provide the user sort order for the list of stocks returned by the API. Multiple sort orders can be specified in priority order. If none specified by the user, 'MarketCapitalization' will be used by default.
+          items:
+            type: string
+            enum: [AnnualisedReturn, AnnualisedReturn2Years, AnnualisedReturn3Years, AnnualisedReturn5Years, AnnualisedStandardDeviation, AverageReturn, Beta, SECTOR_AVERAGE_DIRECT_CARBON_EMISSIONS, DIRECT_CARBON_EMISSIONS, GLOBAL_WARMING_POTENTIAL, Correlation, Covariance, DividendYield, DownCaptureRatio, DownNumberRatio, DownOutperformRatio, DownUnderperformRatio, ESG_ENVIRONMENTAL_SCORE, ESG_GOVERNANCE_SCORE, ESG_SCORE, ESG_SOCIAL_SCORE, FEMALE_DIRECTORS, GainsLossesRatio, HistoricalSimulationVaR, MarketCapitalization, MaximumDrawdown, NegativeReturns, NormalisedRelativeRisk, PERatio, ParametricVaR, PeriodHigh, PeriodLow, PeriodReturn10Years, PeriodReturn1Day, PeriodReturn1Month, PeriodReturn1Week, PeriodReturn1Year, PeriodReturn2MonthsAgo, PeriodReturn2QuartersAgo, PeriodReturn2Years, PeriodReturn2YearsAgo, PeriodReturn3Months, PeriodReturn3MonthsAgo, PeriodReturn3Years, PeriodReturn3YearsAgo, PeriodReturn4YearsAgo, PeriodReturn5Years, PeriodReturn5YearsAgo, PeriodReturn6Months, PeriodReturn7Years, PeriodReturnLastMonth, PeriodReturnLastQuarter, PeriodReturnLastYear, PeriodReturnMTD, PeriodReturnQTD, PeriodReturnSI, PeriodReturnYTD, PositiveReturns, PotentialUpside, RegressionAlpha, RegressionBeta, SharpeRatio, StandardDeviation, StartDate, TOTAL_DIRECTORS, UpCaptureRatio, UpNumberRatio, UpOutperformRatio, UpUnderperformRatio, Variance]
+        sortType:
+          type: string
+          description: Orders the search results in ascending or descending order. Supports prompts asking for the best or worst, or top or bottom.
+          enum: [asc, desc]
+          default: desc
+          
+    etfsHoldingsRequestBody:
+      title: etfsHoldingsRequestBody
+      type: object
+      required:
+        - prompt
+        - assetId
+      properties:
+        prompt:
+          type: string
+          description: The prompt that user asked.
+        assetId:
+          type: string
+          description: The ticker symbol or ISIN code of the asset detected in the prompt.
+        filter:
+          type: string
+          description: Represents the sector - the broad economic category a company operates in, such as Energy or Technology, or the industry - a narrower category within a sector, such as 'Oil & Gas' within Energy.
+          $ref: 'https://plugin.daizy.com/nested-schemas/etf-holdings-filter.yaml'
+        limit:
+          type: integer
+          description: The maximum number of search results to return.
+          default: 10
+        sortOrder:
+          type: string
+          description: The sort order for the list of ETFs returned by the API.
+          enum: [ESG_SCORE, ESG_ENVIRONMENTAL_SCORE, ESG_GOVERNANCE_SCORE, ESG_SOCIAL_SCORE, ESG_RATING, TOBACCO, ALCOHOL, GAMBLING, ADULT_ENTERTAINMENT, FEMALE_DIRECTORS, CONVENTIONAL_WEAPONS, POOR_ANIMAL_WELFARE, CIVILIAN_FIREARMS, THERMAL_COAL, GENETIC_ENGINEERING, ASSET_WEIGHT, PE_RATIO, BETA, MARKET_CAP, DIVIDEND_YIELD]
+        sortType:
+          type: string
+          description: The order of the search results by either descending or ascending. This parameter supports prompts asking for the best or worst, or top or bottom. 
+          enum: [asc, desc]
+
+    portfolioAnalysisRequestBody:
+      title: portfolioAnalysisRequestBody
+      type: object
+      required:
+        - prompt
+        - analysisType 
+        - portfolio
+      properties:
+        prompt:
+          type: string
+          description: The prompt that user asked.
+        analysisType:
+          type: string
+          description: Based on the analysis intent detected in the prompt.
+          enum: [createOrEdit, performance, risk, sentiment, carbon, climate, sustainability, equality, summary, morality, esg, environment, governance, social, temperature, correlation]
+        portfolio:
+          type: object
+          description: User portfolio with details about the current market value in USD that user holds (currentMarketValue) or past purchase details (purchaseDate).
+          required:
+            - isEquallyWeighted
+            - assets
+          properties: 
+            isEquallyWeighted:
+              type: boolean
+              description: Use false if there was any specification from the user on a currentMarketValue of any asset.
+            assets:
+              type: array
+              items:
+                type: object
+                description: Individual investment within the portfolio.
+                required:
+                  - assetId
+                  - assetName
+                  - assetType
+                properties:
+                  assetId:
+                    type: string
+                    description: The unique identifier for the asset. This is typically the ticker symbol for stocks, ETFs and cryptos, it should be provided in uppercase. For cash, use 'CUR:USD'.
+                  assetName:
+                    type: string
+                    description: The name of the asset. If user wants to add brand name to the portfolio, translate that to the parent company name.
+                  assetType:
+                    type: string
+                    description: The type of the asset.
+                    enum: [stock, etf, crypto, cash]
+                  currentMarketValue: 
+                    type: number
+                    description: The total current market value of the asset in USD. All market values should be converted to USD. The user should provide the actual dollar value of each asset in their portfolio, not the percentage weight.
+                  purchaseDate: 
+                    type: string
+                    description: The date when user purchased the asset. If not specified, use today date. If only month and year are specified, use the first day of that month. The date should be provided in the YYYY-MM-DD format.
+      
+    assetAnalysisRequestBody:
+      title: assetAnalysisRequestBody
+      type: object
+      required:
+        - prompt
+        - assetId
+        - assetType
+        - analysisType
+      properties:
+        prompt:
+          type: string
+          description: The prompt that user asked.
+        assetId:
+          type: string
+          description: The ticker symbol or ISIN code of the asset detected in the prompt.
+        assetName:
+          type: string
+          description: The name of the stock, etf, or crypto the user is asking about. If the question is about a brand name, translate that to the parent company name.
+        assetType:
+          type: string
+          description: The type of asset. If user ask about markets - use index value.
+          enum: [stock, etf, crypto, index]
+        analysisType:
+          type: string
+          description: Based on the analysis intent detected in the prompt.
+          enum: [performance, risk, sentiment, carbon, climate, sustainability, equality, summary, morality, price, esg, environment, governance, social, temperature, injuries_fatalities, fundamentals, etf_allocations, negative_impact, revenue_sources, water_consumption, correlation, analyst_recommendations, news, earnings, controversies, business_challenges_threats]
+
+    assetAnalysisSuccessfulResponse:
+      title: assetAnalysisSuccessfulResponse
+      type: object
+      properties:
+        markdown:
+          type: string
+          format: markdown
+          description: Supporting images that answer user question in markdown syntax which must be formatted and displayed.
+        timestamp:
+          $ref: '#/components/schemas/timestamp'
+        data_sources:
+          $ref: '#/components/schemas/dataSources'
+        learn_more:
+          $ref: '#/components/schemas/learnMore'
+        suggested_next_questions:
+          $ref: '#/components/schemas/suggestedNextQuestion'
+        help_guide:
+          type: string
+          description: This web page provides help and guidance on using the Daizy ChatGPT plugin. It should be included in all responses.
+        highlights:
+          type: object
+          description: Important data about the stock, etf, or crypto.
+          $ref: '#/components/schemas/highlights'
+        key_stats:
+          type: object
+          description: Additional data for the stock, etf, or crypto.
+          $ref: '#/components/schemas/keyStats'
+        asset_analysis:
+          type: object
+          description: Contains the data required to answer prompts about asset performance, risk, sustainability, sentiment, or other analysis types.
+        latest_news_stories:
+          type: array
+          description: A collection of recent news articles related to the prompt. This should be the only source of news in the response. 
+          items:
+            $ref: '#/components/schemas/newsArticleItem'
+
+    portfolioAnalysisSuccessfulResponse:
+      title: portfolioAnalysisSuccessfulResponse
+      type: object
+      properties:
+        markdown:
+          type: string
+          format: markdown
+          description: Markdown syntax which must be formatted and displayed.
+        timestamp:
+          $ref: '#/components/schemas/timestamp'
+        data_sources:
+          $ref: '#/components/schemas/dataSources'
+        learn_more:
+          $ref: '#/components/schemas/learnMore'
+        suggested_next_questions:
+          $ref: '#/components/schemas/suggestedNextQuestion'
+        help_guide:
+          type: string
+          description: This web page provides help and guidance on using the Daizy ChatGPT plugin. It should be included in all responses.
+        insights:
+          type: array
+          description: Important insights about the portfolio
+          items:
+            $ref: '#/components/schemas/insight'
+        portfolio_analysis:
+          type: object
+          description: Contains the data required to answer prompts about portfolio performance, risk, sustainability, sentiment, or other analysis types.
+          properties:
+            total_value:
+              type: string
+              description: Total value in USD
+            total_investments_average_book_cost:
+              type: string
+              description: Total investments average book cost
+            1_day_return:
+              type: string
+              description: The 1 day return of the user portfolio.
+            1_day_total_value_gain:
+              type: string
+              description: The 1 day total value gain of the user portfolio.
+            1_week_return:
+              type: string
+              description: The 1 week return of the user portfolio.
+            1_week_total_value_gain:
+              type: string
+              description: The 1 week total value gain of the user portfolio.
+            1_month_return:
+              type: string
+              description: The 1 month return of the user portfolio.
+            1_month_total_value_gain:
+              type: string
+              description: The 1 month total value gain of the user portfolio.
+            3_month_return:
+              type: string
+              description: The 3 month return of the user portfolio.
+            3_month_total_value_gain:
+              type: string
+              description: The 3 month total value gain of the user portfolio.
+            1_year_return:
+              type: string
+              description: The 1 year return of the user portfolio.
+            1_year_total_value_gain:
+              type: string
+              description: The 1 year total value gain of the user portfolio.
+        news:
+          type: array
+          description: A collection of recent news articles related to the prompt. This should be the only source of news in the response. 
+          items:
+            $ref: '#/components/schemas/newsArticleItem'
+
+    insight:
+      title: insight
+      type: object
+      properties:
+        key:
+          type: string
+        context:
+          type: string
+        insight:
+          type: string
+          description: Main insight
+        additional_insights:
+          type: array
+          description: Additional insights
+          items:
+            type: string
+        notes:
+          type: array
+          description: Notes with calculation details
+          items:
+            type: string
+
+    keyStats:
+      title: keyStats
+      type: object
+      properties:
+        symbol1:
+          type: string
+          description: The symbol or ticker of the asset.
+          
+    highlights:
+      title: highlights
+      type: object
+      properties:
+        symbol:
+          type: string
+          description: The symbol or ticker of the asset.
+        asset_name:
+          type: string
+          description: The name of the asset.
+        latest_price:
+          type: string
+          description: The latest price of the asset. Always and only use this field for asset price quotes.
+        exchange:
+          type: string
+          description: The exchange the asset is listed on.
+        description:
+          type: string
+          description: The description of the asset.
+        sector:
+          type: string
+          description: The sector of the asset.
+        industry:
+          type: string
+          description: The industry of the asset.
+        category:
+          type: string
+          description: The category of the ETF.
+        market_cap:
+          type: string
+          description: The market capitalization of the asset.
+        1_day_return:
+          type: string
+          description: The 1 day return of the asset.
+        1_week_return:
+          type: string
+          description: The 1 week return of the asset.
+        1_month_return:
+          type: string
+          description: The 1 month return of the asset.
+        3_months_return:
+          type: string
+          description: The 3 months return of the asset.
+        year_to_date_return:
+          type: string
+          description: The year to date return of the asset.
+        1_year_return:
+          type: string
+          description: The 12 month return of the asset.
+        dividend_yield:
+          type: number
+          description: The dividend yield of the asset. Should be shown as a percentage.
+        pe_ratio:
+          type: number
+          description: The PE ratio of the asset.
+        beta:
+          type: number
+          description: The Beta of the asset.
+        wall_street_target_price:
+          type: number
+          description: The analysts target price of the asset.
+        total_assets:
+          type: number
+          description: The total assets under management of the ETF.
+        net_expense_ratio:
+          type: number
+          description: The expense ratio of the ETF.
+        holdings_count:
+          type: number
+          description: The number of holdings in the ETF.
+        annual_holdings_turnover:
+          type: number
+          description: The amount of asset turnover of the ETF.
+        market_capitalization:
+          type: number
+          description: The market capitalization of the asset.
+        market_capitalization_diluted:
+          type: number
+          description: The diluted market capitalization of the asset.
+        circulating_supply:
+          type: number
+          description: The circulating supply of the crypto currency.
+        total_supply:
+          type: number
+          description: The total supply of the crypto currency.
+        max_supply:
+          type: number
+          description: The maximum supply of the crypto currency.
+        market_cap_dominance:
+          type: number
+          description: The market cap dominance of the crypto currency.
+        technical_doc:
+          type: string
+          description: The technical document for the crypto currency.
+        high_all_time:
+          type: number
+          description: The all time high price of the crypto currency.
+  
+    newsArticleItem:
+      title: newsArticleItem
+      type: object
+      properties:
+        datetime:
+          type: number
+          format: date
+          description: The unix timestamp of the news article
+        headline:
+          type: string
+          description: The headline of the news article
+        source:
+          type: string
+          description: The source of the news article
+        summary:
+          type: string
+          description: The summary of the news article
+        url:
+          type: string
+          description: The URL of the news article
+        image_url:
+          type: string
+          description: The image URL of the news article
+          
+    searchSuccessfulResponse:
+      title: searchSuccessfulResponse
+      type: object
+      properties:
+        markdown:
+          type: string
+          description: Markdown syntax which must be formatted and displayed by the consuming application in a table format.
+        timestamp:
+          $ref: '#/components/schemas/timestamp'
+        data_sources:
+          $ref: '#/components/schemas/dataSources'
+        learn_more:
+          $ref: '#/components/schemas/learnMore'
+        help_guide:
+          type: string
+          description: This web page provides help and guidance on using the Daizy ChatGPT plugin.
+
+    timestamp:
+      type: string
+      description: Represents the date and time when the data sources were last updated, in ISO timestamp format. This timestamp can be used to determine the freshness of the data, and to track changes over time.
+
+    dataSources:
+      type: string
+      description: The origin of the data, allowing user to verify its accuracy and reliability. The data sources are listed as strings, and can include URLs, database names, or other identifying information.
+
+    learnMore:
+      type: string
+      description: Provides a deep link to additional information on the topic that may be relevant to the data returned. Helps to investigate the topic more deeply, and to gain a better understanding of the data.
+
+    suggestedNextQuestion:
+      type: array
+      description: The field is intended to provide user with ideas for follow-up questions they could ask. These suggestions are based on the current topic of discussion and the capabilities of the DAIZY plugin.
+      items:
+        type: string
+        description: Suggested follow-up.
+   
+    badRequestError:
+      title: badRequestError
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          title: Error message
+          type: string

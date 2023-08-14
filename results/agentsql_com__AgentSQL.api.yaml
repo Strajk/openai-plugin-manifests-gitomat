@@ -1,0 +1,173 @@
+openapi: 3.0.1
+info:
+  title: AgentSQL
+  description: Interact with your Snowflake databases or your csv files.
+  version: 'v1'
+servers:
+  - url: https://agentsql.com
+paths:
+  /api/data-source:
+    get:
+      operationId: dataSource
+      summary: Returns the type of data source from the user - whether csv files or snowflake database. If csv files, you will interact only with the tables returned from this endpoint. You will show the user the file names, not the table names. Table name consists of {user_id}_{file_name}_{timestamp}. 
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                success: '#/components/schemas/dataSourceResponse'
+
+  /api/like:
+    post:
+      operationId: like
+      summary: Sends whether user liked or disliked a generated query.
+      parameters:
+      - in: query
+        name: dataSource
+        schema:
+            type: string
+        required: true
+        description: The type of data source from the user - whether csv files or snowflake database.
+
+      - in: query
+        name: query
+        schema:
+            type: string
+        required: true
+        description: The Snowflake query to be sent to the API endpoint. Query must be compatible with Snowflake.
+
+      - in: query
+        name: userInput
+        schema:
+            type: string
+        required: true
+        description: The text that the user entered that generated the query from ChatGPT.
+
+      - in: query
+        name: liked
+        schema:
+            type: boolean
+        required: true
+        description: Whether the user liked the query or not.
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                success: '#/components/schemas/queryResponse'
+
+  /api/query:
+    get:
+      operationId: query
+      summary: Generates a Snowflake query based on the user input. Database interaction will be handled on plugin side.
+      parameters:
+      - in: query
+        name: dataSource
+        schema:
+            type: string
+        required: true
+        description: The type of data source from the user - whether csv files or snowflake database.
+
+      - in: query
+        name: query
+        schema:
+            type: string
+        required: true
+        description: The Snowflake query to be sent to the API endpoint. Query must be compatible with Snowflake.
+
+      - in: query
+        name: userInput
+        schema:
+            type: string
+        required: true
+        description: The text that the user entered that generated the query from ChatGPT.
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                success: '#/components/schemas/queryResponse'
+
+  /api/schema:
+    get:
+      operationId: schema
+      summary: Returns a schema from the Snowflake database based on a table name.
+      parameters:
+      - in: query
+        name: databaseName
+        schema:
+            type: string
+        required: true
+        description: The Snowflake database name to be queried in order to find the schema of the table.
+
+      - in: query
+        name: dataSource
+        schema:
+            type: string
+        required: true
+        description: The type of data source from the user - whether csv files or snowflake database.
+
+      - in: query
+        name: tableName
+        schema:
+            type: string
+        required: true
+        description: The Snowflake table name to be queried in order to find the schema of the table.
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                success: '#/components/schemas/schemaResponse'
+
+components:
+  schemas:
+    dataSourceResponse:
+      type: object
+      properties:
+        dataSource:
+          type: string
+          description: The type of data source from the user - whether csv files or snowflake database.
+        tableNames:
+          type: array
+          description: The names of the tables in the database.
+          items: 
+            type: string
+            description: The name of the table.
+
+    queryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the query was successful.
+    
+    schemaResponse:
+      type: object
+      properties:
+        columns:
+          type: array
+          description: The columns of the table.
+          items: 
+            columnName:
+              type: string
+              description: The name of the column.
+            dataType:
+              type: string
+              description: The data type of the column.
+          
+        schemaName:
+          type: string
+          description: The schema name of the table.
+
+        sucess:
+          type: boolean
+          description: Whether it finds the schema of the table or not.

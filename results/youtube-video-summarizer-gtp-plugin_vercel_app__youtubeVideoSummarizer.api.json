@@ -1,0 +1,259 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Youtube Video Summarizer",
+    "description": "API docs of Youtube Video Summarizer",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/video_info/": {
+      "get": {
+        "tags": [
+          "Video Info"
+        ],
+        "summary": "Get video info",
+        "description": "Get transcribed information about the video.",
+        "operationId": "get_video_transcription_video_info__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "video_url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Video Url"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Language"
+                }
+              ],
+              "default": "en",
+              "title": "Language"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoInfo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Video not found or video protected or disabled for transcription to provide more details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "description": "The detail of the error."
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "Error"
+      },
+      "Language": {
+        "type": "string",
+        "enum": [
+          "en",
+          "es",
+          "zh",
+          "hi",
+          "fr",
+          "pt",
+          "bn",
+          "ru",
+          "ja",
+          "pa"
+        ],
+        "title": "Language"
+      },
+      "VideoInfo": {
+        "properties": {
+          "page": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page",
+            "description": "The page number to retrieve when the transcription exceed 25000 characters.",
+            "default": 1
+          },
+          "total_pages": {
+            "type": "integer",
+            "title": "Total Pages",
+            "description": "The total number of pages for the transcription of the YouTube video. There can be more than one pages based on video lenght and substitles."
+          },
+          "video_id": {
+            "type": "string",
+            "title": "Video Id",
+            "description": "The ID of the YouTube video."
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title",
+            "description": "The title of the YouTube video."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "The description of the YouTube video."
+          },
+          "transcribed_part": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transcribed Part",
+            "description": "A part of the transcription of the YouTube video, where key value is the time at the video in seconds and value is the transcription."
+          },
+          "channel_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Channel Name",
+            "description": "The name of the channel."
+          },
+          "channel_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Channel Url",
+            "description": "The URL of the channel."
+          },
+          "views": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Views",
+            "description": "The number of views of the video."
+          },
+          "length": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Length",
+            "description": "The length of the video."
+          }
+        },
+        "type": "object",
+        "required": [
+          "page",
+          "total_pages",
+          "video_id",
+          "title",
+          "description",
+          "transcribed_part",
+          "channel_name",
+          "channel_url",
+          "views",
+          "length"
+        ],
+        "title": "VideoInfo"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

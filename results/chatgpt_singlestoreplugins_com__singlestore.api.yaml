@@ -1,0 +1,178 @@
+openapi: 3.0.1
+info:
+  version: v1
+  title: SingleStore
+  description: Query your SingleStore database in English.
+servers:
+  - url: https://chatgpt.singlestoreplugins.com
+paths:
+  /db/type:
+    get:
+      operationId: db_type
+      summary: Gets the database type active for the user among MySQL and Mongo (Kai).
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              type: object
+              properties:
+                result:
+                  type: string
+                  description: The database type active for the user among MySQL and Mongo (Kai).
+  /db/connect/kai:
+    get:
+      operationId: db_connect_kai
+      summary: Returns a link that can only be used once and expires after 5 minutes to redirect the user to the Mongo (Kai) database connection configuration page. Reuse requires repeat the prompt.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              type: object
+              properties:
+                link:
+                  type: string
+                  description: Markdown link to go to the Mongo (Kai) database connection configuration page.
+  /db/connect/sql:
+    get:
+      operationId: db_connect_mysql
+      summary: Returns a link that can only be used once and expires after 5 minutes to redirect the user to the MySQL database connection configuration page. Reuse requires repeat the prompt.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              type: object
+              properties:
+                link:
+                  type: string
+                  description: Markdown link to go to the MySQL database connection configuration page.
+  /kai/summaries:
+    post:
+      operationId: kai_summaries
+      summary: Retrieve a Mongo (Kai) database collection schema that includes collection names and corresponding field types to understand and learn the structure of the database.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    description: The Mongo (Kai) database collection schema that includes collection names and corresponding field types.
+  /kai/aggregate:
+    post:
+      operationId: kai_aggregate
+      summary: Execute a MongoDB aggregate query using PyMongo to retrieve data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                collection_name:
+                  type: string
+                  description: The name of the collection in which the query should be executed.
+                  required: true
+                query:
+                  type: string
+                  description: The PyMongo MongoDB aggregate query that will be executed.
+                  required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    description: The query result
+  /sql/summaries:
+    post:
+      operationId: sql_summaries
+      summary: Retrieve a MySQL database collection schema that includes collection names and corresponding field types to understand and learn the structure of the database.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    description: The MySQL database collection schema that includes collection names and corresponding field types.
+  /sql/query:
+    post:
+      operationId: sql_query
+      summary: Execute a MySQL query to retrieve data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: The MySQL query that will be executed.
+                  required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    description: The query result
+  /notebook/create:
+    post:
+      operationId: notebook_create
+      summary: Create a Jupyter Notebook (.ipynb) file and provide a Markdown link to download the file.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Optional notebook file name in kebab case in lowercase
+                display_name:
+                  type: string
+                  description: Optional notebook display name in title style
+                content:
+                  type: string
+                  description: The Jupyter Notebook (.ipynb) content to be inserted into the file.
+                  required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  link:
+                    type: string
+                    description: Markdown link to download the Jupyter Notebook (.ipynb) file.
+  /notebook/all:
+    get:
+      operationId: notebook_all
+      summary: List all notebooks.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    description: The list of all Jupyter Notebooks

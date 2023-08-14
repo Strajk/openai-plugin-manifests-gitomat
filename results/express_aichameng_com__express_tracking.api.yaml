@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+    title: Express Tracking
+    version: 1.0.0
+    servers:
+        - url: https://express.aichameng.com
+    description: The 'express_tracking' service provides comprehensive services for querying international express logistics information. It offers an automated tracking number identification feature, which determines the carrier or courier company for the given tracking number. Once the carrier is identified, the service fetches and returns the current tracking status of the shipment. The tracking information includes the location, delivery status, and expected delivery date when available. The service is provided free of charge. 
+paths:
+    /kd100/{tracking_number}:
+        get:
+            operationId: getTrackInfo
+            summary: Get the data of track info
+            parameters:
+                - in: path
+                  name: tracking_number
+                  schema:
+                      type: string
+                  required: true
+                  description: The tracking number of the package.
+            responses:
+                "200":
+                    description: OK
+
+paths:
+    /kd100/{tracking_number}:
+        get:
+            operationId: getTrackInfo
+            summary: Get the data of track info
+            parameters:
+                - in: path
+                  name: tracking_number
+                  schema:
+                      type: string
+                  required: true
+                  description: The name of the user.
+            responses:
+                "200":
+                    description: OK

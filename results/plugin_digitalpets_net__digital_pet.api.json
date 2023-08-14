@@ -1,0 +1,564 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "A Digital Pet",
+    "description": "A virtual pet simulation game. Use the pet stats and the context received to develop fun and interactive stories, while staying in lane with the possibilities offered by the game. Try to keep the answer size under 200 words.",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/pet/hello": {
+      "get": {
+        "operationId": "getPetStatus",
+        "summary": "get pet status and context",
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "context": {
+                      "type": "string",
+                      "description": "The current situation of your pet"
+                    },
+                    "pet_stats": {
+                      "type": "object",
+                      "description": "The pet statistics",
+                      "properties": {
+                        "hungry": {
+                          "type": "string",
+                          "description": "wether your pet is hungry. from 0 = not hungry at all to 100 = very hungry"
+                        },
+                        "need_attention": {
+                          "type": "string",
+                          "description": "wether your pet needs attention. from 0 = all good to 100 = in need of attention"
+                        },
+                        "need_walk": {
+                          "type": "string",
+                          "description": "wether your pet needs to go foe a walk. from 0 = no need at all to 100 = needs really bad"
+                        },
+                        "need_healthcheck": {
+                          "type": "string",
+                          "description": "wether your pet needs to go to the vet. from 0 = in perfect health to 100 = hasn't been in a long time"
+                        },
+                        "need_cleaning": {
+                          "type": "string",
+                          "description": "wether your pet is dirty. from 0 = perfectly clean to 100 = very dirty"
+                        },
+                        "wants_play": {
+                          "type": "string",
+                          "description": "wether your pet wants to play. from 0 = just played to 100 = really wants to play"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pet/adopt": {
+      "post": {
+        "operationId": "adoptPet",
+        "summary": "adopt a pet",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The pet name."
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "The pet type. It can only be \"dog\" or \"cat\" for now",
+                    "enum": [
+                      "cat",
+                      "dog"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "context": {
+                      "type": "string",
+                      "description": "The current situation of your pet"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Wether you successfully adopted your pet"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pet/action": {
+      "post": {
+        "operationId": "makePetAction",
+        "summary": "Make your pet do an activity",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "description": "The activity type. It can only be \"clean\" to clean your pet (bath, groom salon, or anything you can imagine), \"feed\" (any type of food your storyline involves), \"pet\" (give him attention), \"play\" (can be any kind of game), \"vet\" (take him to the veterinary for a checkup) and \"walk\" (take gim outside, for a walk, at the parc, the beach, the forest, the mountains, ...) for now",
+                    "enum": [
+                      "clean",
+                      "feed",
+                      "pet",
+                      "play",
+                      "vet",
+                      "walk"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "context": {
+                      "type": "string",
+                      "description": "The current situation of your pet"
+                    },
+                    "pet_stats": {
+                      "type": "object",
+                      "description": "The pet statistics",
+                      "properties": {
+                        "hungry": {
+                          "type": "string",
+                          "description": "wether your pet is hungry. from 0 = not hungry at all to 100 = very hungry"
+                        },
+                        "need_attention": {
+                          "type": "string",
+                          "description": "wether your pet needs attention. from 0 = all good to 100 = in need of attention"
+                        },
+                        "need_walk": {
+                          "type": "string",
+                          "description": "wether your pet needs to go foe a walk. from 0 = no need at all to 100 = needs really bad"
+                        },
+                        "need_healthcheck": {
+                          "type": "string",
+                          "description": "wether your pet needs to go to the vet. from 0 = in perfect health to 100 = hasn't been in a long time"
+                        },
+                        "need_cleaning": {
+                          "type": "string",
+                          "description": "wether your pet is dirty. from 0 = perfectly clean to 100 = very dirty"
+                        },
+                        "wants_play": {
+                          "type": "string",
+                          "description": "wether your pet wants to play. from 0 = just played to 100 = really wants to play"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pet/socialize": {
+      "post": {
+        "operationId": "socializePet",
+        "summary": "Make your pet socialize with another pet. If you don't provide a friend name we will answer you with friend suggestions",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "friend": {
+                    "type": "string",
+                    "description": "The name of the friend your pet wants to see. Can be empty"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "context": {
+                      "type": "string",
+                      "description": "The current situation of your pet"
+                    },
+                    "pet_stats": {
+                      "type": "object",
+                      "description": "The pet statistics",
+                      "properties": {
+                        "hungry": {
+                          "type": "string",
+                          "description": "wether your pet is hungry. from 0 = not hungry at all to 100 = very hungry"
+                        },
+                        "need_attention": {
+                          "type": "string",
+                          "description": "wether your pet needs attention. from 0 = all good to 100 = in need of attention"
+                        },
+                        "need_walk": {
+                          "type": "string",
+                          "description": "wether your pet needs to go foe a walk. from 0 = no need at all to 100 = needs really bad"
+                        },
+                        "need_healthcheck": {
+                          "type": "string",
+                          "description": "wether your pet needs to go to the vet. from 0 = in perfect health to 100 = hasn't been in a long time"
+                        },
+                        "need_cleaning": {
+                          "type": "string",
+                          "description": "wether your pet is dirty. from 0 = perfectly clean to 100 = very dirty"
+                        },
+                        "wants_play": {
+                          "type": "string",
+                          "description": "wether your pet wants to play. from 0 = just played to 100 = really wants to play"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pet/skill": {
+      "post": {
+        "operationId": "trainPetSkill",
+        "summary": "Make your pet practice or learn a new skill. If you don't provide a skill name we will answer you with a list of skills",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "skill": {
+                    "type": "string",
+                    "description": "The name of the skill. Can be empty"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "context": {
+                      "type": "string",
+                      "description": "The current situation of your pet"
+                    },
+                    "pet_stats": {
+                      "type": "object",
+                      "description": "The pet statistics",
+                      "properties": {
+                        "hungry": {
+                          "type": "string",
+                          "description": "wether your pet is hungry. from 0 = not hungry at all to 100 = very hungry"
+                        },
+                        "need_attention": {
+                          "type": "string",
+                          "description": "wether your pet needs attention. from 0 = all good to 100 = in need of attention"
+                        },
+                        "need_walk": {
+                          "type": "string",
+                          "description": "wether your pet needs to go foe a walk. from 0 = no need at all to 100 = needs really bad"
+                        },
+                        "need_healthcheck": {
+                          "type": "string",
+                          "description": "wether your pet needs to go to the vet. from 0 = in perfect health to 100 = hasn't been in a long time"
+                        },
+                        "need_cleaning": {
+                          "type": "string",
+                          "description": "wether your pet is dirty. from 0 = perfectly clean to 100 = very dirty"
+                        },
+                        "wants_play": {
+                          "type": "string",
+                          "description": "wether your pet wants to play. from 0 = just played to 100 = really wants to play"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://plugin.digitalpets.net"
+    }
+  ]
+}

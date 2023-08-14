@@ -1,0 +1,80 @@
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    Markdown2DocxRequest:
+      properties:
+        camelcase_filename:
+          default: Untitled
+          description: 'Mandatory: suggested CamelCase filename. Do NOT include file
+            extension.'
+          title: Camelcase Filename
+          type: string
+        formatted_markdown:
+          default: ''
+          title: Formatted Markdown
+          type: string
+      title: Markdown2DocxRequest
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+info:
+  description: A plugin that allows the user to create a DOCX file using ChatGPT.
+  title: Create Docx Plugin
+  version: v1
+openapi: 3.0.2
+paths:
+  /create_docx_v2:
+    post:
+      operationId: create_docx_v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Markdown2DocxRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                title: Response Create Docx V2 Create Docx V2 Post
+                type: object
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Docx V2
+servers:
+- url: https://docx.level2labs.xyz

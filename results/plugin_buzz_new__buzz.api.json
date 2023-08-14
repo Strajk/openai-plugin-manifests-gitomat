@@ -1,0 +1,315 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "BUZZ.NEW Creation; create your business, products and collect orders.",
+    "description": "A smart business creator that facilitates the creation and management of businesses, including product inventory and order handling.",
+    "version": "v0.0.1"
+  },
+  "paths": {
+    "/create": {
+      "get": {
+        "operationId": "get_CreateBusiness",
+        "tags": [
+          "Create Business",
+          "Modify Business"
+        ],
+        "summary": "Create and manage business, products and take orders",
+        "parameters": [
+          {
+            "description": "The name of the business to be created or managed",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The name of the business to be created or managed",
+              "default": "My  Business"
+            },
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "description": "Alias name must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Alias name must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character",
+              "default": "my--business"
+            },
+            "name": "alias",
+            "in": "query"
+          },
+          {
+            "description": "The string of description to be added to the business. Enhanced with emojis and markdown for better user experience.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The string of description to be added to the business. Enhanced with emojis and markdown for better user experience.",
+              "default": "Description of My Business"
+            },
+            "name": "description",
+            "in": "query"
+          },
+          {
+            "description": "The business owners email address, required for authorization",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The business owners email address, required for authorization",
+              "default": "your@email-address.com"
+            },
+            "name": "owner",
+            "in": "query"
+          },
+          {
+            "description": "The business owners whatsapp number",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The business owners whatsapp number",
+              "default": "+1234567890"
+            },
+            "name": "whatsapp",
+            "in": "query"
+          },
+          {
+            "description": "The string of products to be added to the business, product name, description, price, and image url, variants and variant prices and photos if any",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The string of products to be added to the business, product name, description, price, and image url, variants and variant prices and photos if any",
+              "default": "Products of My Business"
+            },
+            "name": "products",
+            "in": "query"
+          },
+          {
+            "description": "The string of categories to be added to the business",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The string of categories to be added to the business",
+              "default": "Categories of My Business"
+            },
+            "name": "categories",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "buzz": {
+                      "type": "string",
+                      "example": "https://buzz.new/your-business-alias"
+                    },
+                    "business": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "My Business"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Business initiated successfully!"
+                        },
+                        "alias": {
+                          "type": "string",
+                          "example": "your-business-alias"
+                        },
+                        "qr": {
+                          "type": "string",
+                          "example": "https://chart.googleapis.com/chart?chs=300x300&cht=qr&choe=UTF-8&chl=${encodeURIComponent(`https://buzz.new/${alias}`)}"
+                        },
+                        "response": {
+                          "type": "string",
+                          "example": "Welcome to My Business"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "message",
+                        "alias",
+                        "qr",
+                        "response"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "buzz",
+                    "business"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/delete": {
+      "get": {
+        "operationId": "get_DeleteBusiness",
+        "tags": [
+          "Delete Business"
+        ],
+        "summary": "Delete a business",
+        "parameters": [
+          {
+            "description": "Alias name must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Alias name must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character",
+              "default": "my-business"
+            },
+            "name": "alias",
+            "in": "query"
+          },
+          {
+            "description": "The business owners email address, required for authorization",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The business owners email address, required for authorization",
+              "default": "your@email-address.com"
+            },
+            "name": "owner",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "string",
+                      "example": "Business deleted successfully!"
+                    }
+                  },
+                  "required": [
+                    "response"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order": {
+      "get": {
+        "operationId": "get_OrderBusiness",
+        "tags": [
+          "Create Order"
+        ],
+        "summary": "Create an order for a business",
+        "parameters": [
+          {
+            "description": "Alias name must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Alias name must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character",
+              "default": "my-business"
+            },
+            "name": "alias",
+            "in": "query"
+          },
+          {
+            "description": "The order you want to create",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The order you want to create",
+              "default": "1x red shirt"
+            },
+            "name": "order",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "example": "The response from the business"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/question": {
+      "get": {
+        "operationId": "get_QuestionBusiness",
+        "tags": [
+          "Ask a Question to a Business"
+        ],
+        "summary": "Ask a question to a business",
+        "parameters": [
+          {
+            "description": "Alias name must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Alias name must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character",
+              "default": "my-business"
+            },
+            "name": "alias",
+            "in": "query"
+          },
+          {
+            "description": "The question to send to the business",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The question to send to the business",
+              "default": "What is the price of a red shirt?"
+            },
+            "name": "query",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "example": "The response from the business"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

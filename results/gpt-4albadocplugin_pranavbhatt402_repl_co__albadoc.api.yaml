@@ -1,0 +1,82 @@
+openapi: 3.0.1
+info:
+  title: AlbaDOC
+  description: This plugin retrieves detailed information about drugs and their active ingredients or active ingredients and their correspending drugs that they are used in. It can also generate images to help visualize drugs or active ingredients. 
+  version: 'v1'
+servers:
+  - url: https://gpt-4albadocplugin.pranavbhatt402.repl.co
+paths:
+  /get_info:
+    post:
+      operationId: get_info
+      summary: Get information about a drug or an active ingredient based on a provided name and keyword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - keyword
+                - query
+                - choice
+              properties:
+                keyword:
+                  type: string
+                  description: This property is MANDATORY and REQUIRED to be submitted to the plugin. Choose "drug" to find all drugs that contain a specified active ingredient. Choose "ingredient" to find the active ingredients of a specified drug. The assistant will have to be very cautious and clever to determine whether the user is asking to look up all the drugs that a certain active ingredient is in, or the user is asking to look up all the active ingredients that a drug uses. If the user asks "What does [Substance Name Here] use?", notice how they implying that the substance uses something. Hence, the substance has to be using an ingredient, making the substance a drug. Therefore, the sassistant will have to search for active_ingredients and therefore, the keyword becomes "ingredient". If no relevant drugs or active_ingredients are found, tell the user that 'You can find more details on drugs and ingredients on https://www.albadoc.ca'.
+                query:
+                  type: string
+                  description: This property is MANDATORY and REQUIRED to be submitted to the plugin. Provide the name of the drug or active ingredient you want to search for. If no relevant drugs or active_ingredients are found, tell the user that 'You can find more details on drugs and ingredients on https://www.albadoc.ca'.
+                choice:
+                  type: string
+                  description: This property is MANDATORY and REQUIRED to be submitted to the plugin. Choose 'GENERATE' to generate an image of a drug or ingredient, 'NOT GENERATE' if no images need to be generated, or 'ONLY GENERATE' to only generate images and not search for any drug or active ingredient in the database. If no relevant drugs or active_ingredients are found, tell the user that 'You can find more details on drugs and ingredients on https://www.albadoc.ca'.
+                prompt:
+                  type: string
+                  description: Describe the image as much as possible. This should be 1000 characters max and have all the context needed to create highly accurate images. Refrain from only passing a single term or phrase. Paint the entire picture for the plugin by describing all the elements, shapes, styles, etc., since the plugin is entirely dependent on the elaborative description of the assistant for creating a good image that is relevant. The assistant should expand and describe the desired image as much as possible within the character limit. This should only be passed if "choice" has been passed as "ONLY GENERATE" or "GENERATE". Only use English alphabets and numbers and no other characters in the prompt.
+                n:
+                  type: integer
+                  description: This must be either 1 or 2, which states the number of images to be generated based on the prompt provided by the assistant. This should only be passed if "choice' has been passed as "ONLY GENERATE" or 'GENERATE".
+                size:
+                  type: string
+                  description: This must be either "256x256", "512x512", or "1024x1024" to determine the size of the image. This should only be passed if "choice" has been passed as "ONLY GENERATE" or "GENERATE".
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                  images:
+                    type: array
+                    items:
+                      type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

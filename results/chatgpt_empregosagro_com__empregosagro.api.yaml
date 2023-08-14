@@ -1,0 +1,212 @@
+openapi: 3.1.0
+info:
+  title: Empregos Agro ChatGPT Plugin API
+  version: v1
+  description: REST API to retrieve job contents by ChatGPT
+servers:
+  - url: https://chatgpt.empregosagro.com
+    description: API schema for search APIs exposed to OpenAI services
+tags:
+  - name: SearchV1Controller
+    description: Search controller V1 API
+paths:
+  /v1/jobs/search:
+    post:
+      summary:
+        A public API that searches the Empregos Agro catalog for job openings related to the provided query string.
+      tags:
+        - search-jobs-v1-controller
+      operationId: 
+        searchJobs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/component/schemas/SearchJobQuery'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/component/schemas/SearchJobResponse'
+        "400":
+          description: Error fetching jobs
+  /v1/jobs/{id}:
+    get:
+      summary:
+        A public API that gets detailed information about a specific job, using the provided job ID.
+      tags:
+        - get-job-v1-controller
+      operationId: 
+        getJob
+      parameters:
+        - name: id
+          in: path
+          description: Job ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/component/schemas/GetJobResponse'
+        "400":
+          description: Error fetching job
+  /v1/courses/search:
+    post:
+      summary:
+        A public API that searches the Empregos Agro catalog for courses related to the provided query string.
+      tags:
+        - search-courses-v1-controller
+      operationId: 
+        searchCourses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/component/schemas/SearchCourseQuery'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/component/schemas/SearchCourseResponse'
+        "400":
+          description: Error fetching courses
+components:
+  schemas:
+    SearchJobQuery:
+      type: object
+      properties:
+        query:
+          type: string
+          description: The search term to look for
+        telecommute:
+          type: boolean
+          description: Indicates if the job accepts remote work
+        company:
+          type: string
+          description: The company name
+        city:
+          type: string
+          description: The city name without abbreviations
+        state:
+          type: string
+          description: The state name without abbreviations
+        country:
+          type: string
+          description: The country name without abbreviations
+        page:
+          type: integer
+          format: int32
+          minimum: 1
+        original_user_input:
+          type: string
+          description: The original user input
+      required:
+        - page
+        - original_user_input
+      example:
+        query: software developer
+        telecommute: true
+        company: ACME Inc
+        city: Houston
+        state: Texas
+        country: United States
+        page: 1
+    SearchCourseQuery:
+      type: object
+      properties:
+        query:
+          type: string
+          description: The search term to look for
+        page:
+          type: integer
+          format: int32
+          minimum: 1
+        original_user_input:
+          type: string
+          description: The original user input
+      required:
+        - page
+        - original_user_input
+      example:
+        query: digital marketing
+    SearchJobResponse:
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchJobHit'
+    GetJobResponse:
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetJobHit'
+    SearchCourseResponse:
+      properties:
+        courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchCourseHit'
+    SearchJobHit:
+      type: object
+      properties:
+        id:
+          type: string
+        company:
+          type: string
+        title:
+          type: string
+        location:
+          type: string
+        skills:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+    GetJobHit:
+      type: object
+      properties:
+        id:
+          type: string
+        company:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        telecommute:
+          type: boolean
+        contract_type:
+          type: string
+        skills:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+    SearchCourseHit:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        provider:
+          type: string
+        segment:
+          type: string
+        url:
+          type: string

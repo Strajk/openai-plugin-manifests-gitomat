@@ -1,0 +1,35 @@
+openapi: 3.0.1
+info:
+  title: College Admission FAQ API
+  description: API for answering college admission related questions
+  version: 'v1'
+servers:
+  - url: https://edu-api.brainlox.com
+paths:
+  /process_pdf:
+    post:
+      summary: Process PDF and get answer for a college admission question
+      operationId: processPdf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                  description: The college admission question
+              required:
+                - question
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    description: The answer to the college admission question

@@ -1,0 +1,665 @@
+openapi: 3.0.1
+info:
+  title: Crypto market information Plugin
+  description: A comprehensive tool for cryptocurrency and NFT data and Defi protocol analytics. It offers a range of features including OHLCV data for spot, futures, and perpetual contracts, funding rate analysis, long/short ratio and Open Interest (OI) for futures and options, liquidation statistics, gas prices across blockchains, contract intelligence via address, NFT rankings and details, trending cryptocurrencies, and DeFi protocol data such as Total Value Locked (TVL).
+  version: 'v1'
+servers:
+  - url: https://chatgptpi.signalplus.com
+paths:
+#  /get_current_timestamp:
+#    get:
+#      operationId: getCurrentTimestamp
+#      summary: Acquire the current timestamp. If the user's inquiry necessitates knowledge of the time, please call this interface first to obtain the present timestamp.
+#      responses:
+#        "200":
+#          description: OK
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/getCurrentTimestamp'
+  /get_current_utc_datetime:
+    get:
+      operationId: getCurrentUTCTime
+      summary: Returns current UTC+0 time. Useful when 'now' or 'current' is mentioned by users. Helps ChatGPT provide exact time during conversations.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getCurrentUTCTime'
+  /utc_datetime_to_timestamp/{datetime}:
+    get:
+      operationId: utcDatetimeToTimestamp
+      summary: Generates accurate timestamp needed by other APIs. Assists ChatGPT in providing precise timestamps for data fetching and manipulation in various contexts.
+      parameters:
+        - in: path
+          name: datetime
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a UTC+0 time string in the format "YYYY-MM-DD HH:MM:SS" (e.g. "2023-06-13 13:23:17") to be converted into a Unix timestamp.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/utcDatetimeToTimestamp'
+  /spot/ohlcv/{exchange}/{baseCurrency}/{quoteCurrency}/{startTs}/{endTs}/{timeframe}:
+    get:
+      operationId: getSpotOHLCV
+      summary: This API returns OHLCV price data for a specified cryptocurrency spot over a given time period. Users can input a digital currency's identifier and desired date range for comprehensive price trends analysis.
+      parameters:
+        - in: path
+          name: exchange
+          schema:
+            type: string
+          required: true
+          description: Input the name of the cryptocurrency exchange. If not specified, use 'Binance' as default.
+        - in: path
+          name: baseCurrency
+          schema:
+            type: string
+          required: true
+          description: The base currency in a currency pair. For instance, in "btc/usd", "btc/usdt", "btc swap", "btc perp", all should return "btc".
+        - in: path
+          name: quoteCurrency
+          schema:
+            type: string
+          required: true
+          description: The quote currency in a currency pair. For instance, in "btc/usd", it is "usd"; in "eth/usdt", it is "usdt"; in "btc usd spot", it is "usd"; in "btc/eth", it is "eth".
+        - in: path
+          name: startTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the start date and time for the historical price data you want to retrieve.
+        - in: path
+          name: endTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the end date and time for the historical price data you want to retrieve.
+        - in: path
+          name: timeframe
+          schema:
+            type: string
+          required: true
+          description: This parameter is for specifying the time interval for the historical BTC price data. Like  '1m','30m','1h','1d','3d','1w','1M'.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSpotOHLCV'
+  /future/ohlcv/{exchange}/{baseCurrency}/{quoteCurrency}/{expireDay}/{startTs}/{endTs}/{timeframe}:
+    get:
+      operationId: getFuturesOHLCV
+      summary: This API returns OHLCV prcie data for a specified cryptocurrency future over a given time period. Users can input a digital currency's identifier and desired date range for comprehensive price trends analysis.
+      parameters:
+        - in: path
+          name: exchange
+          schema:
+            type: string
+          required: true
+          description: Input the name of the cryptocurrency exchange. If not specified, use 'Binance' as default.
+        - in: path
+          name: baseCurrency
+          schema:
+            type: string
+          required: true
+          description: The base currency in a currency pair. For instance, in "btc/usd", "btc/usdt", "btc swap", "btc perp", all should return "btc".
+        - in: path
+          name: quoteCurrency
+          schema:
+            type: string
+          required: true
+          description: The quote currency in a currency pair. For instance, in "btc/usd", it is "usd"; in "eth/usdt", it is "usdt"; in "btc usd spot", it is "usd"; in "btc/eth", it is "eth".
+        - in: path
+          name: expireDay
+          schema:
+            type: string
+          required: true
+          description: Input the expire date of the futures, use the format ‘YYMMDD’(e.g., 230630 stands for 30 Jun 2023).
+        - in: path
+          name: startTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the start date and time for the historical price data you want to retrieve.
+        - in: path
+          name: endTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the end date and time for the historical price data you want to retrieve.
+        - in: path
+          name: timeframe
+          schema:
+            type: string
+          required: true
+          description: This parameter is for specifying the time interval for the historical BTC price data. Like  '1m','30m','1h','1d','3d','1w','1M'.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getFuturesOHLCV'
+  /swap/ohlcv/{exchange}/{baseCurrency}/{quoteCurrency}/{startTs}/{endTs}/{timeframe}:
+    get:
+      operationId: getPerpetualOHLCV
+      summary: This API returns OHLCV prcie data for a specified cryptocurrency PerpetualFutures/PerpetualSwaps/PerpetualContracts over a given time period. Users can input a digital currency's identifier and desired date range for comprehensive price trends analysis.
+      parameters:
+        - in: path
+          name: exchange
+          schema:
+            type: string
+          required: true
+          description: Input the name of the cryptocurrency exchange. If not specified, use 'Binance' as default.
+        - in: path
+          name: baseCurrency
+          schema:
+            type: string
+          required: true
+          description: The base currency in a currency pair. For instance, in "btc/usd", "btc/usdt", "btc swap", "btc perp", all should return "btc"..
+        - in: path
+          name: quoteCurrency
+          schema:
+            type: string
+          required: true
+          description: The quote currency in a currency pair. For instance, in "btc/usd", it is "usd"; in "eth/usdt", it is "usdt"; in "btc usd spot", it is "usd"; in "btc/eth", it is "eth".
+        - in: path
+          name: startTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the start date and time for the historical price data you want to retrieve.
+        - in: path
+          name: endTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the end date and time for the historical price data you want to retrieve.
+        - in: path
+          name: timeframe
+          schema:
+            type: string
+          required: true
+          description: This parameter is for specifying the time interval for the historical BTC price data. Like  '1m','30m','1h','1d','3d','1w','1M'.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSwapOHLCV'
+  /swap/funding_rate/{exchange}/{baseCurrency}/{quoteCurrency}:
+    get:
+      operationId: getPerpetualFundingRate
+      summary: Real-time funding rate of specific PerpetualFutures/PerpetualSwaps/PerpetualContracts.
+      parameters:
+        - in: path
+          name: exchange
+          schema:
+            type: string
+          required: true
+          description: Input the name of the cryptocurrency exchange. If not specified, use 'Binance' as default.
+        - in: path
+          name: baseCurrency
+          schema:
+            type: string
+          required: true
+          description: The base currency in a currency pair. For instance, in "btc/usd", "btc/usdt", "btc swap", "btc perp", all should return "btc"..
+        - in: path
+          name: quoteCurrency
+          schema:
+            type: string
+          required: true
+          description: The quote currency in a currency pair. For instance, in "btc/usd", it is "usd"; in "eth/usdt", it is "usdt"; in "btc usd spot", it is "usd"; in "btc/eth", it is "eth".
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPerpetualFundingRate'
+  /swap/funding_rate_history/{exchange}/{baseCurrency}/{quoteCurrency}/{startTs}/{endTs}:
+    get:
+      operationId: getPerpetualFundingRateHistory
+      summary: Funding rate history of specific PerpetualFutures/PerpetualSwaps/PerpetualContracts.
+      parameters:
+        - in: path
+          name: exchange
+          schema:
+            type: string
+          required: true
+          description: Input the name of the cryptocurrency exchange. If not specified, use 'Binance' as default.
+        - in: path
+          name: baseCurrency
+          schema:
+            type: string
+          required: true
+          description: The base currency in a currency pair. For instance, in "btc/usd", "btc/usdt", "btc swap", "btc perp", all should return "btc"..
+        - in: path
+          name: quoteCurrency
+          schema:
+            type: string
+          required: true
+          description: The quote currency in a currency pair. For instance, in "btc/usd", it is "usd"; in "eth/usdt", it is "usdt"; in "btc usd spot", it is "usd"; in "btc/eth", it is "eth".
+        - in: path
+          name: startTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the start date and time for the historical funding rate data you want to retrieve.
+        - in: path
+          name: endTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the end date and time for the historical funding rate data you want to retrieve.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPerpetualFundingRateHistory'
+  /long_short_ratio/{exchange}/{baseCurrency}/{quoteCurrency}/{startTs}/{endTs}/{timeframe}:
+    get:
+      operationId: getLongShortRatio
+      summary: This API provides LongShortRatio data across three dimensions. 'GlobalAccount' (ratio of long to short account numbers across all exchanges), 'WhalesAccount' (ratio of long to short accounts among large holders), and 'WhalesPosition' (ratio of long to short position volume among large holders).
+      parameters:
+        - in: path
+          name: exchange
+          schema:
+            type: string
+          required: true
+          description: Input the name of the cryptocurrency exchange. If not specified, use 'Binance' as default.
+        - in: path
+          name: baseCurrency
+          schema:
+            type: string
+          required: true
+          description: The base currency in a currency pair. For instance, in "btc/usd", "btc/usdt", "btc swap", "btc perp", all should return "btc".
+        - in: path
+          name: quoteCurrency
+          schema:
+            type: string
+          required: true
+          description: The quote currency in a currency pair. For instance, in "btc/usd", it is "usd"; in "eth/usdt", it is "usdt"; in "btc usd spot", it is "usd"; in "btc/eth", it is "eth".
+        - in: path
+          name: startTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the start date and time for the historical data you want to retrieve.
+        - in: path
+          name: endTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the end date and time for the historical data you want to retrieve.
+        - in: path
+          name: timeframe
+          schema:
+            type: string
+          required: true
+          description: This parameter is for specifying the time interval for the historical data. Must in "5m","15m","30m","1h","2h","4h","6h","12h","1d".
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getLongShortRatio'
+  /future/open_interest/{exchange}/{currency}:
+    get:
+      operationId: getFuturesOpenInterest
+      summary: Access open interest data for specific expiry date futures
+      parameters:
+        - in: path
+          name: exchange
+          schema:
+            type: string
+          required: true
+          description: Input the name of the cryptocurrency exchange. If not specified, use 'Binance' as default.
+        - in: path
+          name: currency
+          schema:
+            type: string
+          required: true
+          description: The currency in a currency pair. For instance, in "btc/usd", "btc/usdt", "btc swap", "btc perp", "btc", all should return "btc".
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getFuturesOpenInterest'
+  /liquidation_top:
+    get:
+      operationId: getLiquidationList
+      summary: Provides 24-hour liquidation data for major cryptocurrencies, giving insights into market volatility.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getLiquidationList'
+  /liquidation_info:
+    get:
+      operationId: getTotalLiquidation
+      summary: Retrieve recent total liquidation data from the cryptocurrency market with this API, a tool for understanding market turbulence.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTotalLiquidation'
+  /gas_price/{network}:
+    get:
+      operationId: getGasPrice
+      summary: Get current gas prices of different blockchains, providing key insights for transaction planning.
+      parameters:
+        - in: path
+          name: network
+          schema:
+            type: string
+          required: true
+          description: Input the name of the blockchain, like'eth', 'ethereum','bsc','arbitrum','optimism','polygon','avalanche'.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGasPrice'
+  /get_coin_info_from_contract_address/{id}/{contract_address}:
+    get:
+      operationId: getContractInfo
+      summary: Provides detailed information about a blockchain contract, as well as associated cryptocurrency data, using the contract's address.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Input the id of the assect platform. If not specified, use '1' as default.
+        - in: path
+          name: contract_address
+          schema:
+            type: string
+          required: true
+          description: Input the address of the contract you wish to query for detailed information.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getContractInfo'
+  /get_nft_list/{blockchain_name}/{ranking_type}:
+    get:
+      operationId: getTopNFT
+      summary: Provides rankings of NFTs based on market value, floor price, and 24-hour trading volume, delivering a comprehensive overview of top-performing digital assets.
+      parameters:
+        - in: path
+          name: blockchain_name
+          schema:
+            type: string
+          required: true
+          description: Specify the blockchain where the NFT resides. If unknown, input 'Ethereum' as a default.blockchain_name_list
+        - in: path
+          name: ranking_type
+          schema:
+            type: string
+          required: true
+          description: Select the ranking criteria from 'market cap', 'floor price', or 'volume'."
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTopNFT'
+  /get_nft_details/{nft_name}:
+    get:
+      operationId: getNFTinfo
+      summary: Provides detailed information and market data for a specified NFT, enabling comprehensive understanding of the digital asset.
+      parameters:
+        - in: path
+          name: nft_name
+          schema:
+            type: string
+          required: true
+          description: Input the name or ID of the NFT for which you wish to retrieve detailed information and market data.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getNFTinfo'
+  /search/trending:
+    get:
+      operationId: getCoinTrending
+      summary: Top-7 trending coins on CoinGecko as searched by users in the last 24 hours (Ordered by most popular first)
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getCoinTrending'
+  /companies/public_treasury/{coin_id}:
+    get:
+      operationId: GetPublicCompaniesHoldingForCrypto
+      summary: Get public companies bitcoin or ethereum holdings (Ordered by total holdings descending)
+      parameters:
+        - in: path
+          name: coin_id
+          schema:
+            type: string
+          required: true
+          description: Input 'bitcoin' or 'ethereum';
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPublicCompaniesHoldingForCrypto'
+  /get_tvl_list:
+    get:
+      operationId: getTopDefiProtocalList
+      summary: This API returns comprehensive details of the top 100 DeFi protocols, including unique ID, name, contract address, URL, description, blockchain, logo, audits, category, chains used, TVL, price changes, and token breakdowns.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTopDefiProtocalList'
+  /get_tvl_protocol/{protocol}:
+    get:
+      operationId: GetDefiProtocalDetail
+      summary: Retrieve detailed information about any specified DeFi protocol. The information includes unique ID, name, contract address, URL, description, blockchain, logo, audits, category, chains used, TVL, price changes, and token breakdowns.
+      parameters:
+        - in: path
+          name: protocol
+          schema:
+            type: string
+          required: true
+          description: Input the name of the DeFi protocol you wish to retrieve detailed information about.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDefiProtocalDetail'
+  /get_current_tvl_of_all_chains:
+    get:
+      operationId: getBlockchainTVL
+      summary: Provides a list of the total value locked (TVL) for all known blockchains, giving insights into the assets secured across different blockchain networks.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getBlockchainTVL'
+  /option/detail/{exchange}/{baseCurrency}/{expireDay}/{strikePrice}/{type}:
+    get:
+      operationId: getOptionMarketData
+      summary: This API endpoint provides detailed market information for a specific cryptocurrency option, including price, volume, option greeks, underlying index, and more.
+      parameters:
+        - in: path
+          name: exchange
+          schema:
+            type: string
+          required: true
+          description: Input the name of the cryptocurrency exchange. If not specified, use 'Deribit' as default.
+        - in: path
+          name: baseCurrency
+          schema:
+            type: string
+          required: true
+          description: Input the underlying asset (e.g., 'BTC') of the option you want to query."
+        - in: path
+          name: expireDay
+          schema:
+            type: string
+          required: true
+          description: Input the expire date of the option, use the format ‘YYMMDD’(e.g., 230630 stands for 30 Jun 2023).
+        - in: path
+          name: strikePrice
+          schema:
+            type: string
+          required: true
+          description: Input the strike price of the option.
+        - in: path
+          name: type
+          schema:
+            type: string
+          required: true
+          description: Input 'c' for call options or 'p' for put options to specify the type of option.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOptionDetails'
+  /volatility_index/{currency}/{startTs}/{endTs}/{timeframe}:
+    get:
+      operationId: getVOlIndex
+      summary: Retrieve the 10-day volatility index of a cryptocurrency across different platforms, including 'DVOL' from Deribit and 'VIV' from volmex, help users understand the volatility of the market.
+      parameters:
+        - in: path
+          name: currency
+          schema:
+            type: string
+          required: true
+          description: Input the underlying asset (e.g., 'BTC') of the vol index.
+        - in: path
+          name: startTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the start date and time for the historical data you want to retrieve.
+        - in: path
+          name: endTs
+          schema:
+            type: string
+          required: true
+          description: This parameter requires a 10-digit Unix timestamp representing the end date and time for the historical data you want to retrieve.
+        - in: path
+          name: timeframe
+          schema:
+            type: string
+          required: true
+          description: This parameter is for specifying the time interval for the historical data. Must in '1m', '1h', '1d'.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getVOlIndex'
+  /get_deribit_call_put_open_interest_ratio/{currency}:
+    get:
+      operationId: getOptionCallPutRatio
+      summary: Provides the ratio of open interest for call and put options for a specific cryptocurrency. A ratio greater than 1 indicates bearish sentiment, while a ratio less than 1 indicates bullish sentiment.
+      parameters:
+        - in: path
+          name: currency
+          schema:
+            type: string
+          required: true
+          description: Input the underlying asset (e.g., 'BTC') of the vol index.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOptionCallPutRatio'
+# 发现components里面没填也不会报错
+components:
+  schemas:
+    getSpotOHLCV:
+      type: object
+    getFuturesOHLCV:
+      type: object
+    getPerpetualOHLCV:
+      type: object
+    getPerpetualFundingRate:
+      type: object
+    getLongShortRatio:
+      type: object
+    getFuturesOpenInterest:
+      type: object
+    getLiquidationList:
+      type: object
+    getTotalLiquidation:
+      type: object
+    getGasPrice:
+      type: object
+    getContractInfo:
+      type: object
+    getTopNFT:
+      type: object
+    getNFTinfo:
+      type: object
+    getCoinTrending:
+      type: object
+    GetPublicCompaniesHoldingForCrypto:
+      type: object
+    getTopDefiProtocalList:
+      type: object
+    GetDefiProtocalDetail:
+      type: object
+    getBlockchainTVL:
+      type: object
+    getOptionDetails:
+      type: object
+    getVOlIndex:
+      type: object
+    getOptionCallPutRatio:
+      type: object
+    getPerpetualFundingRateHistory:
+      type: object
+    getCurrentUTCTime:
+      type: object
+    utcDatetimeToTimestamp:
+      type: object
+
+
+

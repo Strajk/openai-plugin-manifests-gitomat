@@ -1,0 +1,91 @@
+openapi: 3.0.1
+info:
+  title: Disteur
+  description: This plugin assists users by prefilling information, providing a quick start to creating a product draft on the Disteur platform.
+  version: 'v1'
+servers:
+  - url: https://chatgptplugin.disteur.com
+paths:
+  /sellable/draft:
+    get:
+      operationId: getDraft
+      summary: Obtain a quick start link for a new product draft. Users can utilize this link to upload files, such as PDFs, or just text.
+      parameters:
+      - in: query
+        name: title
+        schema:
+          type: string
+        required: true
+        description: The name of the product. Have to be longer than 4 characters.
+      - in: query
+        name: description
+        schema:
+          type: string
+        description: The description of the product.
+      - in: query
+        name: price_usd
+        schema:
+          type: integer
+        description: The price of the product. Have to be greater or equal to 1.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getDraftResponse'
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+
+components:
+  schemas:
+    getDraftResponse:
+      type: object
+      properties:
+        link:
+          type: string
+          description: The link to the draft product that ready to publish.
+        guidance:
+          type: string
+          description: Helper infomation about the product and publish process.
+    HTTPError:
+      title: HTTPError
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

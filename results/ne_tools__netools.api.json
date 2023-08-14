@@ -1,0 +1,575 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Network Tools OpenAPI",
+    "version": "0.0.2"
+  },
+  "servers": [
+    {
+      "url": "https://ne.tools/api/netools/api"
+    }
+  ],
+  "paths": {
+    "/api/whois": {
+      "post": {
+        "operationId": "domains-getWhoisResult",
+        "description": "A",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "description": "Valid domain to check (e.g. example.com)"
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "domain_name": {
+                      "type": "string",
+                      "description": "queried domain name."
+                    },
+                    "registrar": {
+                      "type": "string",
+                      "description": "domain registrar."
+                    },
+                    "whois_server": {
+                      "type": "string",
+                      "description": "WHOIS server used for the domain."
+                    },
+                    "updated_date": {
+                      "type": "number",
+                      "description": "timestamp of the last domain update (Unix time)."
+                    },
+                    "creation_date": {
+                      "type": "number",
+                      "description": "timestamp of the domain creation (Unix time)."
+                    },
+                    "expiration_date": {
+                      "type": "number",
+                      "description": "timestamp of the domain expiration (Unix time)."
+                    },
+                    "name_servers": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "description": "A domain name server associated with the domain."
+                      }
+                    },
+                    "dnssec": {
+                      "type": "string",
+                      "description": "DNSSEC status of the domain."
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/error"
+          }
+        }
+      }
+    },
+    "/resolver": {
+      "post": {
+        "operationId": "dns-resolveRecords",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "host": {
+                    "type": "string",
+                    "description": "Valid host to check (e.g. example.com)"
+                  },
+                  "recordTypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "A",
+                        "AAAA",
+                        "CNAME",
+                        "CAA",
+                        "MX",
+                        "NAPTR",
+                        "NS",
+                        "PTR",
+                        "SOA",
+                        "SRV",
+                        "TXT"
+                      ]
+                    },
+                    "description": "Valid record types to check"
+                  }
+                },
+                "required": [
+                  "host",
+                  "recordTypes"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "not": {},
+                        "description": "Undefined record"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "A records: IPv4 addresses for the domain"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "AAAA records: IPv6 addresses for the domain"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "CNAME records: Canonical name records, a domain alias"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "exchange": {
+                              "type": "string",
+                              "description": "mail exchange domain name for the MX record"
+                            },
+                            "priority": {
+                              "type": "number",
+                              "description": "priority of the mail exchange server for the MX record"
+                            }
+                          },
+                          "required": [
+                            "exchange",
+                            "priority"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "description": "MX records: Mail exchange records for email routing"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "flags": {
+                              "type": "string",
+                              "description": "NAPTR record flags"
+                            },
+                            "order": {
+                              "type": "number",
+                              "description": "NAPTR record order value"
+                            },
+                            "preference": {
+                              "type": "number",
+                              "description": "NAPTR record preference value"
+                            },
+                            "regexp": {
+                              "type": "string",
+                              "description": "NAPTR record regular expression"
+                            },
+                            "replacement": {
+                              "type": "string",
+                              "description": "NAPTR record replacement value"
+                            },
+                            "service": {
+                              "type": "string",
+                              "description": "NAPTR record service value"
+                            }
+                          },
+                          "required": [
+                            "flags",
+                            "order",
+                            "preference",
+                            "regexp",
+                            "replacement",
+                            "service"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "description": "NAPTR records: Name Authority Pointer records, used in ENUM and URI resolution"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "expire": {
+                            "type": "number",
+                            "description": "Expiration time in seconds for the SOA record"
+                          },
+                          "hostmaster": {
+                            "type": "string",
+                            "description": "email address of the responsible party for the domain in the SOA record"
+                          },
+                          "minttl": {
+                            "type": "number",
+                            "description": "Minimum time-to-live value for the domain in the SOA record"
+                          },
+                          "ns": {
+                            "type": "string",
+                            "description": "primary nameserver for the domain in the SOA record"
+                          },
+                          "refresh": {
+                            "type": "number",
+                            "description": "Refresh interval in seconds for the SOA record"
+                          },
+                          "retry": {
+                            "type": "number",
+                            "description": "Retry interval in seconds for the SOA record"
+                          },
+                          "serial": {
+                            "type": "number",
+                            "description": "Serial number of the SOA record"
+                          }
+                        },
+                        "required": [
+                          "expire",
+                          "hostmaster",
+                          "minttl",
+                          "ns",
+                          "refresh",
+                          "retry",
+                          "serial"
+                        ],
+                        "additionalProperties": false,
+                        "description": "SOA records: Start of Authority records, contain information about the domain"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "description": "domain name for the SRV record"
+                            },
+                            "port": {
+                              "type": "number",
+                              "description": "port number for the SRV record"
+                            },
+                            "priority": {
+                              "type": "number",
+                              "description": "priority of the target host for the SRV record"
+                            },
+                            "weight": {
+                              "type": "number",
+                              "description": "relative weight for records with the same priority for the SRV record"
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "port",
+                            "priority",
+                            "weight"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "description": "SRV records: Service records, define the location of servers for specified services"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "TXT records: Text records, used to store arbitrary text values"
+                        }
+                      },
+                      {
+                        "description": "AnyRecord: A placeholder for any record type not specified above"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/error"
+          }
+        }
+      }
+    },
+    "/api/cloud-check": {
+      "post": {
+        "operationId": "dns-checkCloudProviderIP",
+        "description": "Enter IP/domain to check cloud provider info. IP fetches provider details. Domain fetches providers linked to all IPs. Useful for multi-provider websites.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ipOrDomain": {
+                    "type": "string",
+                    "description": "A valid IPv4/IPv6 address (e.g., 1.1.1.1) or a valid domain (e.g., example.com to check for cloud provider information."
+                  }
+                },
+                "required": [
+                  "ipOrDomain"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "inputIp": {
+                            "type": "string",
+                            "description": "IP address being queried"
+                          },
+                          "ipInfo": {
+                            "type": "object",
+                            "properties": {
+                              "prefix": {
+                                "type": "string",
+                                "description": "IP address or CIDR block"
+                              },
+                              "region": {
+                                "type": "string",
+                                "description": "region where the IP address or CIDR block is allocated"
+                              },
+                              "service": {
+                                "type": "string",
+                                "description": "name of the cloud provider that owns the IP address or CIDR block"
+                              },
+                              "aws_network_border_group": {
+                                "type": "string",
+                                "description": "name of the network border group within the AWS region (if applicable)"
+                              },
+                              "ip_type": {
+                                "type": "string",
+                                "enum": [
+                                  "ipv4",
+                                  "ipv6"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "prefix",
+                              "service"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "inputIp",
+                          "ipInfo"
+                        ],
+                        "additionalProperties": false,
+                        "description": "An object containing the input IP address and an array of cloud IP information objects"
+                      },
+                      "description": "An object containing the input IP address and an array of cloud IP information objects"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string",
+                          "description": "IP address was not found in the cloud provider list"
+                        }
+                      },
+                      "required": [
+                        "error"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ],
+                  "description": "An object containing the input IP address and an array of cloud IP information objects"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/error"
+          }
+        }
+      }
+    },
+    "/api/ip-info": {
+      "post": {
+        "operationId": "dns-queryIpInformation",
+        "description": "IP/domain to check ip info. IP fetches ip details. Domain fetches ip information for all IPs linked to domain. Useful for multi-provider websites.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ipOrDomain": {
+                    "type": "string",
+                    "description": "A valid IPv4/IPv6 address (e.g., 1.1.1.1) or a valid domain (e.g., example.com to check for cloud provider information."
+                  }
+                },
+                "required": [
+                  "ipOrDomain"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "inputIp": {
+                            "type": "string",
+                            "description": "IP address being queried"
+                          },
+                          "ipInfo": {
+                            "type": "object",
+                            "properties": {
+                              "is_valid": {
+                                "type": "boolean",
+                                "description": "Indicates if the IP address is valid"
+                              },
+                              "country": {
+                                "type": "string",
+                                "description": "country name associated with the IP address"
+                              },
+                              "country_code": {
+                                "type": "string",
+                                "description": "2-letter country code associated with the IP address"
+                              },
+                              "region_code": {
+                                "type": "string",
+                                "description": "region code associated with the IP address"
+                              },
+                              "region": {
+                                "type": "string",
+                                "description": "region or state name associated with the IP address"
+                              },
+                              "city": {
+                                "type": "string",
+                                "description": "city associated with the IP address"
+                              },
+                              "zip": {
+                                "type": "string",
+                                "description": "postal code associated with the IP address"
+                              },
+                              "lat": {
+                                "type": "number",
+                                "description": "latitude of the IP address location"
+                              },
+                              "lon": {
+                                "type": "number",
+                                "description": "longitude of the IP address location"
+                              },
+                              "timezone": {
+                                "type": "string",
+                                "description": "timezone associated with the IP address location"
+                              },
+                              "isp": {
+                                "type": "string",
+                                "description": "Internet Service Provider (ISP) associated with the IP address"
+                              },
+                              "address": {
+                                "type": "string",
+                                "description": "IP address being queried"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "inputIp",
+                          "ipInfo"
+                        ],
+                        "additionalProperties": false,
+                        "description": "An object containing the input IP address and the associated ip information"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string",
+                          "description": "IP address was not found in the cloud provider list"
+                        }
+                      },
+                      "required": [
+                        "error"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/error"
+          }
+        }
+      }
+    }
+  }
+}

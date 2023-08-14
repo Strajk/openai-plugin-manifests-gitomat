@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: Google Analytics Data Fetch API
+  version: 1.2
+paths:
+  /chat:
+    post:
+      operationId: chatPost
+      summary: Fetch Google Analytics data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+  /get_properties:
+    get:
+      operationId: getProperties
+      summary: Get the list of Google Analytics properties with properties id
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+  /get_metadata/{property_id}:
+    get:
+      operationId: getMetadata
+      summary: Get the metadata of available metrics and dimensions of a Google Analytics property
+      parameters:
+        - name: property_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string

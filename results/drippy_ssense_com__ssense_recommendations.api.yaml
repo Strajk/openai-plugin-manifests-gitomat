@@ -1,0 +1,120 @@
+
+openapi: 3.0.1
+info:
+    title: SSENSE Product Recommendations API
+    version: 'v1'
+    description: API for product recommendations from the luxury fashion e-commerce store SSENSE.
+paths:
+    /curate:
+        post:
+            description: >
+                Send an API request for product recommendations based on the user's detailed request. Interpret results, prioritizing products that best match the user's specified preferences
+            operationId: getRecommendations
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                            schema:
+                                $ref: '#/components/schemas/RecommendationInput'
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        text/plain:
+                            schema:
+                                $ref: '#/components/schemas/RecommendationOutput'
+                '404':
+                    description: No results found. Please try again with a different query.
+components:
+    schemas:
+        RecommendationInput:
+            type: object
+            description: The input necessary for the recommendation API. In the case where a user has made a previous request during the same session, the system should ensure that the data in the current request is relevant to the ongoing stage of the conversation, while containing all essential information. Repeating data from previous requests is acceptable only if it is still pertinent to the current conversation stage, otherwise, it should be avoided to ensure accurate recommendations.
+            properties:
+                user_query:
+                    type: string
+                    description: >
+                            A detailed, dialogue-style expression of the user's CURRENT shopping intentions or inquiries. This should encompass specifics about the type of product they're interested in, their style preferences, any particular occasion or purpose for the item, and any other relevant information that could assist in tailoring product recommendations to their unique needs and tastes.
+                            If this is a subsequent request in a session, the user_query should be a more specific description of what the user is currently looking for. It should include all relevant information about the user that you know so far.
+                            Do not copy the user's message verbatim, instead rewrite it in a clear and concise way. Make sure to use completely a new user_query for subsequent queries with all new relevant details.
+                keywords:
+                    type: string
+                    description: >
+                            Given the user_query, generate a comma separated list of 20 keywords that are directly related and answer the fashion request or question.
+                            These keywords should be based on factors such as event type, gender, color trends, matching colors, style, season, fit, fabric type, brand similarity, budget, body type, styling, popularity, sizing, availability, brand ownership, layering, celebrity style, event themes, and any other relevant factors.
+
+                            - DO use some synonyms
+                            - DO NOT include any items that the user specifically mentions owning.
+                            - DO NOT include categories that the user specifically mentions owning.
+                            - DO only use keywords, not sentences.
+                            - DO be specific focus on the distinct attributes, elements, or properties of the item or concept instead of using generic or blanket terms:
+                                Avoid using broad categories, themes, celebrity names or events by converting them into more specific keywords that highlight their unique characteristics or features.
+                                Examples:
+                                    - For themes, use attributes instead of the theme itself, e.g., "floral print" for a Hawaiian theme. Do not use "Hawaiian"
+                                    - For events, use clothing attributes specific to the event, e.g., "tailored suits" for weddings. Do not use "weddings".
+                                    - For celebrity styles, focus on aspects like "boho chic," rather than the celebrity's name.
+                                    - For popular styles, use specific keywords like "bike shorts," not generic terms like "trendy."
+                                    - For fabric types, emphasize unique properties, e.g., "cotton.", not "breathable"
+                                    - For brand similarity, focus on distinct styles or design elements, e.g., "bold patterns.", not the brand name.
+                                    - For color coordination, emphasize complementary or contrasting shades, e.g., "navy and white" or "red and green pairings." not "complementary colors"
+                                    - For mixing patterns, detail specific pattern combinations, e.g., "stripes with florals" or "polka dots and plaid."
+                                    - Instead of using "sustainable fashion brands" as a keyword, focus on the sustainable materials or practices, e.g., "organic cotton blouses," "Tencel wrap dresses," or "ethically-produced shoes."
+
+                            Examples:
+                            "I own a vintage leather jacket that I love. Can you recommend some modern pieces that would help me incorporate it into a contemporary outfit?"
+                            Skinny jeans, high-waisted pants, ankle boots, graphic tees, pleated midi skirts, oversized sweaters, white sneakers, layered necklaces, minimalistic earrings, cropped tops, chunky belts, paperbag trousers, track pants, ribbed turtlenecks, distressed denim, wide-leg jeans, plaid shirts, monochromatic outfits, wrap dresses, tailored jumpsuits, bucket bags, fishnet tights, square-toe footwear, knit beanies, cashmere scarves.
+
+                            "I am attending an art gallery opening in the fall, and I'm looking for a chic outfit that reflects current fashion trends, incorporates sustainable materials, and complements my athletic body type."
+                            Bamboo turtleneck, cropped cashmere sweater, high-waisted wide-leg trousers, eco-friendly faux leather skirt, organic cotton blazers, Upcycled statement jewelry, belted wool coat, asymmetrical hem dresses, Tencel wrap dress, ruched sustainable silk top, ethical velvet pumps, block-heeled ankle boots, recycled fabric clutch, cinched-waist jumpsuit, houndstooth patterned textiles, tapered-leg pants, oversized belts, off-the-shoulder blouses, sustainable fashion brands, biodegradable knitwear, tailored vegan leather pants, eco-conscious accessories, bold geometric prints, structured shoulder details.
+
+                            "Can you suggest a few stylish and comfortable shoe options for someone who spends long hours on their feet?"
+                            Slip-on sneakers, memory foam flats, cushioned loafers, supportive sandals, arch-supporting wedges, orthopedic heels, shock-absorbing oxfords, comfortable mules, leather ballet flats, gel cushioned insoles, breathable walking shoes, padded ankle boots, arch-supporting sneakers, adjustable-strap shoes, rocker bottom footwear, extra-depth shoes, removable footbeds, cushioned arch support, padded collar, contoured footbed, shock-absorbing soles.
+
+                            "I recently bought a patterned midi skirt and am planning an outfit for a semi-formal outdoor charity event with a garden theme. I am also interested in incorporating some vintage or repurposed pieces to create a unique ensemble."
+                            Floral lace blouse, high-neck satin top, vintage brooch, tailored blazer, statement earrings, cropped cardigan, block-heeled sandals, repurposed silk scarf, ruffled sleeves, upcycled leather clutch, recycled jewelry, ankle-strap heels, retro belt, mesh gloves, kitten heel pumps, sustainable textiles, puff-sleeve blouse, wide-brim straw hat, pearl necklace, art deco accessories, embroidered shawl, eco-conscious footwear, eco-friendly fashion.
+                gender:
+                    type: string
+                    enum: [men, women]
+                    description: The gender of the products to recommend. The ONLY allowed values are 'men' | 'women', therefore the user MUST be prompted for this value since their gender should NOT EVER be assumed.
+                categories:
+                    type: array
+                    items:
+                        type: string
+                        enum: [backpacks, belts & suspenders, blankets, boots, dog accessories, eyewear, face masks, gloves, hats, jackets & coats, jewelry, keychains, pants, sandals, scarves, shoe accessories, shorts, sneakers, souvenirs, sweaters, swimwear, tech, tops, tote bags, towels, travel bags, umbrellas, wallets & card holders, watches, boat shoes & moccasins, briefcases, duffle bags, espadrilles, jeans, lace ups & oxfords, messenger bags, monkstraps, pocket squares & tie bars, pouches & document holders, shirts, slippers & loafers, socks, suits & blazers, ties, underwear & loungewear, art & collectibles, audio & headphones, bed & bath, body, books & magazines, cameras & accessories, candles & fragrances, cell phones & accessories, coffee & tea, computers, deprecated do not use - cell phones & accessories, equipment, face, fitness, fragrances, furniture, gaming, glassware & barware, hair, home decor, home tech, kitchenware, leisure, makeup, outdoors, pet accessories, pet apparel, sports, stationery, tableware, textiles, vessels, wearable tech, health & fitness, wellness, activewear, bag accessories, clutches & pouches, cosmetic cases, dresses, duffle & top handle bags, fine jewelry, flats, gift items, heels, messenger bags & satchels, shoulder bags, skirts, t-shirts]
+                    description: >
+                        You will now pick relevant 1-3 categories for the user query. There should me a **minimum of 1 and a maximum of 3 categories**.
+                        Informed by the generated user_query and keywords, generate an array of strings consiting of 1-3 of the most relevant product categories from the allowed categories, these are the ONLY allowed values:
+                        Only pick categories for the chosen gender! All other categories will return 0 products!
+                        WOMEN ONLY CATEGORIES: activewear, bag accessories, clutches & pouches, cosmetic cases, dresses, duffle & top handle bags, fine jewelry, flats, gift items, heels, messenger bags & satchels, shoulder bags, skirts
+                        MEN ONLY CATEGORIES: boat shoes & moccasins, briefcases, duffle bags, espadrilles, jeans, lace ups & oxfords, messenger bags, monkstraps, pocket squares & tie bars, pouches & document holders, shirts, slippers & loafers, socks, suits & blazers, ties, underwear & loungewear
+                        BOTH: backpacks, belts & suspenders, blankets, boots, dog accessories, eyewear, face masks, gloves, hats, jackets & coats, jewelry, keychains, pants, sandals, scarves, shoe accessories, shorts, sneakers, souvenirs, sweaters, swimwear, tech, tops, tote bags, towels, travel bags, umbrellas, wallets & card holders, watches, t-shirts
+                        NON-CLOTHING/PETS CATEGORIES: art & collectibles, audio & headphones, bed & bath, body, books & magazines, cameras & accessories, candles & fragrances, cell phones & accessories, coffee & tea, computers, deprecated do not use - cell phones & accessories, equipment, face, fitness, fragrances, furniture, gaming, glassware & barware, hair, home decor, home tech, kitchenware, leisure, makeup, outdoors, pet accessories, pet apparel, sports, stationery, tableware, textiles, vessels, wearable tech, health & fitness, wellness
+                internal_searches:
+                        type: array
+                        description: >
+                            - FOR EACH ENTRY USE AS MANY AS OF THE KEYWORDS THAT WERE GENERATED EARLIER IN THE KEYWORDS FIELD
+                            - MAKE SURE EACH ENTRY IS ONLY SEARCHING FOR A SINGLE THING, DO NOT HAVE CONFLICTING KEYWORDS IN THE SAME ENTRY, INSTEAD USE ANOTHER ENTRY
+                            - Be specific, focus on the distinct attributes, elements, or properties of the item instead of using generic terms or events.
+                            - DO NOT use broad themes, celebrity names or events. Convert them into more specific keywords that highlight their unique characteristics or features
+                            - Make sure it answers the user's query but again do not directly reference it.
+                            - DO NOT mention any other items from unrelated categories at all
+                                for example do not mention matching another item. Instead describe the unique characteristics of a product that would match that item without mentioning the item.
+                            - Only search a single category, under absolutely no circumstance should you mention an unrelated category or item .
+                            - DO NOT use sales language
+                            - It should cover the product's aspects such as fabric/material, color, design, and functionality.
+                            - It should ONLY be written in English, translate everything into english, the backend only understands english.
+                        items:
+                            type: object
+                            properties:
+                                search:
+                                    type: string
+                                category:
+                                    type: string
+            required:
+                - user_query
+                - keywords
+                - gender
+                - categories
+                - internal_searches
+        RecommendationOutput:
+            type: string

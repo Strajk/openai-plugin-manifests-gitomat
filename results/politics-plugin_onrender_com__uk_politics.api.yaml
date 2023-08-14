@@ -1,0 +1,1228 @@
+openapi: 3.0.3
+info:
+  title: UK Politics
+  description: >-
+    An API for searching through the political documents (such as manifestos,
+    press releases, speeches, voting records and candidates profiles etc) to
+    find answers to questions and retrieve relevant information. Use it whenever
+    a user asks something that might be related to politics in the United
+    Kingdom.
+  version: 0.1.0
+components:
+  schemas:
+    Party:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country:
+          type:
+            - string
+            - 'null'
+        url:
+          type:
+            - string
+            - 'null'
+        createdAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        updatedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        Document:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        Person:
+          type: array
+          items:
+            $ref: '#/components/schemas/Person'
+    Person:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+        country:
+          type:
+            - string
+            - 'null'
+        url:
+          type:
+            - string
+            - 'null'
+        createdAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        updatedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        partyId:
+          type:
+            - integer
+            - 'null'
+        constituency:
+          type:
+            - string
+            - 'null'
+        twfyId:
+          type:
+            - integer
+            - 'null'
+        inOffice:
+          type:
+            - boolean
+            - 'null'
+          default: true
+        Document:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        Party:
+          anyOf:
+            - $ref: '#/components/schemas/Party'
+            - type: 'null'
+        Vote:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vote'
+    Document:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        name:
+          type: string
+        publishedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        createdAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        updatedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        referenceUrl:
+          type:
+            - string
+            - 'null'
+        partyId:
+          type:
+            - integer
+            - 'null'
+        personId:
+          type:
+            - integer
+            - 'null'
+        Division:
+          type: array
+          items:
+            $ref: '#/components/schemas/Division'
+        Party:
+          anyOf:
+            - $ref: '#/components/schemas/Party'
+            - type: 'null'
+        Person:
+          anyOf:
+            - $ref: '#/components/schemas/Person'
+            - type: 'null'
+        DocumentChunk:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentChunk'
+    DocumentChunk:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        createdAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        updatedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        documentId:
+          type: integer
+        order:
+          type:
+            - integer
+            - 'null'
+        referenceUrl:
+          type:
+            - string
+            - 'null'
+        vectorCreated:
+          type:
+            - boolean
+            - 'null'
+          default: false
+        Document:
+          $ref: '#/components/schemas/Document'
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country:
+          type: string
+        createdAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        updatedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        Division:
+          type: array
+          items:
+            $ref: '#/components/schemas/Division'
+    Division:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        date:
+          type: string
+          format: date-time
+        divisionNumber:
+          type:
+            - integer
+            - 'null'
+        referenceUrl:
+          type:
+            - string
+            - 'null'
+        debateReferenceUrl:
+          type:
+            - string
+            - 'null'
+        summary:
+          type:
+            - string
+            - 'null'
+        summaryReferences:
+          type:
+            - string
+            - 'null'
+        vectorCreated:
+          type: boolean
+          default: false
+        createdAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        updatedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        locationId:
+          type:
+            - integer
+            - 'null'
+        documentId:
+          type:
+            - integer
+            - 'null'
+        Document:
+          anyOf:
+            - $ref: '#/components/schemas/Document'
+            - type: 'null'
+        Location:
+          anyOf:
+            - $ref: '#/components/schemas/Location'
+            - type: 'null'
+        Vote:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vote'
+    Vote:
+      type: object
+      properties:
+        id:
+          type: integer
+        voteType:
+          type: string
+        createdAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        updatedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        personId:
+          type: integer
+        divisionId:
+          type: string
+        Division:
+          $ref: '#/components/schemas/Division'
+        Person:
+          $ref: '#/components/schemas/Person'
+    Question:
+      type: object
+      properties:
+        id:
+          type: integer
+        humanQuery:
+          type: string
+        functionId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        openAiConversationId:
+          type:
+            - string
+            - 'null'
+        openAiUserId:
+          type:
+            - string
+            - 'null'
+        modelQuery:
+          type: array
+          items:
+            type: string
+        response:
+          type:
+            - number
+            - string
+            - boolean
+            - object
+            - array
+            - 'null'
+        request:
+          type:
+            - number
+            - string
+            - boolean
+            - object
+            - array
+            - 'null'
+        relevanceReason:
+          type:
+            - string
+            - 'null'
+        relevanceScore:
+          type:
+            - integer
+            - 'null'
+paths:
+  /.well-known/openapi.yaml:
+    get:
+      responses:
+        '200':
+          description: Default Response
+  /.well-known/ai-plugin.json:
+    get:
+      responses:
+        '200':
+          description: Default Response
+  /privacy:
+    get:
+      responses:
+        '200':
+          description: Default Response
+  /logo:
+    get:
+      responses:
+        '200':
+          description: Default Response
+  /api/v1/party/query:
+    post:
+      operationId: partyQuery
+      summary: Query a political parties political communication
+      description: >-
+        Accepts a search query and a list of parties to search against. Break
+        down complex questions into sub-questions.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+                - queries
+                - parties
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                queries:
+                  description: >-
+                    The queries to search against. Each topic should be a
+                    separate query. Maximum of 4 queries.
+                  type: array
+                  items:
+                    type: string
+                relevantTextChunksToExclude:
+                  description: >-
+                    The ids of text chunks to exclude from the search. This is
+                    used to exclude chunks that have already been returned in a
+                    previous search. To be used when asked for more results.
+                  type: array
+                  items:
+                    type: string
+                publishedAfter:
+                  description: The date to search after
+                  type: string
+                publishedBefore:
+                  description: The date to search before
+                  type: string
+                returnCompletion:
+                  description: Whether to return llm created completion
+                  type: boolean
+                parties:
+                  description: >-
+                    The parties to search against. To search all parties send an
+                    empty array.
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - Labour
+                      - Conservative
+                      - Green Party
+                      - Liberal Democrats
+                      - Scottish National Party
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    documentChunks:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          party:
+                            $ref: '#/components/schemas/Party'
+                          relevantTextChunks:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/DocumentChunk'
+                    completion:
+                      type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                description: Bad request
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/person/query:
+    post:
+      operationId: personQuery
+      summary: >-
+        Query a single politicians appearances and votes on a specific topic or
+        set of topics
+      description: >-
+        Accepts search queries with filters to specify the politician,
+        publication dates and whether to return appearances, votes or both. Call
+        when a user asks about a specific politician and a specific topic or set
+        of topics.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+                - query
+                - name
+                - type
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                relevantTextChunksToExclude:
+                  description: >-
+                    The ids of text chunks to exclude from the search. This is
+                    used to exclude chunks that have already been returned in a
+                    previous search. To be used when asked for more results.
+                  type: array
+                  items:
+                    type: string
+                publishedAfter:
+                  description: The date to search after
+                  type: string
+                publishedBefore:
+                  description: The date to search before
+                  type: string
+                returnCompletion:
+                  description: Whether to return llm created completion
+                  type: boolean
+                name:
+                  description: The name of the politician
+                  type: string
+                type:
+                  description: The type of politician
+                  type: string
+                  enum:
+                    - Member of Parliament
+                query:
+                  description: The query to search against
+                  type: string
+                findAppearances:
+                  description: >-
+                    Whether to return appearances, such as speeches and written
+                    questions
+                  type: boolean
+                findVotes:
+                  description: >-
+                    Whether to return votes on political issues. Include if user
+                    asks about the persons position on a topic.
+                  type: boolean
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    person:
+                      $ref: '#/components/schemas/Person'
+                    completion:
+                      type: string
+                    relevantTextChunks:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/DocumentChunk'
+                    votes:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Vote'
+        '204':
+          description: No results found
+          content:
+            application/json:
+              schema:
+                description: No results found
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                description: Bad request
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/person/get:
+    post:
+      operationId: personGet
+      summary: Get a single politicians information including appearances and votes.
+      description: >-
+        Accepts search queries with filters to specify the politician, and
+        whether to return appearances, votes or both. Call when a user asks
+        about a specific politician but not a specific topic or subject.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+                - name
+                - type
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                name:
+                  description: The name of the politician
+                  type: string
+                type:
+                  description: The type of politician
+                  type: string
+                  enum:
+                    - Member of Parliament
+                findAppearances:
+                  description: >-
+                    Whether to return appearances, such as speeches and written
+                    questions. Include unless the user asks just for votes or
+                    voting record.
+                  type: boolean
+                findVotes:
+                  description: >-
+                    Whether to return the persons voting record on political
+                    issues. Include unless the user asks just for what the
+                    politician has said.
+                  type: boolean
+                appearanceLimit:
+                  type: number
+                  description: >-
+                    Pass to specify number of appearances to return. Use with
+                    appearanceOffset to page over results. The default and
+                    maximum is 5.
+                appearanceOffset:
+                  type: number
+                  description: >-
+                    Pass to specify vote to start from. Use with appearanceLimit
+                    to page over results.
+                voteLimit:
+                  type: number
+                  description: >-
+                    Pass to specify number of votes to return. Use with
+                    voteOffset to page over results. The default and maximum is
+                    5.
+                voteOffset:
+                  type: number
+                  description: >-
+                    Pass to specify vote to start from. Use with voteLimit to
+                    page over results.
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    person:
+                      $ref: '#/components/schemas/Person'
+                    relevantTextChunks:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/DocumentChunk'
+                    relevantTextChunkCount:
+                      type: number
+                    votes:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Vote'
+                    voteCount:
+                      type: number
+        '204':
+          description: No results found
+          content:
+            application/json:
+              schema:
+                description: No results found
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/people/query:
+    post:
+      operationId: peopleQuery
+      summary: Query a group of politicians appearances
+      description: >-
+        Accepts search queries with filters to specify the group of politicians
+        and publication dates. Use to find which politicians from a group have
+        mentioned a topic in such places as the House of Commons, House of
+        Lords, or in a committee meeting.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+                - queries
+                - parties
+                - type
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                queries:
+                  description: >-
+                    The queries to search against. Each topic should be a
+                    separate query. Maximum of 4 queries.
+                  type: array
+                  items:
+                    type: string
+                relevantTextChunksToExclude:
+                  description: >-
+                    The ids of text chunks to exclude from the search. This is
+                    used to exclude chunks that have already been returned in a
+                    previous search. To be used when asked for more results.
+                  type: array
+                  items:
+                    type: string
+                publishedAfter:
+                  description: The date to search after
+                  type: string
+                publishedBefore:
+                  description: The date to search before
+                  type: string
+                returnCompletion:
+                  description: Whether to return llm created completion
+                  type: boolean
+                parties:
+                  description: >-
+                    The parties to search against. To search all parties send an
+                    empty array.
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - Labour
+                      - Conservative
+                      - Green Party
+                      - Liberal Democrats
+                      - Scottish National Party
+                type:
+                  description: The type of politician
+                  type: string
+                  enum:
+                    - Member of Parliament
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    documentChunks:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          relevantTextChunks:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/DocumentChunk'
+                    completion:
+                      type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                description: Bad request
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/elections/:
+    post:
+      operationId: electionsGet
+      description: >-
+        Get information about elections in the UK. This includes elections
+        previous elections and future elections.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                coords:
+                  type: string
+                  description: >-
+                    Pass a lat/lon string as ?coords={lat},{lon} to find
+                    elections covering the given coordinates. Set if a user asks
+                    for election information about a village, town, city,
+                    constituency or region in the UK. If setting this you should
+                    also set not set the "current" parameters.
+                current:
+                  type: string
+                  description: >-
+                    Pass 1 to return only elections which will happen in the
+                    near future or happened in the recent past. Usually this is
+                    an election whose polling date is either in the next 90 days
+                    or was in the last 20 days. Do set if a user asks for
+                    election information about a village, town, city or region
+                    in the UK.
+                future:
+                  type: string
+                  description: >-
+                    Pass 1 to return only elections whose polling date is in the
+                    future.
+                limit:
+                  type: string
+                  description: >-
+                    Pass to specify number of election objects to return. Use
+                    with offset to page over results. This defaults to 50.
+                offset:
+                  type: string
+                  description: >-
+                    Pass to specify Election object to start from. Use with
+                    limit to page over results.
+                postcode:
+                  type: string
+                  description: >-
+                    Pass a postcode to find elections covering the given
+                    postcode.
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    count:
+                      type: number
+                      description: Total number of election objects
+                    limit:
+                      type: number
+                      description: Number of election objects returned
+                    offset:
+                      type: number
+                      description: Offset of first election object returned
+                    elections:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            description: Identifier for this election
+                          title:
+                            type: string
+                            description: Understandable name for this election
+                          pollOpenDate:
+                            type: string
+                            description: Polling day for this election (ISO 8601)
+                          group:
+                            type: string
+                            description: >-
+                              Identifier for the election group this election
+                              belongs to
+                          childrenElections:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  description: Identifier for this election
+                                title:
+                                  type: string
+                                  description: Understandable name for this election
+                                pollOpenDate:
+                                  type: string
+                                  description: Polling day for this election (ISO 8601)
+                                group:
+                                  type: string
+                                  description: >-
+                                    Identifier for the election group this
+                                    election belongs to
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/election/:
+    post:
+      operationId: singleElectionGet
+      summary: Get a single election
+      description: Get information about a single election by its identifier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+                - id
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                id:
+                  type: string
+                  description: The identifier of the election to retrieve
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                      format: uri
+                    history_url:
+                      type: string
+                      format: uri
+                    results_url:
+                      type: string
+                      format: uri
+                    election:
+                      type: object
+                      properties:
+                        election_id:
+                          type: string
+                        url:
+                          type: string
+                          format: uri
+                        name:
+                          type: string
+                        election_date:
+                          type: string
+                          format: date
+                        current:
+                          type: boolean
+                        party_lists_in_use:
+                          type: boolean
+                        created:
+                          type: string
+                          format: date-time
+                        last_updated:
+                          type: string
+                          format: date-time
+                      required:
+                        - election_id
+                        - url
+                        - name
+                        - election_date
+                        - current
+                        - party_lists_in_use
+                        - created
+                        - last_updated
+                    post:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        label:
+                          type: string
+                        slug:
+                          type: string
+                        created:
+                          type: string
+                          format: date-time
+                        last_updated:
+                          type: string
+                          format: date-time
+                      required:
+                        - id
+                        - label
+                        - slug
+                        - created
+                        - last_updated
+                    winner_count:
+                      type: integer
+                    ballot_paper_id:
+                      type: string
+                    cancelled:
+                      type: boolean
+                    sopn:
+                      type: object
+                      properties:
+                        document_type:
+                          type: string
+                        uploaded_file:
+                          type: string
+                          format: uri
+                        source_url:
+                          type: string
+                          format: uri
+                      required:
+                        - document_type
+                        - uploaded_file
+                        - source_url
+                    candidates_locked:
+                      type: boolean
+                    candidates:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          elected:
+                            type:
+                              - boolean
+                              - 'null'
+                          party_list_position:
+                            type:
+                              - integer
+                              - 'null'
+                          party:
+                            type: object
+                            properties:
+                              url:
+                                type: string
+                                format: uri
+                              ec_id:
+                                type: string
+                              name:
+                                type: string
+                              legacy_slug:
+                                type: string
+                              created:
+                                type: string
+                                format: date-time
+                              modified:
+                                type: string
+                                format: date-time
+                            required:
+                              - url
+                              - ec_id
+                              - name
+                              - legacy_slug
+                              - created
+                              - modified
+                          party_name:
+                            type: string
+                          party_description_text:
+                            type: string
+                          created:
+                            type: string
+                            format: date-time
+                          modified:
+                            type: string
+                            format: date-time
+                          person:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              url:
+                                type: string
+                                format: uri
+                              name:
+                                type: string
+                            required:
+                              - id
+                              - url
+                              - name
+                          result:
+                            type:
+                              - boolean
+                              - 'null'
+                        required:
+                          - elected
+                          - party_list_position
+                          - party
+                          - party_name
+                          - party_description_text
+                          - created
+                          - modified
+                          - person
+                          - result
+                    created:
+                      type: string
+                      format: date-time
+                    last_updated:
+                      type: string
+                      format: date-time
+                    replaces:
+                      type:
+                        - boolean
+                        - 'null'
+                    replaced_by:
+                      type:
+                        - boolean
+                        - 'null'
+                    uncontested:
+                      type: boolean
+                  required:
+                    - url
+                    - history_url
+                    - results_url
+                    - election
+                    - post
+                    - winner_count
+                    - ballot_paper_id
+                    - cancelled
+                    - sopn
+                    - candidates_locked
+                    - candidates
+                    - created
+                    - last_updated
+                    - replaces
+                    - replaced_by
+                    - uncontested
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/government/query:
+    post:
+      operationId: governmentQuery
+      summary: Query about the government
+      description: >-
+        Accepts a search query and returns information to answer questions about
+        the government or statistics related to the UK. Use if query mentions
+        the government or asks for statistics related to the UK.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                      title:
+                        type: string
+                      text:
+                        type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string

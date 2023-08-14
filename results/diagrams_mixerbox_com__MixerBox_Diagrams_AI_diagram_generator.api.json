@@ -1,0 +1,86 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox Diagrams",
+    "description": "Create, edit, and showcase diagrams through chat! Make presenting your data incredibly simple!",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://diagrams.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/diagrams/render": {
+      "get": {
+        "operationId": "render",
+        "summary": "Generate the image of diagram and a online editor url to help edit the given diagram.",
+        "description": "This api will generate the diagram image according to the given diagram content. Also provide a online editor url for further usage.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "diagramType",
+            "schema": {
+              "type": "string",
+              "default": "vegalite",
+              "enum": [
+                "vega",
+                "vegalite",
+                "mermaid",
+                "plantuml"
+              ]
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "diagramContent",
+            "schema": {
+              "type": "string"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RenderResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RenderResponse": {
+        "type": "object",
+        "properties": {
+          "diagramEditorUrl": {
+            "type": "string",
+            "description": "The url to allow someone edit the diagrams with an online editor."
+          },
+          "diagramImageUrl": {
+            "type": "string",
+            "description": "The url of diagrams iamge."
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of rules which recommend gpt to follow."
+          }
+        }
+      }
+    }
+  }
+}

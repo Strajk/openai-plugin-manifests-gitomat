@@ -1,0 +1,65 @@
+openapi: 3.1.0
+info:
+  title: Text to Speech API
+  version: 1.0.2
+paths:
+  /voice:
+    post:
+      operationId: convertTextToSpeech
+      summary: Convert text to speech
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: string
+                  description: The input text to be converted to speech as a string.
+                locale:
+                  type: string
+                  default: "en-US"
+                  description: The locale of the text, following the BCP-47 format.
+                gender:
+                  type: string
+                  default: "Female"
+                  enum: ["Male", "Female"]
+                  description: The gender of the narrator as a string.
+                style:
+                  type: string
+                  default: "assistant"
+                  enum: ["news", "audiobook", "conversation"]
+                  description: The style of the speech which the text is based on.
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: The URL of the audio file.
+                  url2:
+                    type: string
+                    description: The URL of the audio file, in different style
+                  url3:
+                    type: string
+                    description: The URL of the audio file, in different style
+                  description:
+                    type: string
+                    description: A description of the audio file.
+                  note:
+                    type: string
+                    description: Any notes about the audio file.
+                  fragmentsUrls:
+                    type: string
+                    description: URLs of other audio files that comprise the current audio file, if applicable.
+        "400":
+          description: Bad request
+        "500":
+          description: Internal Server Error
+        "503":
+          description: The server is temporarily unavailable to handle your request. Please try again later.

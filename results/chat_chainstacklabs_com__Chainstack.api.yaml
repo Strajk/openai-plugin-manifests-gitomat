@@ -1,0 +1,471 @@
+openapi: 3.0.0
+info:
+  title: Chainstack API
+  description: Collections of methods that ChatGPT can use to interact with the Chainstack platform API.
+  version: 1.0.0
+servers:
+  - url: https://chat.chainstacklabs.com
+paths:
+  /get-block:
+    post:
+      summary: Fetch block number.
+      operationId: getBlock
+      description: This API fetches the latest block number using the provided chain.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chain:
+                  type: string
+                  description: The blockchain to make the call on. The user will specify it, use Ethereum in case the user does not.
+                  enum: ['ethereum', 'polygon', 'avalanche', 'arbitrum', 'gnosis']
+                  default: 'ethereum'
+      responses:
+        '200':
+          description: Block number fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The block number in hexadecimal format
+                properties:
+                  blockNumber:
+                    type: integer
+                    description: The latest block number on the blockchain
+        '400':
+          description: Missing or malformed request body
+        '500':
+          description: An error occurred while fetching data
+  /get-balance:
+    post:
+      summary: Fetch the balance from an address
+      operationId: getBalance
+      description: This API fetches the balance on the given account at the latest block. This endpoint returns an ether unit amount. The actuall currency depends on the chain.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chain:
+                  type: string
+                  description: The blockchain to make the call on. The user will specify it, use Ethereum in case the user does not.
+                  enum: ['ethereum', 'polygon', 'avalanche', 'arbitrum', 'gnosis']
+                  default: 'ethereum'
+                address:
+                  type: string
+                  description: Address to get the balance from
+      responses:
+        '200':
+          description: Balance data fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The account balance in ether format.
+                properties:
+                  balance:
+                    type: integer
+                    description: The balance on the account at the latest block
+        '400':
+          description: Missing or malformed request body
+        '500':
+          description: An error occurred while fetching data
+  /get-base-gas-fee:
+    post:
+      summary: Get the base gas fee of a blockchain
+      operationId: getGasFee
+      description: This API fetches the base gas fee from an EVM chain. This endpoint returns an amount in Gwei.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chain:
+                  type: string
+                  description: The blockchain to make the call on. The user will specify it, use Ethereum in case the user does not.
+                  enum: ['ethereum', 'polygon', 'avalanche', 'arbitrum', 'gnosis']
+                  default: 'ethereum'
+      responses:
+        '200':
+          description: Gas data fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The base gas fee in Gwei
+                properties:
+                  gasPrice:
+                    type: integer
+                    description: The base gas fee in Gwei
+        '400':
+          description: Missing or malformed request body
+        '500':
+          description: An error occurred while fetching data
+  /scrape-web:
+    post:
+      summary: Scrapes Chainstack docs
+      operationId: scrapeWebData
+      description: > 
+            Scrape Chainstack docs for platform info and blockchain development. Choose the most relevant from:
+            - ethereum-tooling: Ethereum development tools
+            - platform-introduction: General platform info
+            - chainstack-blockchain-apis-guides: Blockchain development guides intro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  enum: ['ethereum-tooling', 'solana-tooling', 'aptos-tooling', 'oasis-sapphire-tooling', 'starknet-tooling', 'harmony-tooling', 'tezos-tooling', 'bitcoin-tooling', 'platform-introduction', 'manage-your-account', 'features-availability-across-subscription-plans', 'pricing-introduction', 'global-elastic-node', 'regional-elastic-node', 'dedicated-node', 'manage-your-node', 'manage-your-networks', 'manage-your-organization', 'subgraphs-introduction', 'protocols-networks', 'platform-api-getting-started', 'blockchain-apis', 'ethereum-getting-started', 'ethereum-blocks-rpc-methods', 'chainstack-blockchain-apis-guides', 'tracking-some-bored-apes-the-ethereum-event-logs-tutorial']
+                  description: URL extension of the Chainstack docs page to read
+      responses:
+        '200':
+          description: Documentation scraped successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  textContent:
+                    type: string
+                    description: The scraped documentation
+                  referenceUrl: 
+                    type: string
+                    description: The URL where the context was taken from
+        '400':
+          description: Missing or malformed URL
+        '500':
+          description: An error occurred while scraping data
+  /blockchain-call:
+    post:
+      summary: Calls a blockchain method
+      operationId: blockchainCall
+      description: This API calls a specified method on a chosen protocol with parameters specified by the user and ChatGPT. Always use false as the second parameter for methods like eth_getBlockByNumber
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                endpoint:
+                  description: The endpoint to be used for the blockchain call. Choose from predefined options or use an endpoint provided by the user.
+                  oneOf:
+                    - type: string
+                      description: A predefined endpoint to use based on a selected blockchain; for other chains or custom endpoints, the custom HTTPS parameter must be used. Otherwise, choose from this list.
+                      enum: ['ethereum', 'polygon', 'avalanche', 'arbitrum', 'gnosis']
+                    - type: string
+                      description: A custom HTTPS endpoint to make the blockchain call with
+                method:
+                  type: string
+                  description: The method to be called on the specified blockchain. Always use false as the second parameter for methods like eth_getBlockByNumber
+                  enum: ["eth_gasPrice", "eth_getStorageAt", "eth_getTransactionCount", "debug_traceCall", "web3_clientVersion", "eth_getBlockTransactionCountByHash", "eth_getBlockTransactionCountByNumber", "eth_blockNumber", "eth_chainId", "eth_getUncleCountByBlockHash", "eth_getUncleCountByBlockNumber", "eth_getCode", "eth_call", "eth_estimateGas", "eth_getBlockByHash", "eth_getBlockReceipts", "eth_getBlockByNumber", "eth_getTransactionByHash", "eth_getTransactionByBlockHashAndIndex", "eth_getTransactionByBlockNumberAndIndex", "eth_getTransactionReceipt"]
+                params:
+                  type: array
+                  description: The parameters for the method being called. Use the parameters like in a cURL call. Always use false as the second parameter for methods like eth_getBlockByNumber
+                  items:
+                    oneOf:
+                      - type: string
+                      - type: object
+                        additionalProperties: true
+      responses:
+        '200':
+          description: The blockchain method call was successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: object
+                    description: The response from the blockchain call.
+        '400':
+          description: Invalid endpoint or method or parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: Error message
+        '500':
+          description: An error occurred while processing the blockchain call
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: Error message
+  /hex-to-decimal:
+    post:
+      summary: Converts hexadecimal to decimal values
+      operationId: hexToDecimal
+      description: This API converts an hexadecimal value to decimal. Use this endpoint when you need to output a decimal value to the user. Keep 0x in front.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hexValue:
+                  type: string
+                  description: The hexadecimal value to convert.
+      responses:
+        '200':
+          description: Value converted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The response
+                properties:
+                  balance:
+                    type: integer
+                    description: The decimal value
+        '400':
+          description: Missing or malformed request body
+        '500':
+          description: An error occurred while fetching data
+  /from-wei:
+    post:
+      summary: Converts wei to ether
+      operationId: fromWei
+      description: This API converts a wei value to an ether value. Use this function on any token balances in wei
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+                  description: The value to convert.
+      responses:
+        '200':
+          description: Value converted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The response
+                properties:
+                  balance:
+                    type: integer
+                    description: The value
+        '400':
+          description: Missing or malformed request body
+        '500':
+          description: An error occurred while fetching data
+  /decimal-to-hex:
+    post:
+      summary: Converts decimal to hexadecimal values
+      operationId: decimalToHex
+      description: This API converts a decimal value to hexadecimal. Use this endpoint when you need to convert values to make a blockchain call.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                decimalValue:
+                  type: string
+                  description: The decimal value to convert.
+      responses:
+        '200':
+          description: Value converted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The response
+                properties:
+                  balance:
+                    type: string
+                    description: The hexadecimal value
+        '400':
+          description: Missing or malformed request body
+        '500':
+          description: An error occurred while fetching data
+  /ens-to-address:
+    post:
+      summary: Resolve ENS name to Ethereum Address
+      operationId: ensToAddress
+      description: This function resolves an ENS, or .eth name to an Ethereum address. The ENS name must be specified in the request.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ensName:
+                  type: string
+                  description: The ENS name to resolve, like username.eth
+      responses:
+        '200':
+          description: The ENS call was successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: object
+                    description: The response from the ENS resolution.
+        '400':
+          description: Invalid ENS name
+        '500':
+          description: An error occurred while resolving ENS name
+  /get-token-balances:
+    post:
+      summary: Gets a list of token balances by address
+      operationId: getTokenBalances
+      description: This function retrieves token balances for a given chain name and wallet address. Use the fromWei endpoint on the Chainstack plugin to convert the balances
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chainName:
+                  type: string
+                  enum: ['eth-mainnet', 'eth-sepolia', 'eth-goerli', 'bsc-mainnet', 'avalanche-mainnet', 'fantom-mainnet', 'arbitrum-mainnet', 'matic-mainnet']
+                  description: The name of the chain
+                walletAddress:
+                  type: string
+                  description: The address of the wallet
+      responses:
+        '200':
+          description: The call was successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: object
+                    description: The response from the token balance fetch. Use the fromWei endpoint on the Chainstack plugin to convert the balances
+        '500':
+          description: An error occurred while getting token balances
+  /get-nfts:
+   post:
+    summary: Gets a list of NFTs by address
+    operationId: getNfts
+    description: This function retrieves all NFTs for a given chain name and wallet address.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              chainName:
+                type: string
+                enum: ['eth-mainnet', 'eth-sepolia', 'eth-goerli', 'bsc-mainnet', 'avalanche-mainnet', 'fantom-mainnet', 'arbitrum-mainnet', 'matic-mainnet']
+                description: The name of the chain
+              walletAddress:
+                type: string
+                description: The address of the wallet
+    responses:
+      '200':
+        description: The call was successful
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                response:
+                  type: object
+                  description: The response from the NFT fetch.
+      '500':
+        description: An error occurred while getting NFTs
+  /get-single-nft:
+   post:
+    summary: Gets information about an individual NFT
+    operationId: getSingleNft
+    description: This function retrieves a single NFT for a given chain name, wallet address, and token ID.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              chainName:
+                type: string
+                enum: ['eth-mainnet', 'eth-sepolia', 'eth-goerli', 'bsc-mainnet', 'avalanche-mainnet', 'fantom-mainnet', 'arbitrum-mainnet', 'matic-mainnet']
+                description: The name of the chain
+              contractAddress:
+                type: string
+                description: The address of the NFT contract
+              tokenId:
+                type: string
+                description: The ID of the NFT
+    responses:
+      '200':
+        description: The call was successful
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                response:
+                  type: object
+                  description: The response from the NFT fetch.
+      '500':
+        description: An error occurred while getting NFT
+  /get-transaction-summary:
+   post:
+    summary: Gets summary about transactions by address
+    operationId: getTransactionSummary
+    description: This function retrieves earliest and latest transactions, among other information, by address
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              chainName:
+                type: string
+                enum: ['eth-mainnet', 'eth-sepolia', 'eth-goerli', 'bsc-mainnet', 'avalanche-mainnet', 'fantom-mainnet', 'arbitrum-mainnet', 'matic-mainnet']
+                description: The name of the chain
+              walletAddress:
+                type: string
+                description: The address of the wallet
+    responses:
+      '200':
+        description: The call was successful
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                response:
+                  type: object
+                  description: The response from the transaction fetch.
+      '500':
+        description: An error occurred while getting transactions

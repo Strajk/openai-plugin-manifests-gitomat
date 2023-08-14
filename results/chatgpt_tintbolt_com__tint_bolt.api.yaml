@@ -1,0 +1,466 @@
+openapi: 3.0.1
+info:
+  title: Tint Bolt
+  description: Tint Bolt is an administrative tool that helps automotive window tinters manage their business. It serves as a standalone system that "hooks & books" new and old customers with less effort and attention from the owner. In the main dashboard, you can view stats on how your free landing page is performing, see and manage your bookings and customers, choose which films you want to display to your customers, and so much more. Tint Bolt is in active development and is currently in it's beta phase. The future of Tint Bolt is to grow to encompass other stylist services in the car industry and become the industry's first autonomous assistant.
+  version: "v1"
+servers:
+  - url: https://chatgpt.tintbolt.com
+paths:
+  /getLeads:
+    post:
+      operationId: getLeads
+      summary: Retrieve leads
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                month:
+                  type: string
+                  description: The full name of the month (e.g., January, February, etc.).
+                year:
+                  type: string
+                  description: The 4 character year (e.g., 2011, 2023, etc.).
+                token:
+                  type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /getTimeSlots:
+    post:
+      operationId: getTimeSlots
+      summary: Get available time slots
+      description: When deciding open and closing business hours, always default to 00:00 to 23:00 unless otherwise stated.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                selectedYear:
+                  type: string
+                  description: The 4 character year (e.g., 2011, 2023, etc.) this is required.
+                  required: true
+                selectedMonth:
+                  type: string
+                  description: The full name of the month (e.g., January, February, etc.) this is required.
+                  required: true
+                selectedDate:
+                  type: string
+                  required: true
+                  description: The day (e.g., 12, 1, 31, etc) this is required.
+                start_time:
+                  type: string
+                  description: this is required
+                end_time:
+                  type: string
+                  description: this is required
+                timeIncrement:
+                  type: integer
+                  default: 60
+                  description: this is required
+                duration:
+                  type: integer
+                  required: true
+                  description: in minutes. Default to 60 unless otherwise stated.
+      responses:
+        "200":
+          description: A list of available time slots
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "400":
+          description: Bad Request (missing or invalid parameters)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized (invalid token)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found (no available time slots)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /getVehicles:
+    post:
+      operationId: getVehicles
+      summary: Get vehicle types. This is just a request for the vehicle types this user currently offers through Tint Bolt. It will be used when adding the vehicle types for booking and quoting. Different vehicle types have different prices.
+      description: This will allow you to access the user's Tint Bolt vehicle types and their associated prices and duration for each service type within the individual vehicle types. Very important for booking and quoting.
+      responses:
+        "200":
+          description: A list of vehicle types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "400":
+          description: Bad Request (missing or invalid parameters).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized (invalid token)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found (no vehicle types set up)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /getBookings:
+    post:
+      operationId: getBookings
+      summary: Retrieve bookings.
+      description: Returns bookings for a single day or multiple days (7 day max). Also used for tracking revenue through the price. All 3 properties are required.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                month:
+                  type: string
+                  description: The full name of the month (e.g., January, February, etc.).
+                year:
+                  type: string
+                  description: The 4 character year (e.g., 2011, 2023, etc.).
+                day:
+                  description: The day of the month (e.g., 2, 23, etc.) or an array of days (e.g., ["2", "23"]) with a max of 7 days.
+                  oneOf:
+                    - type: string
+                    - type: array
+                      items:
+                        type: string
+                      maxItems: 7
+              required:
+                - month
+                - year
+                - day
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    booking:
+                      type: object
+                      properties:
+                        customerDetails:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                            phoneNumber:
+                              type: string
+                            name:
+                              type: string
+                        installDetails:
+                          type: object
+                          properties:
+                            startTime:
+                              type: string
+                            installType:
+                              type: string
+                            shades:
+                              type: object
+                              properties:
+                                front:
+                                  type: string
+                                rear:
+                                  type: string
+                            endTime:
+                              type: string
+                            series:
+                              type: string
+                            price:
+                              type: number
+                            isBlocked:
+                              type: boolean
+                            notes:
+                              type: string
+                    vehicleDetails:
+                      type: object
+                      properties:
+                        vehicleType:
+                          type: string
+                        make:
+                          type: string
+                        model:
+                          type: string
+                        year:
+                          type: string
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /createEvent:
+    post:
+      operationId: createEvent
+      summary: Create a new booking.  Get timezone from /getCompany before making booking.
+      description: create a booking.  Get timezone from /getCompany before making booking.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bookingDetails:
+                  type: object
+                  description: The details of the booking. This is required.
+                  required:
+                    - customerDetails
+                    - installDetails
+                    - vehicleDetails
+                  properties:
+                    customerDetails:
+                      type: object
+                      description: The details of the customer. This and all children are required unless otherwise stated.
+                      required:
+                        - email
+                        - phoneNumber
+                        - name
+                      properties:
+                        email:
+                          type: string
+                          description: The email address of the customer. This is optional.
+                        phoneNumber:
+                          type: string
+                          description: North american phone number with no special characters, no spaces and no country code. This is required.
+                        name:
+                          type: string
+                          description: The name of the customer. This is required.
+                    installDetails:
+                      type: object
+                      description: The details of the installation. This and all children are required.
+                      required:
+                        - startTime
+                        - installType
+                        - shades
+                        - endTime
+                        - series
+                        - price
+                        - isBlocked
+                        - notes
+                      properties:
+                        startTime:
+                          type: integer
+                          description: The full day and time as unix timestamp of beginning of booking.
+                        installType:
+                          type: string
+                          description: The install service type that is being requested. Based on the users offerings through Tint Bolt
+                        shades:
+                          type: object
+                          properties:
+                            front:
+                              type: string
+                              description: The shade the customer wants on front windows if not stated, default to 'none'
+                            rear:
+                              type: string
+                              description: The shade option the customer wants on the rear windows if not stated, default to 'none'
+                        endTime:
+                          type: integer
+                          description: The full day and time as unix timestamp of ending of booking
+                        series:
+                          type: string
+                          description: For now default to NR Series
+                        price:
+                          type: integer
+                          description: Price units are in cents. Currency is irrelevant unless specifically told.
+                          required: true
+                        isBlocked:
+                          type: boolean
+                          description: Should booking block time slots
+                        notes:
+                          type: string
+                    vehicleDetails:
+                      type: object
+                      description: The details of the vehicle. This is required.
+                      required:
+                        - vehicleType
+                        - make
+                        - model
+                        - year
+                      properties:
+                        vehicleType:
+                          type: string
+                          description: The vehicle body type based on what user offers. This is required.
+                        make:
+                          type: string
+                          description: The manufacturer or brand of the vehicle
+                        model:
+                          type: string
+                          description: The model of the vehicle being booked
+                        year:
+                          type: string
+                          description: The year of the vehicle
+                formatedStartDay:
+                  type: string
+                  description: The formatted start day of the event. This is required.
+                  required: true
+                formatedStartTime:
+                  type: string
+                  description: The formatted start time of the event. This is required.
+                  required: true
+                TB_scheduler:
+                  type: object
+                  description: Properties required to update the users schedule in Tint Bolt. This is required.
+                  required:
+                    - selectedYear
+                    - selectedMonth
+                    - selectedDay
+                    - end_time
+                    - start_time
+                    - is_blocked
+                    - timezone
+                  properties:
+                    selectedYear:
+                      type: string
+                      description: The full selected year example -> '2023'. This is required.
+                    selectedMonth:
+                      type: string
+                      description: The selected month by full name. example -> 'January'. This is required.
+                    selectedDay:
+                      type: string
+                      description: The selected day. This is required.
+                    end_time:
+                      type: string
+                      description: The end time of the event example -> '13:00' for 1pm. This is required.
+                    start_time:
+                      type: string
+                      description: The start time of the event example -> '13:00' for 1pm. This is required.
+                    is_blocked:
+                      type: boolean
+                      description: Indicates if the time slot is blocked. This is required.
+                    timezone:
+                      type: string
+                      description: IANA time zone of user like America/Los_Angeles or America/Denver, etc.. This is required.
+                sendConfirmation:
+                  type: boolean
+                  description: Indicates if a confirmation message should be sent. This is required and must always be prompted by user
+                  required: true
+                createdAt:
+                  type: integer
+                  description: unix timestamp of current date and time.
+      responses:
+        "200":
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+        "400":
+          description: Bad Request (missing or invalid parameters)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized (invalid token)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /getCompany:
+    post:
+      operationId: getCompany
+      summary: Get the company/user information from Tint Bolt such as address, business hours, website and timezone
+      responses:
+        "200":
+          description: An object containing company/user information
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad Request (missing or invalid parameters)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized (invalid token)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found (no vehicle types set up)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string

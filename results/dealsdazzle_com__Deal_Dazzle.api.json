@@ -1,0 +1,1775 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "dealsDazzle API",
+    "description": "dealsDazzle website API includes product, coupon, etc. you can fetch lowest price product from this API.",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://dealsdazzle.com"
+    },
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://dealsdazzle.com",
+      "description": "base url"
+    }
+  ],
+  "paths": {
+    "/api/user/updateUserImage": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "updateUserImage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserImageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/record": {
+      "post": {
+        "tags": [
+          "order-controller"
+        ],
+        "operationId": "record",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderRecordParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/match/batch": {
+      "post": {
+        "tags": [
+          "order-controller"
+        ],
+        "operationId": "matchBatch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatchOrderBatchParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListOrderMatchBatchVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/discount/promotionCode/list/batch": {
+      "post": {
+        "tags": [
+          "discount-controller"
+        ],
+        "operationId": "listPromoCodeByItemIds",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PromotionCodeBatchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListPromotionCodeDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/affiliate/amazon": {
+      "post": {
+        "tags": [
+          "affiliate-controller"
+        ],
+        "operationId": "getAmazonAffiliateInfo",
+        "parameters": [
+          {
+            "name": "amazonUrl",
+            "in": "query",
+            "description": "amazon product detail url",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AmazonAffiliateInfoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultAmazonAffiliateInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/affiliate/amazon/support": {
+      "post": {
+        "tags": [
+          "affiliate-controller"
+        ],
+        "operationId": "isSupportAmazonAffiliate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IsSupportAmazonAffiliateParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/legal": {
+      "get": {
+        "tags": [
+          "config-controller"
+        ],
+        "operationId": "getLegalInfo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/checkpreload.htm": {
+      "get": {
+        "tags": [
+          "main-controller"
+        ],
+        "operationId": "checkPreload",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chatgpt/search_with_price": {
+      "get": {
+        "tags": [
+          "chatgpt-controller"
+        ],
+        "operationId": "searchWithPrice",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chatgpt/search_by_url": {
+      "get": {
+        "tags": [
+          "chatgpt-controller"
+        ],
+        "operationId": "searchProductByUrl",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chatgpt/search": {
+      "get": {
+        "tags": [
+          "chatgpt-controller"
+        ],
+        "operationId": "searchProduct",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultChatGptPluginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chatgpt/searchByImage": {
+      "get": {
+        "tags": [
+          "chatgpt-controller"
+        ],
+        "operationId": "searchByImage",
+        "parameters": [
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListCommodityDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/updateUserFullName": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "updateUserFullName",
+        "parameters": [
+          {
+            "name": "firstName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "middleName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lastName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/updateUserEmail": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "updateUserEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/listLoginMethods": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "listLoginMethods",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/detail": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "detail",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResultUserInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/account/withdraw/list": {
+      "get": {
+        "tags": [
+          "account-controller"
+        ],
+        "operationId": "getWithdrawRecordList",
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageResultWithdrawGoldRecordDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/account/cashback/list": {
+      "get": {
+        "tags": [
+          "account-controller"
+        ],
+        "operationId": "getCashBackRecordList",
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageResultCashBackGoldRecordDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/account/balance": {
+      "get": {
+        "tags": [
+          "account-controller"
+        ],
+        "operationId": "queryBalance",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultAccountBalanceDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/search/savedInfo": {
+      "get": {
+        "tags": [
+          "search-controller"
+        ],
+        "operationId": "savedInfo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListUserSaveInfoDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/search/alternatives": {
+      "get": {
+        "tags": [
+          "search-controller"
+        ],
+        "operationId": "searchAlternatives",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "image",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mpn",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sku",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultAlternativeProductInfoDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/match": {
+      "get": {
+        "tags": [
+          "order-controller"
+        ],
+        "operationId": "match",
+        "parameters": [
+          {
+            "name": "datetime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "device",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultLong"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/discount/promotionCode/list/{platform}/{itemId}": {
+      "get": {
+        "tags": [
+          "discount-controller"
+        ],
+        "operationId": "listPromoCodeByItemId",
+        "parameters": [
+          {
+            "name": "platform",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListPromotionCodeDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/affiliate/amazon/isAffiliateLink": {
+      "get": {
+        "tags": [
+          "affiliate-controller"
+        ],
+        "operationId": "isAffiliateLink",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/amazon": {
+      "get": {
+        "tags": [
+          "debug-controller"
+        ],
+        "operationId": "amazon",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/ai-plugin.json": {
+      "get": {
+        "tags": [
+          "config-controller"
+        ],
+        "operationId": "openai",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PluginJson"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UpdateUserImageRequest": {
+        "type": "object",
+        "properties": {
+          "base64": {
+            "type": "string"
+          }
+        }
+      },
+      "ResultBoolean": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "boolean"
+          }
+        }
+      },
+      "OrderRecordItem": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number"
+          }
+        }
+      },
+      "OrderRecordParam": {
+        "type": "object",
+        "properties": {
+          "orderCreateTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orderTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "device": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderRecordItem"
+            }
+          }
+        }
+      },
+      "MatchOrderBatchParam": {
+        "type": "object",
+        "properties": {
+          "commissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatchOrderCommissionDTO"
+            }
+          }
+        }
+      },
+      "MatchOrderCommissionDTO": {
+        "type": "object",
+        "properties": {
+          "commissionId": {
+            "type": "string"
+          },
+          "orderTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number"
+          },
+          "itemId": {
+            "type": "string"
+          },
+          "device": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          }
+        }
+      },
+      "OrderMatchBatchVO": {
+        "type": "object",
+        "properties": {
+          "commissionId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultListOrderMatchBatchVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderMatchBatchVO"
+            }
+          }
+        }
+      },
+      "PromotionCodeBatchRequest": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "string"
+          },
+          "itemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PromotionCodeDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "off": {
+            "type": "string"
+          }
+        }
+      },
+      "ResultListPromotionCodeDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PromotionCodeDTO"
+            }
+          }
+        }
+      },
+      "AmazonAffiliateInfoRequest": {
+        "type": "object",
+        "properties": {
+          "amazonUrl": {
+            "type": "string"
+          },
+          "itemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AmazonAffiliateInfoVO": {
+        "type": "object",
+        "properties": {
+          "affiliateLink": {
+            "type": "string",
+            "description": "amazon affiliate link",
+            "example": "https://www.amazon.com/dp/B07ZV2CJL2?tag=aidc-20&linkCode=ogi&th=1&psc=1"
+          },
+          "rebate": {
+            "type": "number",
+            "description": "amazon affiliate max rebate",
+            "format": "double",
+            "example": 0.2
+          },
+          "tag": {
+            "type": "string"
+          }
+        }
+      },
+      "ResultAmazonAffiliateInfoVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AmazonAffiliateInfoVO"
+          }
+        }
+      },
+      "IsSupportAmazonAffiliateParam": {
+        "type": "object",
+        "properties": {
+          "itemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ResultString": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "ChatGptPluginResponse": {
+        "type": "object",
+        "properties": {
+          "searchResult": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MainSiteSearchRes4Gpt"
+            }
+          },
+          "extraInfo": {
+            "type": "string"
+          }
+        }
+      },
+      "MainSiteSearchRes4Gpt": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "mainImage": {
+            "type": "string"
+          },
+          "sellingPoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultChatGptPluginResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ChatGptPluginResponse"
+          }
+        }
+      },
+      "CommodityDTO": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "lang": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "mainImage": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "deliveryTime": {
+            "type": "string"
+          },
+          "detailUrl": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "sales": {
+            "type": "string"
+          },
+          "inventory": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sellingPoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "shippingFee": {
+            "type": "string"
+          },
+          "skuId": {
+            "type": "string"
+          }
+        }
+      },
+      "ResultListCommodityDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommodityDTO"
+            }
+          }
+        }
+      },
+      "ResultListString": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "LoginResultUserInfoVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserInfoVO"
+          }
+        }
+      },
+      "UserInfoVO": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
+      },
+      "PageResultWithdrawGoldRecordDTO": {
+        "type": "object",
+        "properties": {
+          "pageNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WithdrawGoldRecordDTO"
+            }
+          }
+        }
+      },
+      "ResultPageResultWithdrawGoldRecordDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageResultWithdrawGoldRecordDTO"
+          }
+        }
+      },
+      "WithdrawGoldRecordDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gmtModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "goldCost": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rebateType": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "finishDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CashBackGoldRecordDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gmtModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "goldAmount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "PageResultCashBackGoldRecordDTO": {
+        "type": "object",
+        "properties": {
+          "pageNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CashBackGoldRecordDTO"
+            }
+          }
+        }
+      },
+      "ResultPageResultCashBackGoldRecordDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageResultCashBackGoldRecordDTO"
+          }
+        }
+      },
+      "AccountBalanceDTO": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "balanceGold": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalHistoricalGold": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "availableRebateList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RebateDTO"
+            }
+          }
+        }
+      },
+      "RebateDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultAccountBalanceDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccountBalanceDTO"
+          }
+        }
+      },
+      "ResultListUserSaveInfoDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserSaveInfoDTO"
+            }
+          }
+        }
+      },
+      "UserSaveInfoDTO": {
+        "type": "object",
+        "properties": {
+          "imageUrl": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "platForm": {
+            "type": "string"
+          },
+          "type": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AlternativeProduct": {
+        "type": "object",
+        "properties": {
+          "mainImage": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "savedFee": {
+            "type": "string"
+          },
+          "shippingFee": {
+            "type": "string"
+          },
+          "orderLink": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "discountRate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "isFreeShipping": {
+            "type": "boolean"
+          },
+          "skuId": {
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string"
+          }
+        }
+      },
+      "AlternativeProductInfoDTO": {
+        "type": "object",
+        "properties": {
+          "productList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlternativeProduct"
+            }
+          }
+        }
+      },
+      "ResultAlternativeProductInfoDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AlternativeProductInfoDTO"
+          }
+        }
+      },
+      "ResultLong": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Api": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "is_user_authenticated": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Auth": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "PluginJson": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "type": "string"
+          },
+          "name_for_model": {
+            "type": "string"
+          },
+          "legal_info_url": {
+            "type": "string"
+          },
+          "auth": {
+            "$ref": "#/components/schemas/Auth"
+          },
+          "logo_url": {
+            "type": "string"
+          },
+          "name_for_human": {
+            "type": "string"
+          },
+          "api": {
+            "$ref": "#/components/schemas/Api"
+          },
+          "description_for_human": {
+            "type": "string"
+          },
+          "description_for_model": {
+            "type": "string"
+          },
+          "contact_email": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicScheme": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

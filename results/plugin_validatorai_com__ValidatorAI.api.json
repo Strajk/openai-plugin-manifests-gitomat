@@ -1,0 +1,73 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Evaluate Business Idea API",
+    "version": "1.0.0",
+    "description": "API for evaluating a business idea and providing feedback."
+  },
+  "servers": [
+    {
+      "url": "https://plugin.validatorai.com"
+    }
+  ],
+  "paths": {
+    "/api": {
+      "post": {
+        "operationId": "evaluateBusinessIdea",
+        "summary": "Evaluate a business idea",
+        "description": "Evaluates a business idea and provides feedback.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "idea": {
+                    "type": "string",
+                    "description": "The business idea to evaluate."
+                  }
+                },
+                "required": [
+                  "idea"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful evaluation of the business idea",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Important Things To Consider": {
+                      "type": "string",
+                      "description": "Objective feedback for the business idea."
+                    },
+                    "Feedback": {
+                      "type": "string",
+                      "description": "Objective feedback for the business idea."
+                    },
+                    "Elevator Pitch": {
+                      "type": "string",
+                      "description": "An elevator pitch for the business idea."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  }
+}

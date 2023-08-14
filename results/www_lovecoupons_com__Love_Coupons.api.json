@@ -1,0 +1,109 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "LoveCoupons.com",
+    "description": "API to be consumed by AI plugins.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "API Support",
+      "url": "https://www.lovecoupons.com/contact",
+      "email": "hello@lovesavingsgroup.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://www.lovecoupons.com"
+    }
+  ],
+  "paths": {
+    "/api/store/{domain}": {
+      "get": {
+        "summary": "Get information about an individual store or advertiser.",
+        "operationId": "findStore",
+        "description": "Get information about an individual store or advertiser.",
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "asos.com"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Store response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Store"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Store not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Store": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the store or advertiser.",
+            "example": "ASOS"
+          },
+          "logo": {
+            "type": "string",
+            "description": "A path to the logo image of the store.",
+            "example": "https://www.image.com/image.jpg"
+          },
+          "url": {
+            "type": "string",
+            "description": "The domain of the store.",
+            "example": "https://www.asos.com"
+          },
+          "coupons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Coupon"
+            }
+          }
+        }
+      },
+      "Coupon": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The main title for the coupon.",
+            "example": "10% off sitewide"
+          },
+          "code": {
+            "type": "string",
+            "description": "The coupon code.",
+            "example": "SAVE10"
+          },
+          "expiry": {
+            "type": "string",
+            "format": "date",
+            "description": "The date of expiry.",
+            "example": "2023-06-30"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL for the coupon to redeem.",
+            "example": "https://www.lovecoupons.com/go/5/WjZFUVdEM2NBNXBnT09ubGh4ZjBRdz09"
+          }
+        }
+      }
+    }
+  }
+}

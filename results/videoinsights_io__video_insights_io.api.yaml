@@ -1,0 +1,512 @@
+openapi: 3.0.1
+info:
+  title: videoinsights-plugin-api
+  description: Video insights API Gateway
+  version: '2023-05-18T05:25:08Z'
+servers:
+  - url: https://openai.videoinsights.io
+    x-amazon-apigateway-endpoint-configuration:
+      disableExecuteApiEndpoint: true
+paths:
+  /youtube/getFullTranscript:
+    get:
+      operationId: GetTranscriptOperationYoutube
+      summary: Returns a paginated transcript and metadata of a Youtube video
+      parameters:
+        - name: timestamped
+          description: Whether or not the transcript should include the timestamp values. Defaults to false.
+          in: query
+          schema:
+            type: boolean
+        - name: video-id
+          description: The Youtube Video ID to get a transcript for.
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: paginationToken
+          description: A required pagination token for this transcript. Starts at 0 and increments by 1 for the next page.
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Content-Type:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptResponseYoutube'
+  /youtube/getVideoSummary:
+    get:
+      summary: Returns a paginated summary and metadata of a Youtube video
+      operationId: GetVideoSummaryOperationYoutube
+      parameters:
+        - name: video-id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: paginationToken
+          description: A required pagination token for this summary. Starts at 0 and increments by 1 for the next page.
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Content-Type:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoSummaryResponseYoutube'
+  /vimeo/getFullTranscript:
+    get:
+      operationId: GetTranscriptOperationVimeo
+      summary: Returns a paginated transcript and metadata of a Vimeo video
+      parameters:
+        - name: timestamped
+          description: Whether or not the transcript should include the timestamp values. Defaults to false.
+          in: query
+          schema:
+            type: boolean
+        - name: video-id
+          description: The Youtube Video ID to get a transcript for.
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: paginationToken
+          description: A required pagination token for this transcript. Starts at 0 and increments by 1 for the next page.
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Content-Type:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoSummaryResponseVimeo'
+  /vimeo/getVideoSummary:
+    get:
+      summary: Returns a paginated summary and metadata of a Vimeo video
+      operationId: GetVideoSummaryOperationVimeo
+      parameters:
+        - name: video-id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: paginationToken
+          description: A required pagination token for this summary. Starts at 0 and increments by 1 for the next page.
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Content-Type:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoSummaryResponseVimeo'
+  /bilibili/getFullTranscript:
+    get:
+      operationId: GetTranscriptOperationBilibili
+      summary: Returns a paginated transcript and metadata of a Bilibili video
+      parameters:
+        - name: video-id
+          description: The Youtube Video ID to get a transcript for.
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: paginationToken
+          description: A required pagination token for this transcript. Starts at 0 and increments by 1 for the next page.
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: timestamped
+          description: Whether or not the transcript should include the timestamp values. Defaults to false.
+          in: query
+          required: false
+          schema:
+            type: boolean
+
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Content-Type:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptResponseBiliBili'
+  /bilibili/getVideoSummary:
+    get:
+      summary: Returns a paginated summary and metadata of a BiliBili video
+      operationId: GetVideoSummaryOperationBiliBili
+      parameters:
+        - name: video-id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: paginationToken
+          description: A required pagination token for this summary. Starts at 0 and increments by 1 for the next page.
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Content-Type:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoSummaryResponseBiliBili'
+  /unknown/getVideoSummary:
+    get:
+      operationId: GetVideoSummaryOperationUnknown
+      summary: Tries to get some data for an unknown video provider
+      parameters:
+        - name: full-video-url
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Content-Type:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoSummaryResponseUnknown'
+  /unknown/getFullTranscript:
+    get:
+      operationId: GetFullTranscriptOperationUnknown
+      summary: Tries to get some data for an unknown video provider
+      parameters:
+        - name: full-video-url
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Content-Type:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullTranscriptResponseUnknown'
+
+components:
+  schemas:
+    TranscriptResponseYoutube:
+      title: TranscriptResponseYoutube
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            is_age_restricted:
+              type: boolean
+              description: Whether the video is age-restricted or not
+            keywords:
+              type: array
+              description: Keywords related to the video
+              items:
+                type: string
+            length_in_seconds:
+              type: string
+              description: Length of the video in seconds
+            number_of_views:
+              type: string
+              description: Number of views of the video
+            video_title:
+              type: string
+              description: Title of the video
+          description: Metadata of the video
+        status:
+          type: integer
+          description: Status code of response
+        timestamped:
+          type: boolean
+          description: Whether the transcript includes timestamps
+        transcript:
+          type: object
+          description: The paginated transcript of the video.
+          properties:
+            paginationToken:
+              type: integer
+              description: The pagination token for the next page. If there are no more, this will be -1. Otherwise it's a positive integer that increments with every page
+            totalPages:
+              type: integer
+              description: Total number of pages in the transcript
+            has_more:
+              type: boolean
+              description: Indicates whether there are more transcript chunks available
+                for pagination after the current chunk
+            entries:
+              type: object
+              description: The transcript as a list according to the given schema. This is not the full transcript if the has_more property is set to true
+            schema:
+              type: object
+              description: The schema of the transcript entries
+        video-id:
+          description: Video ID of the transcript
+    TranscriptResponseBiliBili:
+      title: TranscriptResponseBiliBili
+      type: object
+      properties:
+        metadata:
+          description: Metadata of the video
+          type: object
+          properties:
+            title:
+              type: string
+              description: Title of the video
+            description:
+              type: string
+              description: A description of the video
+            duration:
+              type: string
+              description: Length of the video in ISO 8601 duration format
+            upload_date:
+              type: string
+              description: The upload date of the video
+            statistics:
+              type: object
+              properties:
+                viewCount:
+                  type: string
+                  description: Number of views on the video
+                likeCount:
+                  type: string
+                  description: Number of likes on the video
+                commentCount:
+                  type: string
+                  description: Number of comments on the video
+        status:
+          type: integer
+          description: Status code of response
+        timestamped:
+          type: boolean
+          description: Whether the transcript includes timestamps
+        transcript:
+          type: object
+          description: The paginated transcript of the video.
+          properties:
+            paginationToken:
+              type: integer
+              description: The pagination token for the next page. If there are no more, this will be -1. Otherwise it's a positive integer that increments with every page
+            totalPages:
+              type: integer
+              description: Total number of pages in the transcript
+            has_more:
+              type: boolean
+              description: Indicates whether there are more transcript pages available for pagination after the current page
+            entries:
+              type: object
+              description: The transcript as a list according to the given schema. This is not the full transcript if the has_more property is set to true
+            schema:
+              type: object
+              description: The schema of the transcript entries
+        video-id:
+          description: Video ID of the transcript
+    VideoSummaryResponseYoutube:
+      title: VideoSummaryResponseYoutube
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            is_age_restricted:
+              type: boolean
+              description: Whether the video is age-restricted or not
+            keywords:
+              type: array
+              description: Keywords related to the video
+              items:
+                type: string
+            length_in_seconds:
+              type: string
+              description: Length of the video in seconds
+            number_of_views:
+              type: string
+              description: Number of views of the video
+            video_title:
+              type: string
+              description: Title of the video
+          description: Metadata of the video
+        status:
+          type: integer
+          description: Status code of response
+        summary:
+          type: object
+          description: The paginated summary of the video.
+          properties:
+            paginationToken:
+              type: integer
+              description: The pagination token for the next page. If there are no more, this will be -1. Otherwise it's a positive integer that increments with every page
+            totalPages:
+              type: integer
+              description: Total number of pages in the summary
+            has_more:
+              type: boolean
+              description: Indicates whether there are more summary pages available for pagination after the current page
+            entries:
+              type: string
+              description: The partial summary of the video as a list. This is not the full summary if the has_more property is set to true
+        video-id:
+          type: string
+          description: Video ID of the summary
+    VideoSummaryResponseVimeo:
+      title: VideoSummaryResponseVimeo
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code of response
+        summary:
+          type: string
+          description: The summary of the video.
+        video-id:
+          type: string
+          description: Video ID of the summary
+        metadata:
+          type: object
+          properties:
+            title:
+              type: string
+              example: Title of the video
+            description:
+              type: string
+              description: The author's description of the video
+            upload_date:
+              type: string
+              description: When the video was first uploaded
+            tags:
+              type: array
+              items:
+                type: string
+            uploader:
+              type: string
+              description: Name of the uploader of the video
+            duration:
+              type: string
+              description: Length of the video
+            width:
+              type: string
+              description: Width of the video in pixels
+            height:
+              type: string
+              description: Height of the video in pixels
+            statistics:
+              type: object
+              properties:
+                viewCount:
+                  type: string
+                  description: Number of views on the video
+                likeCount:
+                  type: string
+                  description: Number of likes on the video
+                commentCount:
+                  type: string
+                  description: Number of comments on the video
+    VideoSummaryResponseBiliBili:
+      title: VideoSummaryResponseVimeo
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code of response
+        summary:
+          type: string
+          description: The summary of the video.
+        video-id:
+          type: string
+          description: Video ID of the summary
+        metadata:
+          type: object
+          properties:
+            title:
+              type: string
+              example: Title of the video
+            description:
+              type: string
+              description: The author's description of the video
+            upload_date:
+              type: string
+              description: When the video was first uploaded
+            duration:
+              type: string
+              description: Length of the video
+            statistics:
+              type: object
+              properties:
+                viewCount:
+                  type: string
+                  description: Number of views on the video
+                likeCount:
+                  type: string
+                  description: Number of likes on the video
+                commentCount:
+                  type: string
+                  description: Number of comments on the video
+
+
+
+    FullTranscriptResponseUnknown:
+      title: FullTranscriptResponseUnknown
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code of response
+        response_body:
+          type: string
+          description: A recommendation on what to do with this video
+    VideoSummaryResponseUnknown:
+      title: VideoSummaryResponseUnknown
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code of response
+        response_body:
+          type: string
+          description: A recommendation on what to do with this video

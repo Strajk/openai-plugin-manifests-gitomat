@@ -1,0 +1,102 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "DevHunt",
+    "description": "Find your next favorite tool",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/chat-gpt": {
+      "get": {
+        "operationId": "devhunt",
+        "description": "Find tools that match the query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "input",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "search for tool with input provided. if no input use the char *"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON object with search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolsData"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ToolsData": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date"
+              },
+              "tools": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Tool"
+                }
+              },
+              "footer": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Tool": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image_link": {
+            "type": "string"
+          },
+          "date_added": {
+            "type": "string",
+            "format": "date"
+          },
+          "developer": {
+            "type": "string"
+          },
+          "upvotes": {
+            "type": "integer"
+          },
+          "upvote_link": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

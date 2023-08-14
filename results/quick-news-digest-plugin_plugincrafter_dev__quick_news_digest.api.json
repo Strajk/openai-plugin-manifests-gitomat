@@ -1,0 +1,362 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Quick News Digest API",
+    "description": "API for retrieving news articles based on user preferences and filters.",
+    "version": "v1"
+  },
+  "paths": {
+    "/news": {
+      "get": {
+        "summary": "Fetch news articles",
+        "operationId": "fetchNews",
+        "description": "Fetch news articles from the server based on user preferences and filters and return them to the user.",
+        "parameters": [
+          {
+            "name": "articles_page",
+            "in": "query",
+            "description": "The page of articles to retrieve. The default value is 1.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "data_type",
+            "in": "query",
+            "description": "Types of content to search, such as news, press releases (pr), or blogs (blog). Available values are news, pr, blog.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "keywords",
+            "in": "query",
+            "description": "Keywords or phrases to search for. Up to 60 keywords can be specified.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "concepts",
+            "in": "query",
+            "description": "Concepts to include in the search. Up to 50 concepts can be specified.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "categories",
+            "in": "query",
+            "description": "Categories to include in the search. Up to 20 categories can be specified.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sources",
+            "in": "query",
+            "description": "News sources to include in the search.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "source_locations",
+            "in": "query",
+            "description": "Geographic locations of news sources.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "authors",
+            "in": "query",
+            "description": "Authors of articles.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "locations",
+            "in": "query",
+            "description": "Locations mentioned in articles.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "languages",
+            "in": "query",
+            "description": "Languages of articles. Up to 5 languages can be specified using their ISO3 language codes.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "date_start",
+            "in": "query",
+            "description": "The starting date on or after the articles of interest were published. The date should be in the YYYY-MM-DD format.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "date_end",
+            "in": "query",
+            "description": "The last date on which the articles of interest were published. The date should be in the YYYY-MM-DD format.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "date_mention_start",
+            "in": "query",
+            "description": "The starting date on or after the articles of interest were mentioned. The date should be in the YYYY-MM-DD format.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "date_mention_end",
+            "in": "query",
+            "description": "The last date on which the articles of interest were mentioned. The date should be in the YYYY-MM-DD format.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "ignore_keywords",
+            "in": "query",
+            "description": "Keywords or phrases to exclude from the search. Up to 60 keywords can be specified.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ignore_concepts",
+            "in": "query",
+            "description": "Concepts to exclude from the search. Up to 50 concepts can be specified.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ignore_categories",
+            "in": "query",
+            "description": "Categories to exclude from the search. Up to 20 categories can be specified.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ignore_sources",
+            "in": "query",
+            "description": "News sources to exclude from the search.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ignore_source_locations",
+            "in": "query",
+            "description": "Geographic locations of news sources to exclude from the search.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ignore_locations",
+            "in": "query",
+            "description": "Locations mentioned in articles to exclude from the search.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ignore_authors",
+            "in": "query",
+            "description": "Authors of articles to exclude from the search.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ignore_languages",
+            "in": "query",
+            "description": "Languages of articles to exclude from the search. Up to 5 languages can be specified using their ISO3 language codes.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "articles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string",
+                            "description": "Title of the article"
+                          },
+                          "body": {
+                            "type": "string",
+                            "description": "Body of the article"
+                          },
+                          "source": {
+                            "type": "string",
+                            "description": "Source of the article"
+                          },
+                          "url": {
+                            "type": "string",
+                            "description": "URL of the article"
+                          },
+                          "image": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "Image of the article"
+                          },
+                          "date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Published date of the article"
+                          }
+                        },
+                        "required": [
+                          "title",
+                          "body",
+                          "source",
+                          "url",
+                          "date"
+                        ]
+                      }
+                    },
+                    "assistant_hint": {
+                      "type": "string",
+                      "description": "Hint for the assistant"
+                    }
+                  },
+                  "required": [
+                    "articles",
+                    "assistant_hint"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "An error message describing the issue"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://quick-news-digest-plugin.plugincrafter.dev"
+    }
+  ]
+}

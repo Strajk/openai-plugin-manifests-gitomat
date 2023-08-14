@@ -1,0 +1,263 @@
+openapi: 3.0.2
+info:
+  title: Newegg PC Builder Plugin
+  description: Newegg PC Builder Plugin
+  version: 0.1.0
+paths:
+  /.well-known/ai-plugin.json:
+    get:
+      tags:
+        - builder
+      summary: get the api-plugin.json description file
+      operationId: get_manifest__well_known_ai_plugin_json_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /.well-known/logo.png:
+    get:
+      tags:
+        - builder
+      summary: get plugin logo
+      operationId: get_logo__well_known_logo_png_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /.well-known/openapi.yaml:
+    get:
+      tags:
+        - builder
+      summary: get the api specification file
+      operationId: get_openapi__well_known_openapi_yaml_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /pc_build_query:
+    post:
+      tags:
+        - builder
+      summary: build pc query request
+      operationId: query_pc_build_query_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AddToCard:
+      title: AddToCard
+      type: object
+      properties:
+        link_name:
+          title: link of name
+          type: string
+        link_url:
+          title: url link for add to card
+          type: string
+    Budget:
+      title: Budget
+      type: object
+      properties:
+        min:
+          title: min budget
+          type: string
+        max:
+          title: max budget
+          type: string
+        value:
+          title: budget value
+          type: string
+    DocumentMetadata:
+      title: DocumentMetadata
+      required:
+        - products
+      type: object
+      properties:
+        total_price:
+          title: total price of pc build
+          type: number
+        products:
+          title: Products
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        link:
+          title: add to cart link
+          allOf:
+            - $ref: '#/components/schemas/AddToCard'
+    DocumentWithScore:
+      title: DocumentWithScore
+      required:
+        - score
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        text:
+          title: Text
+          type: string
+        metadata:
+          $ref: '#/components/schemas/DocumentMetadata'
+        score:
+          title: Score
+          type: number
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    Item:
+      title: Item
+      type: object
+      properties:
+        itemNumber:
+          title: item number
+          type: string
+        subCategory:
+          title: item category
+          type: string
+        productName:
+          title: product description
+          type: string
+        url:
+          title: item newegg link
+          type: string
+        price:
+          title: item unit price
+          type: number
+        imageUrl:
+          title: item image link
+          type: string
+    QueryCategory:
+      title: QueryCategory
+      type: object
+      properties:
+        cpu:
+          title: cpu category request
+          type: string
+        vga:
+          title: 'vga category request, including gpu ,vga or graphic'
+          type: string
+        motherboard:
+          title: 'motherboard category request, including mb, motherboard or master'
+          type: string
+        memory:
+          title: 'memory category request, including memory or ram'
+          type: string
+        ssd:
+          title: ssd category request
+          type: string
+        case:
+          title: case category request
+          type: string
+        power:
+          title: power category request
+          type: string
+        cooling:
+          title: cooling category request
+          type: string
+        resolution:
+          title: 'game resolution request, 1080p,2k 1440p,4k'
+          type: string
+        fps:
+          title: 'game fps request, 60fps,120fps,140fps'
+          type: string
+        game:
+          title: 'game name request, lol, dota'
+          type: string
+        use:
+          title: 'use scenario,purpose request'
+          type: string
+        color:
+          title: pc color request
+          type: string
+    QueryRequest:
+      title: QueryRequest
+      required:
+        - query
+      type: object
+      properties:
+        query:
+          $ref: '#/components/schemas/QueryCategory'
+        budget:
+          title: budget description
+          anyOf:
+            - type: string
+            - type: number
+            - $ref: '#/components/schemas/Budget'
+        top_k:
+          title: Top K
+          type: integer
+          default: 1
+    QueryResponse:
+      title: QueryResponse
+      required:
+        - result
+      type: object
+      properties:
+        result:
+          $ref: '#/components/schemas/QueryResult'
+    QueryResult:
+      title: QueryResult
+      required:
+        - query
+        - results
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentWithScore'
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

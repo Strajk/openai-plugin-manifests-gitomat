@@ -1,0 +1,325 @@
+openapi: 3.0.1
+info:
+  title: Popfun AI
+  description: >-
+    Personalized toy recommendations, ideas and gifts for your child's age,
+    pricing, interest, hobby, personality, educational need, design elements,
+    themes, timing, occasion, trend, and development stage.
+  version: v1.1
+servers:
+  - url: 'https://api.popfun.com'
+paths:
+  /api/query-products:
+    get:
+      operationId: queryProducts
+      summary: Get the Product list.
+      parameters:
+        - in: query
+          name: minPrice
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+          required: false
+          description: The minimum price a user can afford,if mentioned.
+        - in: query
+          name: maxPrice
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+          required: false
+          description: The maximum price a user can afford,if mentioned.
+        - in: query
+          name: userQuestion
+          schema:
+            type: string
+          required: true
+          description: The exact question that user is asking. Do not summarize.
+        - in: query
+          name: maxAge
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 20
+          required: false
+          description: The maximum age of the target child, if mentioned.
+        - in: query
+          name: minAge
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 20
+          required: false
+          description: The minimum age of the target child, if mentioned.
+        - in: query
+          name: party
+          schema:
+            type: string
+            enum:
+              - party
+              - gift
+            example: 'party, gift'
+          required: false
+          description: >-
+            Determine if the toy can be used in a party or can be used as a
+            gift. If multiple entries are entered, use comma to separate. Leave
+            empty otherwise.
+        - in: query
+          name: location
+          schema:
+            type: string
+            enum:
+              - indoor
+              - outdoor
+            example: 'indoor, outdoor'
+          required: false
+          description: >-
+            Where the toy can be played, inside or outside of the house. If
+            multiple entries are entered, use comma to separate. Leave empty
+            otherwise.
+        - in: query
+          name: educationalSkill
+          schema:
+            type: string
+            enum:
+              - Sharing
+              - Fine Motor Skills
+              - Creativity
+              - Hand-Eye Coordination
+              - Imagination
+              - Imaginative Play
+              - Fine Motor Coordination
+              - Role Play
+              - Promoting Imaginative Play
+              - Sensory Exploration
+              - Problem Solving
+              - Gross Motor Skills
+              - Problem-Solving
+              - Unwrapping and Discovering
+              - Social Interaction
+              - Dexterity
+              - Decorating Skills
+              - Motor Skills
+              - Patience
+              - Role-Playing
+              - Spatial Awareness
+              - Enhancing Atmosphere
+              - Coordination
+            example: 'Imagination, Sensory Exploration'
+          required: false
+          description: >-
+           This tag highlights the key learning benefits or developmental skills a toy promotes. 
+           It could range from cognitive skills like problem-solving, numeracy, or literacy, to 
+           physical skills like motor skills or hand-eye coordination, to social/emotional skills 
+           like empathy and cooperation.
+        - in: query
+          name: personalities
+          schema:
+            type: string
+            enum:
+              - Imaginative
+              - Curious
+              - Creative
+              - Adventurous
+              - Festive
+              - Playful
+              - Energetic
+              - Inquisitive
+              - Social
+              - Active
+              - Collectors
+              - Competitive
+              - Analytical
+              - Artistic
+              - Patient
+              - Enthusiastic
+              - Helpful
+              - extroverted
+              - Expressive
+              - Detail-Oriented 
+              - Outdoorsy
+              - Outgoing
+              - Nurturing
+              - introverted 
+            example: 'Outgoing, Outdoorsy'
+          required: false
+          description: >-
+           This tag indicates the specific personality traits a toy caters to. 
+           For example, a toy might be tagged"introverted" for a child who prefers quiet, 
+           solitary play.
+        - in: query
+          name: holiday
+          schema:
+            type: string
+            enum:
+              - Christmas
+              - easter
+              - halloween
+              - St. Patrick's Day
+              - summer vacation
+              - thanksgiving
+              - vacation
+              - valentine
+            example: 'valentine, Christmas'
+          required: false
+          description: >-
+            The holiday when the toy most fit to use. If multiple entries are
+            entered, use comma to separate. Leave empty otherwise.
+        - in: query
+          name: color
+          schema:
+            type: string
+            enum:
+              - blue
+              - green
+              - yellow
+              - red
+              - orange
+              - pink
+              - black
+              - white
+              - brown
+              - violet
+              - gray
+              - pastel pink
+              - colorful
+              - gold
+              - beige
+              - bright
+              - grey
+              - pastel blue
+              - purple
+              - pastel green
+            example: 'red, green'
+          required: false
+          description: >-
+            The colors of the toy displayed. If multiple entries are entered,
+            use comma to separate. Leave empty otherwise.
+        - in: query
+          name: purpose
+          schema:
+            type: string
+            enum:
+              - Playtime
+              - Decorating
+              - Easter Egg Hunting
+              - Arts and Crafts
+              - Swimming
+              - Bath
+              - Water Play
+              - Summer Outing
+              - Beach Outing
+              - Sports
+              - Costume
+              - Diving
+              - Camping
+              - Science Fair
+              - Snowball Making
+              - Sand Castle Making
+              - Hand Crafts
+              - Winter Outing
+            example: 'swimming, science fair'
+          required: false
+          description: >-
+            The purpose of the purchase, what is good about the toy and the
+            occasions you can use the toy. If multiple entries are entered, use
+            comma to separate. Leave empty otherwise.
+        - in: query
+          name: timing
+          schema:
+            type: string
+            enum:
+              - Fall
+              - Spring
+              - Winter
+              - Summer
+              - Weekends
+              - Everyday
+              - Bathtime
+              - Homework
+              - Schoolwork
+              - School Time
+              - Night
+              - Decorating
+              - Exercise
+            example: 'Summer, decorating'
+          required: false
+          description: >-
+            Most appropriate time for the toy to be used, including seasons,
+            everyday use. If multiple entries are entered, use comma to
+            separate. Leave empty otherwise.
+        - in: query
+          name: designTheme
+          schema:
+            type: string
+            enum:
+              - Outdoor Decorations
+              - Halloween Decorations
+              - Creepy
+              - Spooky
+              - Scary
+              - Pretend Play
+              - Toddler Toys
+              - Easter Egg
+              - Inflatables
+              - Cars
+              - Christmas Decorations
+              - Dinosaurs
+              - Animals
+              - Cognitive Development
+              - Prehistoric
+              - Vehicles
+              - Building Bricks
+              - Cute
+              - Building Blocks
+              - Fashion
+            example: 'Cute, Building Blocks'
+          required: false
+          description: >-
+            Visual and conceptual aspects of the toy, like shape, texture. If
+            multiple entries are entered, use comma to separate. Leave empty
+            otherwise.
+      responses:
+        '200':
+          description: Product List response
+          content:
+            application/json:
+              schema:
+                type: object
+                data:
+                  $ref: '#/components/schemas/queryProudctsResponse'
+                followup_question:
+                  description: Followup answer to ask user.
+                  type: string
+                instructions:
+                  description: Instructions on how to display the product to users.
+        '403':
+          description: Bad request.
+components:
+  schemas:
+    queryProudctsResponse:
+      type: object
+      properties:
+        title:
+          type: string
+        link:
+          type: string
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/imgsArray'
+          description: Images of the product.
+        price:
+          type: integer
+          decription: Price for this product.
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/tagsArray'
+    tagsArray:
+      items:
+        type: string
+    imgsArray:
+      items:
+        type: string

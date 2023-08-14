@@ -1,0 +1,78 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Export Chat to PDF",
+    "description": "I will export your chat conversation to a PDF file, ready for download and share.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://c-export.copilot.us"
+    }
+  ],
+  "paths": {
+    "/api/export": {
+      "post": {
+        "operationId": "export",
+        "summary": "Render content to pdf file and return the URL to download the file.",
+        "description": "Always break down the resume into at least 2 smaller chunks. In each chunk use less then 250 words. For second and nexts chunks set 'append_to_file': '{fileURL}', where 'fileURL' is returned in previous chunk response.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The URL to download the file.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "description": "The name of the exported file, like name of chat."
+          },
+          "append_to_file": {
+            "type": "string",
+            "description": "Content will be added to existing file."
+          },
+          "content_markdown": {
+            "type": "string",
+            "description": "Content to export to file in markdown format."
+          }
+        },
+        "required": [
+          "filename",
+          "content_markdown"
+        ]
+      },
+      "response": {
+        "type": "object",
+        "properties": {
+          "fileURL": {
+            "type": "string",
+            "description": "The URL to download created pdf file."
+          }
+        }
+      }
+    }
+  }
+}

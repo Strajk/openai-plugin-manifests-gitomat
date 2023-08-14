@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: WOXO Plugin
+  description: Turn your prompts into cool videos. Create eye-catching content in a snap!
+  version: "v1.1"
+servers:
+  - url: https://api-vidgpt.woxo.tech
+paths:
+  /plugin/create:
+    post:
+      operationId: createVideo
+      summary: Create a WOXO video about a given topic or prompt.
+      parameters:
+        - in: query
+          name: attempt
+          schema:
+            type: integer
+          required: false
+          description: Total attempts made to retry the same request.
+        - in: query
+          name: jobid
+          schema:
+            type: string
+          required: false
+          description: jobid to retry the same request.
+      requestBody:
+        description: Parameters required to create a video, like topic.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/videoParams"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createVideoResponse"
+        "500":
+          description: "Internal Server Error"
+        "202":
+          description: Request accepted but you need to retry it using the jobid and attemp parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/videoCreationJobDelayed"
+components:
+  schemas:
+    createVideoResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: number
+      description: The message and status code of the response.
+    videoCreationJobDelayed:
+      type: object
+      properties:
+        attempt:
+          type: number
+        jobid:
+          type: string
+      description: The number of attempt to retry and initial jobid.
+    videoParams:
+      type: object
+      properties:
+        topic:
+          type: string
+          description: Topic, prompt or short description of the video. Eg:(Elon Musk, A horror history about two kids that live in Miami and like to eat pizza)
+        languageCode:
+          type: string
+          enum: [EN, ES, HI, PT, DE, FR]
+          description: >
+            Language code:
+              * `EN` - English Language translation for text and voiceover.
+              * `ES` - Spanish Language translation for text and voiceover.
+              * `HI` - Hindi Language translation for text and voiceover.
+              * `DE` - German Language translation for text and voiceover.
+              * `PT` - Portuguese Language translation for text and voiceover.
+              * `FR` - French Language translation for text and voiceover.
+      description: Parameters needed to create a WOXO video.

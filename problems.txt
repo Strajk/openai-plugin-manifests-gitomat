@@ -1,0 +1,100 @@
+2023-08-14T11:23:16.614Z: Failed to download API manifest for plugin.yetanother.dev/search_european_train_trips_and_schedules:
+fetch failed
+2023-08-14T11:23:18.270Z: Failed to download API manifest for ab-judge-chatgpt-plugin.fooqoo56.com/ab_judge:
+Unexpected token < in JSON at position 0
+2023-08-14T11:23:18.271Z: Failed to download API manifest for preview.summarizeanything.ai/SummarizeAnything_pr:
+Failed to parse URL from /openapi.json
+2023-08-14T11:23:30.390Z: Failed to download API manifest for whip.automateyournetwork.ca/Abortion_Information:
+fetch failed
+2023-08-14T11:24:56.595Z: Failed to download API manifest for plugin.askyourcode.ai/askyourcode:
+fetch failed
+2023-08-14T11:25:28.258Z: Failed to download API manifest for law-plugin.herokuapp.com/california_law_search:
+Failed to parse URL from /openapi.json
+2023-08-14T11:25:34.673Z: Failed to download API manifest for charitysense.com/charity:
+fetch failed
+2023-08-14T11:25:56.756Z: Failed to download API manifest for gpt-package-plugin.checkmarx.com/CheckmarxCheckAI:
+fetch failed
+2023-08-14T11:26:03.424Z: Failed to download API manifest for api.radar.cloudflare.com/cloudflare_radar:
+Unexpected token < in JSON at position 0
+2023-08-14T11:26:03.424Z: Failed to download API manifest for docs-search-ccf5913b41d3.herokuapp.com/code_library_help:
+Failed to parse URL from /openapi.json
+2023-08-14T11:26:05.311Z: Failed to download API manifest for coincap.gptplug.chat/coincap:
+fetch failed
+2023-08-14T11:26:05.564Z: Failed to download API manifest for color-palette-plugin.mmzdev.com/color_palette:
+Unexpected token U in JSON at position 0
+2023-08-14T11:26:10.812Z: Failed to download API manifest for www.coupert.com/Coupert:
+The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+2023-08-14T11:26:31.559Z: Failed to download API manifest for public.advisor.definitive.io/definitive_facts:
+Failed to parse URL from /plugin/openapi.json
+2023-08-14T11:26:42.732Z: Failed to download API manifest for dream.putaojie.top/DreamReader:
+fetch failed
+2023-08-14T11:26:55.467Z: Failed to download API manifest for api.facethefacts-api.de/FaceTheFacts:
+fetch failed
+2023-08-14T11:27:04.986Z: Failed to download API manifest for storybee-plugin-ppsxra6x2a-ue.a.run.app/Free_Kiddie_Books:
+Failed to parse URL from /openapi.json
+2023-08-14T11:27:05.864Z: Failed to download API manifest for www.g2.com/g2_dot_com:
+Unexpected token < in JSON at position 0
+2023-08-14T11:27:16.037Z: Failed to download API manifest for plugin.glowing.ai/Glowing:
+fetch failed
+2023-08-14T11:27:23.497Z: Failed to download API manifest for horoscope.divinationzone.com/Horoscope:
+Unexpected token < in JSON at position 0
+2023-08-14T11:27:24.142Z: Failed to download API manifest for innerself.ai/Horoscopes_by_Inner_Self:
+Unexpected token < in JSON at position 0
+2023-08-14T11:27:25.738Z: Failed to download API manifest for iching.divinationzone.com/I_Ching:
+Unexpected token < in JSON at position 0
+2023-08-14T11:27:26.383Z: Failed to download API manifest for imageeditor.dev/ImageEditor:
+Failed to parse URL from /openapi.yaml
+2023-08-14T11:27:28.137Z: Failed to download API manifest for www.instabase.jp/instabase:
+Unexpected end of JSON input
+2023-08-14T11:27:37.160Z: Failed to download API manifest for jots.plugin.theros.ai/jots:
+Unexpected token A in JSON at position 0
+2023-08-14T11:27:38.429Z: Failed to download API manifest for api.kakaku.com/kakakucom:
+Unexpected end of JSON input
+2023-08-14T11:29:38.593Z: Failed to download API manifest for eliza-api.mercari.com/mercari_search:
+Unexpected end of JSON input
+2023-08-14T11:29:58.110Z: Failed to download API manifest for numerology.divinationzone.com/Numerology:
+Unexpected token < in JSON at position 0
+2023-08-14T11:30:01.831Z: Failed to download API manifest for opentrivia.drengskapur.workers.dev/opentrivia:
+Failed to parse URL from /openapi.json
+2023-08-14T11:30:20.517Z: Failed to download API manifest for paypaygourmet.yahoo.co.jp/paypay_gourmet:
+Unexpected token < in JSON at position 0
+2023-08-14T11:30:23.738Z: Failed to download API manifest for public-api.ping.tm/task:
+Failed to parse URL from /chatgpt/openapi.yaml
+2023-08-14T11:30:37.491Z: Failed to download API manifest for gpt-plugin.qs.com/qsRankings:
+Unexpected token U in JSON at position 0
+2023-08-14T11:30:51.397Z: Failed to download API manifest for plugin.rogodata.com/Rogo:
+fetch failed
+2023-08-14T11:30:52.504Z: Failed to download API manifest for runes.divinationzone.com/Runes:
+Unexpected token < in JSON at position 0
+2023-08-14T11:30:53.042Z: Failed to download API manifest for app.safetorun.com/safetorun:
+The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+2023-08-14T11:30:54.269Z: Failed to download API manifest for savvytrader.com/savvy_trader_ai:
+The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+2023-08-14T11:30:56.495Z: Failed to download API manifest for oa.mg/science:
+Failed to parse URL from /ai/openapi.yaml
+2023-08-14T11:30:57.494Z: Failed to download API manifest for plugin.scrapingbee.com/scrapingbee:
+fetch failed
+2023-08-14T11:31:13.038Z: Failed to download API manifest for skrive.klarityai.com/Skrive:
+Failed to parse URL from /openapi.json
+2023-08-14T11:32:36.173Z: Failed to download API manifest for plugin.speechki.org/speechki_tts_plugin:
+The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+2023-08-14T11:32:36.730Z: Failed to download API manifest for api.spendless.ai/Smart_Price_Finder:
+Unexpected token < in JSON at position 0
+2023-08-14T11:32:51.940Z: Failed to download API manifest for tarot.divinationzone.com/Tarot:
+Unexpected token < in JSON at position 0
+2023-08-14T11:33:09.661Z: Failed to download API manifest for api.fintorch.ca/FinTorch_Trading_Assistant:
+Failed to parse URL from /openapi.yaml
+2023-08-14T11:33:20.686Z: Failed to download API manifest for openai-chat-plugin.welocalize.com/qe_val:
+fetch failed
+2023-08-14T11:33:21.274Z: Failed to download API manifest for app.trax.co/trax_codes:
+The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+2023-08-14T11:33:26.220Z: Failed to download API manifest for cpa.wbox.app/universal:
+fetch failed
+2023-08-14T11:33:26.464Z: Failed to download API manifest for cbplugin.upskillr.ai/upskillr:
+The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+2023-08-14T11:33:27.550Z: Failed to download API manifest for federal-law-plugin.herokuapp.com/federal_law_search:
+Failed to parse URL from /openapi.json
+2023-08-14T11:33:46.615Z: Failed to download API manifest for chatgpt-word-counter.edreismd.repl.co/word_counter:
+Failed to parse URL from /openapi.json
+2023-08-14T11:33:48.774Z: Failed to download API manifest for worldrecords.capabase.com/worldrecords:
+Failed to parse URL from /openapi.json

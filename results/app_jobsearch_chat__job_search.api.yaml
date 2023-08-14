@@ -1,0 +1,98 @@
+openapi: 3.0.1
+info:
+  title: Jobs Search
+  description: Searching for jobs made easy.
+  version: 'v1.2.1'
+servers:
+  - url: https://app.jobsearch.chat
+paths:
+  /jobs:
+    get:
+      operationId: searchJobs
+      summary: Get job search results by a query consisting of job title and job location 
+      parameters:
+      - in: query
+        name: title
+        schema:
+            type: string
+        required: true
+        description: Title of the job to search
+      - in: query
+        name: city
+        schema:
+            type: string
+        required: true
+        description: City of the job to search OR "remote"
+      - in: query
+        name: country
+        schema:
+            type: string
+        required: true
+        description: Country of the job to search OR "remote"
+      - in: query
+        name: country_code
+        schema:
+            type: string
+        required: true
+        description: Current ISO 3166 alpha-2 country code of the job location to search OR "remote"
+      - in: query
+        name: count
+        schema:
+            type: integer
+        required: false
+        description: Number of jobs to display
+      - in: query
+        name: skip
+        schema:
+            type: integer
+        required: false
+        description: How many jobs to skip in case of pagination
+      - in: query
+        name: remote
+        schema:
+            type: boolean
+        required: false
+        description: Indicates if job could be remote or not
+      responses:
+        "200":
+          description: OK
+  /alerts:
+    post:
+      operationId: createJobAlert
+      summary: Create a new job alert
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createJobAlert'
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    createJobAlert:
+      type: object
+      required:
+      - title
+      - city
+      - country
+      - country_code
+      - email
+      properties:
+        city:
+          type: string
+          description: City of the job to search OR "remote"
+        title:
+          type: string
+          description: Job search query or job title
+        country:
+          type: string
+          description: Country of the job to search OR "remote"
+        country_code:
+          type: string
+          description: Current ISO 3166 alpha-2 country code of the job location to search OR "remote"
+        email:
+          type: string
+          description: Ask user to provide an email for alterts

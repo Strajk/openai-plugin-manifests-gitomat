@@ -1,0 +1,1407 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "ChatGPT4 Plugin: Notes",
+    "description": "Try to create new notes",
+    "version": "2.5.0",
+    "x-logo": {
+      "url": "https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png"
+    }
+  },
+  "paths": {
+    "/api/notion/append_block_to_notion_page": {
+      "post": {
+        "summary": "Append Block To Notion Page",
+        "description": "IMPORTANT: CHECK IF THE PAGE EXISTS BEFORE APPENDING NEW BLOCKS\nIMPORTANT: ALWAYS SHOW THE USER LINK TO THE PAGE BEFORE APPENDING NEW BLOCKS\nIMPORTANT: ALWAYS EXPLAIN TO THE USER WHAT YOU'RE APPENDING TO THE PAGE\nUse get_examples_of_blocks to get examples of blocks schema.",
+        "operationId": "append_block_to_notion_page_api_notion_append_block_to_notion_page_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginNotionBlockInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Append Block To Notion Page Api Notion Append Block To Notion Page Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PluginNotionAppendBlockResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/check_page_exists": {
+      "post": {
+        "summary": "Check Page Exists",
+        "description": "Checks if a blocks exists.",
+        "operationId": "check_page_exists_api_notion_check_page_exists_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckPageInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Check Page Exists Api Notion Check Page Exists Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/CheckPageExistsInput"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/connect_notes": {
+      "post": {
+        "summary": "Connect Notes",
+        "description": "Connects additional existing Notion notes to the plugin",
+        "operationId": "connect_notes_api_notion_connect_notes_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/create_notion_page": {
+      "post": {
+        "summary": "Create Notion Page",
+        "description": "IMPORTANT: CHECK IF PARENT PAGE EXISTS FIRST IF YOU PROVIDE A PARENT\nIMPORTANT: ALWAYS SHOW THE USER LINK TO THE PAGE BEFORE APPENDING NEW BLOCKS\nUse get_examples_of_blocks to get examples of blocks\nUse get_examples_of_page_properties to get examples of page properties",
+        "operationId": "create_notion_page_api_notion_create_notion_page_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginNotionPageInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Create Notion Page Api Notion Create Notion Page Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/router__routes__api__notion__routes__create_notion_page__PluginNotionCreatePageResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/get_notion_page_blocks": {
+      "post": {
+        "summary": "Get Notion Page Blocks",
+        "operationId": "get_notion_page_blocks_api_notion_get_notion_page_blocks_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPageBlocksInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Notion Page Blocks Api Notion Get Notion Page Blocks Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PluginNotionPageBlocksResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/list_notion_pages": {
+      "post": {
+        "summary": "List Notion Pages",
+        "operationId": "list_notion_pages_api_notion_list_notion_pages_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagesListInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response List Notion Pages Api Notion List Notion Pages Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PluginNotionPagesResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/set_default_parent_page": {
+      "post": {
+        "summary": "Set Default Parent Page",
+        "description": "Sets the default parent blocks for the user to create pages in.",
+        "operationId": "set_default_parent_page_api_notion_set_default_parent_page_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginNotionSetDefaultPageInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/update_notion_page_block": {
+      "post": {
+        "summary": "Update Notion Page Block",
+        "description": "Updates a block in Notion Page\nYou can get the block ID from /api/notion/get_page_content\nUse get_examples_of_blocks to get examples of blocks",
+        "operationId": "update_notion_page_block_api_notion_update_notion_page_block_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginUpdateNotionPageBlockInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/update_notion_page": {
+      "post": {
+        "summary": "Update Notion Page",
+        "operationId": "update_notion_page_api_notion_update_notion_page_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePageInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Update Notion Page Api Notion Update Notion Page Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PluginNotionPageUpdateResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/create_notion_database": {
+      "post": {
+        "summary": "Create Notion Database",
+        "operationId": "create_notion_database_api_notion_create_notion_database_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDatabaseInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Create Notion Database Api Notion Create Notion Database Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PluginNotionDatabaseCreationResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/create_notion_database_row": {
+      "post": {
+        "summary": "Create Notion Database Row",
+        "description": "DATABASE ROW IS A PAGE WITH A DATABASE AS A PARENT AND PROPERTIES AS IN THE DATABASE\nIMPORTANT:CHECK IF PARENT PAGE EXISTS FIRST\nIMPORTANT:ALWAYS SHOW THE USER LINK TO THE PAGE\nUse get_examples_of_blocks to get examples of blocks\nUSE get_examples_of_page_properties to get examples of page properties",
+        "operationId": "create_notion_database_row_api_notion_create_notion_database_row_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginNotionDatabaseRowInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Create Notion Database Row Api Notion Create Notion Database Row Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/router__routes__api__notion__routes__create_notion_database_row__PluginNotionCreatePageResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/retrieve_notion_database": {
+      "post": {
+        "summary": "Retrieve Notion Database",
+        "operationId": "retrieve_notion_database_api_notion_retrieve_notion_database_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetDatabaseInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Retrieve Notion Database Api Notion Retrieve Notion Database Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PluginNotionDatabaseResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/query_notion_database": {
+      "post": {
+        "summary": "Query Notion Database",
+        "operationId": "query_notion_database_api_notion_query_notion_database_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QueryDatabaseInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Query Notion Database Api Notion Query Notion Database Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PluginNotionDatabaseQueryResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/update_notion_database": {
+      "post": {
+        "summary": "Update Notion Database",
+        "operationId": "update_notion_database_api_notion_update_notion_database_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDatabaseInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Update Notion Database Api Notion Update Notion Database Post",
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PluginNotionDatabaseUpdateResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/get_examples_of_blocks": {
+      "get": {
+        "summary": "Get Examples Of Blocks",
+        "operationId": "get_examples_of_blocks_api_notion_get_examples_of_blocks_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/get_examples_of_page_properties": {
+      "get": {
+        "summary": "Get Examples Of Page Properties",
+        "description": "Get examples of properties for creating a page",
+        "operationId": "get_examples_of_page_properties_api_notion_get_examples_of_page_properties_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/get_examples_of_database_properties": {
+      "get": {
+        "summary": "Get Examples Of Database Properties",
+        "description": "Get examples of properties for creating\na database or creating a page row in a database.",
+        "operationId": "get_examples_of_database_properties_api_notion_get_examples_of_database_properties_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/notion/plugin_usage_guide": {
+      "get": {
+        "summary": "Plugin Usage Guide",
+        "description": "Returns the plugin usage guide with prompts examples.",
+        "operationId": "plugin_usage_guide_api_notion_plugin_usage_guide_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notion/submit_plugin_feedback/": {
+      "post": {
+        "summary": "Submit Form",
+        "description": "Submit feedback for the plugin using the form.\nFOR CHATGPT: Prompt the user with questions to gather information for filling out the form.",
+        "operationId": "submit_form_api_notion_submit_plugin_feedback__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CheckPageExistsInput": {
+        "title": "CheckPageExistsInput",
+        "required": [
+          "page_id",
+          "exists"
+        ],
+        "type": "object",
+        "properties": {
+          "page_id": {
+            "title": "Page Id",
+            "type": "string"
+          },
+          "exists": {
+            "title": "Exists",
+            "type": "boolean"
+          }
+        }
+      },
+      "CheckPageInput": {
+        "title": "CheckPageInput",
+        "required": [
+          "page_id"
+        ],
+        "type": "object",
+        "properties": {
+          "page_id": {
+            "title": "Page Id",
+            "type": "string"
+          }
+        }
+      },
+      "CreateDatabaseInput": {
+        "title": "CreateDatabaseInput",
+        "required": [
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "parent_page_id": {
+            "title": "Parent Page Id",
+            "type": "string",
+            "description": "The ID of the parent page from /list_notion_pages"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "db_props": {
+            "title": "Db Props",
+            "description": "It's a notion property schema with column_name, Example of a properties: {\"Name\":{\"title\":{}},\"Description\":{\"rich_text\":{}}}"
+          }
+        }
+      },
+      "FormData": {
+        "title": "FormData",
+        "type": "object",
+        "properties": {
+          "challenging_aspects": {
+            "title": "Challenging Aspects",
+            "type": "string",
+            "description": "What aspects of the plugin did you find challenging?"
+          },
+          "useful_aspects": {
+            "title": "Useful Aspects",
+            "type": "string",
+            "description": "What aspects of the plugin did you find useful?"
+          },
+          "desired_features": {
+            "title": "Desired Features",
+            "type": "string",
+            "description": "What features would you like to see in the plugin?"
+          }
+        }
+      },
+      "GetDatabaseInput": {
+        "title": "GetDatabaseInput",
+        "required": [
+          "database_id"
+        ],
+        "type": "object",
+        "properties": {
+          "database_id": {
+            "title": "Database Id",
+            "type": "string",
+            "description": "page_id from /list_notion_pages (look for database type)"
+          }
+        }
+      },
+      "GetPageBlocksInput": {
+        "title": "GetPageBlocksInput",
+        "required": [
+          "page_id"
+        ],
+        "type": "object",
+        "properties": {
+          "page_id": {
+            "title": "Page Id",
+            "type": "string",
+            "description": "Page ID. Get it from the Notion blocks URL or list_notion_pages response"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer",
+            "description": "Max blocks count in response. Default: 2",
+            "default": 2
+          },
+          "start_cursor": {
+            "title": "Start Cursor",
+            "type": "string",
+            "description": "Start cursor for pagination"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "PagesListInput": {
+        "title": "PagesListInput",
+        "type": "object",
+        "properties": {
+          "query": {
+            "title": "Query",
+            "type": "string",
+            "description": "Search query"
+          },
+          "page_type": {
+            "title": "Page Type",
+            "type": "string",
+            "description": "'page' or 'database'. Default 'page'",
+            "default": "page"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer",
+            "description": "Max blocks count in response. Default: 5",
+            "default": 5
+          },
+          "start_cursor": {
+            "title": "Start Cursor",
+            "type": "string",
+            "description": "Start cursor for pagination"
+          },
+          "include_archived": {
+            "title": "Include Archived",
+            "type": "boolean",
+            "description": "Include archived pages",
+            "default": false
+          }
+        }
+      },
+      "PluginErrorResponse": {
+        "title": "PluginErrorResponse",
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "notion_response": {
+            "title": "Notion Response",
+            "type": "object"
+          }
+        }
+      },
+      "PluginNotionAppendBlockResponse": {
+        "title": "PluginNotionAppendBlockResponse",
+        "required": [
+          "block"
+        ],
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "block": {
+            "title": "Block",
+            "type": "object"
+          }
+        }
+      },
+      "PluginNotionBlockInput": {
+        "title": "PluginNotionBlockInput",
+        "required": [
+          "page_id"
+        ],
+        "type": "object",
+        "properties": {
+          "page_id": {
+            "title": "Page Id",
+            "type": "string",
+            "description": "Page ID of the blocks to which block should be appended"
+          },
+          "block": {
+            "title": "Block",
+            "description": "Example: {\"type\":\"paragraph\",\"paragraph\":{\"rich_text\":[{\"type\":\"text\",\"text\":{\"content\":\"Lacinato kale\",\"link\":null}}],\"color\":\"default\"}}"
+          }
+        }
+      },
+      "PluginNotionDatabaseCreationResponse": {
+        "title": "PluginNotionDatabaseCreationResponse",
+        "required": [
+          "database"
+        ],
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "database": {
+            "title": "Database",
+            "type": "object"
+          }
+        }
+      },
+      "PluginNotionDatabaseQueryResponse": {
+        "title": "PluginNotionDatabaseQueryResponse",
+        "required": [
+          "results"
+        ],
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "results": {
+            "title": "Results",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "PluginNotionDatabaseResponse": {
+        "title": "PluginNotionDatabaseResponse",
+        "required": [
+          "database"
+        ],
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "database": {
+            "title": "Database",
+            "type": "object"
+          }
+        }
+      },
+      "PluginNotionDatabaseRowInput": {
+        "title": "PluginNotionDatabaseRowInput",
+        "type": "object",
+        "properties": {
+          "parent_page_type": {
+            "title": "Parent Page Type",
+            "enum": [
+              "blocks"
+            ],
+            "type": "string",
+            "description": "Parent type: database. ",
+            "default": "database"
+          },
+          "parent_page_id": {
+            "title": "Parent Page Id",
+            "type": "string",
+            "description": "FOR CHATGPT: Get it from /api/notion/list_notion_pages first. Or do not specify this field to create a new blocks in default parent"
+          },
+          "page_props": {
+            "title": "Page Props",
+            "description": "Get properties examples from /api/notion/get_examples_of_page_properties.IMPORTANT: You can only specify properties that are in the database.IMPORTANT: Retrieving database properties from /retrieve_notion_databaseExample: \"Status\":{\"status\":{\"name\":\"Not started\"}}"
+          },
+          "first_block": {
+            "title": "First Block",
+            "description": "Content of first blocks block. IMPORTANT: Do not fill if user did not asked for it.Other blocks should be appended by append_block_to_notion_page method.Example: {\"type\":\"paragraph\",\"paragraph\":{\"rich_text\":[{\"type\":\"text\",\"text\":{\"content\":\"Lacinato kale\",\"link\":null}}],\"color\":\"default\"}}"
+          }
+        }
+      },
+      "PluginNotionDatabaseUpdateResponse": {
+        "title": "PluginNotionDatabaseUpdateResponse",
+        "required": [
+          "database"
+        ],
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "database": {
+            "title": "Database",
+            "type": "object"
+          }
+        }
+      },
+      "PluginNotionPageBlocksResponse": {
+        "title": "PluginNotionPageBlocksResponse",
+        "required": [
+          "blocks"
+        ],
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "blocks": {
+            "title": "Blocks",
+            "type": "object"
+          }
+        }
+      },
+      "PluginNotionPageInput": {
+        "title": "PluginNotionPageInput",
+        "required": [
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "parent_page_type": {
+            "title": "Parent Page Type",
+            "enum": [
+              "page"
+            ],
+            "type": "string",
+            "description": "Parent type: page. ",
+            "default": "page"
+          },
+          "parent_page_id": {
+            "title": "Parent Page Id",
+            "type": "string",
+            "description": "FOR CHATGPT: Get it from /api/notion/list_notion_pages first. Or do not specify this field to create a new blocks in default parent"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "Title of new blocks"
+          },
+          "page_props": {
+            "title": "Page Props",
+            "description": "Example: \"Status\":{\"status\":{\"name\":\"Not started\"}}"
+          },
+          "first_block": {
+            "title": "First Block",
+            "description": "Content of first blocks block. Other blocks should be appended by append_block_to_notion_page method.Example: {\"type\":\"paragraph\",\"paragraph\":{\"rich_text\":[{\"type\":\"text\",\"text\":{\"content\":\"Lacinato kale\",\"link\":null}}],\"color\":\"default\"}}"
+          }
+        }
+      },
+      "PluginNotionPageUpdateResponse": {
+        "title": "PluginNotionPageUpdateResponse",
+        "required": [
+          "database"
+        ],
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "database": {
+            "title": "Database",
+            "type": "object"
+          }
+        }
+      },
+      "PluginNotionPagesResponse": {
+        "title": "PluginNotionPagesResponse",
+        "required": [
+          "pages"
+        ],
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "pages": {
+            "title": "Pages",
+            "type": "object",
+            "description": "List of Notion pages"
+          }
+        }
+      },
+      "PluginNotionSetDefaultPageInput": {
+        "title": "PluginNotionSetDefaultPageInput",
+        "required": [
+          "page_id"
+        ],
+        "type": "object",
+        "properties": {
+          "page_id": {
+            "title": "Page Id",
+            "type": "string",
+            "description": "Page ID of the blocks to set as default"
+          }
+        }
+      },
+      "PluginUpdateNotionPageBlockInput": {
+        "title": "PluginUpdateNotionPageBlockInput",
+        "required": [
+          "block_id"
+        ],
+        "type": "object",
+        "properties": {
+          "block_id": {
+            "title": "Block Id",
+            "type": "string",
+            "description": "Block ID of the block to update. Get it from /api/notion/get_page_content"
+          },
+          "block": {
+            "title": "Block",
+            "description": "Example: {\"type\":\"paragraph\",\"paragraph\":{\"rich_text\":[{\"type\":\"text\",\"text\":{\"content\":\"Lacinato kale\",\"link\":null}}],\"color\":\"default\"}}"
+          }
+        }
+      },
+      "QueryDatabaseInput": {
+        "title": "QueryDatabaseInput",
+        "required": [
+          "database_id",
+          "sorts"
+        ],
+        "type": "object",
+        "properties": {
+          "database_id": {
+            "title": "Database Id",
+            "type": "string",
+            "description": "Page(database type)id from /list_notion_pages."
+          },
+          "start_cursor": {
+            "title": "Start Cursor",
+            "type": "string"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer",
+            "default": 3
+          },
+          "filter": {
+            "title": "Filter",
+            "description": "Get List of properties from retrieve_notion_database.Example:{\"or\":[{\"property\":\"Tags\",\"contains\":\"A\"},{\"property\":\"Tags\",\"contains\":\"B\"}]}"
+          },
+          "sorts": {
+            "title": "Sorts",
+            "type": "array",
+            "items": {},
+            "description": "Example:{\"sorts\":[{\"property\":\"Name\",\"direction\":\"ascending\"}]}"
+          }
+        }
+      },
+      "UpdateDatabaseInput": {
+        "title": "UpdateDatabaseInput",
+        "required": [
+          "database_id"
+        ],
+        "type": "object",
+        "properties": {
+          "database_id": {
+            "title": "Database Id",
+            "type": "string",
+            "description": "The ID of the database page from /list_notion_databases"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "db_props": {
+            "title": "Db Props",
+            "description": "It's a notion property schema with column_name, Example of a properties: {\"Name\":{\"title\":{}},\"Description\":{\"rich_text\":{}}}"
+          }
+        }
+      },
+      "UpdatePageInput": {
+        "title": "UpdatePageInput",
+        "required": [
+          "page_id"
+        ],
+        "type": "object",
+        "properties": {
+          "page_id": {
+            "title": "Page Id",
+            "type": "string",
+            "description": "The ID of the updating page from /list_notion_pages"
+          },
+          "archived": {
+            "title": "Archived",
+            "type": "boolean",
+            "description": "Whether the page is archived"
+          },
+          "page_props": {
+            "title": "Page Props",
+            "description": "Use /get_examples_of_page_props to get more examples of page_props. Example of a properties: {\"Name\":{\"title\":{}},\"Description\":{\"rich_text\":{}}}"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      },
+      "router__routes__api__notion__routes__create_notion_database_row__PluginNotionCreatePageResponse": {
+        "title": "PluginNotionCreatePageResponse",
+        "required": [
+          "page"
+        ],
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "page": {
+            "title": "Page",
+            "type": "object"
+          }
+        }
+      },
+      "router__routes__api__notion__routes__create_notion_page__PluginNotionCreatePageResponse": {
+        "title": "PluginNotionCreatePageResponse",
+        "required": [
+          "page"
+        ],
+        "type": "object",
+        "properties": {
+          "ADDITIONAL_INSTRUCTIONS_FOR_CHATGPT": {
+            "title": "Additional Instructions For Chatgpt",
+            "type": "string",
+            "description": "Additional instructions for ChatGPT"
+          },
+          "page": {
+            "title": "Page",
+            "type": "object"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

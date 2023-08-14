@@ -1,0 +1,58 @@
+openapi: 3.0.1
+info:
+  title: Hedera Account Info
+  description: Get the HBAR and token balance of a Hedera account.
+  version: 'v2'
+servers:
+  - url: https://hedera-account-balance-plugin.replit.app
+paths:
+  /get_hbar_balance:
+    get:
+      operationId: getHbarBalance
+      summary: Get the HBAR balance of a specific Hedera account
+      parameters:
+        - in: query
+          name: account_id
+          schema:
+            type: string
+          description: The ID of the Hedera account
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAccountBalanceResponse'
+  /get_token_balance:
+    get:
+      operationId: getTokenBalance
+      summary: Get the token balance of a specific Hedera account
+      parameters:
+        - in: query
+          name: account_id
+          schema:
+            type: string
+          description: The ID of the Hedera account
+        - in: query
+          name: token_id
+          schema:
+            type: string
+          description: The token ID of the HTS Token
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAccountBalanceResponse'
+components:
+  schemas:
+    getAccountBalanceResponse:
+      type: object
+      properties:
+        account:
+          type: string
+          description: The ID of the Hedera account.
+        balance:
+          type: number
+          description: The balance of the Hedera account.

@@ -1,0 +1,173 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Singapore Carpark Availability Service API",
+    "description": "A service for accessing real-time availability of car parks in Singapore.",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Carpark/locateAt/{address}": {
+      "get": {
+        "tags": [
+          "Carpark"
+        ],
+        "summary": "Get car park availability information by address",
+        "description": "Fetches data about car parks and filters by the provided address. Returns car park availability information for matching records.",
+        "operationId": "GetCarparkAvailabilityInfo",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CarparkAvailabilityInfo"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CarparkAvailabilityInfo"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CarparkAvailabilityInfo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Carpark/addresses": {
+      "get": {
+        "tags": [
+          "Carpark"
+        ],
+        "summary": "Get distinct car park addresses",
+        "description": "Fetches all car park data and returns a list of distinct car park addresses.",
+        "operationId": "GetDistinctAddresses",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CarparkAvailabilityInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "carparkNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalLots": {
+            "type": "string",
+            "nullable": true
+          },
+          "lotsAvailable": {
+            "type": "string",
+            "nullable": true
+          },
+          "xCoord": {
+            "type": "string",
+            "nullable": true
+          },
+          "yCoord": {
+            "type": "string",
+            "nullable": true
+          },
+          "carparkType": {
+            "type": "string",
+            "nullable": true
+          },
+          "typeOfParkingSystem": {
+            "type": "string",
+            "nullable": true
+          },
+          "shortTermParking": {
+            "type": "string",
+            "nullable": true
+          },
+          "freeParking": {
+            "type": "string",
+            "nullable": true
+          },
+          "nightParking": {
+            "type": "string",
+            "nullable": true
+          },
+          "carparkDecks": {
+            "type": "string",
+            "nullable": true
+          },
+          "gantryHeight": {
+            "type": "string",
+            "nullable": true
+          },
+          "carparkBasement": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

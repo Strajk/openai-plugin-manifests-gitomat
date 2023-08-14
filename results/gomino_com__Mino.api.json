@@ -1,0 +1,179 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Mino",
+    "description": "Mino Plugin",
+    "version": "1.0.0"
+  },
+  "tags": [],
+  "paths": {
+    "/api/openai/get_store": {
+      "post": {
+        "summary": "Get store info by the parameter 'domain' and the parameter 'locale'.",
+        "operationId": "getStoreUsingPOST",
+        "deprecated": false,
+        "description": "Get store info by the parameter 'domain' and the parameter 'locale'. The valid options for the parameter 'locale' are 'us', 'uk', 'fr', 'de' and 'au'. If no data is found, return [].",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreRequest"
+              },
+              "example": {
+                "domain": "shein.com",
+                "locale": "us"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "store": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "The name of store"
+                        },
+                        "logo": {
+                          "type": "string",
+                          "description": "link to the store logo"
+                        },
+                        "domain": {
+                          "type": "string",
+                          "description": "The domain of store"
+                        },
+                        "subdomain": {
+                          "type": "string",
+                          "description": "The subdomain of store"
+                        },
+                        "cashback": {
+                          "$ref": "#/components/schemas/Cashback"
+                        },
+                        "coupons": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Coupon"
+                          }
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "cashback",
+                        "coupons"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "store"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Coupon": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "This is the title of coupon."
+          },
+          "description": {
+            "type": "string",
+            "description": "This is the description of the coupon, providing additional information about the coupon."
+          },
+          "price_off": {
+            "type": "number",
+            "description": "This is the amount of discount that the coupon can offer. This value should be followed by the currency symbol specified by the parameter 'currency'."
+          },
+          "currency": {
+            "type": "string",
+            "description": "This is the currency symbol. This value should be following the discount amount that the coupon can offer, is only displayed together with 'price_off'."
+          },
+          "percent_off": {
+            "type": "number",
+            "description": "This is the percentage of discount that the coupon can offer."
+          },
+          "code": {
+            "type": "string",
+            "description": "This is the coupon code."
+          },
+          "url": {
+            "type": "string",
+            "description": "This is the website link where you can use the coupon."
+          },
+          "last_update_time": {
+            "type": "number",
+            "description": "This is the timestamp where the coupon was updated."
+          }
+        },
+        "required": [
+          "title",
+          "url",
+          "last_update_time"
+        ]
+      },
+      "Cashback": {
+        "type": "object",
+        "properties": {
+          "supported": {
+            "type": "boolean",
+            "description": "Cashback is supported or not."
+          },
+          "data": {
+            "type": "string",
+            "description": "This is the cashback rate."
+          }
+        },
+        "required": [
+          "supported"
+        ]
+      },
+      "StoreRequest": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "domain"
+          },
+          "locale": {
+            "type": "string",
+            "description": "This is the locale of the store. The valid options for the parameter 'locale' are 'us', 'uk', 'fr', 'de' and 'au'.",
+            "enum": [
+              "us",
+              "uk",
+              "fr",
+              "de",
+              "ca",
+              "au"
+            ],
+            "default": "us"
+          }
+        },
+        "required": [
+          "domain"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://www.gomino.com",
+      "description": "Product Env"
+    }
+  ]
+}

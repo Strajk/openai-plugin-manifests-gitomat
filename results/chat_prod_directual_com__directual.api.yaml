@@ -1,0 +1,579 @@
+openapi: "3.0.3"
+info:
+  title: "directual API"
+  description: "directual API"
+  version: "1.0.0"
+servers:
+  - url: "https://chat.prod.directual.com"
+paths:
+  /api/v1/search/apps/:
+    get:
+      operationId: search_all_apps
+      summary: Get all application linked to the user.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResults_Apps_'
+      default:
+        description: Unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+      description: >-
+        Search through all applications created users. It is first paramater in another endpoints.
+      security:
+        - AccessPointOAuth: []
+  /api/v1/search/tables/:
+    get:
+      operationId: search_all_tables
+      summary: Get information about existing structures (tables) in the chosen application.
+      parameters:
+        - in: query
+          name: app_sys_name
+          schema:
+            title: Query
+            type: string
+          required: true
+        - in: query
+          name: table_name
+          schema:
+            title: Query
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResults_Tables_'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      description: >-
+        Search information about all structures (tables) in the application. 
+        Parameter app_sys_name is required and have to be sys_name of the application.
+        Parameter table_name is sysName of the table for getting information by this table (information about columns)
+      security:
+        - AccessPointOAuth: []
+    post:
+      operationId: create_structure
+      summary: Create structure or table in Directual
+      parameters:
+        - in: query
+          name: application_sys_name
+          schema:
+            title: Query
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResult_dict_'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      description: >-
+        Create structure/table with fields in Directual.
+        Eg: 'Create table test with fields id, test, is_approve (boolean), and date created (date)'
+
+        Parameter application_sys_name have to be sys_name of the application.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStructureOnHumanLanguageRequest'
+        required: true
+      security:
+        - AccessPointOAuth: [ ]
+  /api/v1/search/actions/:
+    get:
+      operationId: search_all_actions
+      summary: Get all type Actions supported by Directual
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResults_Actions_'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      description: >-
+        Search through all actions Directual supports, even if they are not
+        exposed.
+      security:
+        - AccessPointOAuth: []
+  /api/v1/scenario/:
+    post:
+      operationId: scenario
+      summary: Preview A Scenario
+      parameters:
+        - in: query
+          name: app_sys_name
+          schema:
+            title: Query
+            type: string
+          required: true
+        - in: query
+          name: table_sys_name
+          schema:
+            title: Query
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResult_dict_'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      description: >-
+        Given a natural language description of a multistep Directual scenario.
+      
+        Parameter app_sys_name have to be sys_name of the application.
+        Parameter table_sys_name have to be sys_name of the structures.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateScenarioOnHumanLanguageRequest'
+        required: true
+      security:
+        - AccessPointOAuth: []
+  /api/v1/api_endpoint/:
+    get:
+      operationId: get_information_about_api_endpoints
+      summary: Get all api endpoints in chosen application
+      parameters:
+        - in: query
+          name: app_sys_name
+          schema:
+            title: Query
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResults_ApiEndpoints_'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      description: >-
+        Get information about all api endpoints in chosen application
+        Parameter app_sys_name have to be sys_name of the application.
+      security:
+        - AccessPointOAuth: [ ]
+    post:
+      operationId: api_endpoint
+      summary: Create Api Endpoint
+      parameters:
+        - in: query
+          name: app_sys_name
+          schema:
+            title: Query
+            type: string
+          required: true
+        - in: query
+          name: table_sys_name
+          schema:
+            title: Query
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResult_dict_'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      description: >-
+        Given a natural language description of api endpoint
+        
+        Parameter app_sys_name have to be sys_name of the application.
+        Parameter table_sys_name have to be sys_name of the structures.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiEndpointOnHumanLanguageRequest'
+        required: true
+      security:
+        - AccessPointOAuth: []
+  /api/v1/webpage/:
+    post:
+      operationId: webpage
+      summary: Create web page endpoint
+      parameters:
+        - in: query
+          name: application_sys_name
+          schema:
+            title: Query
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResult_dict_'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      description: >-
+        Given a natural language description of api endpoint
+        
+        Parameter application_sys_name have to be sys_name of the application.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWebPageOnHumanLanguageRequest'
+        required: true
+      security:
+        - AccessPointOAuth: []
+components:
+  schemas:
+    Action:
+      title: Action
+      type: object
+      properties:
+        name:
+          title: name
+          type: string
+        type:
+          title: Type
+          type: string
+        sysName:
+          title: sysName
+          type: string
+        parameters:
+          title: Parameters
+          type: array
+          items:
+            $ref: '#/components/schemas/Table'
+      required:
+        - key
+        - type
+        - name
+    App:
+      title: App
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        sysName:
+          title: SysName
+          type: string
+      required:
+        - sysName
+        - name
+    ActionField:
+      title: ActionField
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        req:
+          title: Required
+          type: boolean
+    FieldInfo:
+      title: FieldInfo
+      type: object
+      properties:
+        sysName:
+          title: SysName
+          type: string
+        type:
+          title: Type
+          type: string
+    Table:
+      title: Table
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        sysName:
+          title: SysName
+          type: string
+        fields:
+          type: array
+          items:
+            type: string
+      required:
+        - sysName
+        - name
+        - fields
+    ApiEndpoint:
+      title: Table
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        sysName:
+          title: SysName
+          type: string
+      required:
+        - sysName
+        - name
+    GenericResults_Apps_:
+      title: GenericResults[App]
+      type: object
+      properties:
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: '#/components/schemas/App'
+      required:
+        - results
+    GenericResults_Tables_:
+      title: GenericResults[Table]
+      type: object
+      properties:
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: '#/components/schemas/Table'
+      required:
+        - results
+    GenericResults_ApiEndpoints_:
+      title: GenericResults[ApiEndpoint]
+      type: object
+      properties:
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiEndpoint'
+      required:
+        - results
+    GenericResults_Actions_:
+      title: GenericResults[Action]
+      type: object
+      properties:
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+      required:
+        - results
+    GenericResult_dict_:
+      title: GenericResult[dict]
+      type: object
+      properties:
+        result:
+          title: Result
+          type: object
+      required:
+        - result
+    CreateStructureOnHumanLanguageRequest:
+      title: CreateStructureOnHumanLanguageRequest
+      type: object
+      properties:
+        name:
+          title: Short name of structure name
+          description: >-
+            Name of structure (table). It will contain only latin letters and numbers without spaces.
+          type: string
+        sys_name:
+          title: SysName of structure name
+          description: >-
+            Name of structure (table). It will contain only latin letters and numbers without spaces.
+          type: string
+        fields:
+          type: array
+          description: >-
+            Field with SysName and type of field (string, number, decimal, array, date, phone, email, boolean, id, link, arrayLink, json, file). string type is default.
+          items:
+            $ref: '#/components/schemas/FieldInfo'
+        isCreateAPIEndpoint:
+          title: Create api endpoint
+          description: >-
+            Option if user request create api endpoint for this structure
+            Eg: 'Create structure and api endpoint with fields: id, test, is_approve(boolean)'
+          type: boolean
+      required:
+        - name
+        - sys_name
+        - fields
+    CreateWebPageOnHumanLanguageRequest:
+      title: CreateWebPageOnHumanLanguageRequest
+      type: object
+      properties:
+        description:
+          title: Description of web page on natural language
+          description: >-
+            A detailed description of the Directual api endpoint
+            Eg: 'Create api for table test for reading field id, age and writing only id'
+          type: string
+        title:
+          title: Title for new web page
+          description: >-
+            Name of the web page (header_
+          type: string
+        path:
+          title: URL path for destination web page
+          description: >-
+            URL path for destination web page. It will contain only latin letters and numbers without spaces.
+          type: string
+        api_endpoint:
+          title: API endpoint name for adding table or card view on new page
+          description: >-
+            API endpoint name for adding table or card view on new page.
+            Eg: 'Create web page with for showing api-enpoint test'
+          type: string
+        html:
+          title: Text/html body to view in web page
+          description: >-
+            Adding text to new page
+            Eg: 'Create web page with html "hello world"'
+          type: string
+      required:
+        - description
+        - title
+        - path
+    CreateApiEndpointOnHumanLanguageRequest:
+      title: CreateApiEndpointOnHumanLanguageRequest
+      type: object
+      properties:
+        description:
+          title: Description of api endpoint on natural language
+          description: >-
+            A detailed description of the Directual api endpoint
+            Eg: 'Create api for table test for reading field id, age and writing only id'
+          type: string
+        short_name_description:
+          title: Short name of description
+          description: >-
+            Formed based on description, no longer than 100 characters
+          type: string
+        existing_api_enpoint:
+          title: Existing api endpoint id for change or edit
+          description: >-
+            Existing api endpoint id for change or edit (if user set id api endpoint for edit)
+          type: string
+        isPublicAccess:
+          title: Endpoint is public access (without authorisation)
+          description: >-
+            Option for creating api endpoint if user ask creating endpoint with public access (without authorisation)
+            Eg: 'Create api endpoint  with public access'
+          type: boolean
+        isCorsSupport:
+          title: Endpoint have CORS ability
+          description: >-
+            Option for creating api endpoint if user ask enabled CORS support for this endpoint
+            Eg: 'Create api endpoint CORS support'
+          type: boolean
+        isCreatingWebPage:
+          title: Creating web page with linked to new api endpoint
+          description: >-
+            Option for creating web page with api endpoint.
+            Eg: 'create web page'
+          type: boolean
+        read_fields:
+          type: array
+          description: >-
+            Field for reading
+          items:
+            type: string
+        write_fields:
+          type: array
+          description: >-
+            Field for writing
+          items:
+            type: string
+      required:
+        - description
+        - short_name_description
+        - read_fields
+        - write_fields
+        - isCreatingWebPage
+    CreateScenarioOnHumanLanguageRequest:
+      title: CreateScenarioOnHumanLanguageRequest
+      type: object
+      properties:
+        description_of_process:
+          title: Description Of Directual scenario
+          description: >-
+            A detailed description of the multi-step Directual the user wants to make.
+            Eg: 'Create workflow for new events in structure test and send this data to email test@test.com'
+          type: string
+        short_name_description:
+          title: Short name of description_of_process
+          description: >-
+            A short description of the multi-step Directual the user wants to make. 
+            Formed based on description_of_process, no longer than 100 characters
+          type: string
+        existing_scenario_uuid:
+          title: Existing scenario uuid for edit
+          description: >-
+            A UUID for existing scenario for edit or change process (if user tell UUID string for edit)
+          type: string
+      required:
+        - description_of_process
+        - short_name_description
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        error:
+          title: Error
+          description: Error message.
+          type: string
+      required:
+        - error
+  securitySchemes:
+    AccessPointOAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://identity.directual.com/oauth2/authorize
+          tokenUrl: https://identity.directual.com/oauth2/token
+          scopes:
+            profile: Execute exposed actions

@@ -1,0 +1,73 @@
+openapi: 3.0.1
+info:
+  title: Dive into chat adventures with your beloved heroes, villains, and celebs!.
+  description: Dive into chat adventures with your beloved heroes, villains, and celebs!.
+  version: 'v1'
+servers:
+  - url: https://persona-sigma.vercel.app/
+paths:
+  /getcharacter:
+    get:
+      operationId: getcharacter
+      summary: Obtain the specific personalities and traits of a character
+      parameters:
+        - name: character
+          in: query
+          description: the character that you want to obtain the specific personalities and traits
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/characterResponse'
+  /getlist:
+    get:
+      operationId: getlist
+      summary: Obtain the list of supported categories and characters
+      parameters:
+        - name: category
+          in: query
+          description: look for a specific character in a category
+          required: false
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/listResponse'
+components:
+  schemas:
+    characterResponse:
+      type: object
+      properties:
+        instructions:
+            type: string
+            description: instructions on how to process the results
+        character:
+            type: string
+            description: specific personalities and traits of a particular character
+        image:
+            type: string
+            description: the image of the particular character
+
+    listResponse:
+      type: object
+      properties:
+        instructions:
+            type: string
+            description: instructions on how to process results
+        list:
+            type: array
+            items:
+                type: string
+            description: the list of characters
+

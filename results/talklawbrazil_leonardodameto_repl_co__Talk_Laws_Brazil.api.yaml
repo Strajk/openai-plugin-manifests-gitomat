@@ -1,0 +1,81 @@
+openapi: 3.0.1
+info:
+  title: PL 2630 Plugin
+  description: The user can inquire and extract pertinent information about laws and bills being considered in Brazil. It is essential to first execute the get_laws_dict function to acquire the keys that can be utilized in the law_key parameter to run the get_law_info function.
+  version: 'v1'
+servers:
+  - url: https://talklawbrazil.leonardodameto.repl.co
+paths:
+  /dict_laws:
+    get:
+      operationId: get_laws_dict
+      summary: This function returns a dictionary containing the available bills (keys) and the general information about them (values).
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dict_laws_response'
+
+  /law/{law_key}/{question}:
+    get:
+      operationId: get_law_info
+      description: Use get_laws_dicts before this function to get the keys.
+      summary: This function returns detailed textual information about a specific bill from an embedding base, as requested by question parameter.
+      parameters:
+      - in: path
+        name: law_key
+        schema:
+            type: string
+        required: true
+        description: Related key from dict_laws_dict dictionary.
+      - in: path
+        name: question
+        schema:
+          type: string
+        required: true
+        description: Make a complementation question in Portuguese shortest as possible. Design it to retrieve only the most relevant question from a embedding base. Don´t include the name of the bill or law. Consider that the question started with De acordo com este projeto de lei.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_pl_info_Response'
+        "400":
+          description: Error! Maybe is necessary request again with the correct key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_pl_info_Response_error'
+
+
+
+
+components:
+  schemas:
+    get_pl_info_Response:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: This refers to the relevant content pertaining to the bill, designed to align with the specific question posed by the user.
+    get_pl_info_Response_error:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: Try to request again with the correct key.
+    dict_laws_response:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: This is a dictionary containing available laws, along with general information about them.

@@ -1,0 +1,168 @@
+openapi: 3.0.2
+info:
+  title: Yacht Search API
+  description: An API for finding yachts based on user-defined criteria.
+  version: 1.0.0
+servers:
+  - url: https://www.denisonyachtsales.com 
+paths:
+  /.well-known/search_for_yachts.php:
+    post:
+      summary: Search for Yachts
+      description: Finds a yacht based on the user defined criteria.
+      operationId: search_for_yachts_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/YachtSearch"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/YachtSearchResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    YachtSearch:
+      title: YachtSearch
+      type: object
+      properties:
+        summarized_user_request:
+          type: string
+          description: The raw, summarized user request. Used to refine search results. I.e. "I want a 40ft power catamaran under $100k in Miami".
+          required: true
+        minlength:
+          type: number
+          description: Minimum length, in feets.
+          minimum: 0
+        maxlength:
+          type: number
+          description: Maximum length, in feets.
+          minimum: 0
+        minprice:
+          type: number
+          description: Minimum price, in USD.
+          minimum: 0
+        maxprice:
+          type: number
+          description: Maximum price, in USD.
+          minimum: 0
+        minyear:
+          type: number
+          description: Minimum year.
+          minimum: 0
+        maxyear:
+          type: number
+          description: Maximum year.
+          minimum: 0
+        minrooms:
+          type: number
+          description: Minimum number of rooms.
+          minimum: 0
+        maxrooms:
+          type: number
+          description: Maximum number of rooms.
+          minimum: 0
+        city:
+          type: string
+          description: City.
+        country:
+          type: string
+          description: Country, two letter code. I.e. US, PL, FR.
+        state:
+          type: string
+          description: State, two letter code, i.e. FL, TX, CA.
+        brand:
+          type: string
+          description: Brand.
+        category:
+          type: string
+          description: Category of the property.
+          enum: ["trawlers", "center consoles", "superyachts", "sportfish", "sailboats", "motoryachts", "express cruisers", "catamarans", "power catamarans", "sail catamarans"]
+        region:
+          type: string
+          description: Region of the property.
+          enum: ["USA - East Coast", "USA - Gulf & Mid West", "USA - West Coast", "Europe", "Asia", "Rest Of The World"]
+    YachtSearchResponse:
+      title: YachtSearchResponse
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/YachtSearchResult"
+    YachtSearchResult:
+      title: YachtSearchResult
+      type: object
+      properties:
+        main_response:
+          type: string
+        important_see_more_link:
+          type: string
+        boats:
+          type: array
+          items:
+            $ref: "#/components/schemas/YachtDetails"
+    YachtDetails:
+      title: YachtDetails
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        price:
+          type: string
+        subtitle:
+          type: string
+        image:
+          type: string
+          format: uri
+        url:
+          type: string
+          format: uri
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

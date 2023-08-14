@@ -1,0 +1,88 @@
+openapi: 3.0.1
+info:
+  title: WPress Genie
+  description: Manages a WordPress site. You can get, view and analyze details of WordPress posts and content.
+  version: 'v1'
+servers:
+  - url: https://chatgptapi.wpressgenie.com
+paths:
+  /posts:
+    post:
+      operationId: getPostDetails
+      summary: Get the details of specific post by its ID.
+      parameters:
+        - name: site
+          description: ChatGPT should not generate any automatic or example address if user does not provide their wordpress site address.
+          in: query
+          schema:
+            type: string
+          required: true
+        - name: postId
+          in: query
+          description: Get all the information of a single post using the unique post ID.
+          required: true
+          schema:
+            type: string
+        - name: postType
+          in: query
+          description: The type of the post that will be retrieved. WP uses the term "post type" to refer to different types of content that are in the database. If "postType" is not provided, the default will be "post".
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPostDetailsResponse'
+    get:
+      operationId: getPosts
+      summary: Get list of the requested posts from the WordPress site.
+      parameters:
+        - in: query
+          name: site
+          description: ChatGPT should not generate any automatic or example address if user does not provide this wordpress site address.
+          schema:
+            type: string
+          required: true
+        - name: afterDate
+          in: query
+          description: Get list of posts that were published after a specific date.
+          required: false
+          schema:
+            type: string
+        - name: beforeDate
+          in: query
+          description: Get list of posts that were published before a specific date.
+          required: true
+          schema:
+            type: string
+        - name: postType
+          in: query
+          description: The type of the post that will be retrieved. WP uses the term "post type" to refer to different types of content that are in the database. If "postType" is not provided, the default will be "post".
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getListResponse'
+
+components:
+  schemas:
+    getListResponse:
+      type: object
+      properties:
+        response:
+          type: object
+          description: Post details.
+    getPostDetailsResponse:
+      type: object
+      properties:
+        response:
+          type: object
+          description: Post details.

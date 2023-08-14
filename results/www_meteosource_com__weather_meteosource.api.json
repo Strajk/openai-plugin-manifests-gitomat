@@ -1,0 +1,197 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Meteosource weather API",
+    "description": "Meteosource weather API",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://www.meteosource.com/api/v1/chatgpt/"
+    }
+  ],
+  "paths": {
+    "/point": {
+      "get": {
+        "tags": [
+          "Point weather"
+        ],
+        "summary": "Returns weather data for a single point (geographic name or GPS)",
+        "description": "Current weather and forecast for single location. Location can be specified with GPS coordinates using the parameters `lat` and `lon`, or with parameter `place_id`. To obtain the `place_id` for the location you want, please use endpoint /find_places.",
+        "operationId": "point_point_get",
+        "parameters": [
+          {
+            "description": "Identifier of a place.",
+            "required": false,
+            "schema": {
+              "title": "Place Id",
+              "type": "string",
+              "description": "Identifier of a place."
+            },
+            "name": "place_id",
+            "in": "query"
+          },
+          {
+            "description": "Latitude in format 12N, 12.3N, 12.3, or 13S, 13.2S, -13.4",
+            "required": false,
+            "schema": {
+              "title": "Lat",
+              "type": "string",
+              "description": "Latitude in format 12N, 12.3N, 12.3, or 13S, 13.2S, -13.4"
+            },
+            "name": "lat",
+            "in": "query"
+          },
+          {
+            "description": "Longitude in format 12E, 12.3E, 12.3, or 13W, 13.2W, -13.4",
+            "required": false,
+            "schema": {
+              "title": "Lon",
+              "type": "string",
+              "description": "Longitude in format 12E, 12.3E, 12.3, or 13W, 13.2W, -13.4"
+            },
+            "name": "lon",
+            "in": "query"
+          },
+          {
+            "description": "Sections to be included in the response. More section can be entered, separated with a comma. The available values are: `current`: current weather, `daily`: daily forecasts, `hourly`: hourly forecasts",
+            "required": false,
+            "schema": {
+              "title": "Sections",
+              "type": "string",
+              "description": "Sections to be included in the response. More section can be entered, separated with a comma. The available values are: `current`: current weather, `daily`: daily forecasts, `hourly`: hourly forecasts",
+              "default": "current,hourly"
+            },
+            "name": "sections",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/find_places": {
+      "get": {
+        "tags": [
+          "Location endpoints"
+        ],
+        "summary": "Search for places. Complete words required.",
+        "description": "Search for places. You can use this endpoint to obtain `place_id` of the location you want, to be used in `point` endpoint.",
+        "operationId": "find_places_find_places_get",
+        "parameters": [
+          {
+            "description": "Place name or ZIP code",
+            "required": true,
+            "schema": {
+              "title": "Text",
+              "type": "string",
+              "description": "Place name or ZIP code"
+            },
+            "name": "text",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/time_machine": {
+      "get": {
+        "tags": [
+          "Time machine - historical weather"
+        ],
+        "summary": "Returns weather data for a single location and given day in the past",
+        "description": "Actual weather data and long-term statistics for a single location and day up to 20 years in the past.",
+        "operationId": "time_machine_time_machine_get",
+        "parameters": [
+          {
+            "description": "Identifier of a place.",
+            "required": false,
+            "schema": {
+              "title": "Place Id",
+              "type": "string",
+              "description": "Identifier of a place."
+            },
+            "name": "place_id",
+            "in": "query"
+          },
+          {
+            "description": "Latitude in format 12N, 12.3N, 12.3, or 13S, 13.2S, -13.4",
+            "required": false,
+            "schema": {
+              "title": "Lat",
+              "type": "string",
+              "description": "Latitude in format 12N, 12.3N, 12.3, or 13S, 13.2S, -13.4"
+            },
+            "name": "lat",
+            "in": "query"
+          },
+          {
+            "description": "Longitude in format 12E, 12.3E, 12.3, or 13W, 13.2W, -13.4",
+            "required": false,
+            "schema": {
+              "title": "Lon",
+              "type": "string",
+              "description": "Longitude in format 12E, 12.3E, 12.3, or 13W, 13.2W, -13.4"
+            },
+            "name": "lon",
+            "in": "query"
+          },
+          {
+            "description": "The day of the data in the past in `YYYY-MM-DD` format, e.g. `2021-08-24`.",
+            "required": true,
+            "schema": {
+              "title": "Date",
+              "type": "string",
+              "description": "The day of the data in the past in `YYYY-MM-DD` format, e.g. `2021-08-24`.",
+              "format": "date"
+            },
+            "name": "date",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/air_quality": {
+      "get": {
+        "tags": [
+          "Point weather"
+        ],
+        "summary": "Returns air quality forecast for a single location",
+        "description": "Air quality forecast for a single location.",
+        "operationId": "air_quality_air_quality_get",
+        "parameters": [
+          {
+            "description": "Identifier of a place.",
+            "required": false,
+            "schema": {
+              "title": "Place Id",
+              "type": "string",
+              "description": "Identifier of a place."
+            },
+            "name": "place_id",
+            "in": "query"
+          },
+          {
+            "description": "Latitude in format 12N, 12.3N, 12.3, or 13S, 13.2S, -13.4",
+            "required": false,
+            "schema": {
+              "title": "Lat",
+              "type": "string",
+              "description": "Latitude in format 12N, 12.3N, 12.3, or 13S, 13.2S, -13.4"
+            },
+            "name": "lat",
+            "in": "query"
+          },
+          {
+            "description": "Longitude in format 12E, 12.3E, 12.3, or 13W, 13.2W, -13.4",
+            "required": false,
+            "schema": {
+              "title": "Lon",
+              "type": "string",
+              "description": "Longitude in format 12E, 12.3E, 12.3, or 13W, 13.2W, -13.4"
+            },
+            "name": "lon",
+            "in": "query"
+          }
+        ]
+      }
+    }
+  }
+}

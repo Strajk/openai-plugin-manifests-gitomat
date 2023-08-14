@@ -1,0 +1,497 @@
+{
+  "openapi": "3.0.1",
+  "servers": [
+    {
+      "url": "https://api.dscopilot.ai",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "GptPluginController",
+      "description": "product search api for plugin"
+    }
+  ],
+  "paths": {
+    "/plugin/search_with_price": {
+      "get": {
+        "tags": [
+          "GptPluginController"
+        ],
+        "summary": "search product with price parameter",
+        "description": "search product controller with price parameter",
+        "operationId": "searchWithPrice",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatGptPluginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/search_sort_by_price": {
+      "get": {
+        "tags": [
+          "GptPluginController"
+        ],
+        "summary": "search product sort by price",
+        "description": "search product sort by price",
+        "operationId": "searchProductSortByPrice",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatGptPluginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/search_by_url": {
+      "get": {
+        "tags": [
+          "GptPluginController"
+        ],
+        "operationId": "searchProductByUrl",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "product detail url",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatGptPluginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/search": {
+      "get": {
+        "tags": [
+          "GptPluginController"
+        ],
+        "summary": "search product by keyword without sorting",
+        "description": "search product by keyword without sorting",
+        "operationId": "searchProduct",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatGptPluginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/searchByImage": {
+      "get": {
+        "tags": [
+          "GptPluginController"
+        ],
+        "operationId": "searchByImage",
+        "parameters": [
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "description": "product image url",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListCommodityDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/legal": {
+      "get": {
+        "tags": [
+          "GptPluginController"
+        ],
+        "operationId": "getLegalInfo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/amazonCoupon": {
+      "get": {
+        "tags": [
+          "GptPluginController"
+        ],
+        "operationId": "getAmazonCoupon",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "product id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListCouponCodeDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/amazonAffiliateInfo": {
+      "get": {
+        "tags": [
+          "GptPluginController"
+        ],
+        "operationId": "getAmazonAffiliateInfo",
+        "parameters": [
+          {
+            "name": "amazonUrl",
+            "in": "query",
+            "description": "amazon product detail url",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultAmazonAffiliateInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChatGptPluginResponse": {
+        "type": "object",
+        "properties": {
+          "searchResult": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MainSiteSearchRes4Gpt"
+            }
+          },
+          "extraInfo": {
+            "type": "string"
+          }
+        }
+      },
+      "MainSiteSearchRes4Gpt": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "mainImage": {
+            "type": "string"
+          },
+          "sellingPoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "skuOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Option"
+            }
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Option": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "position": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CommodityDTO": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "lang": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "mainImage": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "deliveryTime": {
+            "type": "string"
+          },
+          "detailUrl": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "sales": {
+            "type": "string"
+          },
+          "inventory": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sellingPoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ResultListCommodityDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommodityDTO"
+            }
+          }
+        }
+      },
+      "ResultString": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "CouponCodeDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "off": {
+            "type": "string"
+          }
+        }
+      },
+      "ResultListCouponCodeDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CouponCodeDTO"
+            }
+          }
+        }
+      },
+      "AmazonAffiliateInfoVO": {
+        "type": "object",
+        "properties": {
+          "affiliateLink": {
+            "type": "string",
+            "description": "amazon affiliate link",
+            "example": "https://www.amazon.com/dp/B07ZV2CJL2?tag=aidc-20&linkCode=ogi&th=1&psc=1"
+          },
+          "minRebate": {
+            "type": "number",
+            "description": "amazon affiliate min rebate",
+            "format": "double",
+            "example": 0.1
+          },
+          "maxRebate": {
+            "type": "number",
+            "description": "amazon affiliate max rebate",
+            "format": "double",
+            "example": 0.2
+          }
+        }
+      },
+      "ResultAmazonAffiliateInfoVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AmazonAffiliateInfoVO"
+          }
+        }
+      }
+    }
+  }
+}

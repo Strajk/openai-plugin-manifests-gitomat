@@ -1,0 +1,92 @@
+openapi: 3.0.1
+info:
+  title: Find a Tour
+  description: Find a tour, activity, or experience to do in locations across the world.
+  version: 'v1'
+servers:
+  - url: https://findatour.replit.app
+paths:
+  /find:
+    get:
+      operationId: findTours
+      summary: Find relevant tours in a given place
+      parameters:
+        - name: country
+          in: query
+          description: The country that the tour will take place in.
+          required: true
+          schema:
+            type: string
+        - name: currency
+          in: query
+          description: The currency that the results should be shown in. Should be USD unless specified otherwise.
+          required: true
+          schema:
+            type: string
+            enum:
+              - AUD
+              - BRL
+              - CAD
+              - CHF
+              - DKK
+              - EUR
+              - GBP
+              - HKD
+              - INR
+              - JPY
+              - NOK
+              - NZD
+              - SEK
+              - SGD
+              - TWD
+              - USD
+              - ZAR
+        - name: sorting
+          in: query
+          description: The sorting method that should be used. Should be DEFAULT unless specified otherwise.
+          required: true
+          schema:
+            type: string
+            enum:
+              - DEFAULT
+              - PRICE
+              - REVIEW_AVG_RATING
+        - name: city
+          in: query
+          description: The city that the tour will take place in.
+          required: false
+          schema:
+            type: string
+        - name: activity
+          in: query
+          description: The type of tour the user wants to do.
+          required: false
+          schema:
+            type: string
+        - name: from_date
+          in: query
+          description: The start date of the tour. In the format YYYY-MM-DD.
+          required: false
+          schema:
+            type: string
+        - name: to_date
+          in: query
+          description: The end date of the tour. In the format YYYY-MM-DD.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/findToursResponse'
+components:
+  schemas:
+    findToursResponse:
+      type: object
+      properties:
+        results:
+          type: string
+          description: Formatted results of relevant tours or activities

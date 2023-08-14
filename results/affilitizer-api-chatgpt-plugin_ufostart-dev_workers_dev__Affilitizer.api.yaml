@@ -1,0 +1,81 @@
+openapi: 3.0.1
+info:
+  title: affilitizer API
+  description: Find all affiliate programs and advertiser (also called merchants) including the performance network there are available in.
+  version: 'v1'
+servers:
+  - url: https://affilitizer-api-chatgpt-plugin.ufostart-dev.workers.dev
+paths:
+  /search:
+    post:
+      summary: get programs and networks by body object urls
+      operationId: search
+      requestBody:
+        description: an array of urls in the format of example.tld - if the TLD is not clear, then reqeust the user to response with a TLD
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required: [ urls, brandname, rawmessage  ]
+              properties:
+                urls:
+                  type: "array"
+                  items:
+                    type: "string"
+                  example:
+                    - "example.com"
+                    - "example2.com"
+                brandname:
+                  type: "string"
+                  example: "vodafone"
+                rawmessage:
+                  type: "string"
+                  example: "Give me the network for aliexpress"
+                
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/affilitizerResponse'
+        '400':
+          description: "Invalid input"
+
+components:
+  schemas:
+    ProgramDetail:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "vodafone"
+        url:
+          type: string
+          format: uri
+          example: "https://as.ad4m.at/ad/tur?a=1951&b=affilitizer_chatgpt_plugin&c=https%3A%2F%2Fwww.linkbux.com%2Findex.php%3Fmod%3Dad%26op%3Dmc_detail%26mid%3Dvodafonecpc"
+    Network:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "linkbux"
+        program_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramDetail'
+    affilitizerResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          format: hostname
+          example: "otto.com"
+        has_network:
+          type: boolean
+          example: false
+        networks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Network'

@@ -1,0 +1,1059 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Recipe Finder",
+    "description": "Explore meals for all diets: vegan, keto, gluten-free. Dive into curated foods and ingredients. Elevate your cooking.",
+    "version": "v1"
+  },
+  "paths": {
+    "/recipes": {
+      "get": {
+        "operationId": "fetchRecipes",
+        "summary": "Retrieve recipes based on user preferences and filters",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "The (natural language) recipe search query.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cuisine",
+            "in": "query",
+            "description": "The cuisine(s) of the recipes (more than one will be combined with 'OR'). Available values: african, asian, american, british, cajun, caribbean, chinese, eastern, european, european, french, german, greek, indian, irish, italian, japanese, jewish, korean, latin, american, mediterranean, mexican, middle, eastern, nordic, southern, spanish, thai, vietnamese",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "exclude_cuisine",
+            "in": "query",
+            "description": "The cuisine(s) the recipes must not match (more than one will be combined with 'AND'). Available values: african, asian, american, british, cajun, caribbean, chinese, eastern, european, european, french, german, greek, indian, irish, italian, japanese, jewish, korean, latin, american, mediterranean, mexican, middle, eastern, nordic, southern, spanish, thai, vietnamese",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "diet",
+            "in": "query",
+            "description": "The diet(s) for which the recipes must be suitable. Available values: gluten free, ketogenic, vegetarian, lacto-vegetarian, ovo-vegetarian, vegan, pescetarian, paleo, primal, low fodmap, whole30",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "diet_operator",
+            "in": "query",
+            "description": "To define whether to return recipes that have one or all of the specified diets. Available values are: 'and' or 'or'. Default is 'or'. 'and' means all diets must be present 'or' means only one of the diets must be present",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "intolerances",
+            "in": "query",
+            "description": "All recipes returned must not contain ingredients that are not suitable for people with the intolerances entered. Available values: dairy, egg, gluten, grain, peanut, seafood, sesame, shellfish, soy, sulfite, tree nut, wheat",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "equipment",
+            "in": "query",
+            "description": "The equipment required. Multiple values will be interpreted as 'or'.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "include_ingredients",
+            "in": "query",
+            "description": "List of ingredients that should/must be used in the recipes.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "exclude_ingredients",
+            "in": "query",
+            "description": "List of ingredients or ingredient types that the recipes must not contain.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "The type of recipe. Available values: main course, side dish, dessert, appetizer, salad, bread, breakfast, soup, beverage, sauce, marinade, fingerfood, snack, drink",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instructions_required",
+            "in": "query",
+            "description": "Whether the recipes must have instructions.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "fill_ingredients",
+            "in": "query",
+            "description": "Add information about the ingredients and whether they are used or missing in relation to the query.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "title_match",
+            "in": "query",
+            "description": "The text that must be found in the title of the recipes.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max_ready_time",
+            "in": "query",
+            "description": "The maximum time in minutes it should take to prepare and cook the recipe.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ignore_pantry",
+            "in": "query",
+            "description": "Whether to ignore typical pantry items, such as water, salt, flour, etc.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The strategy to sort recipes by. Available values: meta-score, popularity, healthiness, price, time, random, max-used-ingredients, min-missing-ingredients, alcohol, caffeine, copper, energy, calories, calcium, carbohydrates, carbs, choline, cholesterol, total-fat, fluoride, trans-fat, saturated-fat, mono-unsaturated-fat, poly-unsaturated-fat, fiber, folate, folic-acid, iodine, iron, magnesium, manganese, vitamin-b3, niacin, vitamin-b5, pantothenic-acid, phosphorus, potassium, protein, vitamin-b2, riboflavin, selenium, sodium, vitamin-b1, thiamin, vitamin-a, vitamin-b6, vitamin-b12, vitamin-c, vitamin-d, vitamin-e, vitamin-k, sugar, zinc",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_direction",
+            "in": "query",
+            "description": "The direction in which to sort. Available values: 'asc' or 'desc'.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "min_carbs",
+            "in": "query",
+            "description": "The minimum amount of carbohydrates in grams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_carbs",
+            "in": "query",
+            "description": "The maximum amount of carbohydrates in grams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_protein",
+            "in": "query",
+            "description": "The minimum amount of protein in grams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_protein",
+            "in": "query",
+            "description": "The maximum amount of protein in grams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_calories",
+            "in": "query",
+            "description": "The minimum amount of calories the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_calories",
+            "in": "query",
+            "description": "The maximum amount of calories the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_fat",
+            "in": "query",
+            "description": "The minimum amount of fat in grams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_fat",
+            "in": "query",
+            "description": "The maximum amount of fat in grams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_alcohol",
+            "in": "query",
+            "description": "The minimum amount of alcohol in grams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_alcohol",
+            "in": "query",
+            "description": "The maximum amount of alcohol in grams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_caffeine",
+            "in": "query",
+            "description": "The minimum amount of caffeine in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_caffeine",
+            "in": "query",
+            "description": "The maximum amount of caffeine in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_copper",
+            "in": "query",
+            "description": "The minimum amount of copper in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_copper",
+            "in": "query",
+            "description": "The maximum amount of copper in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_calcium",
+            "in": "query",
+            "description": "The minimum amount of calcium in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_calcium",
+            "in": "query",
+            "description": "The maximum amount of calcium in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_choline",
+            "in": "query",
+            "description": "The minimum amount of choline in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_choline",
+            "in": "query",
+            "description": "The maximum amount of choline in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_cholesterol",
+            "in": "query",
+            "description": "The minimum amount of cholesterol in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_cholesterol",
+            "in": "query",
+            "description": "The maximum amount of cholesterol in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_fluoride",
+            "in": "query",
+            "description": "The minimum amount of fluoride in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_fluoride",
+            "in": "query",
+            "description": "The maximum amount of fluoride in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_saturated_fat",
+            "in": "query",
+            "description": "The minimum amount of saturated fat in grams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_saturated_fat",
+            "in": "query",
+            "description": "The maximum amount of saturated fat in grams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_a",
+            "in": "query",
+            "description": "The minimum amount of Vitamin A in IU the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_a",
+            "in": "query",
+            "description": "The maximum amount of Vitamin A in IU the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_c",
+            "in": "query",
+            "description": "The minimum amount of Vitamin C milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_c",
+            "in": "query",
+            "description": "The maximum amount of Vitamin C in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_d",
+            "in": "query",
+            "description": "The minimum amount of Vitamin D in micrograms the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_d",
+            "in": "query",
+            "description": "The maximum amount of Vitamin D in micrograms the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_e",
+            "in": "query",
+            "description": "The minimum amount of Vitamin E in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_e",
+            "in": "query",
+            "description": "The maximum amount of Vitamin E in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_k",
+            "in": "query",
+            "description": "The minimum amount of Vitamin K in micrograms the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_k",
+            "in": "query",
+            "description": "The maximum amount of Vitamin K in micrograms the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_b1",
+            "in": "query",
+            "description": "The minimum amount of Vitamin B1 in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_b1",
+            "in": "query",
+            "description": "The maximum amount of Vitamin B1 in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_b2",
+            "in": "query",
+            "description": "The minimum amount of Vitamin B2 in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_b2",
+            "in": "query",
+            "description": "The maximum amount of Vitamin B2 in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_b5",
+            "in": "query",
+            "description": "The minimum amount of Vitamin B5 in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_b5",
+            "in": "query",
+            "description": "The maximum amount of Vitamin B5 in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_b3",
+            "in": "query",
+            "description": "The minimum amount of Vitamin B3 in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_b3",
+            "in": "query",
+            "description": "The maximum amount of Vitamin B3 in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_b6",
+            "in": "query",
+            "description": "The minimum amount of Vitamin B6 in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_b6",
+            "in": "query",
+            "description": "The maximum amount of Vitamin B6 in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_vitamin_b12",
+            "in": "query",
+            "description": "The minimum amount of Vitamin B12 in micrograms the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_vitamin_b12",
+            "in": "query",
+            "description": "The maximum amount of Vitamin B12 in micrograms the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_fiber",
+            "in": "query",
+            "description": "The minimum amount of fiber in grams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_fiber",
+            "in": "query",
+            "description": "The maximum amount of fiber in grams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_folate",
+            "in": "query",
+            "description": "The minimum amount of folate in micrograms the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_folate",
+            "in": "query",
+            "description": "The maximum amount of folate in micrograms the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_folic_acid",
+            "in": "query",
+            "description": "The minimum amount of folic acid in micrograms the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_folic_acid",
+            "in": "query",
+            "description": "The maximum amount of folic acid in micrograms the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_iodine",
+            "in": "query",
+            "description": "The minimum amount of iodine in micrograms the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_iodine",
+            "in": "query",
+            "description": "The maximum amount of iodine in micrograms the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_iron",
+            "in": "query",
+            "description": "The minimum amount of iron in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_iron",
+            "in": "query",
+            "description": "The maximum amount of iron in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_magnesium",
+            "in": "query",
+            "description": "The minimum amount of magnesium in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_magnesium",
+            "in": "query",
+            "description": "The maximum amount of magnesium in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_manganese",
+            "in": "query",
+            "description": "The minimum amount of manganese in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_manganese",
+            "in": "query",
+            "description": "The maximum amount of manganese in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_phosphorus",
+            "in": "query",
+            "description": "The minimum amount of phosphorus in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_phosphorus",
+            "in": "query",
+            "description": "The maximum amount of phosphorus in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_potassium",
+            "in": "query",
+            "description": "The minimum amount of potassium in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_potassium",
+            "in": "query",
+            "description": "The maximum amount of potassium in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_selenium",
+            "in": "query",
+            "description": "The minimum amount of selenium in micrograms the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_selenium",
+            "in": "query",
+            "description": "The maximum amount of selenium in micrograms the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_sodium",
+            "in": "query",
+            "description": "The minimum amount of sodium in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_sodium",
+            "in": "query",
+            "description": "The maximum amount of sodium in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_sugar",
+            "in": "query",
+            "description": "The minimum amount of sugar in grams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_sugar",
+            "in": "query",
+            "description": "The maximum amount of sugar in grams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "min_zinc",
+            "in": "query",
+            "description": "The minimum amount of zinc in milligrams the recipe must have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "max_zinc",
+            "in": "query",
+            "description": "The maximum amount of zinc in milligrams the recipe can have per serving.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit_license",
+            "in": "query",
+            "description": "Whether the recipes should have an open license that allows display with proper attribution.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of results to skip (between 0 and 900).",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "Unique identifier for the recipe."
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "Title of the recipe."
+                          },
+                          "image": {
+                            "type": "string",
+                            "description": "URL of the recipe image."
+                          },
+                          "imageType": {
+                            "type": "string",
+                            "description": "Type of the image (e.g., jpg)."
+                          }
+                        }
+                      }
+                    },
+                    "offset": {
+                      "type": "integer",
+                      "description": "Offset for pagination."
+                    },
+                    "number": {
+                      "type": "integer",
+                      "description": "Number of results returned in the current response."
+                    },
+                    "totalResults": {
+                      "type": "integer",
+                      "description": "Total number of results available."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "An error message describing the issue."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recipes_information_bulk": {
+      "get": {
+        "operationId": "fetchBulkRecipeInformation",
+        "summary": "Retrieve detailed information for a bulk list of recipes",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "List of recipe IDs to fetch detailed information for.",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique identifier for the recipe."
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "Title of the recipe."
+                      },
+                      "image": {
+                        "type": "string",
+                        "description": "URL of the recipe image."
+                      },
+                      "summary": {
+                        "type": "string",
+                        "description": "Brief summary of the recipe."
+                      },
+                      "ingredients": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "description": "List of ingredients for the recipe."
+                      },
+                      "instructions": {
+                        "type": "string",
+                        "description": "Cooking instructions for the recipe."
+                      },
+                      "ready_in_minutes": {
+                        "type": "integer",
+                        "description": "Time required to prepare the recipe."
+                      },
+                      "servings": {
+                        "type": "integer",
+                        "description": "Number of servings the recipe yields."
+                      },
+                      "diets": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Diets that the recipe adheres to."
+                      },
+                      "source_url": {
+                        "type": "string",
+                        "description": "Original source URL of the recipe."
+                      },
+                      "nutrition": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "string"
+                            },
+                            "percentOfDailyNeeds": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "An error message describing the issue."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://recipe-finder-plugin.plugincrafter.dev"
+    }
+  ]
+}

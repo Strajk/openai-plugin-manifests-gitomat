@@ -1,0 +1,95 @@
+openapi: 3.0.1
+info:
+  title: Google Trends
+  description: Fetch Google Trends data for a specific keyword, location, and timeframe or get realtime search interest, and top charts.
+  version: 'v1'
+servers:
+  - url: https://googletrends.anonymuswatch.repl.co
+paths:
+  /trends:
+    get:
+      operationId: getTrends
+      summary: Get Google Trends data
+      parameters:
+        - name: search_word
+          in: query
+          description: The keyword to search for in Google Trends
+          required: true
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: The location to search for in Google Trends, needs to be a two-digit Country Code
+          required: false
+          schema:
+            type: string
+        - name: timeframe
+          in: query
+          description: The timeframe to search for in Google Trends (in YYYY-MM-DD YYYY-MM-DD format, for example 2017-02-06 2017-02-12)
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTrendsResponse'
+  /top_charts:
+    get:
+      operationId: getTopCharts
+      summary: Get top Google Trends charts
+      parameters:
+        - name: date
+          in: query
+          description: The date to retrieve top charts for (in YYYY format)
+          required: false
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: The location to retrieve top charts for, needs to be a two-digit Country Code
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string  # Modify the schema based on the actual response structure
+
+  /realtime_trends:
+    get:
+      operationId: getRealtimeTrends
+      summary: Get realtime trending searches from Google Trends
+      parameters:
+        - name: location
+          in: query
+          description: The location to retrieve realtime trending searches from, needs to be a two-digit Country Code, can also be nothing
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string  # Modify the schema based on the actual response structure
+
+components:
+  schemas:
+    getTrendsResponse:
+      type: object
+      properties:
+        isPartial:
+          type: boolean
+          description: Whether the data is partial
+        search_word:
+          type: object
+          additionalProperties:
+            type: integer
+          description: The Google Trends data for the search word

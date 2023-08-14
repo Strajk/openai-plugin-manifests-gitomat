@@ -1,0 +1,113 @@
+openapi: 3.0.1
+info:
+  title: RiskmonsterCorpDB
+  description: This plugin allows you to search for information about a company using ChatGPT.
+  version: 'v1'
+servers:
+  - url: https://rmdbapi.riskmonster.com
+paths:
+  /api/companymst/{corporation_number}:
+    get:
+      operationId: companymst
+      summary:  Retrieve detailed information about the company that matches the corporate number. The companymst endpoint is variable. It depends on the data corporation_number in the response of the companymstsearch.
+      parameters:
+      - name: corporation_number
+        in: path
+        required: true
+        schema:
+          type: string
+          example: "5010001075531"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/companymst'
+  /api/companymstsearch/:
+    get:
+      operationId: companymstsearch
+      summary: With companymstsearch, you can retrieve a list of companies that match the company name or corporate number.
+      parameters:
+      - in: query
+        name: search
+        schema:
+          type: string
+          required: true
+          description: Company Name or Corporation Number.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/companymstsearch'
+
+components:
+  schemas:
+    companymstsearch:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Indicates success or error.
+        result:
+          type: object
+          count:
+            type: integer
+            description: The number of companies that api was able to retrieve; if 50, it may not have retrieved all of the companies in the database.
+          total_count:
+            type: integer
+            description: The number of companies that api was able to retrieve; if 50, it may not have retrieved all of the companies in the database.
+          results:
+            type: array
+            corporation_number:
+              type: string
+              description: Corporate number.
+            name:
+              type: string
+              description: Corporate name.
+            post_code:
+              type: string
+              description: Post code.
+            location:
+              type: string
+              description: Corporate location.
+    companymst:
+      type: object
+      properties:
+        result:
+          type: object
+          corporation_number:
+            type: string
+            description: Corporate number.
+          name:
+            type: string
+            description: Corporate name.
+          name_kana:
+            type: string
+            description: Corporate name as japanese.
+          url:
+            type: string
+            description: Corporate url.
+          post_code:
+            type: string
+            description: Post code.
+          location:
+            type: string
+            description: Corporate location.
+          tel_number:
+            type: string
+            description: Corporate tel number.
+          representative:
+            type: string
+            description: Name of CEO.
+          middle_clas_industry_name:
+            type: string
+            description: Company Classification.
+          middle_clas_industry_code:
+            type: integer
+            description: Company Classification code.
+        message:
+          type: string
+          description: Indicates success or error.

@@ -1,0 +1,324 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Plugin API
+  description: API documentation for Plugin
+servers:
+  - url: https://ai.vplate.io
+paths:
+  /plugin/design:
+    post:
+      summary: Set design
+      operationId: setDesign
+      requestBody:
+        description: Design data
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request_id:
+                  type: string
+                  required: true
+                  description: request_id is the unique id of the project for the user creating video ads. This is created initially when the model sends product information to VPLATE.
+                design_id:
+                  type: string
+                  required: true
+                  description: Unique id corresponding to the design and ratio user select.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      request_id:
+                        type: string
+                        description: Request id to use as the value of request_id in the next api request.
+                      design_id:
+                        type: string
+                        description: Unique id corresponding to the design and ratio user select.
+                      design_duration:
+                        type: number
+                        description: Video duration with this design. 
+                      required_text_length:
+                        type: number
+                        description: The model should generate scenario considering the each scene's text limit. And you should express it as the array format following this number of text required. The array's length should be equal to this one.
+                      required_image_length:
+                        type: number
+                        description: The model should generate scenario considering the required image length. And you should express it as the array format following this number of image required. The array's length should be equal to this one.
+                      scenario_rule:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            scene:
+                              type: array
+                              items:
+                                type: object
+                                properties: 
+                                  text:
+                                    type: string
+                                  max_characters:
+                                    type: number
+                                description: This includes the number of required text per the scene and the maximum number of characters for the text.
+                              description: This is the scene of the video design.
+                          description: The scenario_rule of the design user select. This includes the number of text required per the scene, the maximum number of characters of the text.
+        '500':
+          description: The model has sent an incorrect request_id or design_id.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  data:
+                    type: string
+  /plugin/:
+    post:
+      summary: Create request
+      operationId: createRequest
+      requestBody:
+        description: Request data
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  required: true
+                  description: Product or brand name.
+                brief:
+                  type: string
+                  required: true
+                  description: A brief introduction of product or brand.
+                detail:
+                  type: string
+                  description: Detailed descriptions and features.
+                  required: false
+                images:
+                  type: array
+                  items:
+                    type: string
+                    description: URL of the images related to product. This is not a required thing and user must provide it through URL.
+                    required: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      request_id:
+                        type: string
+                        description: Request id to use as the value of request_id in the next api request.
+        '500':
+          description: The model didn't send the required information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  data:
+                    type: string
+  /plugin/adpoint:
+    post:
+      summary: Create adpoints and admessages
+      operationId: createAdPoint
+      requestBody:
+        description: Ad points and Ad messages
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request_id:
+                  type: string
+                  description: request_id is the unique id of the project for the user creating video ads. This is created initially when the model sends product information to VPLATE.
+                adPlanning:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      appealPoint:
+                        type: string
+                        description: Appeal points generated by the model based on product information user input.
+                        required: true
+                      adMessage1:
+                        type: string
+                        description: Ad message 1 for the respective appeal points.
+                        required: true
+                      adMessage2:
+                        type: string
+                        description: Ad message 2 for the respective appeal points.
+                        required: true
+                      adMessage3:
+                        type: string
+                        description: Ad message 3 for the respective appeal points.
+                        required: true
+                  description: Three appeal points and three ad messgaes per the appeal point generated by the model based on product information user input.
+                  required: true
+                keyword:
+                  type: string
+                  description: A keyword the model generate with the product information user input. This keyword should be the english and this will be used for searching related images on free-stock images platform such as pixabay, unsplash, pexels.
+                  required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      request_id:
+                        type: string
+                        description: Request id to use as the value of request_id in the next api request.
+                      designs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                              description: Title of design
+                            preview:
+                              type: string
+                              description: Preview video url for the design.
+                            details:
+                              type: array
+                              description: Details of the design. This provide the information about ratio and design id.
+                              items:
+                                type: object
+                                properties:
+                                  design_id: 
+                                    type: string
+                                    description: Unique id per design ratio.
+                                  ratio: 
+                                    type: string
+                                    description: Ratio of design
+        '500':
+          description: The model didn't send the required information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  data:
+                    type: string
+  /plugin/scenario:
+    post:
+      summary: Create Scenario
+      operationId: createScenario
+      requestBody:
+        description: Create Scenario
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request_id:
+                  type: string
+                  description: request_id is the unique id of the project for the user creating video ads. This is created initially when the model sends product information to VPLATE.
+                design_id:
+                  type: string
+                  description: Unique id corresponding to the design and ratio user select.
+                scenario:
+                  type: object
+                  properties:
+                    appealPoint1:
+                      type: object
+                      properties:
+                        text:
+                          type: array
+                          items:
+                            type: string
+                          description: The length of this array must be equal to required text length.
+                        image:
+                          type: array
+                          items:
+                            type: string
+                          description: The length of this array must be equal to required image length. And each image should be one english word for searching on free-stock images service.
+                      description: Video Ad scenario for the first appeal point.
+                    appealPoint2:
+                      type: object
+                      properties:
+                        text:
+                          type: array
+                          items:
+                            type: string
+                          description: The length of this array must be equal to required text length.
+                        image:
+                          type: array
+                          items:
+                            type: string
+                          description: The length of this array must be equal to required image length. And each image should be one english word for searching on free-stock images service.
+                      description: Video Ad scenario for the second appeal point.
+                    appealPoint3:
+                      type: object
+                      properties:
+                        text:
+                          type: array
+                          items:
+                            type: string
+                          description: The length of this array must be equal to required text length.
+                        image:
+                          type: array
+                          items:
+                            type: string
+                          description: The length of this array must be equal to required image length. And each image should be one english word for searching on free-stock images service.
+                      description: Video Ad scenario for the third appeal point.
+                  description: Three Video Ad scenarios generated by the model. The model should follow the design's scenario_rule from VPLATE such as the number of text required per the scene and the maximum number of characters per the text.
+              required:
+                - request_id
+                - design_id
+                - scenario
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      project_link:
+                        type: string
+                        description: User can access to this project_link. And then user can check the project and start to render the video.
+        '500':
+          description: The model has sent an incorrect request_id or design_id.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  data:
+                    type: string

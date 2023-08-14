@@ -1,0 +1,925 @@
+openapi: 3.0.1
+info:
+  title: promptrecruit
+  description: >-
+    You are a recruiter that can help with recruitment. If someone is looking to do something that is recruiter related check to see if you can help first. When you return results that has a URL there will be a URL that you can use. Do not make things up, only return the results you are given.
+  version: v1
+servers:
+  - url: https://api.promptrecruit.ai
+paths:
+  /candidates:
+    get:
+      operationId: FindCandidates
+      summary: Finds a list of candidates
+      parameters:
+        - in: query
+          name: keywords
+          schema:
+            type: string
+          required: false
+          description: Search for key-words within the latest candidate resume
+        - in: query
+          name: createdAt
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: >-
+            Specified date range ([ISO full-date]). You must prefix with < and > to do a range. Specify multiple times to search for a range.
+        - in: query
+          name: updatedAt
+          schema:
+            type: string
+          required: false
+          description: >-
+            Search for candidates created at a specific date and time \r\n(UTC
+            assumed, [ISO date-time]. \r\nPrefix with <code>&lt;</code> to
+            search dates before or after (inclusive) the specified date and
+            time.
+        - in: query
+          name: embed
+          schema:
+            type: string
+          required: false
+          description: >-
+            Embed related resources.<br />\r\nResources available to embed are:
+            self, applications, placements, skills, notes
+        - in: query
+          name: limit
+          schema:
+            type: string
+          required: false
+          description: >-
+            The maximum number of entries to return.<br />\r\nSetting to 0 will
+            return only the total count of matching resources.
+      responses:
+        '200':
+          description: List of candidates matching the specified criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CandidateSummaryModel'
+  /candidates/{candidateId}:
+    get:
+      operationId: GetCandidate
+      summary: Get a candidate
+      parameters:
+        - in: path
+          name: candidateId
+          schema:
+            type: string
+          required: true
+          description: Candidate ID
+        - in: query
+          name: embed
+          schema:
+            type: string
+          required: false
+          description: >-
+            Embed related resources.<br />\r\nResources available to embed are:
+            skills, notes, applications, placements
+      responses:
+        '200':
+          description: Requested candidate details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CandidateRepresentation'
+        '404':
+          description: Requested candidate was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+  /jobs:
+    get:
+      operationId: FindJobOrders
+      summary: Find jobs
+      parameters:
+        - in: query
+          name: jobId
+          schema:
+            type: string
+          required: false
+          description: Job Id
+        - in: query
+          name: jobTitle
+          schema:
+            type: string
+          required: false
+          description: Job title
+        - in: query
+          name: company.name
+          schema:
+            type: string
+          required: false
+          description: Company name
+        - in: query
+          name: company.companyId
+          schema:
+            type: string
+          required: false
+          description: Companies by Id
+        - in: query
+          name: active
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+          required: false
+          description: Search for active or open jobs
+        - in: query
+          name: embed
+          schema:
+            type: string
+          required: false
+          description: >-
+            Embed related resources.<br />\r\nResources available to embed are:
+            self, notes, applications
+        - in: query
+          name: limit
+          schema:
+            type: string
+          required: false
+          description: >-
+            The maximum number of entries to return.<br />\r\nSetting to 0 will
+            return only the total count of matching resources.
+        - in: query
+          name: createdAt
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: >-
+            Specified date range ([ISO full-date]). You must prefix with < and > to do a range. Specify multiple times to search for a range.
+      responses:
+        '200':
+          description: List of jobs matching the specified criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobOrderListRepresentation'
+  /jobs/{jobId}:
+    get:
+      operationId: GetJobOrder
+      summary: Get details about a job
+      parameters:
+        - in: path
+          name: jobId
+          schema:
+            type: string
+          required: true
+          description: Job Id
+        - in: query
+          name: embed
+          schema:
+            type: string
+          required: false
+          description: >-
+            Embed related resources.<br />\r\nResources available to embed are:
+            applications, notes
+      responses:
+        '200':
+          description: Requested job details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobOrderStatisticsSummaryModel'
+  /placements:
+    get:
+      operationId: FindPlacements
+      summary: Find placements
+      parameters:
+        - in: query
+          name: placementId
+          schema:
+            type: string
+          required: false
+          description: Placement Id
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum:
+              - Permanent
+              - Contract
+              - Temporary
+              - Credit
+          required: false
+          description: Placement Type
+        - in: query
+          name: candidate.candidateId
+          schema:
+            type: string
+          required: false
+          description: Candidate Id
+        - in: query
+          name: candidate.name
+          schema:
+            type: string
+          required: false
+          description: Candidate name
+        - in: query
+          name: candidateId
+          schema:
+            type: string
+          required: false
+          description: Alias for candidate.candidateId
+        - in: query
+          name: company.companyId
+          schema:
+            type: string
+          required: false
+          description: Companies by Id
+        - in: query
+          name: company.name
+          schema:
+            type: string
+          required: false
+          description: Company name
+        - in: query
+          name: companyId
+          schema:
+            type: string
+          required: false
+          description: Alias for company.companyId
+        - in: query
+          name: jobId
+          schema:
+            type: string
+          required: false
+          description: Job Id
+        - in: query
+          name: applicationId
+          schema:
+            type: string
+          required: false
+          description: Job Application Id
+        - in: query
+          name: limit
+          schema:
+            type: string
+          required: false
+          description: >-
+            The maximum number of entries to return.<br />\r\nSetting to 0 will
+            return only the total count of matching resources.
+        - in: query
+          name: createdAt
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: >-
+            Specified date range ([ISO full-date]). You must prefix with < and > to do a range. Specify multiple times to search for a range.
+      responses:
+        '200':
+          description: List of placements matching the specified criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlacementListRepresentation'
+  /reports:
+    get:
+      operationId: CompanyReports
+      summary: 'Get a summary of all reporting in the company '
+      parameters:
+        - in: query
+          name: createdAt
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: >-
+            Specified date range ([ISO full-date]). You must prefix with < and > to do a range. Specify multiple times to search for a range.
+      responses:
+        '200':
+          description: Reporting information
+  /placements/{placementId}:
+    get:
+      operationId: GetPlacement
+      summary: Get a placement
+      parameters:
+        - in: path
+          name: placementId
+          schema:
+            type: string
+          required: true
+          description: Placement Id
+        - in: query
+          name: embed
+          schema:
+            type: string
+          required: false
+          description: >-
+            Embed related resources.<br />\r\nResources available to embed are:
+            notes
+      responses:
+        '200':
+          description: Requested placement details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlacementRepresentation'
+        '404':
+          description: Requested placement was not found
+  /applications:
+    get:
+      operationId: FindJobApplications
+      summary: Find job applications
+      parameters:
+        - in: query
+          name: applicationId
+          schema:
+            type: string
+          required: false
+          description: Application Id
+        - in: query
+          name: candidateId
+          schema:
+            type: string
+          required: false
+          description: Candidate Id
+        - in: query
+          name: jobId
+          schema:
+            type: string
+          required: false
+          description: Job Id
+        - in: query
+          name: jobTitle
+          schema:
+            type: string
+          required: false
+          description: job Title
+        - in: query
+          name: active
+          schema:
+            type: string
+            enum:
+              - '1'
+              - '0'
+          required: false
+          description: Search for active job applications
+        - in: query
+          name: createdAt
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: >-
+            Specified date range ([ISO full-date]). You must prefix with < and > to do a range. Specify multiple times to search for a range.
+        - in: query
+          name: limit
+          schema:
+            type: string
+          required: false
+          description: >-
+            The maximum number of entries to return.<br />\r\nSetting to 0 will
+            return only the total count of matching resources.
+        - in: query
+          name: review.stage
+          schema:
+            type: string
+            enum:
+              - Submitted
+              - Viewed
+              - Accepted
+              - Rejected
+          required: false
+          description: Search for job applications at the specified review stage.
+      responses:
+        '200':
+          description: List of job applications matching the specified criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobApplicationListRepresentation'
+  /applications/{applicationId}:
+    get:
+      operationId: GetJobApplication
+      summary: Get a job application
+      parameters:
+        - in: query
+          name: applicationId
+          schema:
+            type: string
+          required: false
+          description: Job Application Id
+      responses:
+        '200':
+          description: Requested job application details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobApplicationRepresentation'
+  /notes:
+    get:
+      operationId: FindNotes
+      summary: Find notes
+      parameters:
+        - in: query
+          name: noteId
+          schema:
+            type: string
+          required: false
+          description: Note Id
+        - in: query
+          name: createdAt
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: >-
+            Specified date range ([ISO full-date]). You must prefix with < and > to do a range. Specify multiple times to search for a range.
+        - in: query
+          name: candidateId
+          schema:
+            type: string
+          required: false
+          description: Candidate Id
+        - in: query
+          name: companyId
+          schema:
+            type: string
+          required: false
+          description: Company Id
+        - in: query
+          name: contactId
+          schema:
+            type: string
+          required: false
+          description: Contact Id
+        - in: query
+          name: jobId
+          schema:
+            type: string
+          required: false
+          description: Job Id
+        - in: query
+          name: applicationId
+          schema:
+            type: string
+          required: false
+          description: Job Application Id
+        - in: query
+          name: placementId
+          schema:
+            type: string
+          required: false
+          description: Placement Id
+        - in: query
+          name: entityType
+          schema:
+            type: string
+          required: false
+          description: >-
+            Filter notes by Entity Type.<br />\r\nEntity Type must be any of:
+            candidate, contact, company, job, placement, requisition
+        - in: query
+          name: limit
+          schema:
+            type: string
+          required: false
+          description: >-
+            The maximum number of entries to return.<br />\r\nSetting to 0 will
+            return only the total count of matching resources.
+      responses:
+        '200':
+          description: List of notes matching the specified criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteListRepresentation'
+  /users:
+    get:
+      operationId: FindUsers
+      summary: Find users
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+          required: false
+          description: User ID
+        - in: query
+          name: officeId
+          schema:
+            type: string
+          required: false
+          description: Office ID
+        - in: query
+          name: groupId
+          schema:
+            type: string
+          required: false
+          description: Group ID
+        - in: query
+          name: createdAt
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: >-
+            Specified date range ([ISO full-date]). You must prefix with < and > to do a range. Specify multiple times to search for a range.
+        - in: query
+          name: limit
+          schema:
+            type: string
+          required: false
+          description: >-
+            The maximum number of entries to return.<br />\r\nSetting to 0 will
+            return only the total count of matching resources.
+      responses:
+        '200':
+          description: List of users matching the specified criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListRepresentation'
+  /users/{userId}:
+    get:
+      operationId: GetUser
+      summary: Get a user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ''
+      responses:
+        '200':
+          description: Requested user details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRepresentation'
+        '404':
+          description: Requested user was not found
+components:
+  schemas:
+    CandidateSummaryModel:
+      type: object
+      description: A Summary of the Candidates
+      properties:
+        candidateId:
+          type: number
+          description: The ID of the Candidates
+        firstName:
+          type: string
+          description: First name
+        lastName:
+          type: string
+          description: Last name
+        email:
+          type: string
+          description: Primary email address
+      required:
+        - candidateId
+    CandidateRepresentation:
+      type: object
+      properties:
+        candidateId:
+          type: number
+          description: Candidate Id
+        firstName:
+          type: string
+          description: First Name
+        lastName:
+          type: string
+          description: Last Name
+        email:
+          type: string
+          description: Primary email address
+        phone:
+          type: string
+          description: Contact phone number
+        summary:
+          type: string
+          description: A summary of the candidate
+      required:
+        - candidateId
+    ErrorModel:
+      type: object
+      description: For Errors
+      properties:
+        message:
+          type: array
+          description: ''
+          items:
+            $ref: '#/components/schemas/ErrorItemModel'
+      required:
+        - message
+    ErrorItemModel:
+      type: object
+      properties:
+        code:
+          type: string
+          description: ''
+          enum:
+            - Invalid
+            - Missing
+            - MissingField
+            - AlreadyExists
+        message:
+          type: string
+          description: ''
+        fields:
+          type: array
+          description: ''
+          items:
+            type: string
+            description: ''
+    JobOrderListRepresentation:
+      type: object
+      description: List of Jobs matching the criteria
+      properties:
+        items:
+          type: array
+          description: ''
+          items:
+            $ref: '#/components/schemas/JobOrderSummaryModel'
+        totalCount:
+          type: number
+          description: Total count of jobs that match the criteria
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    JobOrderSummaryModel:
+      type: object
+      description: Job Summary
+      properties:
+        jobId:
+          type: number
+          description: ''
+        jobTitle:
+          type: string
+          description: ''
+      required:
+        - jobId
+    PageLinks:
+      type: object
+      properties:
+        first:
+          type: string
+          description: ''
+        prev:
+          type: string
+          description: ''
+        next:
+          type: string
+          description: ''
+        last:
+          type: string
+          description: ''
+    JobOrderRepresentation:
+      type: object
+      properties:
+        jobId:
+          type: number
+          description: ''
+        jobTitle:
+          type: string
+          description: Job Title
+        jobDescription:
+          type: string
+          description: Job Description
+        numberOfJobs:
+          type: number
+          description: Number of Jobs
+      required:
+        - jobId
+    JobOrderStatisticsSummaryModel:
+      type: object
+      properties: {}
+    JobOrderJobApplicationStatisticsSummaryModel:
+      type: object
+      properties:
+        new:
+          type: number
+          description: ''
+        active:
+          type: number
+          description: ''
+        total:
+          type: number
+          description: ''
+    PlacementListRepresentation:
+      type: object
+      properties:
+        items:
+          type: array
+          description: ''
+          items:
+            $ref: '#/components/schemas/PlacementSummaryModel'
+        totalCount:
+          type: number
+          description: ''
+      required:
+        - totalCount
+    PlacementSummaryModel:
+      type: object
+      properties:
+        placementId:
+          type: number
+          description: ''
+        jobTitle:
+          type: string
+          description: ''
+        type:
+          type: array
+          description: ''
+          items:
+            type: string
+            description: ''
+            enum:
+              - Permanent
+              - Contract
+              - Temporary
+              - Credit
+      required:
+        - placementId
+        - type
+    PlacementRepresentation:
+      type: object
+      properties:
+        placementId:
+          type: number
+          description: ''
+        jobTitle:
+          type: string
+          description: ''
+        type:
+          type: array
+          description: ''
+          items:
+            type: string
+            description: ''
+            enum:
+              - Permanent
+              - Contract
+              - Temporary
+              - Credit
+      required:
+        - placementId
+        - type
+    JobApplicationListRepresentation:
+      type: object
+      properties:
+        items:
+          $ref: '#/components/schemas/JobApplicationSummaryModel'
+        totalCount:
+          type: number
+          description: ''
+      required:
+        - totalCount
+    JobApplicationSummaryModel:
+      type: object
+      properties:
+        applicationId:
+          type: number
+          description: ''
+        jobTitle:
+          type: string
+          description: ''
+        jobReference:
+          type: string
+          description: ''
+        manual:
+          type: boolean
+          description: ''
+        source:
+          type: string
+          description: ''
+        rating:
+          type: number
+          description: ''
+        createdAt:
+          type: string
+          description: ''
+      required:
+        - applicationId
+    JobApplicationRepresentation:
+      type: object
+      properties:
+        applicationId:
+          type: number
+          description: ''
+        jobTitle:
+          type: string
+          description: ''
+        jobReference:
+          type: string
+          description: ''
+      required:
+        - applicationId
+    NoteListRepresentation:
+      type: object
+      description: ''
+      properties:
+        items:
+          $ref: '#/components/schemas/NoteSummaryModel'
+        totalCount:
+          type: number
+          description: ''
+        links:
+          $ref: '#/components/schemas/PageLinks'
+      required:
+        - totalCount
+    NoteSummaryModel:
+      type: object
+      properties:
+        noteId:
+          type: number
+          description: ''
+        type:
+          type: string
+          description: ''
+        textPartial:
+          type: string
+          description: ''
+        reference:
+          type: string
+          description: ''
+        createdAt:
+          type: string
+          description: ''
+      required:
+        - noteId
+    UserListRepresentation:
+      type: object
+      properties:
+        items:
+          type: array
+          description: ''
+          items:
+            $ref: '#/components/schemas/UserSummaryModel'
+        totalCount:
+          type: number
+          description: ''
+        links:
+          type: object
+          description: ''
+          properties: {}
+    UserSummaryModel:
+      type: object
+      properties:
+        userId:
+          type: number
+          description: ''
+        firstName:
+          type: string
+          description: First Name
+        lastName:
+          type: string
+          description: Last Name
+        position:
+          type: string
+          description: Position
+        email:
+          type: string
+          description: email
+        phone:
+          type: string
+          description: ''
+        mobile:
+          type: string
+          description: ''
+        mentionName:
+          type: string
+          description: ''
+      required:
+        - userId
+    UserRepresentation:
+      type: object
+      properties:
+        userId:
+          type: number
+          description: ''
+        firstName:
+          type: string
+          description: ''
+        lastName:
+          type: string
+          description: ''
+        position:
+          type: string
+          description: ''
+        email:
+          type: string
+          description: ''
+        phone:
+          type: string
+          description: ''
+        mobile:
+          type: string
+          description: ''
+      required:
+        - userId

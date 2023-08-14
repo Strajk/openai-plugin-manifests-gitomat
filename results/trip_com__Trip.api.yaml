@@ -1,0 +1,858 @@
+openapi: 3.0.0
+info:
+  title: Trip.com Plugin- Personal Travel Assistant.
+  description: Provide users with personalized itinerary planning and travel products including hotels, flights, trains, attractions & tours, etc.
+  version: 1.0.0
+servers:
+  - url: https://www.trip.com/ai-resource
+paths:
+  /searchFlightTicket:
+    post:
+      summary: Get the flight info that matches user's request
+      operationId: search_flight_ticket
+      description: Get the flight info of price, origin, destination, travel date, take off time, arrival time, airline, flightway, seat grade, flight no., passenger type, transfer type, etc.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FlightQueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlightQueryResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /searchHotel:
+    post:
+      summary: Get the hotel info that matches user's request
+      operationId: search_hotel
+      description: Get the hotel info of price, hotel name, room type, city, checkin date, checkout date, etc.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HotelQueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HotelQueryResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /searchCars:
+    post:
+      summary: Get the car info that matches user’s request
+      operationId: search_cars
+      description: This endpoint can be used when a user wants to hire cars, for example, hire cars in London.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CarRentalRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarRentalResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /searchAttractionAndActivity:
+    post:
+      summary: Get the list of attraction tickets, tours, experiences, travel services, activities and communication equippments, etc
+      operationId: search_attraction_ticket_and_activity
+      description: Get the attraction Title, summary, opentime, startingPrice, attributes, distanceFromDownton, reviewRating, attracationsInside, etc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttractionAndActivityQueryRequest'
+        required: true
+      responses:
+        "200":
+          description: A list of attraction tickets and activities that match the query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttractionAndActivityQueryResponse'
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+components:
+  schemas:
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: string
+    FlightQueryRequest:
+      title: FlightQueryRequest
+      required:
+        - destinationCityCode
+        - locale
+        - originalInput
+        - originalInputInEnglish
+      type: object
+      properties:
+        originCityCode:
+          title: originCityCode
+          type: string
+        destinationCityCode:
+          title: destinationCityCode
+          type: string
+        departureDate:
+          title: departureDate
+          type: string
+          description: The format of the field should be yyyy-MM-dd
+        returnDate:
+          title: returnDate
+          type: string
+          description: The format of the field should be yyyy-MM-dd
+        locale:
+          title: locale
+          type: string
+        oneWayOrRoundTrip:
+          title: oneWayOrRoundTrip
+          type: string
+          enum:
+            - OW
+            - RT
+        originalInput:
+          title: originalInput
+          type: string
+          description: The user's original input
+        originalInputInEnglish:
+          title: originalInputInEnglish
+          type: string
+          description: The user's original input, translate to english.
+    FlightQueryResponse:
+      title: FlightQueryResponse
+      required:
+        - bookFlightLink
+      type: object
+      properties:
+        originCityCode:
+          title: originCityCode
+          type: string
+        destinationCityCode:
+          title: destinationCityCode
+          type: string
+        oneWayOrRoundTrip:
+          title: oneWayOrRoundTrip
+          type: string
+          enum:
+            - OW
+            - RT
+        departureDate:
+          title: departureDate
+          type: string
+        returnDate:
+          title: returnDate
+          type: string
+        bookFlightLink:
+          title: bookFlightLink
+          type: string
+        recommendedListOfOtherFlights:
+          title: recommendedListOfOtherFlights
+          type: array
+          items:
+            $ref: "#/components/schemas/Flight"
+    Flight:
+      title: Flight
+      type: object
+      properties:
+        flightTicketLink:
+          title: flightTicketLink
+          type: string
+        oneWayOrRoundTrip:
+          title: oneWayOrRoundTrip
+          type: string
+          enum:
+            - OW
+            - RT
+          default: OW
+        numberOfStops:
+          title: numberOfStops
+          type: integer
+        flightDuration:
+          title: flightDuration
+          type: string
+        pricePerTicket:
+          title: pricePerTicket
+          type: string
+        currency:
+          title: currency
+          type: string
+        departureTime:
+          title: departureTime
+          type: string
+        arrivalTime:
+          title: arrivalTime
+          type: string
+        airline:
+          title: airline
+          type: string
+        departureAirport:
+          title: departureAirport
+          type: string
+        arrivalAirport:
+          title: arrivalAirport
+          type: string
+        flightNumber:
+          title: flightNumber
+          type: string
+        returnDepartureTime:
+          title: returnDepartureTime
+          type: string
+        returnArrivalTime:
+          title: returnArrivalTime
+          type: string
+        returnAirline:
+          title: returnAirline
+          type: string
+        returnDepartureAirport:
+          title: returnDepartureAirport
+          type: string
+        returnArrivalAirport:
+          title: returnArrivalAirport
+          type: string
+        returnFlightNumber:
+          title: returnFlightNumber
+          type: string
+        returnNumberOfStops:
+          title: returnNumberOfStops
+          type: integer
+        returnFlightDuration:
+          title: returnFlightDuration
+          type: string
+    HotelQueryRequest:
+      title: HotelQueryRequest
+      required:
+        - cityName
+        - locale
+        - originalInput
+        - originalInputInEnglish
+      type: object
+      properties:
+        cityName:
+          title: cityName
+          type: string
+        topHotel:
+          title: topHotel
+          type: integer
+        locale:
+          title: locale
+          type: string
+        checkIn:
+          title: checkIn
+          type: date
+          description: The format of the field should be yyyy-MM-dd
+        checkOut:
+          title: checkOut
+          type: date
+          description: The format of the field should be yyyy-MM-dd
+        starList:
+          title: starList
+          description: |
+            Hotel star ranking.The possible values are:
+            -`1`	1-star
+            -`2`	2-star
+            -`3`	3-star
+            -`4`	4-star
+            -`5`	5-star
+          type: array
+          items:
+            type: integer
+            enum:
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        facilityList:
+          title: facilityList
+          description: |
+            Hotel facilities.The possible values are:
+            -`656`: 停车场
+            -`102`: 公用区wifi
+            -`144`: 暖气
+            -`110`: 电梯
+            -`97`:  行李寄存
+            -`384`: 花园
+            -`147`: 餐厅
+            -`142`: 吸烟区
+            -`15`:  洗衣服务
+            -`61`:  室外泳池
+            -`16`:  送餐服务
+            -`5`:   酒吧
+            -`177`: 公共区域监控
+            -`336`: 每日打扫
+            -`6`:   会议厅
+            -`42`:  健身室
+            -`153`: 钓鱼
+            -`19`:  无障碍客房
+            -`105`: 接机服务
+            -`133`: 班车服务
+            -`129`: 传真/复印
+            -`127`: 礼宾服务
+            -`344`: 急救包
+            -`98`:  叫醒服务
+            -`128`: 干洗服务
+            -`350`: 门禁系统
+            -`123`: 租车服务
+            -`68`:  儿童乐园
+            -`374`: 海滩
+            -`362`: 洗衣房
+            -`31`:  网球场
+            -`173`: 无烟楼层
+            -`33`:  高尔夫球场
+            -`44`:  桑拿浴室
+            -`3`:   咖啡厅
+            -`154`: 游戏室
+            -`65`:  Spa
+            -`359`: 共用厨房
+            -`548`: 所有交易支持无现金
+            -`122`: 儿童托管
+            -`11`:  外币兑换服务
+            -`149`: 代客泊车
+            -`158`: 滑雪
+            -`263`: 接站服务
+            -`24`:  棋牌室
+            -`69`:  快递服务
+            -`40`:  医务室
+            -`383`: 野餐区
+            -`349`: 投影设备
+            -`135`: 翻译服务
+            -`681`: 充电车位
+            -`22`:  KTV
+            -`137`: 婚宴服务
+            -`375`: 水上乐园
+            -`30`:  保龄球场
+            -`351`: 新风系统
+            -`579`: 售货亭/便利店
+            -`578`: 小吃吧
+            -`2`:   西餐厅
+            -`63`:  茶室
+            -`432`: 景观泳池
+            -`377`: 沙滩/泳池遮阳伞
+            -`538`: 电子身份证入住
+            -`64`:  足浴
+          type: array
+          items:
+            type: integer
+            enum:
+              - 656
+              - 102
+              - 144
+              - 110
+              - 97
+              - 384
+              - 147
+              - 142
+              - 15
+              - 61
+              - 16
+              - 5
+              - 177
+              - 336
+              - 6
+              - 42
+              - 153
+              - 19
+              - 105
+              - 133
+              - 129
+              - 127
+              - 344
+              - 98
+              - 128
+              - 350
+              - 123
+              - 68
+              - 374
+              - 362
+              - 31
+              - 173
+              - 33
+              - 44
+              - 3
+              - 154
+              - 65
+              - 359
+              - 548
+              - 122
+              - 11
+              - 149
+              - 158
+              - 263
+              - 24
+              - 69
+              - 40
+              - 383
+              - 349
+              - 135
+              - 681
+              - 22
+              - 137
+              - 375
+              - 30
+              - 351
+              - 579
+              - 578
+              - 2
+              - 63
+              - 432
+              - 377
+              - 538
+              - 64
+        themeList:
+          title: themeList
+          description: |
+            Hotel theme.The possible values are:
+            -`330`	近地铁
+            -`17`	宠物友好
+            -`754`	海滩沿岸
+            -`643`	窗外好景
+            -`1172` 新开业
+            -`609`	潜水体验
+            -`770`	水岸风光
+            -`646`	温泉泡汤
+            -`1150` 亲子酒店
+            -`190`	商务出行
+            -`771`	电竞酒店
+            -`102`	网红泳池
+            -`696`	动人夜景
+            -`1187` 浪漫之旅
+            -`619`	网红酒店
+            -`1151` 露营
+          type: array
+          items:
+            type: inetger
+            enum:
+              - 330
+              - 17
+              - 754
+              - 643
+              - 1172
+              - 609
+              - 770
+              - 646
+              - 1150
+              - 190
+              - 771
+              - 102
+              - 696
+              - 1187
+              - 619
+              - 1151
+        typeList:
+          title: typeList
+          description: |
+            Hotel type.The possible values are:
+            -`493`	民宿
+            -`940`	度假别墅
+            -`494`	特色型住宿 
+            -`486`	酒店/度假村
+            -`487`	酒店式公寓
+            -`491`	青年旅舍
+            -`489`	民宿
+          type: array
+          items:
+            type: integer
+            enum:
+              - 493
+              - 940
+              - 494
+              - 486
+              - 487
+              - 491
+              - 489
+        originalInput:
+          title: originalInput
+          type: string
+          description: The user's original input
+        originalInputInEnglish:
+          title: originalInputInEnglish
+          type: string
+          description: The user's original input, translate to english.
+    HotelQueryResponse:
+      title: HotelQueryResponse
+      required:
+        - hotelList
+      type: object
+      properties:
+        hotelList:
+          title: HotelList
+          type: array
+          items:
+            $ref: "#/components/schemas/Hotel"
+    Hotel:
+      title: Hotel
+      type: object
+      properties:
+        hotelName:
+          title: HotelName
+          type: string
+        hotelDescription:
+          title: HotelDescription
+          type: string
+        hotelCurrency:
+          title: HotelCurrency
+          type: string
+        hotelPrice:
+          title: HotelPrice
+          type: number
+        hotelLink:
+          title: HotelLink
+          type: string
+        hotelAddress:
+          title: hotelAddress
+          type: string
+        openYear:
+          title: openYear
+          type: string
+          description: The opening year of the hotel
+        renovationYear:
+          title: renovationYear
+          type: string
+          description: The renovation year of the hotel
+        score:
+          title: score
+          type: string
+        numberOfReviews:
+          title: numberOfReviews
+          type: integer
+          description: The number of reviews for the hotel.
+        numberOfFavorites:
+          title: numberOfFavorites
+          type: string
+          description: The number of times the hotel has been added to favorites
+        star:
+          title: star
+          type: integer
+        hotelFeatureTagList:
+          title: hotelFeatureTagList
+          type: array
+          items:
+            type: string
+    ItineraryQueryRequest:
+      title: ItineraryQueryRequest
+      required:
+        - destinationCityName
+        - locale
+        - originalInput
+        - originalInputInEnglish
+      type: object
+      properties:
+        originCityName:
+          title: originCityName
+          type: string
+        destinationCityName:
+          title: destinationCityName
+          type: string
+        locale:
+          title: locale
+          type: string
+        checkIn:
+          title: checkIn
+          type: date
+          description: The format of the field should be yyyy-MM-dd
+        days:
+          title: days
+          type: int
+          description: If the user does not have an expected duration for the trip, this field can be omitted. The trip recommendations will be based on the actual circumstances of the destination.
+        originalInput:
+          title: originalInput
+          type: string
+          description: The user's original input
+        originalInputInEnglish:
+          title: originalInputInEnglish
+          type: string
+          description: The user's original input, translate to english.
+    ItineraryQueryResponse:
+      title: ItineraryQueryResponse
+      required:
+        - itineraryList
+      type: object
+      properties:
+        itineraryList:
+          title: itineraryList
+          type: array
+          items:
+            $ref: "#/components/schemas/Itinerary"
+    Itinerary:
+      title: Itinerary
+      type: object
+      properties:
+        numberOfDays:
+          title: numberOfDays
+          type: int
+        touristAttractions:
+          title: touristAttractions
+          type: array
+          items:
+            $ref: "#/components/schemas/TouristAttraction"
+        hotel:
+          title: hotel
+          type: object
+          $ref: "#/components/schemas/Hotel"
+    TouristAttraction:
+      title: TouristAttraction
+      type: object
+      properties:
+        touristAttractionName:
+          title: touristAttractionName
+          type: string
+        businessHours:
+          title: businessHours
+          type: string
+        price:
+          title: price
+          type: string
+        recommendedStayTime:
+          title: recommendedStayTime
+          type: string
+        address:
+          title: address
+          type: string
+        poiUrl:
+          title: touristAttractionUrl
+          type: string
+
+    CarRentalRequest:
+      title: FlightQueryRequest
+      required:
+        - originCountryCode
+        - locale
+        - destinationCityName
+        - originalInput
+        - originalInputInEnglish
+      type: object
+      properties:
+        originCountryCode:
+          title: originCountryCode
+          type: string
+          description: Which country the user comes from. If the user doesn't specify which country they are from in the question, please ask them.
+        locale:
+          title: locale
+          type: string
+        destinationCityName:
+          title: destinationCityName
+          type: string
+          description: The format of the field should be yyyy-MM-dd
+        originalInput:
+          title: originalInput
+          type: string
+          description: The user's original input
+        originalInputInEnglish:
+          title: originalInputInEnglish
+          type: string
+          description: The user's original input, translate to english.
+    CarRentalResponse:
+      title: CarRentalResponse
+      required:
+        - carList
+      type: object
+      properties:
+        carRentalLink:
+          title: carRentalLink
+          type: string
+        carList:
+          title: carList
+          type: array
+          items:
+            $ref: "#/components/schemas/Car"
+    Car:
+      title: Car
+      type: object
+      properties:
+        productName:
+          title: productName
+          type: string
+        productImage:
+          title: productImage
+          type: string
+        groupName:
+          title: groupName
+          type: string
+        transmissionType:
+          title: transmissionType
+          type: integer
+          description: |
+            Car transmissionType:
+            -`1`	Automatic
+            -`2`	Manual
+          enum:
+            - 1
+            - 2
+        seatCount:
+          title: numberOfSeat
+          type: integer
+        doorCount:
+          title: numberOfSeat
+          type: integer
+        luggageCount:
+          title: numberOfSeat
+          type: integer
+        bookingLink:
+          title: bookingLink
+          type: string
+        price:
+          title: price
+          type: string
+        airportCode:
+          title: airportCode
+          type: string
+    AttractionAndActivityQueryRequest:
+      title: AttractionAndActivityQueryRequest
+      required:
+        - locale
+        - originalInput
+        - originalInputInEnglish
+      type: object
+      properties:
+        locale:
+          type: string
+          description: Locale
+        destination:
+          type: string
+          description: Only country, city, or province
+        pointOfInterest:
+          type: string
+          description: Only get the name of the attraction or scenic area. Forbid to get the name of country, city or province!
+          default: null
+        beginDate:
+          type: string
+          format: date
+          description: Start date. The format of the field should be yyyy-MM-dd
+        endDate:
+          type: string
+          format: date
+          description: End date. The format of the field should be yyyy-MM-dd
+        categories:
+          type: array
+          items:
+            type: string
+            enum:
+              - All
+              - Attractions
+              - TravelServices
+              - Experiences
+              - Tours
+              - WiFi&PhoneCards
+          description: |
+            Categories to filter the information, only including:
+            - "All": For querying one specific destination, like country, city or province.
+            - "Attractions": For querying attractions and its ticket information.
+            - "TravelServices": For querying travel service information.
+            - "Experiences": For querying unique experience information.
+            - "Tours": For querying guided tour, 1-day trip information.
+            - "WiFi&PhoneCards": For querying communication equipment, including WiFi and phone card information.
+        sort:
+          type: string
+          enum:
+            - Recommended
+            - TravelerRating
+            - SalesVolume
+          default: Recommended
+          description: Sort order
+        limit:
+          type: integer
+          description: Limit number of results
+        originalInput:
+          title: Original Input
+          type: string
+          description: User's original input
+        originalInputInEnglish:
+          title: Original Input (English)
+          type: string
+          description: English translation of user's original input
+
+
+    AttractionAndActivityQueryResponse:
+      title: AttractionAndActivityQueryResponse
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/AttractionAndActivity"
+
+    AttractionAndActivity:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title or Name
+        summary:
+          type: string
+          description: Abstract or introduction
+        url:
+          type: string
+          description: Product URL
+        categories:
+          type: array
+          items:
+            type: string
+          description: Categories
+        attributes:
+          type: array
+          items:
+            type: string
+          description: Attributes
+        attractionsInside:
+          type: array
+          description: some inside attractions
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              summary:
+                type: string
+              url:
+                type: product link
+        openTime:
+          type: string
+          description: Opening time
+        distanceFromDowntown:
+          type: string
+          description: Distance from downtown
+        reviewQuantity:
+          type: integer
+          description: Review quantity
+        reviewRating:
+          type: number
+          description: Average review rating
+        startingPrice:
+          type: number
+          description: Starting price
+        currency:
+          type: string
+          description: Currency code

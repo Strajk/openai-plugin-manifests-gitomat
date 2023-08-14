@@ -1,0 +1,3397 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "v0",
+    "title": "OpenAPI Typeform GPT plugin",
+    "description": "The Typeform APIs help interacting with your forms. When tasked to create a form, don't add logic. For each field in a form, provide a title and a properties object that contain all the information regarding the field settings (description, choices, properties). Title should not be too long and can be multilines. If the field is a yes or no question use the field type yes_no over multiple_choice. Unless mentioned otherwise, all forms created should at least have a welcome screen and a thank you screen. Title and descriptions could be formatted using markdown, to be bold, italic, or underscore and to add links. All assets, images, attachments and logos should be first uploaded to Typeform using uploadAsset operation. Assets should either be PNG, GIF or JPG format. If no image provided use the following URL 'https://images.typeform.com/images/6kCdxM6RnwYdr'. Always use 'System font' as the default theme font. When creating form don't specify a workspace unless asked otherwise. When getting form responses, mention the limitation of the model and that analysis is done on subset of responses. Always ask for confirmation before creating or updating a resource. Always Add ` - created by ChatGPT` at the end of the title when creating a ressource."
+  },
+  "servers": [
+    {
+      "url": "https://tf-chatgpt-2a1cd91e099b.herokuapp.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "account",
+      "description": "Endpoints that help manage your Typeform Account."
+    },
+    {
+      "name": "forms",
+      "description": "Endpoints to manipulate, get and create typeforms."
+    },
+    {
+      "name": "workspaces",
+      "description": "Endpoints to manipulate, get and create workspaces."
+    },
+    {
+      "name": "responses",
+      "description": "Endpoints to retrieve typeform responses."
+    },
+    {
+      "name": "themes",
+      "description": "Endpoints to deal with themes."
+    },
+    {
+      "name": "images",
+      "description": "Endpoints to deal with images."
+    }
+  ],
+  "paths": {
+    "/account": {
+      "get": {
+        "description": "Retrieve your own user information.",
+        "operationId": "getAccount",
+        "tags": [
+          "account"
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of your typeform account.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccountResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workspaces": {
+      "get": {
+        "summary": "Retrieves a list of all workspaces in your Typeform account. You can search workspaces by name. Paginate through results using the page query parameter.",
+        "operationId": "getWorkspaces",
+        "tags": [
+          "workspaces"
+        ],
+        "parameters": [
+          {
+            "description": "Returns workspaces that contain the specified string.",
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The page of workspaces to retrieve. Default `1` is the first page of results.",
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Number of results to retrieve per page. Default is 10. Maximum is 200. Use default.",
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "default": 10,
+              "maximum": 200,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of typeform workspaces.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkspacesResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "one or more services are unavailable"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/forms/{form_id}": {
+      "get": {
+        "description": "Retrieves a form by the given `form_id`. Find all the fields in a form. Includes any theme and images attached to the form as references.",
+        "operationId": "getForm",
+        "tags": [
+          "forms"
+        ],
+        "parameters": [
+          {
+            "description": "Unique ID for the form. Find in your form URL. For example, in the URL \"https://mysite.typeform.com/to/u6nXL7\" the form_id is `u6nXL7`.",
+            "in": "path",
+            "name": "form_id",
+            "required": true,
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of form.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFormResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update an existing form. Request body should contain only the things you want to update in the form.",
+        "summary": "Update and modify an existing form. You change question type, add new fields, new options in dropdown, delete or add new questions.",
+        "operationId": "updateForm",
+        "tags": [
+          "forms"
+        ],
+        "parameters": [
+          {
+            "description": "Unique ID for the form. Find in your form URL. For example, in the URL \"https://mysite.typeform.com/to/u6nXL7\" the form_id is `u6nXL7`.",
+            "in": "path",
+            "name": "form_id",
+            "required": true,
+            "schema": {}
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormUpdateRequest"
+              }
+            }
+          },
+          "description": "A complete form resource.",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Updated",
+            "headers": {
+              "Location": {
+                "description": "URL where the newly created form is available.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFormResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "one or more services are unavailable"
+          }
+        }
+      }
+    },
+    "/forms/{form_id}/field": {
+      "post": {
+        "summary": "Add a new field to a Typeform",
+        "description": "Adds a new field or screen to an existing typeform. Specify field type, question text, and other properties. Specify properties for field settings and description. New field is added at the end by default. Use 'after' parameter to insert at a specific position.",
+        "operationId": "addField",
+        "tags": [
+          "forms"
+        ],
+        "parameters": [
+          {
+            "description": "Unique ID for the form. Find in your form URL. For example, in the URL \"https://mysite.typeform.com/to/u6nXL7\" the form_id is `u6nXL7`.",
+            "in": "path",
+            "name": "form_id",
+            "required": true,
+            "schema": {}
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddFieldRequest"
+              }
+            }
+          },
+          "description": "A complete form resource.",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "description": "URL where the newly created form is available.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFormResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "one or more services are unavailable"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates an existing field or screen in an existing typeform.",
+        "description": "Updates an existing field or screen in an existing typeform. Specify the field type, question text, and other properties to be updated. Specify properties for field settings and description. The whole field will be updated.",
+        "operationId": "updateField",
+        "tags": [
+          "forms"
+        ],
+        "parameters": [
+          {
+            "description": "Unique ID for the form. Find in your form URL. For example, in the URL \"https://mysite.typeform.com/to/u6nXL7\" the form_id is `u6nXL7`.",
+            "in": "path",
+            "name": "form_id",
+            "required": true,
+            "schema": {}
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFieldRequest"
+              }
+            }
+          },
+          "description": "A complete field resource.",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "description": "URL where the newly created form is available.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFormResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "one or more services are unavailable"
+          }
+        }
+      }
+    },
+    "/forms/{form_id}/responses": {
+      "get": {
+        "description": "Return form responses. Split queries if ResponseTooLargeError occurs. Property `total_items` gives the total number of responses collected. Paginate through results using after. Mention that analysis is only on a subset due to the limitation of the model.",
+        "operationId": "getFormResponses",
+        "tags": [
+          "responses"
+        ],
+        "summary": "Fetch all collected responses for a specific form, providing a comprehensive view of the feedback or data gathered through the form.",
+        "parameters": [
+          {
+            "description": "Unique ID for the form. Find in your form URL. For example, in the URL \"https://mysite.typeform.com/to/u6nXL7\" the form_id is `u6nXL7`.",
+            "in": "path",
+            "name": "form_id",
+            "required": true,
+            "schema": {},
+            "example": "u6nXL7"
+          },
+          {
+            "description": "The number of responses to return per page. Default value is **20**. High number of responses make it hard to analyze results. If your typeform has more than 20 responses, use the `since`/`until` or `before`/`after` query parameters to narrow the scope of your request.",
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "format": "number",
+              "type": "integer",
+              "default": 20,
+              "maximum": 20
+            },
+            "example": 20
+          },
+          {
+            "description": "Limit request to responses submitted since the specified date and time, inclusive. Could be passed as int (timestamp in seconds) or in ISO 8601 format, UTC time, to the second, with T as a delimiter between the date and time (`2020-03-20T14:00:59`).",
+            "in": "query",
+            "name": "since",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2020-03-20T14:00:59"
+          },
+          {
+            "description": "Filter request to responses submitted until the specified date and time, inclusive. Could be passed as int (timestamp in seconds) or in ISO 8601 format, UTC time, to the second, with T as a delimiter between the date and time (`2020-03-20T14:00:59`).",
+            "in": "query",
+            "name": "until",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2020-03-20T14:00:59"
+          },
+          {
+            "description": "Filter request to responses submitted after the specified response id or response_id, exclusive. Could not be used together with `sort` parameter, as it sorts responses in the order that our system processed them (`submitted_at`). This ensures that you can traverse the complete set of responses without repeating entries.",
+            "in": "query",
+            "name": "after",
+            "schema": {
+              "type": "string"
+            },
+            "example": "abcdefghijklm1234567890"
+          },
+          {
+            "description": "Filter request to responses submitted before the specified response id or response_id, exclusive. Could not be used together with `sort` parameter, as it sorts responses in the order that our system processed them (`submitted_at`). This ensures that you can traverse the complete set of responses without repeating entries.",
+            "in": "query",
+            "name": "before",
+            "schema": {
+              "type": "string"
+            },
+            "example": "abcdefghijklm1234567890"
+          },
+          {
+            "description": "Filter request to the specified `response_id` values. Use a comma-separated list to specify more than one `response_id` value.",
+            "in": "query",
+            "name": "included_response_ids",
+            "schema": {
+              "type": "string"
+            },
+            "example": "abcdefghijklm1234567890, abc1234defjklm"
+          },
+          {
+            "description": "Comma-separated list of `response_id`s  to be excluded from the response.",
+            "in": "query",
+            "name": "excluded_response_ids",
+            "schema": {
+              "type": "string"
+            },
+            "example": "abcdefghijklm1234567890, abc1234defjklm"
+          },
+          {
+            "description": "Limit responses only to those which were submitted. This parameter changes `since`/`until` filter, so if `completed=true`, it will filter by `submitted_at`, otherwise - `landed_at`.",
+            "in": "query",
+            "name": "completed",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Responses order in `{fieldID},{asc|desc}` format. You can use built-in `submitted_at`/`landed_at` field IDs or any field ID from your typeform, possible directions are `asc`/`desc`. Default value is `submitted_at,desc`.",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Limit request to only responses that include the specified string. The string will be escaped and it will be matched against all answers fields, hidden fields and variables values.",
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Show only specified fields in answers section. If response does not have answers for specified fields, there will be `null`. Use a comma-separated list to specify more than one `field` value.",
+            "in": "query",
+            "name": "fields",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "Limit request to only responses that include the specified fields in answers section. Use a comma-separated list to specify more than one `field` value - response will contain at least one of the specified fields.",
+            "in": "query",
+            "name": "answered_fields",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of responses on this form formatted in CSV.",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "one or more services are unavailable"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/forms": {
+      "get": {
+        "operationId": "getForms",
+        "summary": "Get all forms from a user's account, including public and private forms. Sort by creation or update date. Filter forms per workspace. The 'total_items' property returns the total count of forms across workspaces.",
+        "description": "Fetches all user's forms, both public and private. Forms are sortable by creation or update date. 'total_items' in the response indicates the total count of forms across all workspaces. Add link to edit the form in typeform admin interface https://admin.typeform.com/form/FORM_ID/create.",
+        "tags": [
+          "forms"
+        ],
+        "parameters": [
+          {
+            "description": "Returns the forms that contain the specified string in a title.",
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The page of forms to retrieve. Default `1` is the first page of forms.",
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Number of forms to retrieve per page. Default is 10. Maximum is 200. Use 10.",
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "default": 10,
+              "maximum": 200,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Retrieve typeforms for the specified workspace.",
+            "in": "query",
+            "name": "workspace_id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Field to sort the results by. Currently only `created_at` and `last_updated_at` are accepted.",
+            "in": "query",
+            "name": "sort_by",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Order type. Ascending `asc` or descending `desc`",
+            "in": "query",
+            "name": "order_by",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all typeforms in account.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormsResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "one or more services are unavailable"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "summary": "This endpoint allows you to create a new form in the user's Typeform account. Request body should include 'title' (required), 'fields' (optional array of field objects with 'type' and 'title'), 'theme' (optional theme ID), and 'workspace' (optional workspace ID). Returns the created form details.",
+        "description": "Create a new form. Always specify title and fields. Each field should contain a properties object. Any settings related to the field should be under `properties` or `validations`. Always Add ` - created by ChatGPT` at the end of the title.",
+        "operationId": "createForm",
+        "tags": [
+          "forms"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormCreateRequest"
+              }
+            }
+          },
+          "description": "The field to add.",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "description": "URL where the newly created form is available.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFormResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "one or more services are unavailable"
+          }
+        }
+      }
+    },
+    "/themes": {
+      "post": {
+        "description": "Create a new typeform theme. Pezrsonnalize theme to fit your branding colors, styles and images. Upload all background images, logo and image are uploaded to typeform using `uploadAsset`. Accepted format is PNG, GIF or JPG. Don't use image for background. Always use `System font` for the font.",
+        "operationId": "createTheme",
+        "summary": "Create theme, personnalize look and feel of your typeform, add your own branding and colors.",
+        "tags": [
+          "themes"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Theme"
+              }
+            }
+          },
+          "description": "Request to create a new theme.",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Theme"
+                }
+              }
+            },
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "description": "URL where the new theme is available.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request."
+          }
+        }
+      },
+      "get": {
+        "description": "Retrieves a list of all themes in your Typeform account (public and private). Themes are listed in reverse-chronological order based on the date you added them to your account.",
+        "operationId": "getThemes",
+        "parameters": [
+          {
+            "description": "The page of results to retrieve. Default `1` is the first page of results.",
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Number of results to retrieve per page. Default is 10. Maximum is 200.",
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "default": 10,
+              "maximum": 200,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "page_count": {
+                          "description": "Number of pages.",
+                          "format": "integer",
+                          "type": "number"
+                        },
+                        "total_items": {
+                          "description": "Total number of items in the retrieved collection.",
+                          "format": "integer",
+                          "type": "number"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Theme"
+                          }
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "description": "List of themes.",
+                  "title": "Themes"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "properties": {
+                    "code": {
+                      "description": "A developer-readable snake_case key, indicating some idea of what type of error occurred.",
+                      "example": "INVALID_JSON",
+                      "type": "string"
+                    },
+                    "description": {
+                      "description": "A developer-readable description of the error, expanding on the terse code.",
+                      "example": "Unable to process the JSON in the request body.",
+                      "type": "string"
+                    },
+                    "details": {
+                      "description": "An optional object containing more detailed info regarding which field the error occurred in.",
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "description": "A developer-readable snake_case key, indicating some idea of what type of error occurred.",
+                            "example": "FIELD_LENGTH",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "A developer-readable description about the field-level error.",
+                            "example": "The provided \"title\" field was 88 characters, and only accepts 64 characters.",
+                            "type": "string"
+                          },
+                          "field": {
+                            "description": "Which field the error occurred. This could refer to a field in the request body, request header, or query parameter.",
+                            "example": "title",
+                            "type": "string"
+                          },
+                          "help": {
+                            "description": "A URL linking to help content, to aid the client developer in resolving the error. This value should be provided whenever available.",
+                            "example": "https://developer.typeform.com/errors#FIELD_LENGTH",
+                            "type": "string"
+                          },
+                          "in": {
+                            "description": "The type of field that caused the error.",
+                            "enum": [
+                              "header",
+                              "body",
+                              "query"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "help": {
+                      "description": "A URL linking to help content, to aid the client developer in resolving the error. This value should be provided whenever available.",
+                      "example": "https://developer.typeform.com/errors#INVALID_JSON",
+                      "type": "string"
+                    }
+                  },
+                  "title": "Error",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Retrieve themes",
+        "tags": [
+          "themes"
+        ]
+      }
+    },
+    "/themes/{theme_id}": {
+      "get": {
+        "description": "Retrieves a theme in your Typeform account.",
+        "operationId": "getTheme",
+        "summary": "Retrieve details of theme, including colors, font, and background.",
+        "parameters": [
+          {
+            "description": "Unique ID for the theme.",
+            "example": "6lPNE6",
+            "in": "path",
+            "name": "theme_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Theme"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "themes"
+        ]
+      },
+      "put": {
+        "description": "Update an existing theme in your Typeform account. You should pass the full theme payload. The theme definition you provide will overwrite any existing theme with the same ID, even if that means overwriting fields with default values.",
+        "summary": "Update existing typeform theme.",
+        "operationId": "updateTheme",
+        "parameters": [
+          {
+            "description": "Unique ID for the theme.",
+            "example": "6lPNE6",
+            "in": "path",
+            "name": "theme_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Theme"
+              }
+            }
+          },
+          "description": "Theme request payload.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Theme"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request."
+          }
+        },
+        "tags": [
+          "themes"
+        ]
+      }
+    },
+    "/images": {
+      "post": {
+        "description": "Upload an image or asset to your Typeform account. Specify the URL of your image. Image URL can contain only .png, .gif, jpeg or .jpg extension. Image URL can't contain .svg extension.",
+        "operationId": "uploadAsset",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "example": {
+                  "file_name": "newimage.gif",
+                  "image": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAAG0lEQVR42mOccuMbA7mAcVTzqOZRzaOaB1YzABKjL70rq/b4AAAAAElFTkSuQmCC"
+                },
+                "properties": {
+                  "file_name": {
+                    "description": "File name for the image.",
+                    "type": "string"
+                  },
+                  "image": {
+                    "description": "Base64 code for the image. Note that base64 encoders may add descriptors to the code (such as `data:image/png;base64,`). Do not include these descriptors in your image string---include only the base64 code.",
+                    "type": "string"
+                  },
+                  "url": {
+                    "description": "URL of the image. Image URL can contain only .png, .gif, jpeg or .jpg extension. Image URL can't contain .svg extension.",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "description": "The image request payload. You must specify either `image` and `file_name` or `url`. Image URL can contain only .png, .gif, jpeg or .jpg extension. Image URL can't contain .svg extension.",
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "content": {},
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "description": "URL of the new image.",
+                "schema": {
+                  "type": "string",
+                  "example": "https://images.typeform.com/images/6kCdxM6RnwYdr"
+                }
+              }
+            }
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Error",
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "description": "A developer-readable snake_case key, indicating some idea of what type of error occurred.",
+                      "example": "INVALID_JSON",
+                      "type": "string"
+                    },
+                    "description": {
+                      "description": "A developer-readable description of the error, expanding on the terse code.",
+                      "example": "Unable to process the JSON in the request body.",
+                      "type": "string"
+                    },
+                    "details": {
+                      "description": "An optional object containing more detailed info regarding which field the error occurred in.",
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "description": "A developer-readable snake_case key, indicating some idea of what type of error occurred.",
+                            "example": "FIELD_LENGTH",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "A developer-readable description about the field-level error.",
+                            "example": "The provided \"title\" field was 88 characters, and only accepts 64 characters.",
+                            "type": "string"
+                          },
+                          "field": {
+                            "description": "Which field the error occurred. This could refer to a field in the request body, request header, or query parameter.",
+                            "example": "title",
+                            "type": "string"
+                          },
+                          "help": {
+                            "description": "A URL linking to help content, to aid the client developer in resolving the error. This value should be provided whenever available.",
+                            "example": "https://developer.typeform.com/errors#FIELD_LENGTH",
+                            "type": "string"
+                          },
+                          "in": {
+                            "description": "The type of field that caused the error.",
+                            "enum": [
+                              "header",
+                              "body",
+                              "query"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "help": {
+                      "description": "A URL linking to help content, to aid the client developer in resolving the error. This value should be provided whenever available.",
+                      "example": "https://developer.typeform.com/errors#INVALID_JSON",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Upload image and assets to Typeform. Assets should be PNG or JPG format. All assets should be upload to typeform before using them as background image, logo or attachment.",
+        "tags": [
+          "images"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UpdateFieldRequest": {
+        "type": "object",
+        "title": "UpdateFieldRequest",
+        "description": "An object representing the request to update an existing field on a typeform.",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "welcome_screen": "#/components/schemas/WelcomeScreenRequest"
+          }
+        },
+        "properties": {
+          "field": {
+            "description": "Details of the field or screen you want to update.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Field"
+              },
+              {
+                "$ref": "#/components/schemas/WelcomeScreenRequest"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field"
+        ]
+      },
+      "AddFieldRequest": {
+        "type": "object",
+        "title": "AddFieldRequest",
+        "description": "An object representing the request to add a new field to a typeform.",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "welcome_screen": "#/components/schemas/WelcomeScreenRequest"
+          }
+        },
+        "properties": {
+          "field": {
+            "description": "Details of the field or screen you want to add.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Field"
+              },
+              {
+                "$ref": "#/components/schemas/WelcomeScreenRequest"
+              }
+            ]
+          },
+          "after": {
+            "type": "string",
+            "description": "id of the field after which insert the new field."
+          }
+        },
+        "required": [
+          "field"
+        ]
+      },
+      "Theme": {
+        "type": "object",
+        "properties": {
+          "logo": {
+            "description": "Logo of the brand. Logo should a PNG, GIF or JPG image hosted on typeform servers using uploadAsset operation.",
+            "type": "object",
+            "required": [
+              "href"
+            ],
+            "properties": {
+              "href": {
+                "default": "https://images.typeform.com/images/6kCdxM6RnwYdr",
+                "description": "Logo image URL. Hosted on typeform servers, URL should contain images.typeform.com.",
+                "type": "string",
+                "example": "https://images.typeform.com/images/6kCdxM6RnwYdr",
+                "pattern": "https://images.typeform.com/images/[a-zA-Z0-9]+$"
+              }
+            }
+          },
+          "colors": {
+            "description": "Colors the theme will apply to answers, background, buttons, and questions.",
+            "properties": {
+              "answer": {
+                "description": "Color the theme will apply to answers. Hexadecimal value.",
+                "type": "string"
+              },
+              "background": {
+                "description": "Color the theme will apply to background. Hexadecimal value.",
+                "type": "string"
+              },
+              "button": {
+                "description": "Color the theme will apply to buttons. Hexadecimal value.",
+                "type": "string"
+              },
+              "question": {
+                "description": "Color the theme will apply to questions. Hexadecimal value.",
+                "type": "string"
+              }
+            },
+            "title": "Colors",
+            "type": "object"
+          },
+          "fields": {
+            "description": "Defines font size and alignment for fields.",
+            "properties": {
+              "alignment": {
+                "default": "left",
+                "description": "Fields alignment",
+                "enum": [
+                  "left",
+                  "center"
+                ],
+                "type": "string"
+              },
+              "font_size": {
+                "default": "medium",
+                "description": "Fields font size",
+                "enum": [
+                  "small",
+                  "medium",
+                  "large"
+                ],
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "font": {
+            "default": "System font",
+            "enum": [
+              "System font"
+            ],
+            "type": "string",
+            "description": "Font for the theme. Always use System font."
+          },
+          "has_transparent_button": {
+            "description": "`true` if buttons should be transparent. Otherwise, `false`.",
+            "type": "boolean"
+          },
+          "id": {
+            "description": "Unique ID of the theme.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the theme.",
+            "type": "string"
+          },
+          "rounded_corners": {
+            "default": "small",
+            "description": "Specifies border radius style of buttons and other elements in the form.",
+            "enum": [
+              "none",
+              "small",
+              "large"
+            ],
+            "type": "string"
+          },
+          "screens": {
+            "description": "Defines font size and alignment for welcome and thankyou screens.",
+            "properties": {
+              "alignment": {
+                "default": "center",
+                "description": "Screen alignment",
+                "enum": [
+                  "left",
+                  "center"
+                ],
+                "type": "string"
+              },
+              "font_size": {
+                "default": "small",
+                "description": "Screen font size",
+                "enum": [
+                  "small",
+                  "medium",
+                  "large"
+                ],
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "visibility": {
+            "default": "private",
+            "description": "Specifies whether the theme is `public` (one of Typeform's built-in themes that are available in all accounts) or `private` (a theme you created). You can only change `private` themes. You can't change Typeform's public themes.",
+            "enum": [
+              "public",
+              "private"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "Form": {
+        "type": "object",
+        "properties": {
+          "_links": {
+            "properties": {
+              "display": {
+                "description": "URL for the actual form.",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "created_at": {
+            "description": "Time of the form's creation. In ISO 8601 format, UTC time, to the second, with T as a delimiter between the date and time. The time's offset from UTC is appended in **±HH:MM** format.",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique ID of the form.",
+            "type": "string"
+          },
+          "last_updated_at": {
+            "description": "Time of the last update in the form. In ISO 8601 format, UTC time, to the second, with T as a delimiter between the date and time. The time's offset from UTC is appended in **±HH:MM** format.",
+            "type": "string"
+          },
+          "self": {
+            "properties": {
+              "href": {
+                "description": "URL for the typeform.",
+                "type": "string",
+                "example": "https://form.typeform.com/to/abc123"
+              }
+            },
+            "type": "object"
+          },
+          "theme": {
+            "properties": {
+              "href": {
+                "description": "URL for the theme the typeform uses.",
+                "type": "string",
+                "default": "https://api.typeform.com/themes/qHWOQ7",
+                "example": "https://api.typeform.com/themes/qHWOQ7",
+                "pattern": "^https?://api(\\.[\\-a-zA-Z0-9]+)?(\\.tfdev)?(\\.eu)?\\.typeform\\..+(:[0-9]+)?/themes/[a-zA-Z0-9]+$"
+              }
+            },
+            "type": "object"
+          },
+          "title": {
+            "description": "Title of the form.",
+            "type": "string"
+          }
+        },
+        "title": "Form"
+      },
+      "FormsResponse": {
+        "type": "object",
+        "properties": {
+          "total_items": {
+            "type": "number",
+            "format": "integer",
+            "description": "Total number of forms on the user's typeform account. It includes all forms irrespective of their status or visibility."
+          },
+          "page_count": {
+            "type": "number",
+            "format": "integer",
+            "description": "Total number of pages of results."
+          },
+          "items": {
+            "type": "array",
+            "description": "List of forms on the user's account. This is an array of form objects. Each form object represents a single form and includes all the details of the form. The structure and content of a form object will depend on the form itself.",
+            "items": {
+              "$ref": "#/components/schemas/Form"
+            }
+          }
+        },
+        "title": "FormsResponse"
+      },
+      "PaginationParts": {
+        "type": "object",
+        "title": "PaginationParts",
+        "properties": {
+          "total_items": {
+            "type": "number",
+            "format": "integer",
+            "description": "This represents the total number of items that the request has returned. The items could be a variety of things such as forms, workspaces, or form responses, depending on the context of the request. This gives an overall count of the items that are available."
+          },
+          "page_count": {
+            "type": "number",
+            "format": "integer",
+            "description": "This indicates the total number of pages required to navigate through all the results. Each page contains a subset of the total items. The number of items per page can vary depending on the `page_size` request parameters. This helps in understanding the distribution of the items across different pages."
+          }
+        },
+        "example": {
+          "total_items": 100,
+          "page_count": 10
+        }
+      },
+      "Workspace": {
+        "title": "Workspace",
+        "properties": {
+          "forms": {
+            "properties": {
+              "count": {
+                "description": "Number of typeforms in the workspace.",
+                "type": "integer"
+              },
+              "href": {
+                "description": "Link to typeforms in the workspace.",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "description": "Unique identifier for the workspace.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the workspace.",
+            "type": "string"
+          },
+          "self": {
+            "properties": {
+              "href": {
+                "description": "Link to the workspace.",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "shared": {
+            "description": "If the workspace is shared with a team, `true`. Otherwise, `false`.",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "WorkspacesResponse": {
+        "type": "object",
+        "title": "WorkspacesResponse",
+        "description": "An object representing the paginated response of workspaces. Includes total count, page count, and an array of workspace objects",
+        "properties": {},
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PaginationParts"
+          },
+          {
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Workspace"
+              }
+            }
+          }
+        ]
+      },
+      "FormSettings": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "description": "The language of the form.",
+            "type": "string",
+            "enum": [
+              "en",
+              "es",
+              "ca",
+              "fr",
+              "de",
+              "ru",
+              "it",
+              "da",
+              "pt",
+              "ch",
+              "zh",
+              "nl",
+              "no",
+              "uk",
+              "ja",
+              "ko",
+              "hr",
+              "fi",
+              "sv",
+              "pl",
+              "el",
+              "hu",
+              "tr",
+              "cs",
+              "et",
+              "di"
+            ]
+          },
+          "is_public": {
+            "type": "boolean",
+            "default": true,
+            "description": "true if your form is public. Otherwise, false (your form is private)."
+          },
+          "autocomplete_progress": {
+            "type": "boolean",
+            "default": true,
+            "description": "true to enable saving partial form responses on the client side. Otherwise, false."
+          },
+          "progress_bar": {
+            "type": "string",
+            "enum": [
+              "percentage",
+              "proportion"
+            ],
+            "default": "proportion",
+            "description": "Basis for the progress bar displayed on the screen. Choose \"proportion\" to show the number of questions answered so far. Choose \"percentage\" to show the percentage of questions answered so far."
+          },
+          "show_progress_bar": {
+            "type": "boolean",
+            "default": true,
+            "description": "true to display progress bar on the typeform. Otherwise, false."
+          },
+          "show_typeform_branding": {
+            "type": "boolean",
+            "default": true,
+            "description": "true to display Typeform brand on the typeform. false to hide Typeform branding on the typeform. Hiding Typeform branding is available for [Premium accounts](https://help.typeform.com/hc/en-us/articles/360030829332)."
+          },
+          "show_time_to_complete": {
+            "type": "boolean",
+            "default": true,
+            "description": "true to display estimated time to complete a typeform on Welcome screens, false to hide it. Mutually exclusive with show_number_of_submissions"
+          },
+          "show_number_of_submissions": {
+            "type": "boolean",
+            "default": false,
+            "description": "true to display number of submissions on Welcome screens, false to hide it. Mutually exclusive with show_time_to_complete"
+          },
+          "show_cookie_consent": {
+            "type": "boolean",
+            "default": false,
+            "description": "true to request cookie consent to respondents through a banner, false to do not request it."
+          },
+          "show_question_number": {
+            "type": "boolean",
+            "default": true,
+            "description": "true to display the question number on each block, false to hide it."
+          },
+          "show_key_hint_on_choices": {
+            "type": "boolean",
+            "default": true,
+            "description": "true to display the key hint letters on Multiple Choice, Picture Choice, Legal and Yes/No blocks, false to hide them."
+          },
+          "hide_navigation": {
+            "type": "boolean",
+            "default": false,
+            "description": "false to display the navigation arrows in the bottom-right corner of the form, true to hide them"
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Title that represents how the typeform is named in the workspace."
+              },
+              "allow_indexing": {
+                "type": "boolean",
+                "default": true,
+                "description": "true to allow search engines to index your typeform. Otherwise, false."
+              },
+              "description": {
+                "type": "string",
+                "description": "Description for search engines to display for your typeform."
+              },
+              "image": {
+                "type": "object",
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL of image for search engines to display for your typeform.",
+                    "example": "https://images.typeform.com/images/6kCdxM6RnwYdr",
+                    "pattern": "https://images.typeform.com/images/[a-zA-Z0-9]+$"
+                  }
+                }
+              }
+            }
+          },
+          "redirect_after_submit_url": {
+            "type": "string",
+            "description": "URL where the typeform should redirect upon submission."
+          },
+          "google_analytics": {
+            "type": "string",
+            "description": "Google Analytics tracking ID to use for the form."
+          },
+          "facebook_pixel": {
+            "type": "string",
+            "description": "Facebook Pixel tracking ID to use for the form."
+          },
+          "google_tag_manager": {
+            "type": "string",
+            "description": "Google Tag Manager ID to use for the form."
+          }
+        }
+      },
+      "WelcomeScreenRequest": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "description": "Readable name you can use to reference the welcome screen.",
+            "example": "nice-readable-welcome-ref"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title for the welcome screen.",
+            "example": "Welcome Title"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of welcome screen.",
+            "example": "welcome_screen",
+            "default": "welcome_screen"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "Description of the welcome screen.",
+                "example": "Cool description for the welcome"
+              },
+              "show_button": {
+                "type": "boolean",
+                "description": "true to display a 'Start' button on the welcome screen. Otherwise, false.",
+                "example": true
+              },
+              "button_text": {
+                "type": "string",
+                "description": "Text to display on the 'Start' button on the welcome screen.",
+                "example": "start"
+              }
+            }
+          }
+        },
+        "required": [
+          "title",
+          "properties"
+        ]
+      },
+      "ThankYouScreenRequest": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "description": "Readable name you can use to reference the thank you screen.",
+            "example": "nice-readable-thank-you-ref"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title for the thank you screen.",
+            "example": "Thank you Title"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of thank you screen.",
+            "enum": [
+              "thankyou_screen",
+              "url_redirect"
+            ]
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "show_button": {
+                "type": "boolean",
+                "description": "true to display a button on the thank you screen. Otherwise, false.",
+                "example": true
+              },
+              "button_text": {
+                "type": "string",
+                "description": "Text to display on the button on the thank you screen.",
+                "example": "start"
+              },
+              "button_mode": {
+                "type": "string",
+                "description": "Specify whether the form should show the default redirect or redirect to custom URL when respondents click the button. [Premium feature](https://www.typeform.com/pricing/).",
+                "enum": [
+                  "reload",
+                  "default_redirect",
+                  "redirect"
+                ],
+                "example": "redirect"
+              },
+              "redirect_url": {
+                "type": "string",
+                "description": "URL where the typeform should redirect after submission, if you specified `redirect` for `button_mode` or are using the `url_redirect` type.",
+                "example": "https://www.typeform.com"
+              },
+              "share_icons": {
+                "type": "boolean",
+                "description": "true to display social media sharing icons on the thank you screen so respondents can post your typeform's link on Facebook, Twitter, LinkedIn, and Google+. Otherwise, false.",
+                "example": false
+              }
+            }
+          }
+        },
+        "required": [
+          "title",
+          "properties"
+        ]
+      },
+      "Field": {
+        "type": "object",
+        "required": [
+          "type",
+          "title",
+          "validations",
+          "properties"
+        ],
+        "description": "A field object in a typeform. Always include the property called `properties` that describes all the settings related to this field. Always include `validations` object. The properties in the `properties` object depend on the `type` value. Required option is listed under validations. Description is under 'properties'. If question is a multiple_choice, dropdown or picture_choice list choices under 'properties'. ",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "description": "Readable name you can use to reference the field."
+          },
+          "title": {
+            "type": "string",
+            "description": "The question you asked for this field."
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of field. Field of type \"calendly\" allows you to embed a Calendly scheduling widget directly into your form. Field of type \"contact_info\" collects contact information such as name, email, and phone number. Field of type \"date\" allows respondents to select a date from a calendar picker. Field of type \"dropdown\" provides a list of options in a dropdown menu for respondents to choose from.Field of type \"email\" collects email addresses. Field of type \"file_upload\" allows respondents to upload files. Field of type \"group\" allows you to group related questions together. Field of type \"legal\" is used to obtain consent or agreement to terms and conditions. Field of type \"long_text\" allows respondents to provide longer, open-ended responses.  Field of type \"matrix\" presents a grid or matrix of rows and columns for respondents to fill in. Field of type \"multiple_choice\" provides a list of options for respondents to select one or more from.  Field of type \"nps\" means Net Promoter Score, it's used to measure customer experience and predict business growth.  Field of type \"number\" collects numerical input. Field of type \"opinion_scale\" presents a scale for respondents to rate something. Field of type \"payment\" allows you to collect payments through the form. Field of type \"phone_number\" collects phone numbers. Field of type \"picture_choice\" allows respondents to choose from a set of images. Field of type \"ranking\" allows respondents to rank options in order of preference. Field of type \"rating\" allows respondents to rate something on a scale of stars or numbers.  Field of type \"short_text\" allows respondents to provide short, open-ended responses.  Field of type \"statement\" allows you to present information to respondents without requiring a response.  Field of type \"website\" collects website URLs. Field of type \"yes_no\" presents a simple yes/no question.",
+            "enum": [
+              "calendly",
+              "contact_info",
+              "date",
+              "dropdown",
+              "email",
+              "file_upload",
+              "group",
+              "legal",
+              "long_text",
+              "matrix",
+              "multiple_choice",
+              "nps",
+              "number",
+              "opinion_scale",
+              "payment",
+              "phone_number",
+              "picture_choice",
+              "ranking",
+              "rating",
+              "short_text",
+              "statement",
+              "website",
+              "yes_no"
+            ]
+          },
+          "properties": {
+            "type": "object",
+            "description": "Details of the field description and settings, always include it.",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "This parameter provides additional information about the form field. It is a detailed human-readable explanation about the purpose of the field, what kind of data it should contain, and any other relevant information that would help the user understand how to fill out the field correctly."
+              },
+              "choices": {
+                "type": "array",
+                "description": "Possible answer choices. Available for `ranking`, `dropdown`, `multiple_choice`, and `picture_choice` question types.",
+                "required": [
+                  "label"
+                ],
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ref": {
+                      "type": "string",
+                      "description": "Readable name you can use to reference the answer choice. Available for `ranking`, `multiple_choice` and `picture_choice` types. Not available for `dropdown` types."
+                    },
+                    "label": {
+                      "type": "string",
+                      "description": "Text for the answer choice."
+                    },
+                    "attachment": {
+                      "type": "object",
+                      "description": "Identifies the image to use for the answer choice. Available only for `picture_choice` types. Should be PNG, GIF, or JPG. Hosted on Typeform servers. Use uploadAsset command to upload image.",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "description": "Type of attachment.",
+                          "enum": [
+                            "image"
+                          ]
+                        },
+                        "href": {
+                          "type": "string",
+                          "description": "URL for the image to use for the answer choice. Hosted on typeform servers, URL should contain images.typeform.com.",
+                          "example": "https://images.typeform.com/images/6kCdxM6RnwYdr",
+                          "pattern": "https://images.typeform.com/images/[a-zA-Z0-9]+$"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "description": {
+                              "type": "string",
+                              "description": "Optional description of the attachment. This is used as an alt text that describes your image for people with visual impairments. Available only for `picture_choice` types."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "fields": {
+                "type": "array",
+                "description": "Contains the fields that belong in a question group. Only `payment` and `group` blocks are not allowed inside a question group. Available for the `group`, `matrix` type.",
+                "items": {
+                  "$ref": "#/components/schemas/FormSettings"
+                }
+              },
+              "allow_multiple_selection": {
+                "type": "boolean",
+                "default": false,
+                "description": "true to allow respondents to select more than one answer choice. false to allow respondents to select only one answer choice. Available for `ranking`, `multiple_choice` and `picture_choice` types."
+              },
+              "randomize": {
+                "type": "boolean",
+                "default": false,
+                "description": "true if answer choices should be presented in a new random order for each respondent. false if answer choices should be presented in the same order for each respondent. Available for `ranking`, `multiple_choice`, `picture_choice` and `dropdown` types."
+              },
+              "allow_other_choice": {
+                "type": "boolean",
+                "default": false,
+                "description": "true to include an \"Other\" option so respondents can enter a different answer choice from those listed. false to limit answer choices to those listed. Available for `ranking`, `multiple_choice` and `picture_choice` types."
+              },
+              "vertical_alignment": {
+                "type": "boolean",
+                "default": false,
+                "description": "true to list answer choices vertically. false to list answer choices horizontally. Available for `ranking`, `multiple_choice` types."
+              },
+              "supersized": {
+                "type": "boolean",
+                "default": false,
+                "description": "true if you want to use larger-sized images for answer choices. Otherwise, false. Available for `picture_choice` types."
+              },
+              "show_labels": {
+                "type": "boolean",
+                "default": true,
+                "description": "true to show text labels and images as answer choices. false to show only images as answer choices. Available for `picture_choice` types."
+              },
+              "alphabetical_order": {
+                "type": "boolean",
+                "default": false,
+                "description": "true if question should list dropdown answer choices in alphabetical order. false if question should list dropdown answer choices in the order they're listed in the \"choices\" array. Available for `dropdown` types."
+              },
+              "hide_marks": {
+                "type": "boolean",
+                "default": false,
+                "description": "true if you want to display quotation marks around the statement on the form. Otherwise, false. Available for `statement` types."
+              },
+              "button_text": {
+                "type": "string",
+                "default": "Continue",
+                "description": "Text to display in the button associated with the object. Available for `group`, `payment`, and `statement` types."
+              },
+              "steps": {
+                "type": "number",
+                "description": "Number of steps in the scale's range. Minimum is 5 and maximum is 11. Available for `opinion_scale` and `rating` types."
+              },
+              "shape": {
+                "type": "string",
+                "default": "star",
+                "description": "Shape to display on the scale's steps. Available for `opinion_scale` and `rating` types.",
+                "enum": [
+                  "cat",
+                  "circle",
+                  "cloud",
+                  "crown",
+                  "dog",
+                  "droplet",
+                  "flag",
+                  "heart",
+                  "lightbulb",
+                  "pencil",
+                  "skull",
+                  "star",
+                  "thunderbolt",
+                  "tick",
+                  "trophy",
+                  "up",
+                  "user"
+                ]
+              },
+              "labels": {
+                "type": "object",
+                "description": "Label to help respondents understand the scale's range. Available for `opinion_scale` and `rating` types.",
+                "properties": {
+                  "left": {
+                    "type": "string",
+                    "description": "Text of the left-aligned label for the scale."
+                  },
+                  "right": {
+                    "type": "string",
+                    "description": "Text of the right-aligned label for the scale."
+                  },
+                  "center": {
+                    "type": "string",
+                    "description": "Text of the center-aligned label for the scale."
+                  }
+                }
+              },
+              "start_at_one": {
+                "type": "boolean",
+                "default": false,
+                "description": "true if range numbering should start at 1. false if range numbering should start at 0. Available for `opinion_scale` types."
+              },
+              "structure": {
+                "type": "string",
+                "default": "DDMMYYYY",
+                "description": "Format for month, date, and year in answer. Available for `date` types.",
+                "enum": [
+                  "MMDDYYYY",
+                  "DDMMYYYY",
+                  "YYYYMMDD"
+                ]
+              },
+              "separator": {
+                "type": "string",
+                "default": "/",
+                "description": "Character to use between month, day, and year in answer. Available for `date` types.",
+                "enum": [
+                  "/",
+                  "-",
+                  "."
+                ]
+              },
+              "currency": {
+                "type": "string",
+                "default": "EUR",
+                "description": "Currency of the payment. Available for `payment` types.",
+                "enum": [
+                  "AUD",
+                  "BRL",
+                  "CAD",
+                  "CHF",
+                  "DKK",
+                  "EUR",
+                  "GBP",
+                  "MXN",
+                  "NOK",
+                  "SEK",
+                  "USD"
+                ]
+              },
+              "price": {
+                "type": "object",
+                "description": "Price of the item. Available for `payment` fields.",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "variable"
+                    ]
+                  },
+                  "value": {
+                    "type": "string",
+                    "enum": [
+                      "price"
+                    ]
+                  }
+                }
+              },
+              "show_button": {
+                "type": "boolean",
+                "default": false,
+                "description": "true to display a button. Otherwise, false. Available for `group` and `payment` types."
+              },
+              "default_country_code": {
+                "type": "string",
+                "default": "us",
+                "description": "Default 2-letter ISO 3166-1 country code value. Available for `phone_number` type."
+              }
+            }
+          },
+          "validations": {
+            "type": "object",
+            "properties": {
+              "required": {
+                "type": "boolean",
+                "default": false,
+                "description": "true if field is required and respondent must provide an answer. Otherwise, false. Available for `matrix`, `ranking`, `date`, `dropdown`, `email`, `file_upload`, `legal`, `long_text`, `multiple_choice`, `number`, `opinion_scale`, `payment`, `picture_choice`, `rating`, `short_text`, `website`, `phone_number`, and `yes_no` types."
+              },
+              "max_length": {
+                "type": "integer",
+                "default": 0,
+                "description": "Maximum number of characters allowed in the answer. Available for `long_text` and `short_text` types."
+              },
+              "min_value": {
+                "type": "integer",
+                "default": 0,
+                "description": "Minimum value allowed in the answer, must be a positive integer. Available for `number` types."
+              },
+              "max_value": {
+                "type": "integer",
+                "default": 0,
+                "description": "Maximum value allowed in the answer, must be a positive integer. Available for `number` types."
+              },
+              "min_selection": {
+                "type": "integer",
+                "default": 0,
+                "description": "Minimum selections allowed in the answer, must be a positive integer. Available for `ranking`, `multiple_choice` and `picture_choice` types."
+              },
+              "max_selection": {
+                "type": "integer",
+                "default": 0,
+                "description": "Maximum selections allowed in the answer, must be a positive integer. Available for `ranking`, `multiple_choice` and `picture_choice` types."
+              }
+            }
+          }
+        }
+      },
+      "FormCreateRequest": {
+        "required": [
+          "title",
+          "fields"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title to use for the typeform. Maximum 255 characters.",
+            "maxLength": 255
+          },
+          "type": {
+            "type": "string",
+            "description": "Form type for the typeform.",
+            "default": "quiz",
+            "enum": [
+              "quiz",
+              "classification",
+              "score",
+              "branching",
+              "classification_branching",
+              "score_branching"
+            ]
+          },
+          "settings": {
+            "$ref": "#/components/schemas/FormSettings"
+          },
+          "theme": {
+            "type": "object",
+            "description": "URL of the theme. Href property should point to a theme URL on typeform.",
+            "properties": {
+              "href": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL of the theme to use for the typeform. If you don't specify a URL for the theme, Typeform applies a new copy of the default theme to the form.",
+                "default": "https://api.typeform.com/themes/qHWOQ7",
+                "example": "https://api.typeform.com/themes/qHWOQ7",
+                "pattern": "^https?://api(\\.[\\-a-zA-Z0-9]+)?(\\.tfdev)?(\\.eu)?\\.typeform\\..+(:[0-9]+)?/themes/[a-zA-Z0-9]+$"
+              }
+            }
+          },
+          "workspace": {
+            "type": "object",
+            "description": "The workspace where the form will be created. This is represented as an object with an `href` property, which is the URL of the workspace in the Typeform API.",
+            "properties": {
+              "href": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of the workspace in the Typeform API. This should be in the format `https://api.typeform.com/workspaces/WORKSPACE_ID`, where `WORKSPACE_ID` is replaced with the ID of the workspace.",
+                "example": "https://api.typeform.com/workspaces/123456",
+                "pattern": "^https?://api(\\.[\\-a-zA-Z0-9]+)?(\\.tfdev)?(\\.eu)?\\.typeform\\..+(:[0-9]+)?/workspaces/[a-zA-Z0-9]+$"
+              }
+            }
+          },
+          "hidden": {
+            "type": "array",
+            "description": "Array of Hidden Fields to use in the form.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "variables": {
+            "type": "object",
+            "properties": {
+              "score": {
+                "type": "integer",
+                "description": "Recall Information for keeping score as users answer each question (for example, for quizzes)."
+              },
+              "price": {
+                "type": "number",
+                "description": "Recall Information for tracking the total price of all items users select (for example, for shopping carts, donation campaigns, and payment collections)."
+              }
+            }
+          },
+          "welcome_screens": {
+            "type": "array",
+            "description": "Welcome screens greet people before they start the form, giving them context.",
+            "items": {
+              "$ref": "#/components/schemas/WelcomeScreenRequest"
+            }
+          },
+          "thankyou_screens": {
+            "type": "array",
+            "description": "Thank screens are shown at the end of the form to thank people for their time filling the form.",
+            "items": {
+              "$ref": "#/components/schemas/ThankYouScreenRequest"
+            }
+          },
+          "fields": {
+            "type": "array",
+            "description": "Array of fields. Each field should have a title, and a properties object.",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            }
+          }
+        },
+        "description": "Request the user submits to create or update a form."
+      },
+      "FormUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title to use for the typeform."
+          },
+          "type": {
+            "type": "string",
+            "description": "Form type for the typeform.",
+            "default": "quiz",
+            "enum": [
+              "quiz",
+              "classification",
+              "score",
+              "branching",
+              "classification_branching",
+              "score_branching"
+            ]
+          },
+          "settings": {
+            "$ref": "#/components/schemas/FormSettings"
+          },
+          "theme": {
+            "type": "object",
+            "description": "URL of the theme. Href property should point to a theme URL on typeform.",
+            "properties": {
+              "href": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL of the theme to use for the typeform. If you don't specify a URL for the theme, Typeform applies a new copy of the default theme to the form.",
+                "default": "https://api.typeform.com/themes/qHWOQ7",
+                "example": "https://api.typeform.com/themes/qHWOQ7",
+                "pattern": "^https?://api(\\.[\\-a-zA-Z0-9]+)?(\\.tfdev)?(\\.eu)?\\.typeform\\..+(:[0-9]+)?/themes/[a-zA-Z0-9]+$"
+              }
+            }
+          },
+          "workspace": {
+            "type": "object",
+            "description": "The workspace where the form will be created. This is represented as an object with an `href` property, which is the URL of the workspace in the Typeform API.",
+            "properties": {
+              "href": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of the workspace in the Typeform API. This should be in the format `https://api.typeform.com/workspaces/{workspace_id}`, where `{workspace_id}` is replaced with the ID of the workspace.",
+                "example": "https://api.typeform.com/workspaces/123456",
+                "pattern": "^https?://api(\\.[\\-a-zA-Z0-9]+)?(\\.tfdev)?(\\.eu)?\\.typeform\\..+(:[0-9]+)?/workspaces/[a-zA-Z0-9]+$"
+              }
+            }
+          },
+          "hidden": {
+            "type": "array",
+            "description": "Array of Hidden Fields to use in the form.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "variables": {
+            "type": "object",
+            "properties": {
+              "score": {
+                "type": "integer",
+                "description": "Recall Information for keeping score as users answer each question (for example, for quizzes)."
+              },
+              "price": {
+                "type": "number",
+                "description": "Recall Information for tracking the total price of all items users select (for example, for shopping carts, donation campaigns, and payment collections)."
+              }
+            }
+          },
+          "welcome_screens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WelcomeScreenRequest"
+            }
+          },
+          "thankyou_screens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ThankYouScreenRequest"
+            }
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            }
+          }
+        },
+        "description": "Request the user submits to create or update a form."
+      },
+      "GetFormResponse": {
+        "type": "object",
+        "description": "Get the structure of a form. Get the fields, logic and all custom settings.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "edit_link": {
+            "type": "string",
+            "description": "Direct link to typeform form builder to edit the form. Format is https://admin.typeform.com/form/{formId}/create",
+            "example": "https://admin.typeform.com/form/{formId}/create"
+          },
+          "title": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The unique ID for the question.",
+                      "example": "yt6gk3s1"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "externalDocs": {
+                    "description": "Documentation about different field types and their characteristics.",
+                    "url": "https://link.to.the.documentation/asdfasdf"
+                  },
+                  "required": [
+                    "type",
+                    "title"
+                  ],
+                  "description": "Reference for properties in a field. The required fields and properties depend on the `type` value.",
+                  "properties": {
+                    "ref": {
+                      "type": "string",
+                      "description": "Readable name you can use to reference the field."
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Unique question title you assign to the field on this form."
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "The type of field.",
+                      "enum": [
+                        "calendly",
+                        "contact_info",
+                        "date",
+                        "dropdown",
+                        "email",
+                        "file_upload",
+                        "group",
+                        "legal",
+                        "long_text",
+                        "matrix",
+                        "multiple_choice",
+                        "nps",
+                        "number",
+                        "opinion_scale",
+                        "payment",
+                        "phone_number",
+                        "picture_choice",
+                        "ranking",
+                        "rating",
+                        "short_text",
+                        "statement",
+                        "website",
+                        "yes_no"
+                      ]
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "description": "More details or instruction regarding the display for the field."
+                        },
+                        "choices": {
+                          "type": "array",
+                          "description": "Possible answer choices. Available for `ranking`, `dropdown`, `multiple_choice`, and `picture_choice` question types.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ref": {
+                                "type": "string",
+                                "description": "Readable name you can use to reference the answer choice. Available for `ranking`, `multiple_choice` and `picture_choice` types. Not available for `dropdown` types."
+                              },
+                              "label": {
+                                "type": "string",
+                                "description": "Text for the answer choice."
+                              },
+                              "attachment": {
+                                "type": "object",
+                                "description": "Identifies the image to use for the answer choice. Available only for `picture_choice` types.",
+                                "properties": {
+                                  "type": {
+                                    "type": "string",
+                                    "description": "Type of attachment.",
+                                    "enum": [
+                                      "image"
+                                    ]
+                                  },
+                                  "href": {
+                                    "type": "string",
+                                    "description": "URL for the image to use for the answer choice. Images must already exist in your account---use the image's Typeform URL."
+                                  },
+                                  "properties": {
+                                    "type": "object",
+                                    "properties": {
+                                      "description": {
+                                        "type": "string",
+                                        "description": "Optional description of the attachment. This is used as an alt text that describes your image for people with visual impairments. Available only for `picture_choice` types."
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "fields": {
+                          "type": "array",
+                          "description": "Contains the fields that belong in a question group. Only `payment` and `group` blocks are not allowed inside a question group. Available for the `group`, `matrix` type.",
+                          "items": {
+                            "$ref": "#/components/schemas/FormSettings"
+                          }
+                        },
+                        "allow_multiple_selection": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "true to allow respondents to select more than one answer choice. false to allow respondents to select only one answer choice. Available for `ranking`, `multiple_choice` and `picture_choice` types."
+                        },
+                        "randomize": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "true if answer choices should be presented in a new random order for each respondent. false if answer choices should be presented in the same order for each respondent. Available for `ranking`, `multiple_choice`, `picture_choice` and `dropdown` types."
+                        },
+                        "allow_other_choice": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Let respondents can enter a different answer choice from those listed. true to include an \"Other\" option.false to limit answer choices to those listed. Available for `ranking`, `multiple_choice` and `picture_choice` types."
+                        },
+                        "vertical_alignment": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "true to list answer choices vertically. false to list answer choices horizontally. Available for `ranking`, `multiple_choice` types."
+                        },
+                        "supersized": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "true if you want to use larger-sized images for answer choices. Otherwise, false. Available for `picture_choice` types."
+                        },
+                        "show_labels": {
+                          "type": "boolean",
+                          "default": true,
+                          "description": "true to show text labels and images as answer choices. false to show only images as answer choices. Available for `picture_choice` types."
+                        },
+                        "alphabetical_order": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "true if question should list dropdown answer choices in alphabetical order. false if question should list dropdown answer choices in the order they're listed in the \"choices\" array. Available for `dropdown` types."
+                        },
+                        "hide_marks": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "true if you want to display quotation marks around the statement on the form. Otherwise, false. Available for `statement` types."
+                        },
+                        "button_text": {
+                          "type": "string",
+                          "default": "Continue",
+                          "description": "Text to display in the button associated with the object. Available for `group`, `payment`, and `statement` types."
+                        },
+                        "steps": {
+                          "type": "number",
+                          "description": "Number of steps in the scale's range. Minimum is 5 and maximum is 11. Available for `opinion_scale` and `rating` types."
+                        },
+                        "shape": {
+                          "type": "string",
+                          "default": "star",
+                          "description": "Shape to display on the scale's steps. Available for `opinion_scale` and `rating` types.",
+                          "enum": [
+                            "cat",
+                            "circle",
+                            "cloud",
+                            "crown",
+                            "dog",
+                            "droplet",
+                            "flag",
+                            "heart",
+                            "lightbulb",
+                            "pencil",
+                            "skull",
+                            "star",
+                            "thunderbolt",
+                            "tick",
+                            "trophy",
+                            "up",
+                            "user"
+                          ]
+                        },
+                        "labels": {
+                          "type": "object",
+                          "description": "Label to help respondents understand the scale's range. Available for `opinion_scale` and `rating` types.",
+                          "properties": {
+                            "left": {
+                              "type": "string",
+                              "description": "Text of the left-aligned label for the scale."
+                            },
+                            "right": {
+                              "type": "string",
+                              "description": "Text of the right-aligned label for the scale."
+                            },
+                            "center": {
+                              "type": "string",
+                              "description": "Text of the center-aligned label for the scale."
+                            }
+                          }
+                        },
+                        "start_at_one": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "true if range numbering should start at 1. false if range numbering should start at 0. Available for `opinion_scale` types."
+                        },
+                        "structure": {
+                          "type": "string",
+                          "default": "DDMMYYYY",
+                          "description": "Format for month, date, and year in answer. Available for `date` types.",
+                          "enum": [
+                            "MMDDYYYY",
+                            "DDMMYYYY",
+                            "YYYYMMDD"
+                          ]
+                        },
+                        "separator": {
+                          "type": "string",
+                          "default": "/",
+                          "description": "Character to use between month, day, and year in answer. Available for `date` types.",
+                          "enum": [
+                            "/",
+                            "-",
+                            "."
+                          ]
+                        },
+                        "currency": {
+                          "type": "string",
+                          "default": "EUR",
+                          "description": "Currency of the payment. Available for `payment` types.",
+                          "enum": [
+                            "AUD",
+                            "BRL",
+                            "CAD",
+                            "CHF",
+                            "DKK",
+                            "EUR",
+                            "GBP",
+                            "MXN",
+                            "NOK",
+                            "SEK",
+                            "USD"
+                          ]
+                        },
+                        "price": {
+                          "type": "object",
+                          "description": "Price of the item. Available for `payment` fields.",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "variable"
+                              ]
+                            },
+                            "value": {
+                              "type": "string",
+                              "enum": [
+                                "price"
+                              ]
+                            }
+                          }
+                        },
+                        "show_button": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "true to display a button. Otherwise, false. Available for `group` and `payment` types."
+                        },
+                        "default_country_code": {
+                          "type": "string",
+                          "default": "us",
+                          "description": "If the field is of `phone_number` type. Default 2-letter ISO 3166-1 country code value."
+                        }
+                      }
+                    },
+                    "validations": {
+                      "type": "object",
+                      "properties": {
+                        "required": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "true if respondents must provide an answer. Otherwise, false. Available for `matrix`, `ranking`, `date`, `dropdown`, `email`, `file_upload`, `legal`, `long_text`, `multiple_choice`, `number`, `opinion_scale`, `payment`, `picture_choice`, `rating`, `short_text`, `website`, `phone_number`, and `yes_no` types."
+                        },
+                        "max_length": {
+                          "type": "integer",
+                          "default": 0,
+                          "description": "Maximum number of characters allowed in the answer. Available for `long_text` and `short_text` types."
+                        },
+                        "min_value": {
+                          "type": "integer",
+                          "default": 0,
+                          "description": "Minimum value allowed in the answer, must be a positive integer. Available for `number` types."
+                        },
+                        "max_value": {
+                          "type": "integer",
+                          "default": 0,
+                          "description": "Maximum value allowed in the answer, must be a positive integer. Available for `number` types."
+                        },
+                        "min_selection": {
+                          "type": "integer",
+                          "default": 0,
+                          "description": "Minimum selections allowed in the answer, must be a positive integer. Available for `ranking`, `multiple_choice` and `picture_choice` types."
+                        },
+                        "max_selection": {
+                          "type": "integer",
+                          "default": 0,
+                          "description": "Maximum selections allowed in the answer, must be a positive integer. Available for `ranking`, `multiple_choice` and `picture_choice` types."
+                        }
+                      }
+                    },
+                    "attachment": {
+                      "type": "object",
+                      "description": "Allows you to display images and videos. Available for welcome and thank you screens, as well as all fields.",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "description": "Type of attachment.",
+                          "enum": [
+                            "image",
+                            "video"
+                          ],
+                          "example": "image"
+                        },
+                        "href": {
+                          "type": "string",
+                          "description": "URL for the image or video you want to display. Images must already exist in your account---use the image's Typeform URL, such as `\"https://images.typeform.com/images/kbn8tc98AHb\"`. For videos, use the URL of the supported platforms, `Vimeo`, `YouTube` or `Pexels`.",
+                          "example": {
+                            "image": {
+                              "value": "https://images.typeform.com/images/4bcd3"
+                            },
+                            "Pexels": {
+                              "value": "https://www.pexels.com/video/people-traveling-in-the-desert-1739011"
+                            },
+                            "Vimeo": {
+                              "value": "https://vimeo.com/245714980"
+                            },
+                            "YouTube": {
+                              "value": "https://www.youtube.com/watch?v=cGk3tZIIpXE"
+                            }
+                          }
+                        },
+                        "scale": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "Optional parameter for responsively scaling videos. Available only for `\"video\"` type. Default value is 0.6.",
+                          "enum": [
+                            0.4,
+                            0.6,
+                            0.8,
+                            1
+                          ]
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "description": {
+                              "type": "string",
+                              "description": "Optional description of the attachment. In the case of images this is used as an alt text that describes your image for people with visual impairments."
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "layout": {
+                      "type": "object",
+                      "description": "Allows you to position attachment. Available in all fields, Welcome and Thank you screens.",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "description": "Type of layout.",
+                          "enum": [
+                            "split",
+                            "wallpaper",
+                            "float"
+                          ],
+                          "example": "float"
+                        },
+                        "placement": {
+                          "type": "string",
+                          "description": "Position of media for split and float layouts",
+                          "enum": [
+                            "left",
+                            "right"
+                          ],
+                          "example": "left"
+                        },
+                        "attachment": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "Type of attachment.",
+                              "enum": [
+                                "image",
+                                "video"
+                              ],
+                              "example": "image"
+                            },
+                            "href": {
+                              "type": "string",
+                              "description": "URL for the image or video you want to display. Images must already exist in your account---use the image's Typeform URL, such as `\"https://images.typeform.com/images/kbn8tc98AHb\"`. For videos, use the URL of the supported platforms, `Vimeo`, `YouTube` or `Pexels`.",
+                              "example": {
+                                "image": {
+                                  "value": "https://images.typeform.com/images/4bcd3"
+                                },
+                                "Pexels": {
+                                  "value": "https://www.pexels.com/video/people-traveling-in-the-desert-1739011"
+                                },
+                                "Vimeo": {
+                                  "value": "https://vimeo.com/245714980"
+                                },
+                                "YouTube": {
+                                  "value": "https://www.youtube.com/watch?v=cGk3tZIIpXE"
+                                }
+                              }
+                            },
+                            "scale": {
+                              "type": "number",
+                              "format": "float",
+                              "description": "Optional parameter for responsively scaling videos. Available only for `\"video\"` type. Default value is 0.6.",
+                              "enum": [
+                                0.4,
+                                0.6,
+                                0.8,
+                                1
+                              ]
+                            },
+                            "properties": {
+                              "type": "object",
+                              "properties": {
+                                "brightness": {
+                                  "type": "number",
+                                  "description": "Optional parameter. It applies a linear multiplier to the input image, making it appear brighter or darker.",
+                                  "minimum": -1,
+                                  "maximum": 1
+                                },
+                                "description": {
+                                  "type": "string",
+                                  "description": "Optional description of the attachment. In the case of images this is used as an alt text that describes your image for people with visual impairments."
+                                },
+                                "focal_point": {
+                                  "type": "object",
+                                  "description": "Optional parameter. It re-centers the input image on the selected point, being `0 0` the center of the image.",
+                                  "properties": {
+                                    "x": {
+                                      "type": "number",
+                                      "minimum": -1,
+                                      "maximum": 1
+                                    },
+                                    "y": {
+                                      "type": "number",
+                                      "minimum": -1,
+                                      "maximum": 1
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "hidden": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          },
+          "variables": {
+            "type": "object",
+            "properties": {
+              "score": {
+                "type": "integer",
+                "enum": [
+                  0
+                ]
+              },
+              "price": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            }
+          },
+          "welcome_screens": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ref": {
+                  "type": "string",
+                  "description": "Readable name you can use to reference the welcome screen.",
+                  "example": "nice-readable-welcome-ref"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Title for the welcome screen.",
+                  "example": "Welcome Title"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string",
+                      "description": "Description of the welcome screen.",
+                      "example": "Cool description for the welcome"
+                    },
+                    "show_button": {
+                      "type": "boolean",
+                      "description": "true to display a 'Start' button on the welcome screen. Otherwise, false.",
+                      "example": true
+                    },
+                    "button_text": {
+                      "type": "string",
+                      "description": "Text to display on the 'Start' button on the welcome screen.",
+                      "example": "start"
+                    }
+                  }
+                },
+                "attachment": {
+                  "type": "object",
+                  "description": "Allows you to display images and videos. Available for welcome and thank you screens, as well as all fields.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "Type of attachment.",
+                      "enum": [
+                        "image",
+                        "video"
+                      ],
+                      "example": "image"
+                    },
+                    "href": {
+                      "type": "string",
+                      "description": "URL for the image or video you want to display. Images must already exist in your account---use the image's Typeform URL, such as `\"https://images.typeform.com/images/kbn8tc98AHb\"`. For videos, use the URL of the supported platforms, `Vimeo`, `YouTube` or `Pexels`.",
+                      "example": {
+                        "image": {
+                          "value": "https://images.typeform.com/images/4bcd3"
+                        },
+                        "Pexels": {
+                          "value": "https://www.pexels.com/video/people-traveling-in-the-desert-1739011"
+                        },
+                        "Vimeo": {
+                          "value": "https://vimeo.com/245714980"
+                        },
+                        "YouTube": {
+                          "value": "https://www.youtube.com/watch?v=cGk3tZIIpXE"
+                        }
+                      }
+                    },
+                    "scale": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Optional parameter for responsively scaling videos. Available only for `\"video\"` type. Default value is 0.6.",
+                      "enum": [
+                        0.4,
+                        0.6,
+                        0.8,
+                        1
+                      ]
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "description": "Optional description of the attachment. In the case of images this is used as an alt text that describes your image for people with visual impairments."
+                        }
+                      }
+                    }
+                  }
+                },
+                "layout": {
+                  "type": "object",
+                  "description": "Allows you to position attachment. Available in all fields, Welcome and Thank you screens.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "Type of layout.",
+                      "enum": [
+                        "split",
+                        "wallpaper",
+                        "float"
+                      ],
+                      "example": "float"
+                    },
+                    "placement": {
+                      "type": "string",
+                      "description": "Position of media for split and float layouts",
+                      "enum": [
+                        "left",
+                        "right"
+                      ],
+                      "example": "left"
+                    },
+                    "attachment": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "description": "Type of attachment.",
+                          "enum": [
+                            "image",
+                            "video"
+                          ],
+                          "example": "image"
+                        },
+                        "href": {
+                          "type": "string",
+                          "description": "URL for the image or video you want to display. Images must already exist in your account---use the image's Typeform URL, such as `\"https://images.typeform.com/images/kbn8tc98AHb\"`. For videos, use the URL of the supported platforms, `Vimeo`, `YouTube` or `Pexels`.",
+                          "example": {
+                            "image": {
+                              "value": "https://images.typeform.com/images/4bcd3"
+                            },
+                            "Pexels": {
+                              "value": "https://www.pexels.com/video/people-traveling-in-the-desert-1739011"
+                            },
+                            "Vimeo": {
+                              "value": "https://vimeo.com/245714980"
+                            },
+                            "YouTube": {
+                              "value": "https://www.youtube.com/watch?v=cGk3tZIIpXE"
+                            }
+                          }
+                        },
+                        "scale": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "Optional parameter for responsively scaling videos. Available only for `\"video\"` type. Default value is 0.6.",
+                          "enum": [
+                            0.4,
+                            0.6,
+                            0.8,
+                            1
+                          ]
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "brightness": {
+                              "type": "number",
+                              "description": "Optional parameter. It applies a linear multiplier to the input image, making it appear brighter or darker.",
+                              "minimum": -1,
+                              "maximum": 1
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Optional description of the attachment. In the case of images this is used as an alt text that describes your image for people with visual impairments."
+                            },
+                            "focal_point": {
+                              "type": "object",
+                              "description": "Optional parameter. It re-centers the input image on the selected point, being `0 0` the center of the image.",
+                              "properties": {
+                                "x": {
+                                  "type": "number",
+                                  "minimum": -1,
+                                  "maximum": 1
+                                },
+                                "y": {
+                                  "type": "number",
+                                  "minimum": -1,
+                                  "maximum": 1
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "title"
+              ]
+            }
+          },
+          "thankyou_screens": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ref": {
+                  "type": "string",
+                  "description": "Readable name you can use to reference the thank you screen.",
+                  "example": "nice-readable-thank-you-ref"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Title for the thank you screen.",
+                  "example": "Thank you Title"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "The type of thank you screen.",
+                  "enum": [
+                    "thankyou_screen",
+                    "url_redirect"
+                  ]
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "show_button": {
+                      "type": "boolean",
+                      "description": "true to display a button on the thank you screen. Otherwise, false.",
+                      "example": true
+                    },
+                    "button_text": {
+                      "type": "string",
+                      "description": "Text to display on the button on the thank you screen.",
+                      "example": "start"
+                    },
+                    "button_mode": {
+                      "type": "string",
+                      "description": "Specify whether the form should show the default redirect or redirect to custom URL when respondents click the button. [Premium feature](https://www.typeform.com/pricing/).",
+                      "enum": [
+                        "reload",
+                        "default_redirect",
+                        "redirect"
+                      ],
+                      "example": "redirect"
+                    },
+                    "redirect_url": {
+                      "type": "string",
+                      "description": "URL where the typeform should redirect after submission, if you specified `redirect` for `button_mode` or are using the `url_redirect` type.",
+                      "example": "https://www.typeform.com"
+                    },
+                    "share_icons": {
+                      "type": "boolean",
+                      "description": "true to display social media sharing icons on the thank you screen so respondents can post your typeform's link on Facebook, Twitter, LinkedIn, and Google+. Otherwise, false.",
+                      "example": false
+                    }
+                  }
+                },
+                "attachment": {
+                  "type": "object",
+                  "description": "Allows you to display images and videos. Available for welcome and thank you screens, as well as all fields.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "Type of attachment.",
+                      "enum": [
+                        "image",
+                        "video"
+                      ],
+                      "example": "image"
+                    },
+                    "href": {
+                      "type": "string",
+                      "description": "URL for the image or video you want to display. Images must already exist in your account---use the image's Typeform URL, such as `\"https://images.typeform.com/images/kbn8tc98AHb\"`. For videos, use the URL of the supported platforms, `Vimeo`, `YouTube` or `Pexels`.",
+                      "example": {
+                        "image": {
+                          "value": "https://images.typeform.com/images/4bcd3"
+                        },
+                        "Pexels": {
+                          "value": "https://www.pexels.com/video/people-traveling-in-the-desert-1739011"
+                        },
+                        "Vimeo": {
+                          "value": "https://vimeo.com/245714980"
+                        },
+                        "YouTube": {
+                          "value": "https://www.youtube.com/watch?v=cGk3tZIIpXE"
+                        }
+                      }
+                    },
+                    "scale": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Optional parameter for responsively scaling videos. Available only for `\"video\"` type. Default value is 0.6.",
+                      "enum": [
+                        0.4,
+                        0.6,
+                        0.8,
+                        1
+                      ]
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "description": "Optional description of the attachment. In the case of images this is used as an alt text that describes your image for people with visual impairments."
+                        }
+                      }
+                    }
+                  }
+                },
+                "layout": {
+                  "type": "object",
+                  "description": "Allows you to position attachment. Available in all fields, Welcome and Thank you screens.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "Type of layout.",
+                      "enum": [
+                        "split",
+                        "wallpaper",
+                        "float"
+                      ],
+                      "example": "float"
+                    },
+                    "placement": {
+                      "type": "string",
+                      "description": "Position of media for split and float layouts",
+                      "enum": [
+                        "left",
+                        "right"
+                      ],
+                      "example": "left"
+                    },
+                    "attachment": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "description": "Type of attachment.",
+                          "enum": [
+                            "image",
+                            "video"
+                          ],
+                          "example": "image"
+                        },
+                        "href": {
+                          "type": "string",
+                          "description": "URL for the image or video you want to display. Images must already exist in your account---use the image's Typeform URL, such as `\"https://images.typeform.com/images/kbn8tc98AHb\"`. For videos, use the URL of the supported platforms, `Vimeo`, `YouTube` or `Pexels`.",
+                          "example": {
+                            "image": {
+                              "value": "https://images.typeform.com/images/4bcd3"
+                            },
+                            "Pexels": {
+                              "value": "https://www.pexels.com/video/people-traveling-in-the-desert-1739011"
+                            },
+                            "Vimeo": {
+                              "value": "https://vimeo.com/245714980"
+                            },
+                            "YouTube": {
+                              "value": "https://www.youtube.com/watch?v=cGk3tZIIpXE"
+                            }
+                          }
+                        },
+                        "scale": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "Optional parameter for responsively scaling videos. Available only for `\"video\"` type. Default value is 0.6.",
+                          "enum": [
+                            0.4,
+                            0.6,
+                            0.8,
+                            1
+                          ]
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "brightness": {
+                              "type": "number",
+                              "description": "Optional parameter. It applies a linear multiplier to the input image, making it appear brighter or darker.",
+                              "minimum": -1,
+                              "maximum": 1
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Optional description of the attachment. In the case of images this is used as an alt text that describes your image for people with visual impairments."
+                            },
+                            "focal_point": {
+                              "type": "object",
+                              "description": "Optional parameter. It re-centers the input image on the selected point, being `0 0` the center of the image.",
+                              "properties": {
+                                "x": {
+                                  "type": "number",
+                                  "minimum": -1,
+                                  "maximum": 1
+                                },
+                                "y": {
+                                  "type": "number",
+                                  "minimum": -1,
+                                  "maximum": 1
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "title"
+              ]
+            }
+          },
+          "logic": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Specifies whether the Logic Jump is based on a question field or Hidden Field.",
+                  "enum": [
+                    "field",
+                    "hidden"
+                  ]
+                },
+                "ref": {
+                  "type": "string",
+                  "description": "Reference to the field that triggers the the Logic Jump."
+                },
+                "actions": {
+                  "type": "array",
+                  "description": "Array of objects that define the Logic Jump's behavior.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "description": "Behavior the Logic Jump will take.",
+                        "enum": [
+                          "jump",
+                          "add",
+                          "subtract",
+                          "multiply",
+                          "divide",
+                          "set"
+                        ]
+                      },
+                      "details": {
+                        "type": "object",
+                        "description": "Properties that further specify how the Logic Jump will behave.",
+                        "properties": {
+                          "to": {
+                            "type": "object",
+                            "description": "Specifies where the Logic Jump leads---to another field (\"field\"), a thank you screen (\"thankyou\") or an outcome (\"outcome\").",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "description": "Logic Jump \"to\" option you are using.",
+                                "enum": [
+                                  "field",
+                                  "thankyou",
+                                  "outcome"
+                                ]
+                              },
+                              "value": {
+                                "type": "string",
+                                "description": "The \"ref\" value for the field, Hidden Field, or thank you screen the Logic Jump leads to."
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "value"
+                            ]
+                          },
+                          "target": {
+                            "type": "object",
+                            "description": "Keeps a running total for variables.",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "description": "Specifies that the value is a variable.",
+                                "enum": [
+                                  "variable"
+                                ]
+                              },
+                              "value": {
+                                "type": "string",
+                                "description": "Variable name to use in the calculation."
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "value"
+                            ]
+                          },
+                          "value": {
+                            "type": "object",
+                            "description": "Specifies the value to use in the calculation for the variables.",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "description": "Specifies which type of value is used.---It can be a numeric value, a variable name or an `evaluation` to determine an `outcome`.",
+                                "enum": [
+                                  "constant",
+                                  "variable",
+                                  "evaluation"
+                                ]
+                              },
+                              "value": {
+                                "description": "Value used in the variable calculation.",
+                                "oneOf": [
+                                  {
+                                    "type": "number",
+                                    "description": "Numeric value for the constant to use in the calculation."
+                                  },
+                                  {
+                                    "type": "string",
+                                    "description": "Name of the variable value to use in the calculation."
+                                  },
+                                  {
+                                    "type": "object",
+                                    "description": "Evaluation of possible outcomes",
+                                    "properties": {
+                                      "op": {
+                                        "type": "string",
+                                        "description": "operator representing outcome evaluation",
+                                        "enum": [
+                                          "max_outcome"
+                                        ]
+                                      },
+                                      "vars": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "description": "outcome to evaluate",
+                                          "properties": {
+                                            "type": {
+                                              "type": "string",
+                                              "enum": [
+                                                "outcome"
+                                              ]
+                                            },
+                                            "value": {
+                                              "type": "string",
+                                              "description": "outcome reference"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "value"
+                            ]
+                          }
+                        }
+                      },
+                      "condition": {
+                        "type": "object",
+                        "description": "Conditions for executing the Logic Jump. Conditions answer the question, \"Under what circumstances?\" The condition object is the IF statement in your Logic Jump.",
+                        "properties": {
+                          "op": {
+                            "type": "string",
+                            "description": "Operator for the condition.",
+                            "enum": [
+                              "begins_with",
+                              "ends_with",
+                              "contains",
+                              "not_contains",
+                              "lower_than",
+                              "lower_equal_than",
+                              "greater_than",
+                              "greater_equal_than",
+                              "is",
+                              "is_not",
+                              "equal",
+                              "not_equal",
+                              "always",
+                              "on",
+                              "not_on",
+                              "earlier_than",
+                              "earlier_than_or_on",
+                              "later_than",
+                              "later_than_or_on"
+                            ]
+                          },
+                          "vars": {
+                            "type": "array",
+                            "description": "Object that defines the field type and value to evaluate with the operator.",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "description": "Type of value the condition object refers to.",
+                                  "enum": [
+                                    "field",
+                                    "hidden",
+                                    "variable",
+                                    "constant",
+                                    "choice"
+                                  ]
+                                },
+                                "value": {
+                                  "type": "object",
+                                  "description": "Value to check for in the \"type\" field to evaluate with the operator."
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "value"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "op",
+                          "vars"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "details",
+                      "condition"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "type",
+                "actions"
+              ]
+            }
+          },
+          "theme": {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string",
+                "example": "https://api.typeform.com/themes/Fs24as"
+              }
+            }
+          },
+          "workspace": {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string",
+                "example": "https://api.typeform.com/workspaces/Aw33bz"
+              }
+            }
+          },
+          "_links": {
+            "type": "object",
+            "properties": {
+              "display": {
+                "type": "string",
+                "example": "https://subdomain.typeform.com/to/abc123"
+              }
+            }
+          },
+          "settings": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "description": "Language of your form. Locale is a 2-letter ISO 3166-1 country code value.",
+                "type": "string",
+                "enum": [
+                  "en",
+                  "es",
+                  "ca",
+                  "fr",
+                  "de",
+                  "ru",
+                  "it",
+                  "da",
+                  "pt",
+                  "ch",
+                  "zh",
+                  "nl",
+                  "no",
+                  "uk",
+                  "ja",
+                  "ko",
+                  "hr",
+                  "fi",
+                  "sv",
+                  "pl",
+                  "el",
+                  "hu",
+                  "tr",
+                  "cs",
+                  "et",
+                  "di"
+                ]
+              },
+              "is_public": {
+                "type": "boolean",
+                "default": true,
+                "description": "true if your form is public. Otherwise, false (your form is private)."
+              },
+              "autocomplete_progress": {
+                "type": "boolean",
+                "default": true,
+                "description": "true to enable saving partial form responses on the client side. Otherwise, false."
+              },
+              "progress_bar": {
+                "type": "string",
+                "enum": [
+                  "percentage",
+                  "proportion"
+                ],
+                "default": "proportion",
+                "description": "Basis for the progress bar displayed on the screen. Choose \"proportion\" to show the number of questions answered so far. Choose \"percentage\" to show the percentage of questions answered so far."
+              },
+              "show_progress_bar": {
+                "type": "boolean",
+                "default": true,
+                "description": "true to display progress bar on the typeform. Otherwise, false."
+              },
+              "show_typeform_branding": {
+                "type": "boolean",
+                "default": true,
+                "description": "true to display Typeform brand on the typeform. false to hide Typeform branding on the typeform. Hiding Typeform branding is available for [Premium accounts](https://help.typeform.com/hc/en-us/articles/360030829332)."
+              },
+              "show_time_to_complete": {
+                "type": "boolean",
+                "default": true,
+                "description": "true to display estimated time to complete a typeform on Welcome screens, false to hide it. Mutually exclusive with show_number_of_submissions"
+              },
+              "show_number_of_submissions": {
+                "type": "boolean",
+                "default": false,
+                "description": "true to display number of submissions on Welcome screens, false to hide it. Mutually exclusive with show_time_to_complete"
+              },
+              "show_cookie_consent": {
+                "type": "boolean",
+                "default": false,
+                "description": "true to request cookie consent to respondents through a banner, false to do not request it."
+              },
+              "show_question_number": {
+                "type": "boolean",
+                "default": true,
+                "description": "true to display the question number on each block, false to hide it."
+              },
+              "show_key_hint_on_choices": {
+                "type": "boolean",
+                "default": true,
+                "description": "true to display the key hint letters on Multiple Choice, Picture Choice, Legal and Yes/No blocks, false to hide them."
+              },
+              "hide_navigation": {
+                "type": "boolean",
+                "default": false,
+                "description": "false to display the navigation arrows in the bottom-right corner of the form, true to hide them"
+              },
+              "meta": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Title that represents how the typeform is named in the workspace."
+                  },
+                  "allow_indexing": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "true to allow search engines to index your typeform. Otherwise, false."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description for search engines to display for your typeform."
+                  },
+                  "image": {
+                    "type": "object",
+                    "properties": {
+                      "href": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "URL of image for search engines to display for your typeform."
+                      }
+                    }
+                  }
+                }
+              },
+              "redirect_after_submit_url": {
+                "type": "string",
+                "description": "URL where the typeform should redirect upon submission."
+              },
+              "google_analytics": {
+                "type": "string",
+                "description": "Google Analytics tracking ID to use for the form."
+              },
+              "facebook_pixel": {
+                "type": "string",
+                "description": "Facebook Pixel tracking ID to use for the form."
+              },
+              "google_tag_manager": {
+                "type": "string",
+                "description": "Google Tag Manager ID to use for the form."
+              }
+            }
+          }
+        }
+      },
+      "GetAccountResponse": {
+        "type": "object",
+        "description": "Get details about your typeform account. Get your email, account id, alias or language",
+        "properties": {
+          "alias": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

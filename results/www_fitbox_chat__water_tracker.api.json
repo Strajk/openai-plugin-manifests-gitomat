@@ -1,0 +1,235 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Water Tracker",
+    "version": "1.0.1"
+  },
+  "paths": {
+    "/api/plugin/record/add": {
+      "post": {
+        "tags": [
+          "gpt"
+        ],
+        "summary": "add drink record",
+        "operationId": "record_add",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordAddReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommonSimpleResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/plugin/target/get": {
+      "get": {
+        "tags": [
+          "gpt"
+        ],
+        "summary": "query the target amount of drinking water ml per day",
+        "operationId": "target_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserGptInfoRsp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/plugin/target/set": {
+      "post": {
+        "tags": [
+          "gpt"
+        ],
+        "summary": "set the target amount of drinking water ml per day",
+        "operationId": "target_set",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserGptInfoReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserGptInfoRsp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/plugin/record/today": {
+      "get": {
+        "tags": [
+          "gpt"
+        ],
+        "summary": "query water drinking records by date",
+        "operationId": "record_query_by_date",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordTodayRsp"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CommonSimpleResponse": {
+        "title": "CommonSimpleResponse",
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "integer",
+            "description": "0 means success, non-zero means failure",
+            "default": 0
+          },
+          "msg": {
+            "title": "Msg",
+            "type": "string",
+            "description": "code detail description",
+            "default": ""
+          }
+        }
+      },
+      "RecordAddReq": {
+        "title": "RecordAddReq",
+        "required": [
+          "name",
+          "emoji",
+          "total_amount",
+          "moisture",
+          "when"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "description": "name of drink"
+          },
+          "emoji": {
+            "title": "Emoji",
+            "type": "string",
+            "description": "drink emoji"
+          },
+          "total_amount": {
+            "title": "Total Amount",
+            "type": "integer",
+            "description": "the total amount of the drink this time,unit ml"
+          },
+          "moisture": {
+            "title": "Moisture",
+            "type": "integer",
+            "description": "the water content in the total amount of drinking this time,unit ml"
+          },
+          "when": {
+            "title": "When",
+            "type": "string",
+            "description": "water drinking time, the format like this:2006-01-02T15:04:05+07:00"
+          }
+        }
+      },
+      "RecordTodayRsp": {
+        "title": "RecordTodayRsp",
+        "type": "object",
+        "properties": {
+          "records": {
+            "title": "Records",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "drink records"
+          },
+          "details": {
+            "title": "Details",
+            "type": "string",
+            "description": "drinking water details",
+            "default": ""
+          },
+          "image": {
+            "title": "Image",
+            "type": "string",
+            "description": "target progress",
+            "default": ""
+          },
+          "EXTRA_INFORMATION_TO_ASSISTANT": {
+            "title": "Extra Information To Assistant",
+            "type": "string",
+            "description": "display guide",
+            "default": ""
+          },
+          "url": {
+            "title": "Url",
+            "type": "string",
+            "description": "more details url",
+            "default": ""
+          }
+        }
+      },
+      "UserGptInfoReq": {
+        "title": "UserGptInfoReq",
+        "type": "object",
+        "properties": {
+          "target": {
+            "title": "Target",
+            "type": "integer",
+            "description": "Target ml amount of drinking water per day",
+            "default": 2000
+          }
+        }
+      },
+      "UserGptInfoRsp": {
+        "title": "UserGptInfoRsp",
+        "type": "object",
+        "properties": {
+          "target": {
+            "title": "Target",
+            "type": "integer",
+            "description": "Target ml amount of drinking water per day",
+            "default": 2000
+          }
+        }
+      }
+    }
+  }
+}

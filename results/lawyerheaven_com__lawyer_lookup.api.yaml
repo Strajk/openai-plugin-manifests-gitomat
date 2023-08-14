@@ -1,0 +1,223 @@
+openapi: 3.0.1
+info:
+  title: Lawyer Lookup Plugin
+  description: A plugin that allows the user to add and look up lawyers using ChatGPT. If you do not know the user's username, ask them first before making queries to the plugin. Otherwise, use the username "global".
+  version: 'v1'
+servers:
+  - url: https://lawyerheaven.com
+paths:
+  /lawyers/{username}:
+    get:
+      operationId: getLawyers
+      summary: Get the list of lawyers
+      parameters:
+      - in: path
+        name: username
+        schema:
+            type: string
+        required: true
+        description: The name of the user.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getLawyersResponse'
+    post:
+      operationId: addLawyer
+      summary: Add a lawyer to the list
+      parameters:
+      - in: path
+        name: username
+        schema:
+            type: string
+        required: true
+        description: The name of the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/addLawyerRequest'
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: deleteLawyer
+      summary: Delete a lawyer from the list
+      parameters:
+      - in: path
+        name: username
+        schema:
+            type: string
+        required: true
+        description: The name of the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteLawyerRequest'
+      responses:
+        "200":
+          description: OK
+  # Add the new /contact endpoint here
+  /lawyers/contact:
+    post:
+      summary: Contact a lawyer
+      operationId: contactLawyer
+      requestBody:
+        description: Contact info and message
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from_email: {type: string}
+                name: {type: string}
+                message: {type: string}
+              required: ["from_email", "name", "message"]
+        required: true
+      responses:
+        200:
+          description: Contact request sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: {type: string}
+
+  /lawyers/search/{username}:
+    get:
+      operationId: searchLawyers
+      summary: Search for lawyers
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+        required: true
+        description: The name of the user.
+      - in: query
+        name: name
+        schema:
+          type: string
+        required: false
+        description: The name of the lawyer.
+      - in: query
+        name: specialty
+        schema:
+          type: string
+        required: false
+        description: The specialty of the lawyer.
+      - in: query
+        name: language
+        schema:
+          type: string
+        required: false
+        description: The language spoken by the lawyer.
+      - in: query
+        name: location
+        schema:
+          type: string
+        required: false
+        description: The location of the lawyer.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getLawyersResponse'
+components:
+  schemas:
+    getLawyersResponse:
+      type: object
+      properties:
+        lawyers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lawyer'
+          description: The list of lawyers.
+    addLawyerRequest:
+      type: object
+      required:
+      - Attorney_ID
+      - Name
+      - License_Status
+      - Legal_Specialties
+      - Additional_Languages_Spoken
+      - Address
+      - Phone
+      properties:
+        Attorney_ID:
+          type: string
+          description: The ID of the attorney.
+        Name:
+          type: string
+          description: The name of the attorney.
+        License_Status:
+          type: string
+          description: The license status of the attorney.
+        Legal_Specialties:
+          type: array
+          items:
+            type: string
+          description: The legal specialties of the attorney.
+        Additional_Languages_Spoken:
+          type: array
+          items:
+            type: string
+          description: Additional languages spoken by the attorney and staff.
+        Address:
+          type: string
+          description: The address of the attorney's office.
+        Phone:
+          type: string
+          description: The phone number of the attorney.
+    deleteLawyerRequest:
+      type: object
+      required:
+      - lawyer_idx
+      properties:
+        lawyer_idx:
+          type: integer
+          description: The index of the lawyer to delete.
+    Lawyer:
+      type: object
+      required:
+      - Attorney_ID
+      - Name
+      - License_Status
+      - Legal_Specialties
+      - Additional_Languages_Spoken
+      - Address
+      - Phone
+      properties:
+        Attorney_ID:
+          type: string
+          description: The ID of the attorney.
+        Name:
+          type: string
+          description: The name of the attorney.
+        License_Status:
+          type: string
+          description: The license status of the attorney.
+        Legal_Specialties:
+          type: array
+          items:
+            type: string
+          description: The legal specialties of the attorney.
+        Additional_Languages_Spoken:
+          type: array
+          items:
+            type: string
+          description: Additional languages spoken by the attorney and staff.
+        Address:
+          type: string
+          description: The address of the attorney's office.
+        Phone:
+          type: string
+          description: The phone number of the attorney.

@@ -1,0 +1,91 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Mintbase Action",
+    "description": "This allows the user to submit transactions on NEAR Protocol Testnet.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://action-ai.mintbase.xyz"
+    }
+  ],
+  "paths": {
+    "/api/plugins/action/submit-transaction": {
+      "post": {
+        "operationId": "SubmitTransaction",
+        "summary": "Submit transactions",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "method_name": {
+                    "type": "string"
+                  },
+                  "args": {
+                    "type": "string"
+                  },
+                  "gas": {
+                    "type": "string"
+                  },
+                  "deposit": {
+                    "type": "string"
+                  },
+                  "signer": {
+                    "type": "string"
+                  },
+                  "contractAddress": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/plugins/action/get-account": {
+      "post": {
+        "operationId": "GetAccount",
+        "summary": "Retrieve the user's account",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accountId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,303 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Parcels OpenAPI",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://kargo.via.net.tr/api/parcels/api"
+    }
+  ],
+  "paths": {
+    "/openapi-v1/track": {
+      "post": {
+        "operationId": "track",
+        "description": "Allows you to get latest information for a parcel.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "Tracking code for the parcel"
+                  },
+                  "company": {
+                    "type": "string",
+                    "enum": [
+                      "Detect",
+                      "Aras Kargo",
+                      "Yurtiçi Kargo",
+                      "Sürat Kargo",
+                      "PTT Kargo",
+                      "MNG Kargo",
+                      "HepsiJet",
+                      "Trendyol Express",
+                      "UPS Kargo",
+                      "Kolay Gelsin",
+                      "Aras Kurye",
+                      "Aramex",
+                      "TNT Kargo",
+                      "DHL Express",
+                      "UPS Global",
+                      "Deutsche Post"
+                    ],
+                    "description": "Company name for the parcel. Setting it to 'Detect' will try to detect the company automatically but should not be prefered."
+                  }
+                },
+                "required": [
+                  "code",
+                  "company"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSaved": {
+                      "type": "boolean",
+                      "description": "Indicates if the parcel is saved"
+                    },
+                    "isFirstSave": {
+                      "type": "boolean",
+                      "description": "Indicates if it's the first save of the parcel"
+                    },
+                    "newCreated": {
+                      "type": "boolean",
+                      "description": "Indicates if the parcel is newly created"
+                    },
+                    "name": {
+                      "enum": [
+                        "null"
+                      ],
+                      "nullable": true,
+                      "description": "Parcel name"
+                    },
+                    "id": {
+                      "type": "number",
+                      "description": "Parcel ID"
+                    },
+                    "isActive": {
+                      "type": "boolean",
+                      "description": "Indicates if the parcel is active"
+                    },
+                    "barcode": {
+                      "type": "string",
+                      "description": "Parcel's barcode"
+                    },
+                    "companyId": {
+                      "type": "number",
+                      "description": "Company ID associated with the parcel"
+                    },
+                    "companyName": {
+                      "type": "string",
+                      "description": "Company name associated with the parcel"
+                    },
+                    "companyImage": {
+                      "type": "string",
+                      "description": "Company image associated with the parcel"
+                    },
+                    "isDelivered": {
+                      "type": "boolean",
+                      "description": "Indicates if the parcel is delivered"
+                    },
+                    "deliveredTo": {
+                      "type": "string",
+                      "description": "Person or location the parcel is delivered to"
+                    },
+                    "statusDescription": {
+                      "type": "string",
+                      "description": "Description of the parcel's status"
+                    },
+                    "receiver": {
+                      "type": "string",
+                      "description": "Name of the receiver"
+                    },
+                    "sender": {
+                      "type": "string",
+                      "description": "Name of the sender"
+                    },
+                    "senderAddress": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Address of the sender"
+                    },
+                    "sendDate": {
+                      "type": "string",
+                      "description": "Date the parcel was sent"
+                    },
+                    "receiverAddress": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Address of the receiver"
+                    },
+                    "code": {
+                      "enum": [
+                        "null"
+                      ],
+                      "nullable": true,
+                      "description": "Parcel tracking code"
+                    },
+                    "shareUrl": {
+                      "type": "string",
+                      "description": "URL to share the tracking information"
+                    },
+                    "deliveredDate": {
+                      "type": "string",
+                      "description": "Date the parcel was delivered"
+                    },
+                    "additionalData": {
+                      "enum": [
+                        "null"
+                      ],
+                      "nullable": true,
+                      "description": "Additional data related to the parcel"
+                    },
+                    "branchDeparture": {
+                      "enum": [
+                        "null"
+                      ],
+                      "nullable": true,
+                      "description": "Branch where the parcel was sent from"
+                    },
+                    "branchDelivery": {
+                      "enum": [
+                        "null"
+                      ],
+                      "nullable": true,
+                      "description": "Branch where the parcel was delivered"
+                    },
+                    "movement": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "description": "Movement event ID"
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "description": "Indicates if the movement event is active"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Description of the movement event"
+                          },
+                          "detailDescription": {
+                            "type": "string",
+                            "description": "Detailed description of the movement event"
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "Title of the movement event"
+                          },
+                          "date": {
+                            "type": "string",
+                            "description": "Date of the movement event"
+                          },
+                          "branch": {
+                            "enum": [
+                              "null"
+                            ],
+                            "nullable": true,
+                            "description": "Branch associated with the movement event"
+                          },
+                          "province": {
+                            "enum": [
+                              "null"
+                            ],
+                            "nullable": true,
+                            "description": "Province associated with the movement event"
+                          },
+                          "district": {
+                            "enum": [
+                              "null"
+                            ],
+                            "nullable": true,
+                            "description": "District associated with the movement event"
+                          },
+                          "externalLocation": {
+                            "type": "string",
+                            "description": "External location of the movement event"
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "Status of the movement event"
+                          },
+                          "statusSlug": {
+                            "type": "string",
+                            "description": "Status slug of the movement event"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "isActive",
+                          "description",
+                          "detailDescription",
+                          "title",
+                          "date",
+                          "branch",
+                          "province",
+                          "district",
+                          "externalLocation",
+                          "status",
+                          "statusSlug"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "description": "List of parcel movement events"
+                    }
+                  },
+                  "required": [
+                    "isSaved",
+                    "isFirstSave",
+                    "newCreated",
+                    "name",
+                    "id",
+                    "isActive",
+                    "barcode",
+                    "companyId",
+                    "companyName",
+                    "companyImage",
+                    "isDelivered",
+                    "deliveredTo",
+                    "statusDescription",
+                    "receiver",
+                    "sender",
+                    "senderAddress",
+                    "sendDate",
+                    "receiverAddress",
+                    "code",
+                    "shareUrl",
+                    "deliveredDate",
+                    "additionalData",
+                    "branchDeparture",
+                    "branchDelivery",
+                    "movement"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/error"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+openapi: 3.0.1
+info:
+  title: Interest Rates
+  description: Get Real Time Interest Rates From Central Banks!
+  version: 'v1'
+servers:
+  - url: https://interest-rates.orrenprunckun.com/
+paths:
+  /:
+    get:
+      operationId: getData  
+      summary: Get data from user
+      description: Get data from user
+      parameters:
+        - name: country
+          in: query
+          description: country
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

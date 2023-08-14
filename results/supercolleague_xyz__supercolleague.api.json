@@ -1,0 +1,641 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "SuperColleague",
+    "description": "A plugin that executes various workflows based on the user need and returns the output.",
+    "version": "v1"
+  },
+  "paths": {
+    "/generatePitchDeckFromIdea": {
+      "post": {
+        "operationId": "generatePitchDeckFromIdea",
+        "summary": "Generate a pitch deck from an idea. After the first request, the job_id and has_more should be provided in the request body to continue the request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "idea": {
+                    "type": "string",
+                    "description": "idea for the pitch deck to be generated."
+                  },
+                  "job_id": {
+                    "type": "string",
+                    "description": "The pitch deck generation job ID"
+                  },
+                  "has_more": {
+                    "type": "boolean",
+                    "description": "Indicates that ChatGPT should continue the request and re-provide the job_id."
+                  }
+                },
+                "required": [
+                  "idea"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "The AI-generated pitch deck in markdown format",
+                      "nullable": true
+                    },
+                    "job_id": {
+                      "type": "string",
+                      "description": "The pitch deck generation job ID",
+                      "nullable": true
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Whether more pitch deck data is available. When true, this indicates there should be another call to the /generatePitchDeckFromIdea endpoint."
+                    }
+                  },
+                  "required": [
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chatWithImage": {
+      "post": {
+        "operationId": "chatWithImage",
+        "summary": "Analyze an image and chat about it. After the first request, the job_id and has_more should be provided in the request body to continue the request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imageUrl": {
+                    "type": "string",
+                    "description": "The URL of the image to analyze"
+                  },
+                  "userMessage": {
+                    "type": "string",
+                    "description": "Information that the user wants to get based on the provided image"
+                  },
+                  "job_id": {
+                    "type": "string",
+                    "description": "The image analysis job ID"
+                  },
+                  "has_more": {
+                    "type": "boolean",
+                    "description": "Indicates that ChatGPT should continue the request and re-provide the job_id."
+                  }
+                },
+                "required": [
+                  "imageUrl",
+                  "userMessage"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "description": "The message sent by the AI model based on what the user asked",
+                      "nullable": true
+                    },
+                    "job_id": {
+                      "type": "string",
+                      "description": "The image analysis job ID",
+                      "nullable": true
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Whether more image analysis data is available. When true, this indicates there should be another call to the /chatWithImage endpoint."
+                    }
+                  },
+                  "required": [
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generateLogo": {
+      "post": {
+        "operationId": "generateLogo",
+        "summary": "Generate a logo. After the first request, the job_id and has_more should be provided in the request body to continue the request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "The prompt provided by user"
+                  },
+                  "job_id": {
+                    "type": "string",
+                    "description": "The logo generation job ID"
+                  },
+                  "has_more": {
+                    "type": "boolean",
+                    "description": "Indicates that ChatGPT should continue the request and re-provide the job_id."
+                  }
+                },
+                "required": [
+                  "prompt"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "description": "The output of the model as an image URL that should be displayed as markdown image",
+                      "nullable": true
+                    },
+                    "job_id": {
+                      "type": "string",
+                      "description": "The logo generation job ID",
+                      "nullable": true
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Whether more logo data is available. When true, this indicates there should be another call to the /generateLogo endpoint."
+                    }
+                  },
+                  "required": [
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generateMusic": {
+      "post": {
+        "operationId": "generateMusic",
+        "summary": "Generate music. After the first request, the job_id and has_more should be provided in the request body to continue the request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "A description of the music user wants to generate"
+                  },
+                  "job_id": {
+                    "type": "string",
+                    "description": "The music generation job ID"
+                  },
+                  "has_more": {
+                    "type": "boolean",
+                    "description": "Indicates that ChatGPT should continue the request and re-provide the job_id."
+                  }
+                },
+                "required": [
+                  "prompt"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "description": "The output of the model as an audio URL that should be displayed as markdown audio",
+                      "nullable": true
+                    },
+                    "job_id": {
+                      "type": "string",
+                      "description": "The music generation job ID",
+                      "nullable": true
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Whether more music data is available. When true, this indicates there should be another call to the /generateMusic endpoint."
+                    }
+                  },
+                  "required": [
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generateMusicFromAudio": {
+      "post": {
+        "operationId": "generateMusicFromAudio",
+        "summary": "Generate music like an audio file. After the first request, the job_id and has_more should be provided in the request body to continue the request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "inputAudioUrl": {
+                    "type": "string",
+                    "description": "The URL of the input audio file"
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "The prompt for the model"
+                  },
+                  "job_id": {
+                    "type": "string",
+                    "description": "The music generation from audio job ID"
+                  },
+                  "has_more": {
+                    "type": "boolean",
+                    "description": "Indicates that ChatGPT should continue the request and re-provide the job_id."
+                  }
+                },
+                "required": [
+                  "inputAudioUrl",
+                  "prompt"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "description": "The output of the model as an audio URL that should be displayed as markdown audio",
+                      "nullable": true
+                    },
+                    "job_id": {
+                      "type": "string",
+                      "description": "The music generation from audio job ID",
+                      "nullable": true
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Whether more music data is available. When true, this indicates there should be another call to the /generateMusicFromAudio endpoint."
+                    }
+                  },
+                  "required": [
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chatWithPdf": {
+      "post": {
+        "operationId": "chatWithPdf",
+        "summary": "Chat with a PDF by asking a question about its content. After the first request, the job_id and has_more should be provided in the request body to continue the request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pdfUrl": {
+                    "type": "string",
+                    "description": "The URL of the PDF to chat with"
+                  },
+                  "question": {
+                    "type": "string",
+                    "description": "The question to ask about the PDF content"
+                  },
+                  "job_id": {
+                    "type": "string",
+                    "description": "The chat with PDF job ID"
+                  },
+                  "has_more": {
+                    "type": "boolean",
+                    "description": "Indicates that ChatGPT should continue the request and re-provide the job_id."
+                  }
+                },
+                "required": [
+                  "pdfUrl",
+                  "question"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "The response from the chat with the PDF",
+                      "nullable": true
+                    },
+                    "job_id": {
+                      "type": "string",
+                      "description": "The chat with PDF job ID",
+                      "nullable": true
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Whether more chat data is available. When true, this indicates there should be another call to the /chatWithPdf endpoint."
+                    }
+                  },
+                  "required": [
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recommendation": {
+      "post": {
+        "operationId": "getProductRecommendation",
+        "summary": "Get product recommendation based on user input with an explanation of why the product was recommended. After the first request, the job_id and has_more should be provided in the request body to continue the request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userMessage": {
+                    "type": "string",
+                    "description": "The message sent by user to ChatGPT"
+                  },
+                  "searchPhrase": {
+                    "type": "string",
+                    "description": "The search phrase extracted from the user message for finding products on Amazon"
+                  },
+                  "job_id": {
+                    "type": "string",
+                    "description": "The product recommendation job ID"
+                  },
+                  "has_more": {
+                    "type": "boolean",
+                    "description": "Indicates that ChatGPT should continue the request and re-provide the job_id."
+                  }
+                },
+                "required": [
+                  "userMessage",
+                  "searchPhrase",
+                  "language"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "description": "The recommendation result",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "description": "The title of the recommended product"
+                        },
+                        "asin": {
+                          "type": "string",
+                          "description": "The Amazon Standard Identification Number of the product"
+                        },
+                        "link": {
+                          "type": "string",
+                          "description": "Redirect URL with the URL to view the product on Amazon with the affiliate tag in the parameters of the redirect URL"
+                        },
+                        "brand": {
+                          "type": "string",
+                          "description": "The brand of the product"
+                        },
+                        "image_link": {
+                          "type": "string",
+                          "description": "Link to the main image of the product"
+                        },
+                        "rating": {
+                          "type": "number",
+                          "description": "The average rating of the product"
+                        },
+                        "ratings_total": {
+                          "type": "integer",
+                          "description": "The total number of ratings for the product"
+                        },
+                        "price": {
+                          "type": "string",
+                          "description": "The price of the product"
+                        },
+                        "delivery": {
+                          "type": "string",
+                          "description": "The delivery information for the product"
+                        },
+                        "similarity": {
+                          "type": "number",
+                          "description": "The similarity score between the user input and the recommended product"
+                        },
+                        "explanation": {
+                          "type": "string",
+                          "description": "An explanation of why the product is recommended"
+                        }
+                      }
+                    },
+                    "job_id": {
+                      "type": "string",
+                      "description": "The product recommendation job ID",
+                      "nullable": true
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Whether more recommendation data is available. When true, this indicates there should be another call to the /recommendation endpoint."
+                    }
+                  },
+                  "required": [
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://supercolleague.xyz"
+    }
+  ]
+}

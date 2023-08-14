@@ -1,0 +1,80 @@
+openapi: 3.0.3
+info:
+  title: For.io plugin for GPT
+  description: For.io plugin for GPT
+  termsOfService: https://for.io/legal/tos
+  contact:
+    name: For.io Contact
+    url: https://for.io/
+    email: contact@for.io
+  version: 1.0.1
+paths:
+
+  /applications:
+    post:
+      operationId: createOrUpdateApplication
+      description: 'Creates or updates an application from a given database schema as input.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatabaseSchema'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultInfo'
+
+components:
+  schemas:
+    DatabaseSchema:
+      type: object
+      properties:
+        app_name:
+          type: string
+          description: 'the name of the application that will be created'
+        tables:
+          type: array
+          description: 'a list of database tables, preferably max. 3 tables'
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              columns:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    type:
+                      type: string
+        foreign_keys:
+          type: array
+          description: 'a list of foreign keys in the database'
+          items:
+            $ref: '#/components/schemas/ForeignKey'
+    ForeignKey:
+      type: object
+      properties:
+        table:
+          type: string
+        columns:
+          type: array
+          items:
+            type: string
+        ref_table:
+          type: string
+        ref_columns:
+          type: array
+          items:
+            type: string
+    ResultInfo:
+      type: object
+      properties:
+        url:
+          type: string
+          description: 'the URL of the newly created application'

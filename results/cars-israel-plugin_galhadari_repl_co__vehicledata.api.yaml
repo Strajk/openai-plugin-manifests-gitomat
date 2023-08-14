@@ -1,0 +1,32 @@
+openapi: 3.0.1
+info:
+  title: Vehicle Data IL
+  description: An Israel-focused tool, extracting car details from data.gov.il based on model, year, hue, and count.
+  version: 'v1'
+servers:
+  - url: https://cars-israel-plugin.galhadari.repl.co
+paths:
+  /search:
+    get:
+      operationId: searchVehicleData
+      summary: Search for vehicle data
+      parameters:
+        - name: number
+          in: query
+          description: Number of the vehicle
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                    description: The processed vehicle data.

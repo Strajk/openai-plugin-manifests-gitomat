@@ -1,0 +1,47 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "Bible"
+  description: "Explore Bible's content with detailed interpretations, comparisons, and feature to find related verses."
+servers:
+  - url: "https://bible.praison.ai"
+paths:
+  /relatedverses:
+    post:
+      summary: "Retrieve a list of Related Bible verses"
+      operationId: relatedverses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - verse
+              properties:
+                verse:
+                  type: string
+                  description: The verse to find related verses for.
+                  example: "John 3:16"
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Verse"
+components:
+  schemas:
+    Verse:
+      type: "object"
+      properties:
+        verse:
+          type: "string"
+          description: "The content of the verse"
+          example: "And he said unto me, It is done. I am Alpha and Omega, the beginning and the end. I will give unto him that is athirst of the fountain of the water of life freely."
+        verse_reference:
+          type: "string"
+          description: "The reference of the verse in the Bible"
+          example: "Revelation 21:6"

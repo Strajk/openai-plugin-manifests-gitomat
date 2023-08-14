@@ -1,0 +1,592 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/logo.png": {
+      "get": {
+        "summary": "Get Logo",
+        "operationId": "get_logo_logo_png_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/{query}": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "Search Query",
+        "description": "Retrieves board game data from BoardGameGeek based on the query. Set 'exact' to true for precise search, or false for a broader one. The response is a JSON object categorizing items by type, with details such as 'id', 'name', and 'year published'.",
+        "operationId": "search_query_search__query__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Query",
+              "type": "string"
+            },
+            "name": "query",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Exact",
+              "type": "boolean",
+              "default": true
+            },
+            "name": "exact",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/advanced_search": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Advanced Search Query",
+        "description": "Generates a BoardGameGeek advanced search URL with filters such as designer, publisher, players, playtime, and ratings. Valid subdomains include 'familygames', 'strategygames', 'partygames', 'wargames', 'thematic', 'childrensgames', 'cgs', and 'abstracts'.",
+        "operationId": "advanced_search_query_advanced_search_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "type": "integer",
+              "default": 1
+            },
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Q",
+              "type": "string"
+            },
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Designerid",
+              "type": "integer"
+            },
+            "name": "designerid",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Publisherid",
+              "type": "integer"
+            },
+            "name": "publisherid",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Yearpublished Min",
+              "type": "integer"
+            },
+            "name": "yearpublished_min",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Yearpublished Max",
+              "type": "integer"
+            },
+            "name": "yearpublished_max",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Minage Max",
+              "type": "integer"
+            },
+            "name": "minage_max",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Numvoters Min",
+              "type": "integer"
+            },
+            "name": "numvoters_min",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Numweights Min",
+              "type": "integer"
+            },
+            "name": "numweights_min",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Minplayers Max",
+              "type": "integer"
+            },
+            "name": "minplayers_max",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Maxplayers Min",
+              "type": "integer"
+            },
+            "name": "maxplayers_min",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Leastplaytime Min",
+              "type": "integer"
+            },
+            "name": "leastplaytime_min",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Playtime Max",
+              "type": "integer"
+            },
+            "name": "playtime_max",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Avgrating Min",
+              "type": "number"
+            },
+            "name": "avgrating_min",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Avgrating Max",
+              "type": "number"
+            },
+            "name": "avgrating_max",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Avgweight Min",
+              "type": "number"
+            },
+            "name": "avgweight_min",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Avgweight Max",
+              "type": "number"
+            },
+            "name": "avgweight_max",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Searchuser",
+              "type": "string"
+            },
+            "name": "searchuser",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Playerrangetype",
+              "type": "string"
+            },
+            "name": "playerrangetype",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Subdomain",
+              "type": "string"
+            },
+            "name": "subdomain",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{username}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get User Info",
+        "description": "This endpoint retrieves detailed information for a specific user from BoardGameGeek, including the user's name, state, country, and buddies. Replace 'username' in the URL with the target user's username.",
+        "operationId": "get_user_info_user__username__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Username",
+              "type": "string"
+            },
+            "name": "username",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hot": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "Get Hot Games",
+        "description": "Retrieve the 'hottest' board games from BoardGameGeek, based on visits and favorites. Use the 'limit' parameter to restrict the number of games. Each game's JSON includes: 'id', 'rank', 'thumbnail', 'name', and 'yearpublished'.",
+        "operationId": "get_hot_games_hot_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Limit",
+              "type": "integer"
+            },
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/thing/{game_id}": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "Get Game Info",
+        "description": "Retrieve detailed information and statistics for a specified game using its unique ID.",
+        "operationId": "get_game_info_thing__game_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Game Id",
+              "type": "integer"
+            },
+            "name": "game_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plays/{username}": {
+      "get": {
+        "tags": [
+          "Plays"
+        ],
+        "summary": "Get User Plays",
+        "description": "Generates a URL for user's board game plays from BoardGameGeek. Games can be sorted 'bydate' (returns game dates) or 'bygame' (returns number of plays). Optional 'start', 'end', and 'page' parameters narrow results and allow pagination.",
+        "operationId": "get_user_plays_plays__username__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Username",
+              "type": "string"
+            },
+            "name": "username",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Sort Type",
+              "type": "string",
+              "default": "bydate"
+            },
+            "name": "sort_type",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Start",
+              "type": "string",
+              "format": "date"
+            },
+            "name": "start",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "End",
+              "type": "string",
+              "format": "date"
+            },
+            "name": "end",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "type": "integer"
+            },
+            "name": "page",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rank/{category}": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "Get Top Ranked Games",
+        "description": "Generates a URL for the top-ranked board games on BoardGameGeek according to different categories: 'global', 'familygames', 'strategygames', 'partygames', 'wargames', 'thematic', 'childrensgames', 'cgs' or 'abstracts'. Optional 'page' parameter allow pagination.",
+        "operationId": "get_top_ranked_games_rank__category__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Category",
+              "type": "string"
+            },
+            "name": "category",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "type": "integer"
+            },
+            "name": "page",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

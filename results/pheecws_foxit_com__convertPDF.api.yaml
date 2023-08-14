@@ -1,0 +1,63 @@
+openapi: 3.0.1
+info:
+  title: Foxit_PDF_Assistant
+  description: This plugin can convert PDF and Office documents to each other and supports Word, Excel, and PowerPoint formats.To convert online files, you can provide a file URL that can be accessed online for conversion.  To convert local files, you can use the plugin to obtain the page URL for uploading files. After a successful upload, the plugin will return a file ID for conversion.
+  version: 'v1'
+servers:
+  - url: https://pheecws.foxit.com # 接口地址
+paths:
+  /cpdfapi/v1/chat-gpt-plugin/convert:
+    post:
+      operationId: postConvert
+      summary: Supports bidirectional conversion between PDF and Office documents, including formats such as Word, Excel, and PowerPoint.This interface can also be used to obtain the URL of the upload file page.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/convertRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/convertResponse'
+components:
+  schemas:
+    convertRequest:
+      type: object
+      required:
+        - convert_type
+      properties:
+        file_id:
+          type: string
+          description: The File ID is a unique identifier for a file. If a user does not have a file link, they can upload the file through the file upload page. After a successful upload, the system will generate the File ID. When both the file_id and file_link parameters are empty, the URL of the page for uploading files will be returned.
+          required: false
+        file_link:
+          type: string
+          description: File link refers to a URL that provides online access to a file. Users can provide a file link that can be accessed online for file conversion. When both the file_id and file_link parameters are empty, the URL of the page for uploading files will be returned.
+          required: false
+        convert_type:
+          type: string
+          description: Conversion type is used to specify the type of file that the user needs to convert.  To convert to PDF, use "pdf";  to convert to Word, use "word";  to convert to Excel, use "excel";  to convert to PowerPoint, use "ppt".
+          required: true
+    convertResponse:
+      type: object
+      properties:
+        ret:
+          type: number
+          description: The result code, 0 indicates success, others indicate failure.
+        message:
+          type: string
+          description: When ret is not equal to 0, the message returned can be displayed to the user as a prompt or error message.
+        data:
+          type: object
+          description: The convert result data.
+          uploadUrl:
+            type: string
+            description: This parameter is the URL of the file upload page, which, after uploading via the URL, will provide a file_id for conversion.
+          downloadUrl:
+            type: string
+            description: This parameter is the download URL of the successfully converted file.
+

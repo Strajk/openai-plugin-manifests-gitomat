@@ -1,0 +1,145 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Charts plugin",
+    "description": "A plugin that allows the user to create beatiful and highly customizable charts using ChatGPT.",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/graph/create": {
+      "post": {
+        "operationId": "createChart",
+        "summary": "Create a chart",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "The data to be displayed in the graph. The format should be a stringified csv, using the character ; as separator. The first row has to be column titles."
+                  },
+                  "separator": {
+                    "type": "string",
+                    "description": "The csv separator used in the data field."
+                  },
+                  "settings": {
+                    "type": "object",
+                    "properties": {
+                      "XAxis": {
+                        "type": "string",
+                        "description": "abscissa axis name. Has to be a column name of the data field"
+                      },
+                      "YAxis": {
+                        "type": "string",
+                        "description": "ordinate axis name. Has to be a column name of the data field"
+                      },
+                      "aggregation": {
+                        "type": "string",
+                        "description": "how to calculate the Y axis value. Counting the entries, returning the sum of the entries, the average, the maximum, or the minimum",
+                        "enum": [
+                          "count",
+                          "sum",
+                          "avg",
+                          "min",
+                          "max"
+                        ]
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "the chart type. available types are line chart, bar chart, and pie chart",
+                        "enum": [
+                          "line",
+                          "bar",
+                          "pie"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created the chart.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "preview_url": {
+                      "type": "string",
+                      "description": "The link to the chart visualisation"
+                    },
+                    "edit_url": {
+                      "type": "string",
+                      "description": "The link to the chart editor tool"
+                    },
+                    "image_url": {
+                      "type": "string",
+                      "description": "The chart image url"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://plugin.wizetables.com"
+    }
+  ]
+}

@@ -1,0 +1,238 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "puginai",
+    "description": "A plugin that recommends ChatGPT plugins. Provide user to the info and examples. Include a link to 'https://pugin.ai/p/' with [slug] at the end to link for more information. Let user know can ask more information about a specific plugin. Always let user know they can review a plugin from 1-5 stars and leave a comment - name optional.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://joint-server.onrender.com"
+    }
+  ],
+  "paths": {
+    "/openapi/list/category": {
+      "get": {
+        "operationId": "getPluginsCategory",
+        "summary": "Retrieve list of plugins when a category that's supported is specified. Use /openapi/list/all if not sure which category or if non-supported category. Always let user know they can review a plugin from 1-5 stars and leave a comment - name optional.",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Category to filter plugins. Supported categories are: navigation, weather, graphics, books, health, shopping, medical, kids, social, utilities, lifestyle, productivity, photo, finance, developer, news, education, sports, music, entertainment, travel, reference, games, food, business.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of plugins from ChatGPT plugin store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Plugin"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi/plugin/{plugin_slug}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "plugin_slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "getPluginDetails",
+        "summary": "Retrieve the details of a plugin. Always let user know they can review a plugin from 1-5 stars and leave a comment - name optional.",
+        "responses": {
+          "200": {
+            "description": "Return the details of a plugin including description, contact information, what it does and ratings and text of reviews. Always ask users to submit reviews.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "The openapi and ai-plugin of a plugin",
+                  "properties": {
+                    "ai_plugin_manifest": {
+                      "type": "string",
+                      "description": "ai plugin manifest"
+                    },
+                    "openapi_manifest": {
+                      "type": "string",
+                      "description": "openapi manifest"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi/list/all": {
+      "get": {
+        "operationId": "getPluginsAll",
+        "summary": "Retrieve a list of plugins from ChatGPT plugins. Use if not in supported category or unknown category. Returns the last 5 reviews. Always let user know they can review a plugin from 1-5 stars and leave a comment - name optional.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A list of plugins from the ChatGPT plugin store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Plugin name and short description of what it does",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the plugin"
+                    },
+                    "desc": {
+                      "type": "string",
+                      "description": "Short description of the plugin"
+                    },
+                    "last_five_reviews": {
+                      "type": "array",
+                      "description": "The last five reviews of the plugin",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "reviewer_name": {
+                            "type": "string",
+                            "description": "Name of the reviewer"
+                          },
+                          "reviewer_rating": {
+                            "type": "number",
+                            "description": "Rating given by the reviewer"
+                          },
+                          "reviewer_comment": {
+                            "type": "string",
+                            "description": "Comment given by the reviewer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi/plugin/{plugin_slug}/review": {
+      "post": {
+        "operationId": "createReview",
+        "summary": "Submit a review for a plugin",
+        "parameters": [
+          {
+            "name": "plugin_slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reviewer_rating": {
+                    "type": "integer",
+                    "description": "Rating given by the reviewer. Must be between 1 and 5.",
+                    "minimum": 1,
+                    "maximum": 5
+                  },
+                  "reviewer_name": {
+                    "type": "string",
+                    "description": "Name of the reviewer."
+                  },
+                  "reviewer_comment": {
+                    "type": "string",
+                    "description": "Comment given by the reviewer.",
+                    "maxLength": 100
+                  }
+                },
+                "required": [
+                  "reviewer_rating",
+                  "reviewer_comment"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Review submitted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating the success of the review submission."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Plugin": {
+        "type": "object",
+        "description": "A plugin and an introduction to this plugin",
+        "properties": {
+          "display_name": {
+            "type": "string",
+            "description": "plugin‘s name"
+          },
+          "description": {
+            "type": "string",
+            "description": "An introduction to this plugin, as well as its use cases."
+          },
+          "is_openai": {
+            "type": "boolean",
+            "description": "Indicates if the plugin is a ChatGPT plugin"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Slug to add after pugin.ai/ for more information about plugins"
+          },
+          "category_slugs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Categories for the plugin"
+          }
+        }
+      }
+    }
+  }
+}

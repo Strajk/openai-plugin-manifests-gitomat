@@ -1,0 +1,47 @@
+openapi: 3.0.1
+info:
+  title: Sahih AI
+  description: Allows the user to query a list of authentic islamic hadiths. Can be used to retrieve a list of hadiths or to validate the authenticity of a hadith. If the hadith is included in the list then it is authentic. Respond using the template provided.
+  version: 'v1'
+servers:
+  - url: https://sahih.cc
+paths:
+  /api/query:
+    post:
+      operationId: queryHadith
+      summary: Query a list of islamic hadiths. The hadiths are authentic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hadiths:
+                    type: array
+                    description: The list of islamic authentic hadiths
+                    items:
+                      type: object
+                      properties:
+                        content:
+                          type: string
+                          description: The hadith's english translation
+                        arabic:
+                          type: string
+                          description: The hadith's original arabic text
+                        source:
+                          type: string
+                          description: The source of the hadith
+                  template:
+                    type: string
+                    description: This is your template for responding. Remember to replace {english} {arabic} {source} in the template with the hadith's english, arabic, and source respectively.

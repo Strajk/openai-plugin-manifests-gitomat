@@ -1,0 +1,48 @@
+components:
+  schemas:
+    RetrievesContextForUserQuery:
+      properties:
+        query:
+          description: Query given by the user to ChatGPT
+          type: string
+        webbot_id:
+          description: webbot_id of the webbot
+          type: string
+      required:
+      - query
+      - webbot_id
+      type: object
+info:
+  description: Maigrate server for webbot
+  title: Maigrate service
+  version: 1.0.0
+openapi: 3.0.1
+paths:
+  /context/retrieve:
+    post:
+      operationId: retrieve_context
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetrievesContextForUserQuery'
+        required: true
+      responses:
+        200:
+          content: {}
+          description: Context retrieved successfully
+        400:
+          content: {}
+          description: Invalid Request data
+        500:
+          content: {}
+          description: Internal Server Error
+      summary: Retrieves context for webbot
+      tags:
+      - Maigrate
+      x-codegen-request-body-name: payload
+servers:
+- url: https://api-staging.maigrate.com/api
+tags:
+- description: Maigrate-APIs
+  name: Maigrate

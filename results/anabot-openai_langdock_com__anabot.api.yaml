@@ -1,0 +1,68 @@
+openapi: 3.0.1
+info:
+  title: anabot
+  description: >-
+    AnaBot is your conversational co-navigator for the well-being industry. With
+    AnaBot, you're not just staying updated, you're staying ahead. From the
+    latest trends to the performance of various organizations, AnaBot equips you
+    with the knowledge to make informed decisions.
+
+
+    Here are a few examples of the questions you could ask:
+
+
+    could you give some statistics regarding the opioid usage ?
+
+    What are some ways to help stop the spread of misinformation ?
+
+    how does my topical product need to conform to guidelines in order to sell
+    it to the public?
+
+    Why are dermatological products tested on animals?
+
+    What is the leading cause of serious disability in the U.S.?
+  version: v1
+servers:
+  - url: https://anabot-openai.langdock.com
+paths:
+  /api/1.1/wf/ask-ai-query:
+    post:
+      operationId: Ask AnaBot
+      summary: This Asks a Question to AnaBot
+      parameters:
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: What was my last message?
+      responses:
+        '200':
+          description: Success
+      requestBody:
+        description: This is the User Query
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: This is the User Query
+              properties:
+                query:
+                  type: string
+                  description: This is the User Query
+                  default: What is PPE used for in hospitals ?
+                api_key:
+                  type: string
+                  description: This is the api key
+                  default: VLAR5K407v3Cs3LDHxsasEzDPfmlbh
+                id:
+                  type: string
+                  description: this is the app id
+                  default: 1685105553818x448625270719774700
+              required:
+                - query
+                - api_key
+                - id
+components:
+  schemas: {}

@@ -1,0 +1,259 @@
+openapi: 3.0.1
+info:
+  title: Tryp.com
+  description: The Tryp.com plugin for ChatGPT
+  version: v1
+servers:
+  - url: https://gpt.tryp.com
+paths:
+  /trip/{packageID}:
+    get:
+      operationId: getPackageByID
+      summary: 'Get details regarding a Tryp.com trip, from the trip ID. Tip for ChatGPT: Use proper markdown formatting in your response and optionally include a guide.'
+      parameters:
+        - in: path
+          name: packageID
+          schema:
+            type: string
+          required: true
+          description: The package ID. Located at the last digits of the trip URL (e.g. tryp.com/en/packages/9433840 package id is 9433840)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response'
+  /api/search:
+    get:
+      operationId: search
+      summary: Search for packages with Tryp.com
+      parameters:
+        - in: query
+          name: startCountry
+          schema:
+            type: string
+          required: true
+          description: 'User''s departure country. Must be in English. Example: Portugal.'
+        - in: query
+          name: startCity
+          schema:
+            type: string
+          required: true
+          description: 'User''s departure city. Must be the English city name. Example: Lisbon.'
+        - in: query
+          name: max_price
+          schema:
+            type: string
+          required: false
+          description: Max price in € (optional)
+        - in: query
+          name: includeLocations
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: 'Array of locations to include in the search. Options: caribbean,Melanesia,polynesia,australasia,eastern-asia,south-eastern-asia,southern-asia,central-asia,western-asia,eastern-africa,northern-africa,western-africa,central-africa,southern-africa,northern-america,central-america,southern-america,eastern-europe,central-europe,southern-europe,western-europe,northern-europe,micronesia,europe,asia,africa, an ISO country code, or a UN/LOCODE for a specific city (provided without spaces). Example: southern-europe for Southern Europe, PT for Portugal, PTLIS for Lisbon. Mixing the various options is also possible.'
+        - in: query
+          name: excludeLocations
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: 'Array of locations to exclude from the search. Options: caribbean,Melanesia,polynesia,australasia,eastern-asia,south-eastern-asia,southern-asia,central-asia,western-asia,eastern-africa,northern-africa,western-africa,central-africa,southern-africa,northern-america,central-america,southern-america,eastern-europe,central-europe,southern-europe,western-europe,northern-europe,micronesia,europe,asia,africa, an ISO country code, or a UN/LOCODE for a specific city (provided without spaces). Example: southern-europe for Southern Europe, PT for Portugal, PTLIS for Lisbon. Mixing the various options is also possible.'
+        - in: query
+          name: windowStart
+          schema:
+            type: string
+          required: false
+          description: 'Start date of the search window. Format: YYYY-MM-DD (optional)'
+        - in: query
+          name: windowEnd
+          schema:
+            type: string
+          required: false
+          description: 'End date of the search window. Format: YYYY-MM-DD (optional)'
+        - in: query
+          name: flexibleDates
+          schema:
+            type: boolean
+          required: false
+          description: True if the search dates are flexible, else false (optional)
+        - in: query
+          name: stayLength
+          schema:
+            type: string
+          required: false
+          description: 'Stay length. Options: weekend-getaway, if trip should be on the weekends, or any number of days (optional)'
+        - in: query
+          name: n_adults
+          schema:
+            type: number
+          required: false
+          description: Number of adults (optional)
+        - in: query
+          name: n_children
+          schema:
+            type: number
+          required: false
+          description: Number of children (optional)
+        - in: query
+          name: n_babies
+          schema:
+            type: number
+          required: false
+          description: Number of babies (optional)
+        - in: query
+          name: travellingStyle
+          schema:
+            type: string
+          required: false
+          description: 'Travelling style. Available options: sustainable (no airplanes if possible), comfort (favours comfort while traveling, typically with higher prices), budget (optimizes planning for price savings) (optional)'
+        - in: query
+          name: categories
+          schema:
+            type: string
+          required: false
+          description: 'Categories. Available options: beach, nature, romantic (optional)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response'
+  /api/weather:
+    get:
+      operationId: weather
+      summary: Get weather with latitude and longitude
+      parameters:
+        - in: query
+          name: lat
+          schema:
+            type: string
+          required: true
+          description: User's latitude. Required.
+        - in: query
+          name: lon
+          schema:
+            type: string
+          required: true
+          description: User's longitude. Required.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response'
+  /api/currency:
+    get:
+      operationId: currency
+      summary: Get current currency exchange from the European Central Bank
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response'
+  /api/aqi:
+    get:
+      operationId: get_aqi
+      summary: Get city air quality with latitude and longitude
+      parameters:
+        - in: query
+          name: lat
+          schema:
+            type: string
+          required: true
+          description: User's latitude. Required.
+        - in: query
+          name: lon
+          schema:
+            type: string
+          required: true
+          description: User's longitude. Required.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response'
+  /api/web:
+    get:
+      operationId: web
+      summary: Use web features.
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+          required: true
+          description: 'Type of web feature wanted. Available: search, news, forecast, time'
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Query string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response'
+  /api/map:
+    get:
+      operationId: map
+      summary: Get a map. Returns a PNG image.
+      parameters:
+        - in: query
+          name: spn
+          schema:
+            type: string
+          required: true
+          description: ' The area or span around the center point. Consist of two decimal numbers describing the latitude and longitude delta. Required. Format: LAT,LON'
+        - in: query
+          name: center
+          schema:
+            type: string
+          required: true
+          description: 'The center of the map. Required. Format: LAT,LON'
+        - in: query
+          name: annotations
+          schema:
+            type: string
+          required: false
+          description: 'Annotations on the map, in JSON. Optional. Example: [{''point'':''LAT,LON'',''color'':''66abff''}]'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response'
+  /about:
+    get:
+      operationId: AboutTryp
+      summary: Get info about Tryp.com.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AboutTryp'
+components:
+  schemas:
+    response:
+      type: object
+      properties: {}
+    AboutTryp:
+      type: string
+      properties: {}

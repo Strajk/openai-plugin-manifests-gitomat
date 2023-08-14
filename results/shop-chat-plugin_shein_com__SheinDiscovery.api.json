@@ -1,0 +1,127 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "SHEIN",
+    "description": "Get your fashion and lifestyle recommendations from Shein.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://shop-chat-plugin.shein.com"
+    }
+  ],
+  "paths": {
+    "/public/openai/product/search": {
+      "post": {
+        "operationId": "search",
+        "summary": "Search for products",
+        "parameters": [
+          {
+            "name": "local_country",
+            "in": "query",
+            "description": "ISO 3166 country code with 2 characters based on the user location. Currently, only us,fr,uk,de,es,it,nl,sa,bh,om,kw,ae,qa,jp are supported. default is us",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_message": {
+                    "type": "string",
+                    "description": "The message sent by user to ChatGPT",
+                    "required": true
+                  },
+                  "search_keyword": {
+                    "type": "string",
+                    "description": "The keyword extracted from the user message for search product.",
+                    "required": true
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "The ISO-639-1 language code used for the request. For example en,de,ar,es,ja,fr default is en",
+                    "required": true
+                  },
+                  "max_price": {
+                    "type": "integer",
+                    "description": "(Optional)The maximum price of the product"
+                  },
+                  "min_price": {
+                    "type": "integer",
+                    "description": "(Optional)The minimum price of the product"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/searchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "searchResponse": {
+        "type": "object",
+        "properties": {
+          "info": {
+            "type": "object",
+            "properties": {
+              "products": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "description": "The title of the product"
+                    },
+                    "price": {
+                      "type": "number",
+                      "format": "string",
+                      "description": "The price of the product"
+                    },
+                    "url": {
+                      "type": "string",
+                      "description": "Links to product details"
+                    },
+                    "image_url": {
+                      "type": "string",
+                      "description": "Link to the main image of the product. please automatically resize the image to fit the rendering of the chat page"
+                    }
+                  },
+                  "description": "The list of products matching the search"
+                }
+              },
+              "search_result_page": {
+                "type": "string",
+                "description": "Search landing page where users can click to see more products"
+              },
+              "correction_recall": {
+                "type": "boolean",
+                "description": "Is Search Correct Recall"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

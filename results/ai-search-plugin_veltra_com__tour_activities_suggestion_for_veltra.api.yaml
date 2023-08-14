@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  title: tour_activities_suggestion_for_veltra
+  description: A plugin to give tour activities suggestion to users.
+  version: v1
+servers:
+  - url: https://ai-search-plugin.veltra.com
+paths:
+  /chat:
+    post:
+      operationId: postChat
+      summary: Send a chat message and append suggested productID in exclude field.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Chat"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /review:
+    post:
+      operationId: postReview
+      summary: Send tour id to get review list when user request for more review information.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Info"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /image:
+    post:
+      operationId: postImage
+      summary: Send tour id to get image list when user request to show more image or photo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Info"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /itinerary:
+    post:
+      operationId: postItinerary
+      summary: Send tour id to get itinerary info when user request for itinerary.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Info"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/ServerError"
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+    Reply:
+      type: object
+      properties:
+        reply:
+          type: string
+    Chat:
+      type: object
+      properties:
+        message:
+          type: string
+          description: User chat message.
+        exclude:
+          type: array
+          description: productID that have already been suggested to users.
+          items:
+            type: string
+      required:
+        - message
+    Info:
+      type: object
+      properties:
+        id:
+          type: string
+          description: tour id
+      required:
+        - id
+  responses:
+    ResponseOK:
+      description: Message received successfully.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Reply"
+    BadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    ServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

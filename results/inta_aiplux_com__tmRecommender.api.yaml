@@ -1,0 +1,140 @@
+info:
+  description: Allows the user to get recommendations on trademark registration.
+  title: Trademark Registration Recommender
+  version: v1
+openapi: 3.0.1
+paths:
+  /tmClassRcmdPlugin:
+    post:
+      operationId: postTmClassRcmd
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                businessDescription:
+                  description: The description of the business and industry type that
+                    requires trademark protections.
+                  type: string
+              type: object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  Business Description:
+                    description: The business description the user has given.
+                    type: string
+                  Industry Description:
+                    description: The assumed industry fields related to the business
+                      description.
+                    type: string
+                  Preapproved Goods & Services Recommended (Nice):
+                    description: The preapproved Goods & Services under NICE classifications
+                      recommended.
+                    type: string
+                  Reasons to Recommend:
+                    description: The reasons to recommend the NICE classifications.
+                    type: string
+                  Related International Classes:
+                    description: The recommended NICE classification of trademark
+                      from the industries assumed.
+                    type: string
+                type: object
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                type: object
+          description: Bad Request
+        '405':
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                type: object
+          description: Invalid Method
+      summary: Do trademark recommendation uncer NICE classification on Business Description,
+        Industry Description, Related International Classes, Reasons to Recommend,
+        and Preapproved Goods & Services Recommended.
+  /tmNameAnalysisPlugin:
+    post:
+      operationId: postTmNameAnalysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                businessDescription:
+                  description: The description of the business and industry type that
+                    requires trademark protections.
+                  type: string
+                tmName:
+                  description: The trademark name/wording from the user.
+                  type: string
+              type: object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  Brand Name:
+                    description: The brand name extracted from user's content.
+                    type: string
+                  Descriptive Words in Mark:
+                    description: The descriptive part of the trademark name/wording,
+                      which does not provide distinguishness and may requires None-Descriptive
+                      parts.
+                    type: string
+                  Industry Description:
+                    description: The assumed industry fields related to the business
+                      description.
+                    type: string
+                  None Descriptive Words in Mark:
+                    description: The none-descriptive part of the trademark name/wording,
+                      which are suitable to be included in trademarks.
+                    type: string
+                type: object
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                type: object
+          description: Bad Request
+        '405':
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                type: object
+          description: Invalid Method
+        default:
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                type: object
+          description: Unexpected error
+      summary: Analyize the given trademark name/wording, along with the business/industry
+        description and return the brand name, descriptive part and none-descriptive
+        part.
+servers:
+- url: https://inta.aiplux.com

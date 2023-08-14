@@ -1,0 +1,27 @@
+openapi: 3.0.1
+info:
+  title: World Bank Data
+  description: Allows the user to fetch data from the World Bank API using a query term.
+  version: 'v1'
+servers:
+  - url: https://worldbankdata.anonymuswatch.repl.co
+paths:
+  /world_bank_data:
+    get:
+      operationId: getWorldBankData
+      summary: Get World Bank datasets
+      parameters:
+        - name: qterm
+          in: query
+          description: The query term to search for in the World Bank data.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The World Bank data

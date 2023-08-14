@@ -1,0 +1,80 @@
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    Markdown2PdfRequest:
+      properties:
+        camelcase_filename:
+          default: Untitled
+          description: 'Mandatory: suggested CamelCase filename. Do NOT include file
+            extension.'
+          title: Camelcase Filename
+          type: string
+        formatted_markdown:
+          default: ''
+          title: Formatted Markdown
+          type: string
+      title: Markdown2PdfRequest
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+info:
+  description: A plugin that allows the user to write a letter using ChatGPT.
+  title: Create Letter Plugin
+  version: v1
+openapi: 3.0.2
+paths:
+  /create_letter:
+    post:
+      operationId: create_letter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Markdown2PdfRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                title: Response Create Letter Create Letter Post
+                type: object
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Letter
+servers:
+- url: https://letter.level2labs.xyz

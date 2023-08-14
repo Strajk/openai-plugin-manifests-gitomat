@@ -1,0 +1,224 @@
+openapi: 3.0.2
+info:
+  title: GigTown
+  description: Find local musicians and events with ease. GigTown integration provides artist's name, biography, genres they specialize in, instruments they play, their photograph, and upcoming performances. Discover your next favorite act!
+  version: 0.1.0
+servers:
+  - url: 'https://agent.gigtown.com'
+paths:
+  /:
+    get:
+      operationId: welcome__get
+      summary: Successful API working Response
+      description: This endpoint used for api working or not
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Successful API working Response
+                properties:
+                  message:
+                    title: Welcome Message
+                    type: string
+          description: Successful API working Response
+      tags:
+        - Root
+  /.well-known/ai-plugin.json:
+    get:
+      operationId: manifest__well_known_ai_plugin_json_get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Manifest
+  /ai-plugin.json:
+    get:
+      operationId: manifest_ai_plugin_json_get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Manifest
+  favicon.ico:
+    get:
+      operationId: favicon_favicon_ico_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      summary: Favicon
+  /artistrecord/search:
+    post:
+      operationId: get_search_artistrecord_search_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: Get Artist Records Search API. It will return all the details of the artist based on the user's prompt.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Artist Records Search API. It will return all the details of the artist based on the user's prompt.
+      tags:
+        - Artistrecords
+  /logo.png:
+    get:
+      operationId: logo_logo_png_get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Plugin Logo
+  /openapi.yaml:
+    get:
+      operationId: openapi_spec_openapi_yaml_get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Openapi Spec
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: HTTP Validation Error Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    Response:
+      example:
+        data:
+        - Response: Trained model response based on the user prompt
+          Prompt: {"Prompt:":"User-entered Prompt"}
+          Artists Name: ["Artist's Name here based on the user prompt"]         
+          Artists Full Data:
+          - artist_name: Artist name
+            artist_city: Artist City name
+            artist_country: Artist Country name
+            artist_tags: This field is similar to Tags in Blogs. So Genres, their Band Names,
+              their music equipment's they play etc...
+            artist_fanCount: Total Followers this Artist has
+            artist_rating: Average Rating of this Artist provided by Admin and fans / users
+              of the Portal
+            artist_about: About Information of Artist
+            artist_sourceImage: This is the Path where the Profile Image of the user artist
+            artist_profile_url: This is the profile url of the user artist
+            shows_Details:
+            - shows_name: ''
+              shows_artistId: ''
+              shows_artistName: ''
+              shows_startDate: ''
+              shows_sourceImage: ''
+              shows_venueName: ''
+              shows_showId: ''
+          Jct_question: ''     
+        description: Successfully retrieved Artist details as per your given prompt
+        response_type: success
+        status_code: 200
+      properties:
+        data:
+          title: Data
+        description:
+          title: Successful or Error messages
+          type: string
+        response_type:
+          title: Response Type will be success or error
+          type: string
+        status_code:
+          title: Status Code of response
+          type: integer
+      required:
+        - status_code
+        - response_type
+        - description
+      title: Response
+      type: object
+    SearchRequest:
+      title: SearchRequest
+      type: object
+      properties:
+        artist_name:
+          title: 'Artist Name : The name of the artist the user is searching for.
+            This field allows the user to specify a specific artist''s name for the
+            search'
+          type: string
+        artist_city:
+          title: 'City Name : The name of the city where the user wants to find local
+            artists. The plugin will use this information to filter the search results
+            based on the specified city'
+          type: string
+        artist_country:
+          title: 'Country Name : The name of the country where the user wants to find
+            local artists. This field complements the city_name field and allows for
+            more specific location-based searches'
+          type: string
+        artist_tags:
+          title: 'Genres/Tags : The music genres or categories or tags the user is
+            interested in. Users can specify one or multiple genres or categories
+            or tags to narrow down the search results to artists who specialize in
+            those genres or categories or tags'
+          type: string
+        shows_name:
+          title: 'Shows Name is the name of a show, and it is associated with shows which an Artist will be performing.'
+          type: string
+        shows_date:
+          title: 'Shows Date is associated with the date of a show and is specifically relevant to shows where an Artist will be performing.'
+          type: string
+        shows_location:
+          title: 'Shows Location is related to the location (venue) of a show and is specifically relevant to shows where an Artist will be performing.'
+          type: string
+        prompt:
+          title: 'Prompt : A prompt or additional information provided by the user
+            to guide the search. This field allows users to provide context or specific
+            requirements for the artist search'
+          type: string
+        query:
+          title: 'Query : The main query or the user''s primary search term. This
+            could be related to the artist''s name, genre, or any other relevant keyword
+            that helps in identifying the desired local artists'
+          type: string
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+             type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

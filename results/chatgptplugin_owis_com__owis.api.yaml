@@ -1,0 +1,196 @@
+openapi: 3.0.0
+info:
+  title: OWIS
+  version: 1.0.0
+  description: Plugin for retrieving information about the OWIS (Orka Workflow Information System) system. The OWIS system represents an integrated solution for managing workflows and documents with an extensive search mechanism, reporting, customer management, and resource management.The core modules of the OWIS system are the workflow management module and the document management module.
+servers:
+  - url: https://chatgptplugin.owis.com
+paths:
+  /query:
+    post:
+      summary: Get inforamtion about OWIS system.
+      operationId: query_query_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    Document:
+      required:
+        - text
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        metadata:
+          $ref: "#/components/schemas/DocumentMetadata"
+    DocumentChunkMetadata:
+      type: object
+      properties:
+        source:
+          $ref: "#/components/schemas/Source"
+        source_id:
+          type: string
+        url:
+          type: string
+        created_at:
+          type: string
+        author:
+          type: string
+        document_id:
+          type: string
+    DocumentChunkWithScore:
+      required:
+        - document_id
+        - text
+        - score
+      type: object
+      properties:
+        id:
+          type: string
+        document_id:
+          type: string
+        text:
+          type: string
+        metadata:
+          $ref: "#/components/schemas/DocumentChunkMetadata"
+        embedding:
+          type: array
+          items:
+            type: number
+        score:
+          description: cosine similarity between the query and the document snippet. Higher scores are more similar.
+          type: number
+    DocumentMetadata:
+      type: object
+      properties:
+        source:
+          $ref: "#/components/schemas/Source"
+        source_id:
+          type: string
+        url:
+          type: string
+        created_at:
+          type: string
+        author:
+          type: string
+    DocumentMetadataFilter:
+      type: object
+      properties:
+        document_id:
+          type: string
+        source:
+          $ref: "#/components/schemas/Source"
+        source_id:
+          type: string
+        author:
+          type: string
+        start_date:
+          type: string
+        end_date:
+          type: string
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    Query:
+      required:
+        - query
+      type: object
+      properties:
+        query:
+          type: string
+        filter:
+          $ref: "#/components/schemas/DocumentMetadataFilter"
+        top_k:
+          description: number of results to show
+          type: integer
+          default: 5
+    QueryRequest:
+      required:
+        - queries
+      type: object
+      properties:
+        queries:
+          type: array
+          description: This is an array of search query objects, each containing a natural language query string ("query") and an optional metadata filter ("filter"). Query list MUST be in bosnian language always. Translate if not in bosnian.
+          items:
+            $ref: "#/components/schemas/Query"
+    QueryResponse:
+      required:
+        - results
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/QueryResult"
+    QueryResult:
+      required:
+        - query
+        - results
+      type: object
+      properties:
+        query:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentChunkWithScore"
+    Source:
+      enum:
+        - email
+        - file
+        - chat
+      type: string
+      description: An enumeration.
+    ValidationError:
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          type: string
+        type:
+          type: string
+          
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth'
+          tokenUrl: 'https://www.googleapis.com/oauth2/v4/token'
+          scopes:
+            openid: 'OpenID Connect authentication'

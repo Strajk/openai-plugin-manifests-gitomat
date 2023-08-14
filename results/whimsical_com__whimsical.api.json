@@ -1,0 +1,184 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Diagram to Image API",
+    "description": "A simple API to generate flowchart and mindmap images."
+  },
+  "servers": [
+    {
+      "url": "https://whimsical.com/api"
+    }
+  ],
+  "paths": {
+    "/ai.chatgpt.render-flowchart": {
+      "post": {
+        "operationId": "postRenderFlowchart",
+        "summary": "Render a flowchart from a Mermaid string",
+        "description": "Accepts a Mermaid string and returns a URL to a rendered image",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FlowchartRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "URL to the rendered image",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlowchartResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Mermaid string provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai.chatgpt.render-mindmap": {
+      "post": {
+        "operationId": "postRenderMindmap",
+        "summary": "Render markdown bullet list as a mindmap",
+        "description": "Accepts a markdown bullet list and returns a URL to a rendered image",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MindmapRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "URL to the rendered image",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MindmapResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid markdown string provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FlowchartRequest": {
+        "type": "object",
+        "properties": {
+          "mermaid": {
+            "type": "string",
+            "description": "Mermaid string to be rendered"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the diagram"
+          }
+        },
+        "required": [
+          "mermaid"
+        ]
+      },
+      "FlowchartResponse": {
+        "type": "object",
+        "properties": {
+          "imageURL": {
+            "type": "string",
+            "description": "URL of the rendered image"
+          },
+          "fileURL": {
+            "type": "string",
+            "description": "URL of the file in Whimsical"
+          }
+        }
+      },
+      "MindmapRequest": {
+        "type": "object",
+        "properties": {
+          "markdown": {
+            "type": "string",
+            "description": "Indented, markdown bullet list of mindmap nodes"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the mindmap"
+          }
+        },
+        "required": [
+          "markdown"
+        ]
+      },
+      "MindmapResponse": {
+        "type": "object",
+        "properties": {
+          "imageURL": {
+            "type": "string",
+            "description": "URL of the rendered image"
+          },
+          "fileURL": {
+            "type": "string",
+            "description": "URL of the file in Whimsical"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error message"
+          }
+        }
+      }
+    }
+  }
+}

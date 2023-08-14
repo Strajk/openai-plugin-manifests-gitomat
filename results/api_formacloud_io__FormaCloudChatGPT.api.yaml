@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: Business Question API
+  version: 1.0.0
+  description: "API to answer business-related questions. When asking about a specific topic, please format questions as follows: question: [your specific question]?"
+servers:
+  - url: https://api.formacloud.io/
+    description: API server
+paths:
+  /business-questions:
+    get:
+      operationId: getBusinessQuestion
+      summary: Get answers to business questions
+      parameters:
+        - name: question
+          in: query
+          description: The question to ask
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

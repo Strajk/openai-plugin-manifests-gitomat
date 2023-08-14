@@ -1,0 +1,74 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox Prompt Pro",
+    "description": "Optimize the given prompt to elicit a more comprehensive and insightful response from ChatGPT",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://promptpro.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/prompt_pro/prompt_optimize": {
+      "post": {
+        "description": "Optimizing your question for clarity and completeness can improve the quality of the prompt. Refining the question to strive for perfection can greatly enhance the overall quality of the prompt.",
+        "operationId": "rephrase",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "prompt"
+                ],
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "The user origin prompt"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromptProResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PromptProResponse": {
+        "title": "PromptProResponse",
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The rephrased prompt text."
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of rules which recommend gpt to follow."
+          }
+        }
+      }
+    }
+  }
+}

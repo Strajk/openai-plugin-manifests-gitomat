@@ -1,0 +1,159 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Shorten API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/shorten": {
+      "get": {
+        "summary": "Get your link shorten",
+        "operationId": "shortingLinkUsingPOST",
+        "parameters": [
+          {
+            "name": "link",
+            "in": "query",
+            "required": true,
+            "description": "Link to shorten",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your shorten link",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "short_url": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "long_url": {
+                      "type": "string"
+                    },
+                    "domain": {
+                      "type": "string"
+                    },
+                    "short_id": {
+                      "type": "string"
+                    },
+                    "expire_at_views": {
+                      "type": "string"
+                    },
+                    "expire_at_datetime": {
+                      "type": "string"
+                    },
+                    "public_stats": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stats": {
+      "get": {
+        "summary": "Get stats for a link shorten",
+        "operationId": "getStatsAboutLink",
+        "parameters": [
+          {
+            "name": "link",
+            "in": "query",
+            "required": true,
+            "description": "Link for which we want stats",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your link stats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "clicks": {
+                      "type": "integer"
+                    },
+                    "unique_clicks": {
+                      "type": "integer"
+                    },
+                    "browsers": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "countries": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "referrers": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "platforms": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "daily_clicks": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string"
+                        },
+                        "long_url": {
+                          "type": "string"
+                        },
+                        "short_url": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://a.quick-url.com"
+    }
+  ]
+}

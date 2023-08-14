@@ -1,0 +1,171 @@
+openapi: 3.0.1
+info:
+  title: A ERP Generator
+  description: Create a custom headless ERP application, and perform CRUD operations to the application with prompts.
+  version: 'v1'
+servers:
+  - url: https://blue.openai.tailor.tech
+paths:
+
+  # Create ERP applications without example data
+  /create-app/{template}:
+    post:
+      operationId: createApp
+      summary: Create ERP application without example on Tailor Platform using application template
+      parameters:
+        - in: path
+          name: template
+          schema:
+            type: string
+          required: true
+          description: The name of ERP application template. The name is any of "CRM", "HRIS" or "Order Management System"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createAppResponse"
+
+  # Create ERP applications with example data
+  /create-app-with-example/{template}:
+    post:
+      operationId: createAppWithExample
+      summary: Create ERP application with example on Tailor Platform using application template
+      parameters:
+        - in: path
+          name: template
+          schema:
+            type: string
+          required: true
+          description: The name of ERP application template. The name is any of "CRM", "HRIS" or "Order Management System"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createAppResponse"
+
+
+  /add-field:
+    post:
+      operationId: addField
+      summary: add new field to the schema
+      parameters:
+        - in: query
+          name: app_id
+          schema:
+            type: string
+          required: true
+          description: application ID for ERP
+        - in: query
+          name: field_name
+          schema:
+            type: string
+          required: true
+          description: Target field name to add
+        - in: query
+          name: schema_name
+          schema:
+            type: string
+          required: true
+          description: Target schema name to add into
+        - in: query
+          name: condition_str
+          schema:
+            type: string
+          required: true
+          description: Condition for added field. ex.) "This is required", "This field is an array" and so on.
+
+  /explain-pipeline:
+    post:
+      operationId: explainPipeline
+      summary: Explain Tailor's Pipeline
+      parameters:
+        - in: query
+          name: app_id
+          schema:
+            type: string
+          required: true
+          description: application ID for ERP
+        - in: query
+          name: pipeline_name
+          schema:
+            type: string
+          required: true
+          description: Target Pipeline name to explain
+
+  /summarize-app:
+    post:
+      operationId: summarizeApp
+      summary: Show summary of
+        what deployed ERP application does.
+
+  /explain-schema:
+    post:
+      operationId: explainSchema
+      summary: Explain the schema of deployed ERP application in Tailor Platform
+
+  /post-data:
+    post:
+      operationId: postData
+      summary: Run GraphQL mutation to change ERP application data in Tailor Platform
+      parameters:
+        - in: query
+          name: app_id
+          schema:
+            type: string
+          required: true
+          description: application ID for ERP
+        - in: query
+          name: target_type
+          schema:
+            type: string
+          required: true
+          description: Target GraphQL Type to query
+        - in: query
+          name: target_input
+          schema:
+            type: string
+          required: true
+          description: Target GraphQL input to query. It is a simple JSON format without the nesting. Don't use nested array JSON.
+
+  /get-data:
+    post:
+      operationId: getData
+      summary: Run GraphQL query to get ERP application data in Tailor Platform
+      parameters:
+        - in: query
+          name: app_id
+          schema:
+            type: string
+          required: true
+          description: application ID for ERP
+        - in: query
+          name: target_type
+          schema:
+            type: string
+          required: true
+          description: Target GraphQL Type to query
+        - in: query
+          name: from
+          schema:
+            type: integer
+          description: Integer string data filter "from". It is the index of data list
+        - in: query
+          name: size
+          schema:
+            type: integer
+          description: Integer data filter "size". It is the total size of data list
+
+
+
+components:
+  schemas:
+    createAppResponse:
+      type: object
+      properties:
+        res:
+          type: json
+          description: JSON response containing URL and APP_ID

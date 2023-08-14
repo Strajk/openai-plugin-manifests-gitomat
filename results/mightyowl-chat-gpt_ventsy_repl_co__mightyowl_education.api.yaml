@@ -1,0 +1,107 @@
+openapi: 3.0.2
+info:
+  title: MightyOwl Assistant Plugin API
+  description: An AI assistant API for querying and providing answers based on MightyOwl's educational content aimed at K-8 students
+  version: 1.0.0
+servers:
+  - url: https://mightyowl-chat-gpt.ventsy.repl.co
+paths:
+  /ask:
+    post:
+      summary: Ask
+      description: Accepts a natural language question, responds with an answer based on MightyOwl's educational content
+      operationId: ask_question_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AskRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lesson"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    AskRequest:
+      title: AskRequest
+      required:
+        - query
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+    Lesson:
+      title: Lesson
+      type: object
+      properties:
+        Lesson Title:
+          type: string
+        Lesson Description:
+          type: string
+        Lesson Link:
+          type: string
+        Lesson Standard:
+          type: string
+        Lesson Script:
+          type: string
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

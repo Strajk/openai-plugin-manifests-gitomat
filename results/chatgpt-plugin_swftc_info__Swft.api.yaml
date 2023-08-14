@@ -1,0 +1,452 @@
+openapi: 3.0.1
+info:
+  title: SWFT Plugin
+  description: A plugin that allows the user to query coins swap data SWFT using ChatGPT.".
+  version: 'v1'
+servers:
+  - url: https://chatgpt-plugin.swftc.info
+#  - url: http://localhost:5003
+paths:
+  /api/check_currency_suport/{coin_code}:
+    get:
+      operationId: check_currency_suport
+      summary: Check Currency Suport
+      description: Check whether supports the currency, and does not support returning the related currency
+      parameters:
+        - in: path
+          name: coin_code
+          schema:
+            type: string
+          required: true
+          description: The coin name.
+      responses:
+        '200':
+          description: Returns whether supports the currency, and does not support returning the related currency
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /api/getBaseInfo:
+    get:
+      operationId: get_coin_lists
+      summary: Get Base Info
+      description: Get base information on supported coins, use check_currency_name first
+      responses:
+        '200':
+          description: Returns a list of supported coins
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportedCoinsResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/cross_chain_quote/{deposit_coin_code}/{receive_coin_code}:
+    get:
+      operationId: cross_chain_quote
+      summary: Get Swap Rate
+      parameters:
+        - in: path
+          name: deposit_coin_code
+          schema:
+            type: string
+          required: true
+          description: The deposit coin name.
+        - in: path
+          name: receive_coin_code
+          schema:
+            type: string
+          required: true
+          description: The receive coin name.
+      description: Get swap rate,max deposit amount, min deposit amount, fee
+      responses:
+        '200':
+          description: Returns swap rate,max deposit amount, min deposit amount, fee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrossSwapRateResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/cross_chain_quote_of_amount/{deposit_coin_code}/{receive_coin_code}/{deposit_coin_amt}:
+    get:
+      operationId: cross_chain_quote_of_amount
+      summary: Get Swap Rate By Amount
+      parameters:
+        - in: path
+          name: deposit_coin_code
+          schema:
+            type: string
+          required: true
+          description: The deposit coin name.
+        - in: path
+          name: receive_coin_code
+          schema:
+            type: string
+          required: true
+          description: The receive coin name.
+        - in: path
+          name: deposit_coin_amt
+          schema:
+            type: string
+          required: true
+          description: The deposit coin amount.
+      description: Get swap rate,max deposit amount, min deposit amount, fee by amount
+      responses:
+        '200':
+          description: Returns swap rate,max deposit amount, min deposit amount, fee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrossSwapRateOfAmountResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/get_chain_fee/{coin_code}:
+    get:
+      operationId: get_chain_fee
+      summary: Get Chain Fee
+      description: Get cross chain fee amount
+      parameters:
+        - in: path
+          name: coin_code
+          description: The cross chian coin code name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns details for the transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetChainFeeResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/get_swap_type/{deposit_coin_code}:
+    get:
+      operationId: get_swap_type
+      summary: Get Swap Type
+      description: Before swap selelt swap1 or swap2 or swap3 by deposit coin code, if user swap2 user not need to provide the user refund address and user receive address
+      parameters:
+        - in: path
+          name: deposit_coin_code
+          description: The deposit coin name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns swap type of swap1 or swap2 or swap3
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSwapTypeResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/swap1:
+    get:
+      operationId: swap1
+      summary: Swap Tokens
+      description: Swap tokens on a specific DEX
+      parameters:
+        - in: query
+          name: deposit_coin_code
+          schema:
+            type: string
+          required: true
+          description: The deposit coin name.
+        - in: query
+          name: receive_coin_code
+          schema:
+            type: string
+          required: true
+          description: The receive coin name.
+        - in: query
+          name: deposit_coin_amt
+          schema:
+            type: string
+          required: true
+          description: The deposit coin amount.
+        - in: query
+          name: destination_addr
+          schema:
+            type: string
+          required: true
+          description: The destination coin address.
+        - in: query
+          name: refund_addr
+          schema:
+            type: string
+          required: true
+          description: The refund coin address.
+      responses:
+        '200':
+          description: Returns details for the swap transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SwapResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/swap2:
+    get:
+      operationId: swap2
+      summary: Swap Tokens
+      description: Swap tokens on a specific DEX
+      parameters:
+        - in: query
+          name: deposit_coin_code
+          schema:
+            type: string
+          required: true
+          description: The deposit coin name.
+        - in: query
+          name: receive_coin_code
+          schema:
+            type: string
+          required: true
+          description: The receive coin name.
+        - in: query
+          name: deposit_coin_amt
+          schema:
+            type: string
+          required: true
+          description: The deposit coin amount.
+      responses:
+        '200':
+          description: Returns details for the swap transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SwapResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/swap3:
+    get:
+      operationId: swap3
+      summary: Swap Tokens
+      description: Swap tokens on a specific DEX
+      parameters:
+        - in: query
+          name: deposit_coin_code
+          schema:
+            type: string
+          required: true
+          description: The deposit coin name.
+        - in: query
+          name: receive_coin_code
+          schema:
+            type: string
+          required: true
+          description: The receive coin name.
+        - in: query
+          name: deposit_coin_amt
+          schema:
+            type: string
+          required: true
+          description: The deposit coin amount.
+        - in: query
+          name: destination_addr
+          schema:
+            type: string
+          required: true
+          description: The destination coin address.
+        - in: query
+          name: refund_addr
+          schema:
+            type: string
+          required: true
+          description: The refund coin address.
+      responses:
+        '200':
+          description: Returns details for the swap transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SwapResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/query_order_state:
+    get:
+      operationId: query_order_state
+      summary: query Order State
+      description: Get order state by refund_address and orderId
+      parameters:
+        - in: query
+          name: refund_addr
+          description:  The refund coin address.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: orderId
+          description: order unique identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns details for the transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/queryOrderStateResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/user_confirm_address:
+    get:
+      operationId: user_confirm_address
+      summary: User Confirm Address
+      description: get user receive address, refund address, and platfrom destination address in order for users to check
+      parameters:
+        - in: query
+          name: refund_addr
+          description:  The refund coin address.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: orderId
+          description: order unique identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns details for the transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserConfirmAddressResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    BaseResponse:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        rules:
+          type: string
+    SupportedCoinsResponse:
+      type: object
+      properties:
+        coins:
+          type: array
+          items:
+            type: string
+    CrossSwapRateResponse:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        rules:
+          type: string
+    CrossSwapRateOfAmountResponse:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        rules:
+          type: string
+    GetChainFeeResponse:
+      type: object
+      properties:
+        chainFee:
+          type: string
+        coinCode:
+          type: string
+    GetSwapTypeResponse:
+      type: object
+      properties:
+        content:
+          type: string
+    SwapResponse:
+      type: object
+      properties:
+        titie:
+          type: string
+        content:
+          type: string
+        platformAddr:
+          type: string
+        orderId:
+          type: string
+        link:
+          type: string
+        rules:
+          type: string
+    queryOrderStateResponse:
+      type: object
+      properties:
+        state:
+          type: string
+    UserConfirmAddressResponse:
+      type: object
+      properties:
+        titie:
+          type: string
+        content:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string

@@ -1,0 +1,85 @@
+{
+  "info": {
+    "title": "Amazon Finds API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.1",
+  "paths": {
+    "/search": {
+      "post": {
+        "operationId": "searchProducts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "browse_node": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "keywords": {
+                    "type": "string"
+                  },
+                  "max_price": {
+                    "type": "number"
+                  },
+                  "min_price": {
+                    "type": "number"
+                  },
+                  "prime_only": {
+                    "type": "boolean"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "image_url": {
+                        "type": "string"
+                      },
+                      "is_prime_eligible": {
+                        "type": "boolean"
+                      },
+                      "locale": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "price": {
+                        "type": "string"
+                      },
+                      "product_url": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "A list of products"
+          }
+        },
+        "summary": "Search for products on Amazon"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://amazfinds.aitoolbot.repl.co"
+    }
+  ]
+}

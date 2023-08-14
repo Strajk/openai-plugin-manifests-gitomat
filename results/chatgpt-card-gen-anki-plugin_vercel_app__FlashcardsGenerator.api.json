@@ -1,0 +1,70 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "FlashcardsGenerator",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/anki-link-gen": {
+      "post": {
+        "summary": "Get a link that provides a download to the created anki cards.",
+        "operationId": "getCardsDownload",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "The TXT that will be available for download."
+                  },
+                  "fileName": {
+                    "type": "string",
+                    "description": "A meaningful file name based on the content of the cards. Must be of maximum 20 characters. It should not contain the `-` character."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/multiple-images-gen": {
+      "post": {
+        "summary": "Get multiple images to use in an Anki card based on a natural language query.",
+        "operationId": "getMultipleImagesGeneration",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queries": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "The Natural Language queries to get the image. Try to be as specific as possible to get the most disambigious result. The format for each query should be `image of ${query},  ${subject}`."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

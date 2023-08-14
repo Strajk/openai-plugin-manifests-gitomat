@@ -1,0 +1,133 @@
+openapi: 3.0.1
+info:
+  title: AutoInfra Plugin
+  description: A plugin that allows the user to talk to their servers and run commands on them.
+  version: 'v1'
+servers:
+  - url: https://plugin.autoinfra.ai
+paths:
+  /run_command:
+    post:
+      operationId: runCommand
+      summary: Run command in shell
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                command:
+                  type: string
+                  description: The linux command to run.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getrunResponse'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getrunResponse'
+
+  /get_available_commands/:
+    get:
+      operationId: getAvailableCommands
+      summary: Get available non default commands
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAvailableCommandsResponse'
+
+  /install_cmd:
+    post:
+      operationId: installCommand
+      summary: Install Ubuntu package using sudo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ins_package:
+                  type: string
+                  description: The linux command that installs a package
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/installCommandResponse'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/installCommandResponse'
+                
+  /set_public_ip/{address}:
+    post:
+      summary: Set the user's address in the format username@ip_address, and their port if they specify it. 
+      description: This endpoint allows the user to set their custom address in the format username@ip_address as well as their port
+      operationId: setPublicIP
+      parameters:
+      - in: path
+        name: address
+        schema:
+            type: string
+        required: true
+        description: The address to set, in the format of username@ip_address 
+      - in: query
+        name: port
+        schema:
+          type: integer
+          default: 22
+        required: false
+        description: The port number to set, defaults to 22 if not provided
+      responses:
+        "200":
+          description: Public IP address set successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getrunResponse'
+        "500":
+          description: Failed to set public IP address.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getrunResponse'
+
+components:
+  schemas:
+    getrunResponse:
+      type: object
+      properties:
+        commands:
+          type: array
+          items:
+            type: string
+          description: The output of the linux command ran
+    getAvailableCommandsResponse:
+      type: object
+      properties:
+        commands:
+          type: array
+          items:
+            type: string
+          description: The list of available non default commands.
+    installCommandResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message indicating whether the package was successfully installed.

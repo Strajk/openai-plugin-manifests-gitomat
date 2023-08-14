@@ -1,0 +1,153 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Promptest",
+    "description": "A plugin that helps users to improve their prompts for AI models like ChatGPT.",
+    "version": "v1"
+  },
+  "paths": {
+    "/enhance": {
+      "post": {
+        "operationId": "enhance",
+        "summary": "Enhance the input meant for ChatGPT",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputPrompt"
+              },
+              "example": {
+                "text": "/enhance Create an SEO article about holidays in the United States"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneratedContent"
+                },
+                "example": {
+                  "content": {
+                    "text": "You are the best prompt writer in the world. Rewrite the input meant for ChatGPT..."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "operationId": "feedback",
+        "summary": "Provide feedback on the input meant for ChatGPT",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputPrompt"
+              },
+              "example": {
+                "text": "/feedback Create a business plan for a dog park"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneratedContent"
+                },
+                "example": {
+                  "content": {
+                    "text": "You are the best prompt teacher in the world. Give feedback on the input meant for ChatGPT..."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/brainstorm": {
+      "get": {
+        "operationId": "brainstorm",
+        "summary": "Guide a brainstorming session for crafting prompts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneratedContent"
+                },
+                "example": {
+                  "content": {
+                    "text": "You are an expert in crafting prompts for AI models like ChatGPT..."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workout": {
+      "get": {
+        "operationId": "workout",
+        "summary": "Conduct a 'Prompt Workout' for enhancing prompt crafting skills",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneratedContent"
+                },
+                "example": {
+                  "content": {
+                    "text": "You are a Prompt Personal Trainer, specializing in helping me craft effective prompts for AI models..."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "InputPrompt": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The prompt to be enhanced or given feedback on."
+          }
+        }
+      },
+      "GeneratedContent": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "The task prompt for enhancing the prompt or giving feedback."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,995 @@
+openapi: 3.0.0
+info:
+  title: Alchemy
+  description: API for querying blockchain data based on natural language queries.
+servers:
+- url: https://chat-web3-plugin.alchemy.com
+paths:
+  /getBalanceInNativeCurrency:
+    post:
+      operationId: get_balance_in_native_currency
+      summary: getBalanceInNativeCurrency
+      description: Accepts an address or ENS name. Returns its balance.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                addressOrEnsName:
+                  $ref: "#/components/schemas/addressOrEnsName"
+                blockTag:
+                  $ref: "#/components/schemas/blockTag"
+                network:
+                  $ref: "#/components/schemas/network"
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+              - addressOrEnsName
+              - rawPrompt
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    $ref: "#/components/schemas/balance"
+
+  /getBlock:
+    post:
+      operationId: get_block
+      summary: getBlock
+      description: Accepts a block tag. Returns information about block.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                blockTag:
+                  $ref: "#/components/schemas/blockTag"
+                network:
+                  $ref: "#/components/schemas/network"
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+              - blockTag
+              - rawPrompt
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/block"                    
+
+  /getAssetTransfers:
+    post:
+      operationId: get_asset_transfers
+      summary: getAssetTransfers
+      description: Accepts set of params to filter for transfers. Returns asset transfers.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/getAssetTransferParams"
+              description: Filters to query asset transfers.
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getAssetTransfersResponse"
+
+  /getTransactionDetails:
+    post:
+      operationId: getTransactionDetails
+      summary: getTransactionDetails
+      description: Accepts a transaction hash. Returns transaction details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transactionHash:
+                  $ref: "#/components/schemas/transactionHash"
+                network:
+                  $ref: "#/components/schemas/network"
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+              - transactionHash
+              - rawPrompt
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hash:
+                    $ref: "#/components/schemas/transactionHash"
+                  to:
+                    $ref: "#/components/schemas/addressOrEnsName"
+                    description: Transaction recipient.
+                  from:
+                    $ref: "#/components/schemas/addressOrEnsName"
+                    description: Transaction sender.
+                  nonce:
+                    type: integer
+                    description: Transaction nonce.
+                  gasLimit:
+                    type: string
+                    description: Transaction gas limit.
+                  gasPrice:
+                    type: string
+                    description: Gas price.
+                  data:
+                    type: string
+                    description: Transaction data.
+                  value:
+                    type: string
+                    description: Transferred value.
+                  chainId:
+                    type: integer
+                    description: Occurrence chain ID.
+                  r:
+                    type: string
+                    description: ECDSA signature r.
+                  s:
+                    type: string
+                    description: ECDSA signature s.
+                  v:
+                    type: integer
+                    description: ECDSA recovery id.
+                  type:
+                    type: integer
+                    description: Transaction type (0:legacy, 1:EIP-2930, 2:EIP-1559).
+                  accessList:
+                    type: array
+                    items:
+                      type: object
+                      description: Access list.
+                  maxPriorityFeePerGas:
+                    type: string
+                    description: Maximum gas fee for miner tip.
+                  maxFeePerGas:
+                    type: string
+                    description: Maximum gas fee.
+                  blockNumber:
+                    $ref: "#/components/schemas/blockNumber"
+                    description: Inclusion block number.
+                  blockHash:
+                    $ref: "#/components/schemas/blockHash"
+                    description: Inclusion block hash.
+                  timestamp:
+                    type: integer
+                    description: Transaction timestamp.
+                  confirmations:
+                    type: integer
+                    description: Confirmation count.
+                  raw:
+                    type: string
+                    description: Raw transaction.
+
+  /getERC20TokenBalances:
+    post:
+      operationId: getERC20TokenBalances
+      summary: getERC20TokenBalances
+      description: Accepts an address or ENS name. Returns its ERC20 token balances ( with token metadata ).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                addressOrENSName:
+                  $ref: "#/components/schemas/addressOrEnsName"
+                options:
+                  type: object
+                  description: "Options to filter token balances for certain token contracts"
+                  properties:
+                    pageKey:
+                      $ref: "#/components/schemas/pageKey"
+                      description: (Optional) Page key from an existing response to use for pagination.
+                    contractAddresses:
+                      type: array
+                      items:
+                        type: string
+                      description: "Array of token contract addresses to filter token balances for"
+                network:
+                  $ref: "#/components/schemas/network"
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+              - addressOrENSName
+              - rawPrompt
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tokens:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        contractAddress:
+                          type: string
+                          description: Address of token contract.
+                        rawBalance:
+                          type: string
+                          description: Balance of token in smallest unit ( according to token decimals ).
+                        decimals:
+                          type: integer
+                          description: Number of decimals of token.
+                        logo:
+                          type: string
+                          description: URL of token logo.
+                        name:
+                          type: string
+                          description: Name of token.
+                        symbol:
+                          type: string
+                          description: Symbol of token.
+                        balance:
+                          type: string
+                          description: Balance of token in normal units.
+                        error:
+                          type: string
+                          description: Error message if token balance not retrieved.
+                  pageKey:
+                    $ref: "#/components/schemas/pageKey"
+                  disclaimer:
+                    $ref: "#/components/schemas/disclaimer"
+
+  /getNFTsForOwner:
+    post:
+      operationId: getNFTsForOwner
+      summary: getNFTsForOwner
+      description: Accepts an address or ENS name. Returns NFTs owned by it ( with NFT metadata ).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/getNFTsParams"
+      responses:
+        '200':
+          description: Operation success.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ownedNfts:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/NFT"
+                  pageKey:
+                    $ref: "#/components/schemas/pageKey"
+                  disclaimer:
+                    $ref: "#/components/schemas/disclaimer"
+
+  /getMintedNFTs:
+    post:
+      operationId: getMintedNFTs
+      summary: getMintedNFTs
+      description: Accepts an address or ENS name. Returns NFTs minted by it ( with NFT metadata ).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/getNFTsParams"
+      responses:
+        '200':
+          description: Operation success.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mintedNfts:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/NFT"
+                  pageKey:
+                    $ref: "#/components/schemas/pageKey"
+                  disclaimer:
+                    $ref: "#/components/schemas/disclaimer"
+
+
+  /getNFTContractMetadata:
+      post:
+        summary: getNFTContractMetadata
+        operationId: getNFTContractMetadata
+        description: Accepts an NFT contract address and returns its metadata ( deployer, floor price, etc.)
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contractAddress:
+                    $ref: '#/components/schemas/addressOrEnsName'
+                    description: NFT Contract Address
+                  network:
+                    $ref: '#/components/schemas/network'
+                  rawPrompt:
+                    $ref: "#/components/schemas/rawPrompt"
+                required:
+                  - contractAddress
+                  - rawPrompt
+        responses:
+          '200':
+            description: Successful operation
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    collectionName:
+                      type: string
+                      description: Name of the collection
+                    symbol:
+                      type: string
+                      description: Symbol of NFT Collection
+                    imageUrl:
+                      type: string
+                      description: URL of image associated with NFT Collection. For display purposes.
+                    totalSupply:
+                      type: string
+                      description: Total supply of NFTs in contract
+                    tokenType:
+                      type: string
+                      description: Type of token, e.g., ERC721
+                    opensSeaFloorPrice:
+                      type: number
+                      description: Lowest price for NFT in this contract on OpenSea ( Floor Price )
+                    contractDeployer:
+                      $ref: '#/components/schemas/addressOrEnsName'
+                      description: Address that deployed the contract
+                    deployedBlockNumber:
+                      $ref: '#/components/schemas/blockNumber'
+                      description: Block number where the contract was deployed
+
+  /getERC20TokenMetadata:
+    post:
+      summary: getERC20TokenMetadata
+      operationId: getERC20TokenMetadata
+      description: Accepts an ERC20 token contract address and returns its metadata ( name, symbol, logo and decimals)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contractAddress:
+                  $ref: '#/components/schemas/addressOrEnsName'
+                  description: ERC20 Token Contract Address to get metadata for
+                network:
+                  $ref: '#/components/schemas/network'
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+              - contractAddress
+              - rawPrompt
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  decimals:
+                    type: integer
+                    description: Token decimals
+                  logo:
+                    type: string
+                    description: Token logo URL for display purposes.
+                  name:
+                    type: string
+                    description: Token name
+                  symbol:
+                    type: string
+                    description: Token symbol
+
+  /getNFTMetadata:
+      post:
+        summary: getNFTMetadata
+        operationId: getNFTMetadata
+        description: Accepts an NFT contract address and token id and returns its metadata.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contractAddress:
+                    $ref: '#/components/schemas/addressOrEnsName'
+                    description: NFT Contract Address
+                  tokenId:
+                    type: string
+                    description: NFT Token ID
+                  network:
+                    $ref: '#/components/schemas/network'
+                  rawPrompt:
+                    $ref: "#/components/schemas/rawPrompt"
+                required:
+                  - contractAddress
+                  - tokenId
+                  - rawPrompt
+        responses:
+          '200':
+            description: Successful operation
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    collectionName:
+                      type: string
+                      description: Name of the NFT collection.
+                    symbol:
+                      type: string
+                      description: Symbol of the NFT.
+                    totalSupply:
+                      type: string
+                      description: Total number of NFTs in the collection.
+                    tokenType:
+                      type: string
+                      description: Type of the token (ERC721, ERC1155 etc).
+                    openseaFloorPrice:
+                      type: number
+                      format: float
+                      description: Floor price of the NFT collection on Opensea.
+                    externalUrl:
+                      type: string
+                      description: External URL of the NFT or collection. ( NFT Website )
+                    twitterUsername:
+                      type: string
+                      description: Twitter username of the NFT creator or community.
+                    discordUrl:
+                      type: string
+                      description: Discord server URL of the NFT community.
+                    contractDeployer:
+                      $ref: '#/components/schemas/addressOrEnsName'
+                      description: Address that deployed the NFT contract.
+                    deployedBlockNumber:
+                      $ref: '#/components/schemas/blockNumber'
+                      description: Block number where the NFT contract was deployed.
+                    title:
+                      type: string
+                      description: Title of the NFT.
+                    description:
+                      type: string
+                      description: Description of the NFT.
+                    nftImageUrl:
+                      type: string
+                      description: Image URL of the NFT. For display purposes.
+
+  /getNFTLastSalePrice:
+    post:
+      summary: getNFTLastSalePrice
+      operationId: "getNFTLastSalePrice"
+      description: Accepts an NFT contract address and token id and returns its last sale price.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contractAddress:
+                  $ref: '#/components/schemas/addressOrEnsName'
+                  description: NFT Contract Address
+                tokenId:
+                  type: string
+                  description: "The token ID of the NFT whose last sale price is to be fetched."
+                network:
+                  type: string
+                  description: "The network on which the NFT exists."
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+                - contractAddress
+                - tokenId
+                - rawPrompt
+      responses:
+        '200':
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lastSalePrice:
+                    type: string
+                    description: "The last sale price of the NFT in Ether."
+
+  /getFeeData:
+    post:
+      operationId: getFeeData
+      summary: getFeeData
+      description: Returns the fee data ( gasPrice, maxPriorityFeePerGas, maxFeePerGas and lastBaseFeePerGas ) according current network conditions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                network:
+                  $ref: '#/components/schemas/network'
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+              - rawPrompt
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lastBaseFeePerGas:
+                    $ref: '#/components/schemas/lastBaseFeePerGas'
+                  maxFeePerGas:
+                    $ref: '#/components/schemas/maxFeePerGas'
+                  maxPriorityFeePerGas:
+                    $ref: '#/components/schemas/maxPriorityFeePerGas'
+                  gasPrice:
+                    $ref: '#/components/schemas/gasPrice'
+
+  /getTransactionCount:
+    post:
+      summary: getTransactionCount
+      operationId: getTransactionCount
+      description: Accepts an address or ENS name and returns the number of transactions sent from it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                addressOrENSName:
+                  $ref: '#/components/schemas/addressOrEnsName'
+                network:
+                  $ref: '#/components/schemas/network'
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+                - addressOrENSName
+                - rawPrompt
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactionCount:
+                    type: integer
+                    description: Number of transactions sent from the specified address or ENS name.
+
+  /getLatestBlockNumber:
+    post:
+      summary: getLatestBlockNumber
+      operationId: getLatestBlockNumber
+      description: Returns the latest block number.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                network:
+                  $ref: '#/components/schemas/network'
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+                - rawPrompt
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  blockNumber:
+                    $ref: '#/components/schemas/blockNumber'
+
+  /searchNFTContractMetadata:
+    post:
+      summary: searchContractMetadata
+      operationId: searchContractMetadata
+      description: Accepts a search string and returns a list of NFT contracts with metadata that match the search string.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  description: Search string to search for NFT contracts.
+                network:
+                  $ref: '#/components/schemas/network'
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+                - searchString
+                - rawPrompt
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: string
+                      description: Contract address of the NFT contract.
+                    name:
+                      type: string
+                    symbol:
+                      type: string
+                    totalSupply:
+                      type: string
+                    tokenType:
+                      type: string
+                    openSea:
+                      type: object
+                      properties:
+                        floorPrice:
+                          type: number
+                        collectionName:
+                          type: string
+                        safelistRequestStatus:
+                          type: string
+                        imageUrl:
+                          type: string
+                        description:
+                          type: string
+                        externalUrl:
+                          type: string
+                        twitterUsername:
+                          type: string
+                        discordUrl:
+                          type: string
+                        lastIngestedAt:
+                          type: string
+                          format: date-time
+                    contractDeployer:
+                      type: string
+                    deployedBlockNumber:
+                      type: integer 
+
+  /getTransactionReceipt:
+    post:
+      summary: getTransactionReceipt
+      operationId: getTransactionReceipt
+      description: Accepts a transaction hash and returns the transaction receipt.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transactionHash:
+                  type: string
+                  description: Transaction hash of the transaction receipt to be fetched.
+                network:
+                  $ref: '#/components/schemas/network'
+                rawPrompt:
+                  $ref: "#/components/schemas/rawPrompt"
+              required:
+                - transactionHash
+                - rawPrompt
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactionReceipt:
+                    type: object
+                    description: Transaction receipt of the specified transaction hash.
+
+components:
+  schemas:
+    rawPrompt:
+      type: string
+      description: Raw prompt ( full query ) by the user.
+    addressOrEnsName:
+      title: addressOrEnsName
+      type: string
+      description: Crypto address or ENS name.
+    blockTag:
+      title: blockTag
+      type: string
+      description: Block tag or block hash. Options are "latest", "earliest", "pending", or a block number.
+    blockTagAssetTransfers:
+      title: blockTagAssetTransfers
+      type: string
+      description: Block tag ("latest" or "Indexed") or Block Number.
+    network:
+      title: network
+      type: string
+      description: Network to perform operation on. Options are "ethereum", "polygon", "polygonzkevm", "arbitrum", "optimism".
+    balance:
+      title: balance
+      type: string
+      description: Balance of address in native currency of associated network. ETH for Ethereum, Arbitrum, and Optimism. MATIC for Polygon and PolygonzkEVM.
+    blockHash:
+      title: blockHash
+      type: string
+      description: Hash of block.
+    blockNumber:
+      title: blockNumber
+      type: integer
+      description: Block number.
+    transactionHash:
+      title: transactionHash
+      type: string
+      description: A transaction hash.
+    pageKey:
+      type: string
+      description: Page key for next page results. If `null`, no more pages.
+    block:
+      title: block
+      type: object
+      properties:
+        hash:
+          $ref: '#/components/schemas/blockHash'
+        parentHash:
+          type: string
+          description: Hash of parent block.
+        number:
+          $ref: '#/components/schemas/blockNumber'
+        timestamp:
+          type: integer
+          description: Timestamp when block was mined.
+        nonce:
+          type: string
+          description: Nonce of block.
+        difficulty:
+          type: integer
+          description: Difficulty of block.
+        _difficulty:
+          type: string
+          description: Difficulty of block in BigNumber format.
+        gasLimit:
+          type: string
+          description: Gas limit for block in BigNumber format.
+        gasUsed:
+          type: string
+          description: Gas used for block in BigNumber format.
+        miner:
+          type: string
+          description: Address of miner of block.
+        extraData:
+          type: string
+          description: Extra data related to block.
+        baseFeePerGas:
+          type: string
+          description: Base fee per gas for block in BigNumber format or null.
+        transactionCount:
+          type: integer
+          description: Number of transactions in block.
+        lastBaseFeePerGas:
+          type: string
+          description: Base fee per gas for the last block in Gwei units. `null` if network does not support EIP-1559.
+        maxFeePerGas:
+          type: string
+          description: Suggested maximum fee per gas to set for an EIP-1559 transaction in Gwei units. `null` if network does not support EIP-1559.
+        maxPriorityFeePerGas:
+          type: string
+          description: Suggested maximum priority fee per gas to set for an EIP-1559 transaction in Gwei units. `null` if the network does not support EIP-1559.
+        gasPrice:
+          type: string
+          description: Suggested gas price to set for a legacy transaction ( in Gwei units ) or if the network does not support EIP-1559.
+        disclaimer:
+          type: string
+          description: Only returned if pageKey is returned. Indicates that the returned response is not the full list of results and full response could not be fetched due to ChatGPT's context limit and that the user should let chatgpt know if they want to see more results and chatgpt will make another request to get the next page of results using the pageKey.
+        NFT:
+          type: object
+          description: NFT
+          properties:
+            contractAddress:
+              $ref: '#/components/schemas/addressOrEnsName'
+              description: NFT Contract Address
+            totalSupply:
+              type: string
+              description: Total NFT supply.
+            tokenType:
+              type: string
+              description: Token type (ERC721, ERC1155 etc).
+            openseaFloorPrice:
+              type: number
+              description: Floor Price of NFT collection on Opensea.
+            collectionName:
+              type: string
+              description: Collection name.
+            collectionImageURL:
+              type: string
+              description: Collection (NFT Contract) Image URL.
+            nftImageURL:
+              type: string
+              description: NFT (token id) Image URL. For display purposes.
+            contractDeployer:
+              $ref: '#/components/schemas/addressOrEnsName'
+              description: Contract deployer address.
+            deployedBlockNumber:
+              $ref: '#/components/schemas/blockNumber'
+              description: Contract deployment block number.
+            tokenId:
+              type: string
+              description: NFT Token ID.
+            title:
+              type: string
+              description: NFT title.
+            balance:
+              $ref: '#/components/schemas/balance'
+              description: Owner's NFT balance ( Number of NFTs the owner holds from this NFT contract )
+    getNFTsParams:
+      type: object
+      properties:
+        addressOrENSName:
+          $ref: "#/components/schemas/addressOrEnsName"
+        options:
+          type: object
+          description: "Options to filter NFTs"
+          properties:
+            pageKey:
+              $ref: "#/components/schemas/pageKey"
+              description: (Optional) Page key from an existing response to use for pagination.
+            contractAddresses:
+              type: array
+              items:
+                type: string
+              description: "Array of token contract addresses to filter NFTs for"
+            omitMetadata:
+              type: boolean
+              description: "Whether to omit NFT metadata from response"
+            pageSize:
+              type: integer
+              description: "Number of NFTs to return per page, default is 11"
+        network:
+          $ref: "#/components/schemas/network"
+        rawPrompt:
+          $ref: "#/components/schemas/rawPrompt"
+      required:
+        - addressOrENSName
+        - rawPrompt
+    getAssetTransferParams:
+      title: getAssetTransferParams
+      type: object
+      properties:
+        fromBlock:
+          $ref: '#/components/schemas/blockTagAssetTransfers'
+          description: Starting block.
+        toBlock:
+          $ref: '#/components/schemas/blockTagAssetTransfers'
+          description: Ending block.
+        order:
+          type: string
+          description: Order for transfers. Options are "asc" ( oldest first ) or "desc" ( most recent first ). Defaults to "asc".
+        fromAddress:
+          $ref: '#/components/schemas/addressOrEnsName'
+          description: Sender address to filter transfers by. Defaults to all addresses.
+        toAddress:
+          $ref: '#/components/schemas/addressOrEnsName'
+          description: Recipient address to filter transfers by. Defaults to all addresses.
+        contractAddresses:
+          type: array
+          items:
+            type: string
+          description: Array of contract addresses. Only applies to "erc20", "erc721", "erc1155" transfers. Defaults to all addresses.
+        excludeZeroValue:
+          type: boolean
+          description: Boolean indicating if zero value transfers be excluded. Defaults to "true".
+        category:
+          type: array
+          items:
+            type: string
+          description: Array of categories to get transfers for. Options are "erc20", "erc721", "erc1155", "external", "internal" and "specialnft". At least one is required. "external" transfers are native currency transfers i.e. ETH for Ethereum, Arbitrum, and Optimism. MATIC for Polygon and PolygonzkEVM.
+        maxCount:
+          type: integer
+          description: Max number of results to return per page. Defaults to 1000.
+        pageKey:
+          $ref: '#/components/schemas/pageKey'
+          description: (Optional) Page key from an existing response to use for pagination.
+        withMetadata:
+          type: boolean
+          description: Boolean indicating if metadata should be included for each transfer. Defaults to "false".
+        network:
+          $ref: '#/components/schemas/network'
+        rawPrompt:
+          $ref: "#/components/schemas/rawPrompt"
+      required:
+      - category
+      - withMetadata
+      - rawPrompt
+    getAssetTransfersResponse:
+      title: getAssetTransfersResponse
+      type: object
+      properties:
+        transfers: 
+          type: array
+          items:
+            type: object
+            properties:
+              uniqueId:
+                type: string
+                description: unique id of transfer.
+              category:
+                type: string
+                description: Category of transfer.
+              blockNum:
+                type: string
+                description: Block number in which transfer occurred.
+              from:
+                type: string
+                description: Sender address of transfer.
+              to:
+                type: string
+                description: Recipient address of transfer.
+              value:
+                type: number
+                description: Converted asset transfer value as a number (raw value divided by contract decimal). null if ERC721 transfer or contract decimal not available.
+              erc721TokenId:
+                type: string
+                description: ERC721 token id of asset. null if not ERC721 transfer. Deprecated, use tokenId instead.
+              erc1155Metadata:
+                type: array
+                items:
+                  type: object
+                description: Array of ERC1155 metadata objects if asset category is "erc1155".
+              tokenId:
+                type: string
+                description: Token ID for ERC721 (or other NFT) tokens.
+              asset:
+                type: string
+                description: ETH or the token's symbol. null if not defined in contract.
+              hash:
+                type: string
+                description: Transaction hash (hex string).
+              rawContract:
+                type: object
+                description: Data about raw contract of transferred asset.
+              metadata:
+                type: object
+                description: Additional metadata about transfer event.
+        pageKey:
+          $ref: '#/components/schemas/pageKey'

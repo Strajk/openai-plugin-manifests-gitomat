@@ -1,0 +1,1868 @@
+openapi: 3.1.0
+info:
+  title: VBOUT
+  version: '1.0'
+  description: VBOUT Features API documentation
+servers:
+  - url: https://api.vbout.com/1
+paths:
+  /EmailMarketing/GetContacts:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contacts:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            email:
+                              type: string
+                            status:
+                              type: string
+                            registration_date:
+                              type: string
+      operationId: get-EmailMarketing-GetContacts
+      description: "Get Contacts for a list"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: listid
+          required: true
+          description: The ID of the list to return its contacts.
+  /EmailMarketing/GetContact:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contact:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      status:
+                        type: string
+                      registration_date:
+                        type: string
+      operationId: get-EmailMarketing-GetContact
+      description: "Get contact based on ID"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: id
+          required: true
+          description: The ID of the contact to return.
+  /EmailMarketing/GetContactsByPhoneNumber:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contacts:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            email:
+                              type: string
+                            status:
+                              type: string
+                            registration_date:
+                              type: string
+      operationId: get-EmailMarketing-GetContactsByPhoneNumber
+      description: "Get Contacts By PhoneNumber"
+      parameters:
+        - schema:
+            type: string
+            pattern: '^\+?[1-9]\d{1,14}$'
+          in: query
+          name: phone
+          description: The phone number of the contacts to return.
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: listid
+          description: The ID of the list to return its contacts.
+  /EmailMarketing/AddContact:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-AddContact
+      description: "Add contact. The contact has fields like firstname 'john'. The list contains custom fields with an ID as the key (e.g., {'123': 'firstname', '8910': 'lastname'}). In request parameters there is a 'fields' string that contains multiple comma-seperated key-value pairs, such as 123:john,8910:smith."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: The email of the contact.
+                status:
+                  type: string
+                  description: The status of the contact.
+                listid:
+                  type: integer
+                  description: The ID of the list to assign this contact to.
+                ipaddress:
+                  type: string
+                  description: The ip of the contact.
+                fields:
+                  type: string
+                  description: Custom Field that has multiple comma-seperated key-value pairs where key is field ID and value is the field value. Format -> key1:value1,key2:value2
+  /EmailMarketing/GetContactByEmail:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contact:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      status:
+                        type: string
+                      registration_date:
+                        type: string
+
+      operationId: get-EmailMarketing-GetContactByEmail
+      description: "Get contact based on email"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: email
+          required: true
+          description: The email of the contact to return.
+        - schema:
+            type: integer
+          in: query
+          name: listid
+          description: The list id of which this contact does belong to.
+  /EmailMarketing/EditContact:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-EditContact
+      description: "Edit Contact. The contact has fields like firstname 'john'. The list contains custom fields with an ID as the key (e.g., {'123': 'firstname', '8910': 'lastname'}). In request parameters there is a 'fields' string that contains multiple comma-seperated key-value pairs, such as 123:john,8910:smith."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: The ID of the contact.
+                email:
+                  type: string
+                  description: The email of the contact.
+                status:
+                  type: string
+                  description: The status of the contact.
+                ipaddress:
+                  type: string
+                  description: The ip of the contact.
+                fields:
+                  type: string
+                  description: Custom Field that has multiple comma-seperated key-value pairs where key is field ID and value is the field value. Format -> key1:value1,key2:value2
+  /EmailMarketing/SyncContact:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-SyncContact
+      description: "Sync Contact. The contact has fields like firstname 'john'. The list contains custom fields with an ID as the key (e.g., {'123': 'firstname', '8910': 'lastname'}). In request parameters there is a 'fields' string that contains multiple comma-seperated key-value pairs, such as 123:john,8910:smith."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                listid:
+                  type: integer
+                  description: The ID of the list to assign this contact to.
+                email:
+                  type: string
+                  description: The email of the contact.
+                status:
+                  type: string
+                  description: The status of the contact.
+                ipaddress:
+                  type: string
+                  description: The ip of the contact.
+                fields:
+                  type: string
+                  description: Custom Field that has multiple comma-seperated key-value pairs where key is field ID and value is the field value. Format -> key1:value1,key2:value2
+  /EmailMarketing/DeleteContact:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-DeleteContact
+      description: "Delete Contact"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: listid
+          description: The ID of the list of the list to delete from.
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The ID of the contact to delete.
+          required: true
+  /EmailMarketing/MoveContact:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-MoveContact
+      description: "Move Contact from list to list"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The ID of the contact.
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: listid
+          description: The ID of the list to move this contact to.
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: sourceid
+          description: The ID of the list where this contact is found.
+          required: true
+  /EmailMarketing/GetContactTimeline:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+                  timeline:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            key:
+                              type: string
+                            snippet:
+                              type: string
+                            timestamp:
+                              type: integer
+                            datetime:
+                              type: string
+                            details:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  key:
+                                    type: string
+                                  label:
+                                    type: string
+                                  value:
+                                    type: integer | string
+                      count:
+                        type: integer
+                      total:
+                        type: integer
+                  utm:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            link:
+                              type: string
+                            utm:
+                              type: object
+                              properties:
+                                campaign:
+                                  type: string
+                                source:
+                                  type: string
+                                medium:
+                                  type: string
+                                term:
+                                  type: string
+                                content:
+                                  type: string
+                            timestamp:
+                              type: integer
+                            datetime:
+                              type: string
+                      count:
+                        type: integer
+                  automated:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            timestamp:
+                              type: integer
+                            datetime:
+                              type: string
+                            details:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  key:
+                                    type: string
+                                  value:
+                                    type: string
+                      count:
+                        type: integer
+      operationId: get-EmailMarketing-GetContactTimeline
+      description: "Get Contact Timeline By ID"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: id
+          required: true
+          description: The ID of the contact to return his timeline activities.
+        - schema:
+            type: string
+          in: query
+          name: include
+          required: true
+          description: Comma separated keys to return other details with the timeline activities.
+  /EmailMarketing/GetContactTimelineByEmailAddress:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+                  timeline:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            key:
+                              type: string
+                            snippet:
+                              type: string
+                            timestamp:
+                              type: integer
+                            datetime:
+                              type: string
+                            details:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  key:
+                                    type: string
+                                  label:
+                                    type: string
+                                  value:
+                                    type: integer | string
+                      count:
+                        type: integer
+                      total:
+                        type: integer
+                  utm:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            link:
+                              type: string
+                            utm:
+                              type: object
+                              properties:
+                                campaign:
+                                  type: string
+                                source:
+                                  type: string
+                                medium:
+                                  type: string
+                                term:
+                                  type: string
+                                content:
+                                  type: string
+                            timestamp:
+                              type: integer
+                            datetime:
+                              type: string
+                      count:
+                        type: integer
+                  automated:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            timestamp:
+                              type: integer
+                            datetime:
+                              type: string
+                            details:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  key:
+                                    type: string
+                                  value:
+                                    type: string
+                      count:
+                        type: integer
+      operationId: get-EmailMarketing-GetContactTimelineByEmailAddress
+      description: "Get Contact Timeline By Email Address"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: email
+          required: true
+          description: The email address for the contact to return his timeline activities.
+        - schema:
+            type: string
+          in: query
+          name: include
+          required: true
+          description: Comma separated keys to return other details with the timeline activities.
+  /EmailMarketing/AddList:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-AddList
+      description: "Add / Create List"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name of the list.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: email_subject
+          description: The default subject line of subscription.
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: reply_to
+          description: The Reply to email of the list.
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: fromemail
+          description: The From email of the list.
+        - schema:
+            type: string
+          in: query
+          name: from_name
+          description: The From name of the list.
+        - schema:
+            type: string
+          in: query
+          name: doubleOptin
+          description: Email confirmation required (Double opt-in).
+        - schema:
+            type: string
+          in: query
+          name: notify
+          description: Notify me of new subscribers.
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: notify_email
+          description: Notification Email.
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: success_email
+          description: Subscription Success Email.
+        - schema:
+            type: string
+          in: query
+          name: success_message
+          description: Subscription Success Message.
+        - schema:
+            type: string
+          in: query
+          name: error_message
+          description: Subscription Error Message.
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: confirmation_email
+          description: Confirmation Email.
+        - schema:
+            type: string
+          in: query
+          name: confirmation_message
+          description: Confirmation Message.
+        - schema:
+            type: string
+          in: query
+          name: communications
+          description: Turn off Communications.
+  /EmailMarketing/GetLists:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lists:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                            form_title:
+                              type: string
+                            email_subject:
+                              type: string
+                            reply_to:
+                              type: string
+                            from_email:
+                              type: string
+                            from_name:
+                              type: string
+                            confirmation_email:
+                              type: string
+                            success_email:
+                              type: string
+                            confirmation_message:
+                              type: string
+                            success_message:
+                              type: string
+                            error_message:
+                              type: string
+                            doubleOptin:
+                              type: string
+                            notify_email:
+                              type: string
+                            creation_date:
+                              type: string
+      operationId: get-EmailMarketing-GetLists
+      description: "Get Lists"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: The limit of lists per page.
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: the page number used for pagination, when asking for previous or next page as well as specific page number to get lists from.
+  /EmailMarketing/GetList:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      form_title:
+                        type: string
+                      email_subject:
+                        type: string
+                      reply_to:
+                        type: string
+                      from_email:
+                        type: string
+                      from_name:
+                        type: string
+                      confirmation_email:
+                        type: string
+                      success_email:
+                        type: string
+                      confirmation_message:
+                        type: string
+                      success_message:
+                        type: string
+                      error_message:
+                        type: string
+                      doubleOptin:
+                        type: string
+                      notify_email:
+                        type: string
+                      creation_date:
+                        type: string
+                      fields:
+                        description: The list of custom fields added to a specific list like firstname, lastname, city, phone, etc.
+                        type: object
+                        additionalProperties:
+                          type: string
+                        example:
+                          125: First Name
+                          325: Last Name
+      operationId: get-EmailMarketing-GetList
+      description: "Get List by name or Id. Make sure to return the custom fields added to a specific list."
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The Name of the list to return.
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The ID of the list to return.
+  /EmailMarketing/EditList:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-EditList
+      description: "Edit List"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name of the list.
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The id of the list.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: subject
+          description: The default subject line of subscription.
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: reply_to
+          description: The Reply to email of the list.
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: fromemail
+          description: The From email of the list.
+        - schema:
+            type: string
+          in: query
+          name: from_name
+          description: The From name of the list.
+        - schema:
+            type: string
+          in: query
+          name: double_optin
+          description: Email confirmation required (Double opt-in)? Must be 0 or 1. Convert True to 1 and False to 0.
+        - schema:
+            type: integer
+          in: query
+          name: notify
+          description: Notify me of new subscribers. Must be 0 or 1. Convert True to 1 and False to 0.
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: notify_email
+          description: Notification Email.
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: success_email
+          description: Subscription Success Email.
+        - schema:
+            type: string
+          in: query
+          name: success_message
+          description: Subscription Success Message.
+        - schema:
+            type: string
+          in: query
+          name: error_message
+          description: Subscription Error Message.
+        - schema:
+            type: string
+          in: query
+          name: confirmation_email
+          description: Confirmation Email.
+        - schema:
+            type: string
+          in: query
+          name: confirmation_message
+          description: Confirmation Message.
+        - schema:
+            type: integer
+          in: query
+          name: communications
+          description: Turn off Communications. Must be 0 or 1. Convert True to 1 and False to 0.
+  /EmailMarketing/DeleteList:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-DeleteList
+      description: "Delete List"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The ID of the list to delete.
+          required: true
+  /EmailMarketing/AddActivity:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-AddActivity
+      description: "Add Activity to contact."
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The ID of the contact.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: description
+          description: The description of the activity.
+          required: true
+        - schema:
+            type: string
+            format: date-time
+            pattern: '^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$'
+          in: query
+          name: datetime
+          description: The date and time to activity.
+          required: true
+  /EmailMarketing/AddTag:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-AddTag
+      description: "Add Tag to contact"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: email
+          description: The email of the contact.
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The id of the contact.
+            (ID)
+        - schema:
+            type: string
+          in: query
+          name: tagname
+          description: Tag(s) to be added.
+          required: true
+  /EmailMarketing/RemoveTag:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-RemoveTag
+      description: "Remove Tag"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: email
+          description: The email of the contact.
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The id of the contact.
+        - schema:
+            type: string
+          in: query
+          name: tagname
+          description: Tag(s) to be deleted.
+          required: true
+  /EmailMarketing/GetEmailTemplates:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  templates:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                            preview_link:
+                              type: string
+      operationId: get-EmailMarketing-GetEmailTemplates
+      description: "Get Email Templates"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: The limit of templates per page.
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: the page number used for pagination, when asking for previous or next page as well as specific page number to get templates from.
+  /EmailMarketing/Campaigns:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  campaigns:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      items:
+                        type: object
+                        properties:
+                          Draft:
+                            type: object
+                            properties:
+                              data:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    subject:
+                                      type: string
+                                    message:
+                                      type: string
+                                    replyto:
+                                      type: string
+                                    from_email:
+                                      type: string
+                                    from_name:
+                                      type: string
+                                    creation_date:
+                                      type: string
+
+      operationId: get-EmailMarketing-Campaigns
+      description: "Return multiple filtered campaigns from and/or specific date. The raw response must be parsed correctly. Don't make up answer diffrent than what is found the raw response."
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: filter
+          required: true
+          description: The status of the returned campaigns. Possible values for the filter are all (default value), sent, scheduled, draft, automation.
+        - schema:
+            type: string
+            format: date
+            pattern: '^(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})$'
+          in: query
+          name: from
+          description: The from date which the reviews are returned.
+        - schema:
+            type: string
+            format: date
+            pattern: '^(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})$'
+          in: query
+          name: to
+          description: The to date which the reviews are returned.
+        - schema:
+            type: number
+          in: query
+          name: limit
+          required: true
+          description: Set your record limit number per page.
+        - schema:
+            type: number
+          in: query
+          name: page
+          required: true
+          description: Set which page you wanna get.
+  /EmailMarketing/GetCampaign:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      subject:
+                        type: string
+                      message:
+                        type: string
+                      replyto:
+                        type: string
+                      from_email:
+                        type: string
+                      from_name:
+                        type: string
+                      creation_date:
+                        type: string
+      operationId: get-EmailMarketing-GetCampaign
+      description: "Return single campaign based on ID or name."
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The ID of the campaign to return.
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name of the campaign to return.
+        - schema:
+            type: string
+            enum: ['standard','automated']
+          in: query
+          name: type
+          description: The type of the campaign.
+  /EmailMarketing/AddCampaign:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-AddCampaign
+      description: "Add / Create Campaign"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name of the campaign.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: subject
+          description: The subject line for the campaign.
+          required: true
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: fromemail
+          description: The from email of the campaign.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: from_name
+          description: The from name of the campaign.
+          required: true
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: reply_to
+          description: The reply to email of the campaign.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: body
+          description: Message body.
+        - schema:
+            type: string
+            enum: ['standard','automated']
+          in: query
+          name: type
+          description: The type of the campaign.
+        - schema:
+            type: integer
+          in: query
+          name: template_id
+          description: The email template ID assigned to the campaign.
+        - schema:
+            type: string
+          in: query
+          name: template_name
+          description: The email template name assigned to the campaign.
+        - schema:
+            type: boolean
+          in: query
+          name: isscheduled
+          description: The flag to schedule the campaign for the future.
+        - schema:
+            type: boolean
+          in: query
+          name: isdraft
+          description: The flag to set the campaign to draft.
+        - schema:
+            type: string
+            format: date
+            pattern: '^(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})$'
+          in: query
+          name: scheduled_datetime
+          description: The date and time to schedule the campaign.
+        - schema:
+            type: integer
+          in: query
+          name: audiences
+          description: IDs of audience campaign recipients.(comma separated)
+        - schema:
+            type: integer
+          in: query
+          name: lists
+          description: IDs of list campaign recipients.(comma separated)
+  /EmailMarketing/EditCampaign:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-EditCampaign
+      description: "Edit Campaign"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The ID of the campaign.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name of the campaign.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: subject
+          description: The subject line for the campaign.
+          required: true
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: fromemail
+          description: The from email of the campaign.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: from_name
+          description: The from name of the campaign.
+          required: true
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: reply_to
+          description: The reply to email of the campaign.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: body
+          description: Message body.
+          required: true
+        - schema:
+            type: string
+            enum: ['standard','automated']
+          in: query
+          name: type
+          description: The type of the campaign.
+        - schema:
+            type: boolean
+          in: query
+          name: isscheduled
+          description: The flag to schedule the campaign for the future.
+        - schema:
+            type: boolean
+          in: query
+          name: isdraft
+          description: The flag to set the campaign to draft.
+        - schema:
+            type: string
+            format: date
+            pattern: '^(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})$'
+          in: query
+          name: scheduled_datetime
+          description: The date and time to schedule the campaign.
+        - schema:
+            type: integer
+          in: query
+          name: audiences
+          description: IDs of audience campaign recipients.(comma separated)
+        - schema:
+            type: integer
+          in: query
+          name: lists
+          description: IDs of list campaign recipients.(comma separated)
+  /EmailMarketing/DeleteCampaign:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  item:
+                    type: string
+      operationId: post-EmailMarketing-DeleteCampaign
+      description: "Delete Campaign"
+      parameters:
+        - schema:
+            type: string
+            enum: ['standard','automated']
+          in: query
+          name: type
+          description: The type of the campaign.
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The ID of the campaign to delete.
+          required: true
+  /SocialMedia/Channels:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  channels:
+                    type: object
+                    properties:
+                      Facebook:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+                          pages:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
+                      Twitter:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+                          profiles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                screenname:
+                                  type: string
+                                fullname:
+                                  type: string
+                      Linkedin:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+                          profiles:
+                            type: array
+      operationId: get-SocialMedia-Channels
+      description: "Get Channels"
+  /SocialMedia/Calendar:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  calendar:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      items:
+                        type: object
+                        additionalProperties:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            message:
+                              type: string
+                            photo:
+                              type: object
+                              properties:
+                                thumb:
+                                  type: string
+                                original:
+                                  type: string
+                            channel:
+                              type: object
+                              properties:
+                                network:
+                                  type: string
+                                type:
+                                  type: string
+                                id:
+                                  type: string
+                                name:
+                                  type: string
+                                date:
+                                  type: string
+      operationId: get-SocialMedia-Calendar
+      description: "Get Calendar"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: channels
+          description: The channels from where the posts are gathered (all, facebook, twitter, linkedin)
+        - schema:
+            type: string
+            format: date
+            pattern: '^(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})$'
+          in: query
+          name: from
+          description: The from date which the reviews are returned. The filter must be date for this parameter to work.
+          required: true
+        - schema:
+            type: string
+            format: date
+            pattern: '^(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})$'
+          in: query
+          name: to
+          description: The to date which the reviews are returned. The filter must be date for this parameter to work.
+          required: true
+        - schema:
+            type: boolean
+          in: query
+          name: includeposted
+          description: Include already scheduled posts inside the results.
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: Set your record limit number per page.
+        - schema:
+            type: number
+          in: query
+          name: page
+          description: Set which page you wanna get.
+        - schema:
+            type: string
+          in: query
+          name: sort
+          description: Record Sorting (asc|desc)
+  /SocialMedia/Stats:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stats:
+                    type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            shortenurl:
+                              type: string
+                            realurl:
+                              type: string
+                            message:
+                              type: string
+                            date:
+                              type: string
+                            tracks:
+                              type: integer
+                            clicks:
+                              type: object
+                              additionalProperties:
+                                type: integer
+      operationId: get-SocialMedia-Stats
+      description: "Get Stats"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: channels
+          description: The channels from where the posts are gathered (all, facebook, twitter, linkedin)
+        - schema:
+            type: string
+          in: query
+          name: sort
+          description: Record Sorting (asc|desc)
+  /SocialMedia/GetPost:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      title:
+                        type: string
+                      datetime:
+                        type: string
+                      item:
+                        type: object
+                        properties:
+                          uid:
+                            type: integer
+                      type:
+                        type: string
+                      image:
+                        type: string
+                      profile:
+                        type: string
+      operationId: get-SocialMedia-GetPost
+      description: "Get Post"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: The id of the post.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: channel
+          description: The channel where the post is created. Must be in lower case. Convert it to lower case.
+          required: true
+  /SocialMedia/AddPost:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  post_id:
+                    type: integer
+                  item:
+                    type: string
+      operationId: post-SocialMedia-AddPost
+      description: "Add Post"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: message
+          description: The post message to be scheduled/sent.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: channel
+          description: The channels which the post will be sent to. Must be in lower case. Convert it to lower case.
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: channelid
+          description: The channels which the post will be sent to.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: photo
+          description: The photo which will be attached to the post.
+        - schema:
+            type: boolean
+          in: query
+          name: isscheduled
+          description: This flag will make the post to be scheduled for future.
+        - schema:
+            type: string
+            format: date
+            pattern: '^(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})$'
+          in: query
+          name: scheduleddate
+          description: Date of the post to be scheduled.
+        - schema:
+            type: string
+            format: time
+          in: query
+          name: scheduledhours
+          description: Time of the post to be scheduled.
+        - schema:
+            type: boolean
+          in: query
+          name: trackableLinks
+          description: Convert all links inside message to short urls.
+        - schema:
+            type: string
+          in: query
+          name: scheduledampm
+          description: AM/PM of the post to be scheduled.
+  /SocialMedia/EditPost:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item:
+                    type: string
+      operationId: post-SocialMedia-EditPost
+      description: "Edit Post"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: message
+          description: The post message to be scheduled/sent.
+        - schema:
+            type: string
+          in: query
+          name: channel
+          description: The channel where the post was scheduled. Must be in lower case. Convert it to lower case.
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: ID of the post message to be edited.
+          required: true
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: scheduleddatetime
+          description: Date/Time of the post to be scheduled.
+          examples:
+            example1:
+              value: "2023-05-23 10:30:00"
+  /SocialMedia/DeletePost:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item:
+                    type: string
+      operationId: post-SocialMedia-DeletePost
+      description: "Delete Post"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: channel
+          description: The channels which the post will be sent to. Must be in lower case. Convert it to lower case.
+        - schema:
+            type: integer
+          in: query
+          name: id
+          description: ID of the post message to be deleted.
+          required: true
+  /Settings/CustomShortCodes:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shortcodes:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                            title:
+                              type: string
+                            content:
+                              type: string
+      operationId: get-Settings-CustomShortCodes
+      description: "Get Custom Shortcodes"
+  /Settings/AddCustomShortCode:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recid:
+                    type: integer
+                  item:
+                    type: string
+      operationId: post-Settings-AddCustomShortCode
+      description: "Add Custom Shortcode"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: content
+          description: The content of the shortcode.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name of the shortcode.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: title
+          description: The title of the shortcode.
+          required: true
+  /Settings/EditCustomShortCode:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recid:
+                    type: integer
+                  item:
+                    type: string
+      operationId: post-Settings-EditCustomShortCode
+      description: "Edit Custom Shortcode"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: content
+          description: The content of the shortcode.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name of the shortcode.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: title
+          description: The title of the shortcode.
+          required: true
+        - schema:
+            type: number
+          in: query
+          name: id
+          description: The id of the shortcode.
+          required: true
+  /Settings/DeleteCustomShortCode:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item:
+                    type: string
+      operationId: post-Settings-DeleteCustomShortCode
+      description: "Delete Custom Shortcode"
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: id
+          description: The id of the shortcode.
+          required: true
+  /Help/Commands:
+    get:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  commands:
+                    type: array
+                    items:
+                      type: string
+      operationId: get-Help-Commands
+      description: "Get list of available commands when asking for help"

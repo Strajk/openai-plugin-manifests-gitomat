@@ -1,0 +1,274 @@
+openapi: 3.0.1
+info:
+  title: A-to-Z YouTube
+  description: Api providing Summary and Statistics features for Youtube videos.
+  version: 'v1'
+servers:
+  - url: https://a-to-z.pro
+paths:
+  /openai/video/popular:
+    post:
+      operationId: getPopularVideos
+      summary: Get the list of popular videos.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideosPopularRequest'
+
+      responses:
+        default:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoPopularResponse'
+
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoPopularResponse'
+
+  /openai/video/search:
+    post:
+      operationId: searchVideos
+      summary: Search for YouTube videos.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideosSearchRequest'
+
+      responses:
+        default:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoSearchResponse'
+
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoSearchResponse'
+
+  /openai/video/summary:
+    post:
+      operationId: getVideoSummary
+      summary: Get the Youtube video Summary.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                video_url:
+                  type: string
+                  description: The Youtube video url.
+                  example: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+
+      responses:
+        default:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoSummary'
+
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoSummary'
+
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example: |
+                {
+                  "message": "Video is not supported"
+                }
+
+        "500":
+          description: internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example: |
+                {
+                  "message": "Something went wrong 😿 Please try again later. We are working on it."
+                }
+
+components:
+  schemas:
+    ApiError:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The error message.
+
+    VideosSearchRequest:
+      type: object
+      properties:
+        q:
+          type: string
+          description: The search query.
+          example: 'spacex'
+        region_code:
+          type: string
+          description: The region code.
+          example: 'US'
+        locale:
+          type: string
+          description: The locale.
+          example: 'US'
+        limit:
+          type: integer
+          description: The limit.
+          example: 5
+
+    VideosPopularRequest:
+      type: object
+      properties:
+        region_code:
+          type: string
+          description: The region code.
+          example: 'US'
+        locale:
+          type: string
+          description: The locale.
+          example: 'US'
+        limit:
+          type: integer
+          description: The limit.
+          example: 5
+
+    VideoPopularResponse:
+      type: object
+      properties:
+        videos:
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoPopularItem'
+
+    VideoSearchResponse:
+      type: object
+      properties:
+        videos:
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoSearchItem'
+
+    VideoPopularItem:
+        type: object
+        properties:
+          video_id:
+            type: string
+            description: The YouTube video id.
+            example: 'dQw4w9WgXcQ'
+          title:
+            type: string
+            description: The YouTube video title.
+            example: 'Rick Astley - Never Gonna Give You Up (Official Music Video)'
+          description:
+            type: string
+            description: The YouTube video description.
+            example: 'Rick Astley - Never Gonna Give You Up (Official Music Video) - Listen On Spotify: http://smarturl.it/AstleySpotify Learn more about the brand new album ‘Beau...'
+          published_at:
+            type: string
+            description: The YouTube video published date.
+            example: '2009-10-25T00:00:00Z'
+          summary_url:
+            type: string
+            description: The YouTube video summary url.
+          statistics:
+            type: object
+            properties:
+              commentCount:
+                type: integer
+                description: The number of comments for the YouTube video.
+                example: 0
+              favoriteCount:
+                type: integer
+                description: The number of favorites for the YouTube video.
+                example: 0
+              likeCount:
+                type: integer
+                description: The number of likes for the YouTube video.
+                example: 0
+              viewCount:
+                type: integer
+                description: The number of views for the YouTube video.
+                example: 0
+
+    VideoSearchItem:
+        type: object
+        properties:
+          video_id:
+            type: string
+            description: The YouTube video id.
+            example: 'dQw4w9WgXcQ'
+          title:
+            type: string
+            description: The YouTube video title.
+            example: 'Rick Astley - Never Gonna Give You Up (Official Music Video)'
+          published_at:
+            type: string
+            description: The YouTube video published date.
+            example: '2009-10-25T00:00:00Z'
+          summary_url:
+            type: string
+            description: The YouTube video summary url.
+
+    VideoSummary:
+      type: object
+      properties:
+        summary:
+          type: object
+          properties:
+            parts:
+              type: array
+              items:
+                $ref: '#/components/schemas/SummaryPart'
+
+            template:
+              type: string
+              description: The handlebars template used to render the Summary
+              example: |
+                {% for part in parts %}
+                      {{part.emoji}} {{part.text}} 
+
+                    {% endfor %}
+
+        full_summary_link:
+          $ref: '#/components/schemas/FullSummaryLink'
+
+    SummaryPart:
+      type: object
+      properties:
+        text:
+          type: string
+        emoji:
+          type: string
+          description: Emoji that can be used as bullet in the list of Summary parts.
+          example: '🚀'
+
+    FullSummaryLink:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The link to share the Youtube Video Summary with friends.
+        description:
+          type: string
+          description: Markdown message with full_summary_link shown to the user.

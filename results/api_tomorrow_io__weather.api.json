@@ -1,0 +1,96 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Tomorrow.io, Weather Intelligence",
+    "description": "Allows you to predict, plan, and adapt to weather via contextualized insights about the forecast.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.tomorrow.io"
+    }
+  ],
+  "paths": {
+    "/v4/chat": {
+      "post": {
+        "operationId": "handleWeatherQuestion",
+        "summary": "Answer weather and climate related questions",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "question": {
+                    "type": "string",
+                    "description": "The users question related to weather or climate."
+                  }
+                },
+                "required": [
+                  "question"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "answer": {
+                          "type": "string",
+                          "description": "The answer to the users question."
+                        },
+                        "id": {
+                          "type": "string",
+                          "description": "Unique identifier of question/answer."
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "type"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

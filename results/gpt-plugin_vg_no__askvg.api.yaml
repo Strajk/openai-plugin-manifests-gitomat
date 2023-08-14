@@ -1,0 +1,83 @@
+openapi: 3.0.2
+info:
+  title: VG GPT Plugin API
+  description: A retrieval API for querying articles based on natural language queries and metadata.
+  version: 1.0.0
+servers:
+  - url: https://gpt-plugin.vg.no
+paths:
+  /similarity_search/vg_articles:
+    post:
+      summary: Query
+      description: Accepts a search query string. Break down complex questions into sub-questions. Refine results by criteria, e.g. time / source, don't do this often.
+      operationId: query_query_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResponse"
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+        "503":
+          description: Query failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    DocumentChunk:
+      title: DocumentChunk
+      type: object
+      properties:
+        source:
+          title: Source
+          type: string
+        title:
+          title: Title
+          type: string
+        published_at:
+          title: Published at
+          type: string
+        text:
+          title: Text
+          type: string
+    QueryRequest:
+      title: QueryRequest
+      required:
+        - query
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+    QueryResponse:
+      title: QueryResponse
+      type: array
+      items:
+        $ref: '#/components/schemas/DocumentChunk'
+    APIError:
+      title: API Error
+      type: object
+      properties:
+        error:
+          title: Error message
+          type: string
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

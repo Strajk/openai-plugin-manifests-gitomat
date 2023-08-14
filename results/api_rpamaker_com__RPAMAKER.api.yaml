@@ -1,0 +1,656 @@
+openapi: 3.0.1
+info:
+  title: RPAMAKER
+  description: Allows the user to deploy and run robotframework scripts in RPAMAKER.
+  version: 'v1'
+servers:
+  - url: https://api.rpamaker.com
+paths:
+
+  /rpamaker_context/:
+    # get:
+    #   operationId: rpamakerContext
+    #   summary: Get RPAMAKER Context. It includes aditional information as ROBOTFRAMEWORK syntax update. This method may be called with the next names SETUP, or RPAMAKER SETUP. Call this method ones per chat session before creating a ROBOTFRAMEWROK script, and before run a RPAMAKER PLUGIN function.
+    #   responses:
+    #     "200":
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             type: string
+    post:
+      operationId: rpamakerContext
+      summary: Get RPAMAKER Context. It includes aditional information as ROBOTFRAMEWORK syntax update. This method may be called with the next names SETUP, or RPAMAKER SETUP. Call this method ones per chat session before creating a ROBOTFRAMEWROK script, and before run a RPAMAKER PLUGIN function.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/contextRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+
+
+  /marketplace/:
+    # get:
+    #   operationId: rpamakerMarketplace
+    #   summary: Look for solution on the RPAMAKER Marketplace. Before creating a script by ChatGPT use this operation to get a validated solution.
+    #   responses:
+    #     "200":
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             type: string
+    post:
+      operationId: rpamakerMarketplace
+      summary: Look for solution on the RPAMAKER Marketplace. Before creating a script by ChatGPT use this operation to get a validated solution.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/contextRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /companies/:
+    # get:
+    #   operationId: getCompanies
+    #   summary: Get companies.
+    #   responses:
+    #     "200":
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             type: array
+    #             items:
+    #               $ref: '#/components/schemas/Company'
+    post:
+      operationId: getCompanies
+      summary: Get companies.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/contextRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Company'
+
+
+  /processes/{company_id}:
+    # get:
+    #   operationId: getProcesses
+    #   summary: Get processes by company ID.
+    #   parameters:
+    #     - in: path
+    #       name: company_id
+    #       schema:
+    #         type: string
+    #       required: true
+    #       description: The ID of the company
+    #   responses:
+    #     "200":
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/ProcessResponse'
+    post:
+      operationId: getProcesses
+      summary: Get processes by company ID.
+      parameters:
+        - in: path
+          name: company_id
+          schema:
+            type: string
+          required: true
+          description: The ID of the company
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/contextRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessResponse'
+
+
+  /robots/{company_id}:
+    # get:
+    #   operationId: getRobots
+    #   summary: Get robots by company ID.
+    #   parameters:
+    #     - in: path
+    #       name: company_id
+    #       schema:
+    #         type: string
+    #       required: true
+    #       description: The ID of the company
+    #   responses:
+    #     "200":
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/RobotResponse'
+    post:
+      operationId: getRobots
+      summary: Get robots by company ID.
+      parameters:
+        - in: path
+          name: company_id
+          schema:
+            type: string
+          required: true
+          description: The ID of the company
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/contextRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RobotResponse'
+
+
+  /workspaces/{company_id}:
+    # get:
+    #   operationId: getWorkspaces
+    #   summary: Get workspaces by company ID.
+    #   parameters:
+    #     - in: path
+    #       name: company_id
+    #       schema:
+    #         type: string
+    #       required: true
+    #       description: The ID of the company
+    #   responses:
+    #     "200":
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/WorkspaceResponse'
+    post:
+      operationId: getWorkspaces
+      summary: Get workspaces by company ID.
+      parameters:
+        - in: path
+          name: company_id
+          schema:
+            type: string
+          required: true
+          description: The ID of the company
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/contextRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+
+
+
+  /script_run/:
+    post:
+      operationId: runRobotframeworkScript
+      summary: Post a robotframework script and run it. It is needed a predefined Process ID as the PLAYGROUND to override the existing script and run it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/runRobotframeworkScriptRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: XML formated script with the result of running a robotframework script.
+
+
+
+
+  /process_run_wait_response/:
+    post:
+      operationId: processRunWaitResponse
+      summary: Trigger the execution of a RPAMAKER Process, and wait to get the response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessRunRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: XML formated script with the result of running a robotframework script.
+
+  /process_run/:
+    post:
+      operationId: processRun
+      summary: Trigger the execution of a RPAMAKER Process.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessRunRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessRunResponse'
+
+  /process_get_last_log/:
+    post:
+      operationId: processGetLastLog
+      summary: Get the log for the last execution of a RPAMAKER Process. It is needed a Process ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessRunRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: XML formated script with the result of running a robotframework script
+
+  /process_get_script/:
+    post:
+      operationId: processGetScript
+      summary: Get the script that will be run when RPAMAKER execute a Process. It is needed a Process ID to return the script.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessFileRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: A ROBOTFRAMEWORK script
+
+  /process_get_requirements/:
+    post:
+      operationId: processGetRequirements
+      summary: Get the requirements.txt file that will be run when RPAMAKER execute a Process. It is needed a Process ID to return the requirements.txt.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessFileRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: A python requirements.txt file
+
+  /upload_requirements_txt/:
+    post:
+      operationId: uploadRequirementsTXT
+      summary: Post a python requirements.txt file to the Robot source code and deploy in RPAMAKER. It is needed a predefined Process ID as the PLAYGROUND to override the requirements.txt file. This process may take long time because it install the new python dependencies.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requirementsTxtRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Log about the upload process
+
+
+  /upload_script_file/:
+    post:
+      operationId: uploadScriptFile
+      summary: Post a ROBOTFRAMEWORK file to the Robot source code and deploy in RPAMAKER. It is needed a predefined Process ID as the PLAYGROUND to override the file. Also accept python files as a library.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/uploadScriptRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Log about the upload process
+
+
+components:
+  schemas:
+    DeployResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The deployment ID
+        date_create:
+          type: string
+          format: date-time
+          description: The date and time of deployment creation
+        status:
+          type: string
+          description: The status of the deployment
+        message:
+          type: string
+          description: The deployment message (optional)
+        robot:
+          type: integer
+          description: The robot ID
+    
+
+    contextRequest:
+      type: object
+      required:
+        - context
+        - prompt
+      properties:
+        context:
+          type: string
+          description: The ChatGPT system context
+        prompt:
+          type: string
+          description: The prompt that the user entrered
+
+
+    runRobotframeworkScriptRequest:
+      type: object
+      required:
+        - context
+        - prompt
+        - script
+        - process_id
+      properties:
+        context:
+          type: string
+          description: The ChatGPT system context
+        prompt:
+          type: string
+          description: The prompt that the user entrered
+        script:
+          type: string
+          description: A robotframework script
+        process_id:
+          type: integer
+          description: The process ID to run the script in
+        step_number:
+          type: integer
+          description: The step number. If is not provided it will take the first step
+
+    requirementsTxtRequest:
+      type: object
+      required:
+        - context
+        - prompt
+        - requirements
+        - process_id
+      properties:
+        context:
+          type: string
+          description: The ChatGPT system context
+        prompt:
+          type: string
+          description: The prompt that the user entrered
+        requirements:
+          type: string
+          description: A python requirements.txt file
+        process_id:
+          type: integer
+          description: The process ID to upload the requirements.txt
+        step_number:
+          type: integer
+          description: The step number. If is not provided it will take the first step
+
+    uploadScriptRequest:
+      type: object
+      required:
+        - context
+        - prompt
+        - script
+        - process_id
+      properties:
+        context:
+          type: string
+          description: The ChatGPT system context
+        prompt:
+          type: string
+          description: The prompt that the user entrered
+        script:
+          type: string
+          description: A script file. It can be a ROBOTFRAMEWORK script or a python script
+        process_id:
+          type: integer
+          description: The process ID to upload the requirements.txt
+        path:
+          type: string
+          description: Script path in the Robot souce code. If not provided it will assume that the file it is a ROBOTFRAMEWORK script and it will be located in base/tasks.robot
+        step_number:
+          type: integer
+          description: The step number. If is not provided it will take the first step
+
+
+    Company:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        tax_id:
+          type: string
+        tax_type:
+          type: string
+        mail:
+          type: string
+        country:
+          type: string
+        enable:
+          type: boolean
+        token_id:
+          type: ['string', 'null']
+        stripe_client_id:
+          type: ['string', 'null']
+        plan:
+          type: integer
+        group:
+          type: integer
+        user:
+          type: array
+          items:
+            type: integer
+
+    ProcessResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: ['string', 'null']
+        previous:
+          type: ['string', 'null']
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Process'
+    
+    Process:
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+        status_result:
+          type: string
+        last_run:
+          type: string
+          format: date-time
+
+    RobotResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Robot'
+    
+    Robot:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+        keyword:
+          type: string
+        origin:
+          type: string
+        docker_url:
+          type: string
+        git_url:
+          type: string
+        branch_name:
+          type: string
+        zip_url:
+          type: ['string', 'null']
+        python_code:
+          type: ['string', 'null']
+        console_code:
+          type: ['string', 'null']
+        empresa:
+          type: integer
+
+    WorkspaceResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Workspace'
+    
+    Workspace:
+      type: object
+      properties:
+        id:
+          type: integer
+        hostname:
+          type: string
+        ip:
+          type: string
+        puerto:
+          type: string
+        parallelize:
+          type: boolean
+        system:
+          type: string
+        status:
+          type: boolean
+        token_id:
+          type: string
+
+
+    ProcessFileRequest:
+      type: object
+      required:
+        - process_id
+      properties:
+        process_id:
+          type: integer
+          description: The Process ID to get file info
+        config:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessRunConfig'
+        path:
+          type: string
+
+
+    ProcessRunRequest:
+      type: object
+      required:
+        - process_id
+      properties:
+        process_id:
+          type: integer
+          description: The Process ID to run
+        config:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessRunConfig'
+
+    ProcessRunConfig:
+      type: object
+      properties:
+        step_number:
+          type: integer
+        meta:
+          type: object
+
+    ProcessRunResponse:
+      type: object
+      properties:
+        instance_id:
+          type: integer
+        redirect_to:
+          type: string

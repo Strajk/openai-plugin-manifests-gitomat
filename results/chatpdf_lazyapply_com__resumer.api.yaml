@@ -1,0 +1,100 @@
+openapi: 3.0.1
+info:
+  title: Resume
+  version: 'v1'
+servers:
+  - url: https://chatpdf.lazyapply.com
+paths:
+  /insert_document_resume:
+    post:
+      operationId: insertDocument
+      summary: Download a PDF file from a URL and save it to the vector database and answer the question if given
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsertDocumentRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsertDocumentResponse'
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  /query_resume:
+    get:
+      operationId: queryDocument
+      summary: Perform a query on a document
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The ID of the document to query.
+        - name: question
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The question to be asked.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryDocumentResponse'
+        "422":
+            description: Unprocessable Entity
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    detail:
+                      type: string
+components:
+  schemas:
+    InsertDocumentRequest:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The URL of the document to insert.
+        question:
+          type: string
+          description: The question to be asked.
+    InsertDocumentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the inserted document.
+        answer:
+          type: string
+          description: The answer to the question if provided, else an empty string.
+    QueryDocumentResponse:
+      type: object
+      properties:
+        answer:
+          type: string
+          description: The answer to the query.
+    ErrorDetail:
+      type: object
+      properties:
+        detail:
+          type: object
+          properties:
+            error:
+              type: string
+            extra_response_instructions:
+              type: string
+

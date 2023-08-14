@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  title: 20 Minuten (CH) News
+  description: |
+    Get the latest news from 20 Minuten, Switzerland.
+    The response is a list containing the most relevant results. In case of an error, no results are returned. 
+    If more than 5 results are returned, ChatGPT should rank the results and only show the most relevant results to the user.
+  version: "v2"
+servers:
+  - url: https://plugin.20min.ch
+paths:
+  /search:
+    get:
+      operationId: search
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: The search query. Provide keywords to search for news. The query should be translated to the German language. The search engine searches German data, and results will be in the German language. Translate the German result to the user according to the language.
+          example: Schweizer Wirtschaft
+        - in: query
+          name: language
+          schema:
+            type: string
+          description: Two letters iso code of the user input language (ISO 639-1). The language that the user is using to ask the question. Translate the German result to the user according to the language.
+          example: de
+      summary: Get the latest news from 20 Minuten, Switzerland
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        url:
+                          type: string
+                          format: uri
+                          description: "URL of the article. The URL includes tracking parameters (utm_source=direct, utm_medium=chatgpt, utm_campaign=20mingpt) which are used to identify traffic coming from chatgpt, and also include a 'userPreferredLanguage' query parameter which is used to translate the article according to the 'language' parameter."
+                        lead:
+                          type: string
+                        published:
+                          type: string
+                          format: date
+                        updated:
+                          type: string
+                          format: date
+        "204":
+          description: No Content

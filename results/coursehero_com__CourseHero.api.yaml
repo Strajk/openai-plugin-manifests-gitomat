@@ -1,0 +1,62 @@
+openapi: 3.0.1
+info:
+    title: Course Hero Plugin
+    description: Course Hero Plugin that provides helpful course materials to students using Chat GPT.
+    version: 'v1'
+servers:
+    - url: https://www.coursehero.com
+
+paths:
+    /api/v1/chatgpt/related-doc/:
+        get:
+            operationId: getRecommendations
+            summary: Retrieves related documents
+            description: Fetches related documents given a query, school name, and course name.
+            parameters:
+                - name: query
+                  in: query
+                  description: Topic student wants to study
+                  required: true
+                  schema:
+                      type: string
+                - name: school_name
+                  in: query
+                  description: Name of the school
+                  required: true
+                  schema:
+                      type: string
+                - name: course_name
+                  in: query
+                  description: Name of the course
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: List of documents matching the student's school and course.
+                    content:
+                        application/json:
+                        schema:
+                            type: object
+                            required:
+                                - ok
+                            properties:
+                            ok:
+                                type: boolean
+                                description: Boolean indicating whether or not the request was successful
+                            results:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        title:
+                                            type: string
+                                            description: The title of the document
+                                        permalink:
+                                            type: string
+                                            description: The URL of the document
+                                        document_type:
+                                            type: string
+                                            description: The type of the document
+                '400':
+                description: Could not provide a list of documents matching the student's school and course.

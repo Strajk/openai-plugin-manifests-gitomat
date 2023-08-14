@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: SPARQL Web Service API
+  version: 1.0.0   
+  contact: support@openlinksw.com
+servers:
+  - url: https://linkeddata.uriburner.com
+paths:
+  /sparql:
+    get:
+      operationId: sparqlQuery
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The SPARQL query
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            default: text/html
+          description: The desired response format
+        - name: timeout  
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Timeout to be applied to query especially in regards to Anytime Query functionality
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Bad request  
+        '404':
+          description: Resource not found

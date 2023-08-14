@@ -1,0 +1,296 @@
+components:
+  schemas:
+    CsvRequest:
+      properties:
+        delimiter:
+          default: ','
+          title: Delimiter
+          type: string
+        text:
+          default: ''
+          title: Text
+          type: string
+      title: CsvRequest
+      type: object
+    FileMakerRequest:
+      properties:
+        content:
+          default: ''
+          title: Content
+          type: string
+      title: FileMakerRequest
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    Markdown2DocxRequest:
+      properties:
+        camelcase_filename:
+          default: Untitled
+          description: 'Mandatory: suggested CamelCase filename. Do NOT include file
+            extension.'
+          title: Camelcase Filename
+          type: string
+        formatted_markdown:
+          default: ''
+          title: Formatted Markdown
+          type: string
+      title: Markdown2DocxRequest
+      type: object
+    Markdown2PdfRequest:
+      properties:
+        camelcase_filename:
+          default: Untitled
+          description: 'Mandatory: suggested CamelCase filename. Do NOT include file
+            extension.'
+          title: Camelcase Filename
+          type: string
+        formatted_markdown:
+          default: ''
+          title: Formatted Markdown
+          type: string
+      title: Markdown2PdfRequest
+      type: object
+    Markdown2ResumeRequest:
+      properties:
+        camelcase_filename:
+          default: Untitled
+          description: 'Mandatory: suggested CamelCase filename. Do NOT include file
+            extension.'
+          title: Camelcase Filename
+          type: string
+        formatted_markdown:
+          default: ''
+          description: Formatted markdown text for the resume. Do NOT include any
+            of the above information (name, email, phone, location, website url) here;
+            they should be directly placed via their respective fields. When using
+            acronyms, ensure to write out the full term as well. For example, instead
+            of writing 'SEO', write 'Search Engine Optimization (SEO)'.
+          title: Formatted Markdown
+          type: string
+        resume_field_email:
+          description: 'Optional: Personal email to be placed directly into the resume/cv.
+            If supplied, do NOT include it in the formatted_markdown field.'
+          title: Resume Field Email
+          type: string
+        resume_field_location:
+          description: 'Optional: Location to be placed directly into the resume/cv.
+            If supplied, do NOT include it in the formatted_markdown field.'
+          title: Resume Field Location
+          type: string
+        resume_field_name:
+          default: ''
+          description: 'Mandatory: Personal name to be placed directly into the resume/cv.
+            Do NOT include it in the formatted_markdown field.'
+          title: Resume Field Name
+          type: string
+        resume_field_phone:
+          description: 'Optional: Phone number to be placed directly into the resume/cv.
+            If supplied, do NOT include it in the formatted_markdown field.'
+          title: Resume Field Phone
+          type: string
+        resume_field_website_url:
+          description: 'Optional: Website URL to be placed directly into the resume/cv.
+            If supplied, do NOT include it in the formatted_markdown field.'
+          title: Resume Field Website Url
+          type: string
+      title: Markdown2ResumeRequest
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    XlsxRequest:
+      properties:
+        delimiter:
+          default: ''
+          title: Delimiter
+          type: string
+        text:
+          default: ''
+          title: Text
+          type: string
+      title: XlsxRequest
+      type: object
+info:
+  description: A plugin that allows the user to create a DOCX, XLSX, PDF, CSV, HTML
+    file using ChatGPT.
+  title: Create Doc Plugin
+  version: v1
+openapi: 3.0.2
+paths:
+  /create_csv:
+    post:
+      operationId: create_csv
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CsvRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                title: Response Create Csv Create Csv Post
+                type: string
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Csv
+  /create_docx:
+    post:
+      operationId: create_docx
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Markdown2DocxRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                title: Response Create Docx Create Docx Post
+                type: object
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Docx
+  /create_html:
+    post:
+      operationId: create_html
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileMakerRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                title: Response Create Html Create Html Post
+                type: string
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Html
+  /create_pdf:
+    post:
+      operationId: create_pdf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Markdown2PdfRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                title: Response Create Pdf Create Pdf Post
+                type: object
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Pdf
+  /create_resume:
+    post:
+      operationId: create_resume
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Markdown2ResumeRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                title: Response Create Resume Create Resume Post
+                type: object
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Resume
+  /create_xlsx:
+    post:
+      operationId: create_xlsx
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/XlsxRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                title: Response Create Xlsx Create Xlsx Post
+                type: string
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Xlsx
+servers:
+- url: https://docmaker.level2labs.xyz

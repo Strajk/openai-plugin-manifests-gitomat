@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: Music
+  description: Generate music, compose music, create music and listen to music. Save music and refer it in the future.
+  version: 1.0.0
+
+servers:
+  - url: https://music.praison.ai
+
+paths:
+  /music:
+    post:
+      operationId: postMusic  # unique string used to identify the operation
+      summary: Generate a music in ABC Notation format
+      description: Generate a music in ABC Notation format and post it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Music'
+      responses:
+        '200':
+          description: Music created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  music_url:
+                    type: string
+                    description: The URL of the generated music, which can be used to review the music and view it for future reference.
+        '400':
+          description: Invalid request. Check the music title or abc notation.
+        '500':
+          description: Error in posting the music.
+
+components:
+  securitySchemes:
+    BearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+  schemas:                 # added schemas as an object
+    Music:               # you may change the name and properties as per your requirement
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the music.
+        content:
+          type: string
+          description: Generate music in ABC Notation format and provide it as a stringified JSON object.
+      required:
+        - title
+        - content
+
+security:
+  - BearerAuth: []

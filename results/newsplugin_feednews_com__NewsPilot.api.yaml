@@ -1,0 +1,125 @@
+openapi: 3.0.1
+info:
+  title: NewsPilot
+  description: The NewsPilot delivers real-time news updates, popular news, and news categorized by topics such as politics, sports, entertainment, technology, business, fashion, and health. Each news item includes a link and publication date, enabling users to stay informed about significant global events and what is happening around the world. The news is sourced from various global news agencies and is updated in real time. This is ideal for users who want to stay informed about current events and developments in various areas.
+  version: v1
+servers:
+  - url: 'https://newsplugin.feednews.com'
+paths:
+  /openapi/gpt/news:
+    get:
+      operationId: getNews
+      summary: Retrieve real-time, popular, or category-specific news based on user's country and language preferences.
+      description: This endpoint allows users to request real-time news updates or news categorized by topics such as politics, sports, entertainment, technology, business, fashion, and health. Each news item includes a link and publication date. The news is updated in real time.
+      parameters:
+        - in: query
+          name: country
+          schema:
+            type: string
+          description: The country code of the desired news, using lowercase abbreviations. For example, 'de' for Germany.
+          required: true
+          example: "de"
+        - in: query
+          name: language
+          schema:
+            type: string
+          description: The language code for the desired news. If not provided, the default language of the specified country will be used.
+          example: "de"
+          required: true
+        - in: query
+          name: category
+          schema:
+            type: string
+            enum:
+              - politics
+              - sports
+              - entertainment
+              - technology
+              - business
+              - fashion
+              - health
+          description: If the user mentions related keyword in any languages, use the corresponding category ('politics', 'sports', 'entertainment', 'technology', 'fashion', 'health') as a category parameter. If the user does not mention any specific keyword, the default value for the category parameter is an empty string.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsResponse'
+  /openapi/gpt/search:
+    get:
+      operationId: getSearchNews
+      summary: According to the user's national language information and related description information provided, get news about the topic described by the user.
+      description: This endpoint allows users to provide any topic-related description content at will, and returns the latest news on related topics around the world in a timely manner.
+      parameters:
+        - in: query
+          name: country
+          schema:
+            type: string
+          description: The country code of the desired news, using lowercase abbreviations. For example, 'de' for Germany.
+          required: true
+          example: "de"
+        - in: query
+          name: language
+          schema:
+            type: string
+          description: The language code for the desired news. If not provided, the default language of the specified country will be used.
+          example: "de"
+          required: true
+        - in: query
+          name: topic
+          schema:
+            type: string
+          description:  The main topic that users want to search for news, such as Trump, star, game, movie, etc.
+          required: true
+          example: "trump"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsResponse'
+components:
+  schemas:
+    NewsResponse:
+      required:
+        - results
+      type: object
+      properties:
+        results:
+          type: array
+          description: Result of news list.
+          items:
+            $ref: '#/components/schemas/NewsItem'
+    NewsItem:
+      description: A single news item.
+      type: object
+      properties:
+        url:
+          type: string
+          description: The News URL.
+        title:
+          type: string
+          description: The News Title.
+        summary:
+          type: string
+          description: The News Summary.
+        thumbnail:
+          type: string
+          description: The News Thumbnail Url.
+        pubdate:
+          type: string
+          description: The News Published Time.
+        publisher:
+          type: string
+          description: The News Publisher Name.
+        publisher_icon:
+          type: string
+          description: The News Publisher Icon.
+        entry_id:
+          type: string
+          default: The News Id.
+        likes:
+          type: string
+          default: The number of people who like this news.

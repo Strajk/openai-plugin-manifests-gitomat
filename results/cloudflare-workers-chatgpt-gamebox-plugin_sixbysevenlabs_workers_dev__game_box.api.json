@@ -1,0 +1,2976 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Game Box",
+    "description": "Discover, play, and solve classic games like Blackjack, Tic-Tac-Toe, Word Guess, Sudoku, 24, Yahtzee, and more!",
+    "version": "v1.0.2"
+  },
+  "paths": {
+    "/games/": {
+      "get": {
+        "operationId": "get_GetGames",
+        "tags": [],
+        "summary": "Get a list of games available to play and supported features.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response, includes a list of games and supported features.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "games": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "24-game"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "24 Math Game"
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "Active"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "A fun math puzzle where you use addition, subtraction, multiplication, or division to make four numbers equal 24."
+                          },
+                          "products": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "example": "24 Game Cards Original Double Digitse"
+                                },
+                                "url": {
+                                  "type": "string",
+                                  "example": "https://www.amazon.com/Original-24-Game-Cards-Double/dp/B001C8G9OA"
+                                },
+                                "imageUrl": {
+                                  "type": "string",
+                                  "example": "https://m.media-amazon.com/images/I/711rcZZT3CL._AC_SX679_.jpg"
+                                }
+                              },
+                              "required": [
+                                "name",
+                                "url",
+                                "imageUrl"
+                              ]
+                            }
+                          },
+                          "tags": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": "Math Games"
+                            }
+                          },
+                          "ageRange": {
+                            "type": "string",
+                            "example": "9+"
+                          },
+                          "numberOfPlayers": {
+                            "type": "string",
+                            "example": "1 player"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "status",
+                          "description",
+                          "products",
+                          "tags",
+                          "ageRange",
+                          "numberOfPlayers"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "games"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/24": {
+      "get": {
+        "operationId": "get-24-game-details",
+        "tags": [
+          "24-game"
+        ],
+        "summary": "Get game details and information about 24 Math Game.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "24-game"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "24 Math Game"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "A fun math puzzle where you use addition, subtraction, multiplication, or division to make four numbers equal 24."
+                        },
+                        "products": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "example": "24 Game Cards Original Double Digitse"
+                              },
+                              "url": {
+                                "type": "string",
+                                "example": "https://www.amazon.com/Original-24-Game-Cards-Double/dp/B001C8G9OA"
+                              },
+                              "imageUrl": {
+                                "type": "string",
+                                "example": "https://m.media-amazon.com/images/I/711rcZZT3CL._AC_SX679_.jpg"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "url",
+                              "imageUrl"
+                            ]
+                          }
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Math Games"
+                          }
+                        },
+                        "ageRange": {
+                          "type": "string",
+                          "example": "9+"
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1 player"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "products",
+                        "tags",
+                        "ageRange",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "start-new-24-game-game",
+        "tags": [
+          "24-game"
+        ],
+        "summary": "Get four random numbers to play the 24 game.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "numbers": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "required": [
+                    "numbers"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/24/solutions/check": {
+      "post": {
+        "operationId": "check-24-game-solution",
+        "tags": [
+          "24-game"
+        ],
+        "summary": "Check if a solution to the 24 game is correct.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "numbers": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "expression": {
+                    "type": "string",
+                    "description": "A string representing a mathematical expression used to solve the 24 game.",
+                    "example": "(6 * 3) + (7 - 1)"
+                  }
+                },
+                "required": [
+                  "numbers",
+                  "expression"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Status indicating if the solution is correct.",
+                      "example": "Success",
+                      "enum": [
+                        "Success",
+                        "InvalidExpression",
+                        "IncorrectResult",
+                        "InvalidNumbers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/games/24/solutions": {
+      "post": {
+        "operationId": "get-24-game-solution",
+        "tags": [
+          "24-game"
+        ],
+        "summary": "Get a solution to the 24 game.",
+        "parameters": [
+          {
+            "description": "The numbers to use to solve the 24 game. There should be 4 numbers between 1 and 9 inclusive.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The numbers to use to solve the 24 game. There should be 4 numbers between 1 and 9 inclusive.",
+              "default": "1,2,3,4"
+            },
+            "name": "numbers",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Status indicating if finding a solution was successful.",
+                      "example": "Success",
+                      "enum": [
+                        "Success",
+                        "NoSolution",
+                        "Error"
+                      ]
+                    },
+                    "inputNumbers": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "solutions": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "inputNumbers",
+                    "solutions"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/sudoku": {
+      "get": {
+        "operationId": "get-sudoku-details",
+        "tags": [
+          "sudoku"
+        ],
+        "summary": "Get game details and information about Sudoku.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "sudoku"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Sudoku"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "A logic-based number puzzle where you fill a 9x9 grid so that each column, row, and 3x3 sub-grid contains all digits from 1 to 9 without repeating. Game Box can create a printable puzzle for you, help you solve one, or you can play a brand new puzzle every day with the Daily Sudoku skill on supported Alexa-enabled touchscreen devices at https://alexa-skills.amazon.com/apis/custom/skills/amzn1.ask.skill.d43b353d-abcc-414f-ba7a-a86ec452c5a9/launch"
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Logic Games"
+                          }
+                        },
+                        "products": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": "string",
+                                "example": "https://alexa-skills.amazon.com/apis/custom/skills/amzn1.ask.skill.d43b353d-abcc-414f-ba7a-a86ec452c5a9/launch"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "The Daily Sudoku"
+                              },
+                              "description": {
+                                "type": "string",
+                                "example": "Solve a free, brand new puzzle every day on supported Alexa-enabled touchscreen devices with the Daily Sudoku Skill. Follow this link to play right now!"
+                              }
+                            },
+                            "required": [
+                              "url",
+                              "name",
+                              "description"
+                            ]
+                          }
+                        },
+                        "ageRange": {
+                          "type": "string",
+                          "example": "8+"
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1 player"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "tags",
+                        "products",
+                        "ageRange",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "generate-sudoku-puzzle",
+        "tags": [
+          "sudoku"
+        ],
+        "summary": "Generate an easy, medium, or hard printable Sudoku puzzle.",
+        "parameters": [
+          {
+            "description": "The difficulty of the Sudoku puzzle to generate.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The difficulty of the Sudoku puzzle to generate.",
+              "default": "easy",
+              "enum": [
+                "Easy",
+                "Medium",
+                "Hard"
+              ]
+            },
+            "name": "difficulty",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "difficulty": {
+                      "type": "string",
+                      "description": "The difficulty of the generated Sudoku puzzle",
+                      "example": "easy",
+                      "enum": [
+                        "Easy",
+                        "Medium",
+                        "Hard"
+                      ]
+                    },
+                    "puzzleImageUrl": {
+                      "type": "string",
+                      "description": "The URL of the image of the genrated Sudoku puzzle.",
+                      "example": "https://pub-bfc46bf253724f1c926c361553a1abd0.r2.dev/images/sudoku-1689015621941.png"
+                    },
+                    "quickLink": {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": "string",
+                          "description": "Link to click to launch the app on Alexa"
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Details about the link and app"
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "description"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "difficulty",
+                    "puzzleImageUrl",
+                    "quickLink"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/sudoku/solutions/check": {
+      "post": {
+        "operationId": "check-sudoku-solution",
+        "tags": [
+          "sudoku"
+        ],
+        "summary": "Check if a solution to a Sudoku puzzle is correct.",
+        "parameters": [
+          {
+            "description": "The string representation of the Sudoku solution to check. This should be a single string of 81 digits, representing the numbers in each cell of the Sudoku grid from left to right, top to bottom. For example, the first 9 digits represent the first row of the grid, the next 9 digits represent the second row, and so on.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The string representation of the Sudoku solution to check. This should be a single string of 81 digits, representing the numbers in each cell of the Sudoku grid from left to right, top to bottom. For example, the first 9 digits represent the first row of the grid, the next 9 digits represent the second row, and so on.",
+              "example": "647582139921743685583169274154826793369475821278391546716938452895214367432657918"
+            },
+            "name": "solution",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the response",
+                      "example": "Correct",
+                      "enum": [
+                        "Correct",
+                        "Incorrect",
+                        "Invalid"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/sudoku/solutions": {
+      "post": {
+        "operationId": "get-sudoku-solution",
+        "tags": [
+          "sudoku"
+        ],
+        "summary": "Get the solution for a Sudoku puzzle.",
+        "parameters": [
+          {
+            "description": "The string representation of the Sudoku puzzle. This should be a single string of 81 characters, representing the numbers in each cell of the Sudoku grid from left to right, top to bottom. Periods (.) represent blank cells. For example, the first 9 characters represent the first row of the grid, the next 9 characters represent the second row, and so on.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The string representation of the Sudoku puzzle. This should be a single string of 81 characters, representing the numbers in each cell of the Sudoku grid from left to right, top to bottom. Periods (.) represent blank cells. For example, the first 9 characters represent the first row of the grid, the next 9 characters represent the second row, and so on.",
+              "example": "6...8...9921.43...58.16927..5.8.....369.7.8..27..9...6716....5..9..14.67........."
+            },
+            "name": "puzzle",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the response",
+                      "example": "Success",
+                      "enum": [
+                        "Success",
+                        "NoSolution",
+                        "Error"
+                      ]
+                    },
+                    "solutionImageUrl": {
+                      "type": "string",
+                      "description": "The URL of the image of the solved Sudoku puzzle. Answers are in blue, while the original puzzle is in black.",
+                      "example": "https://pub-bfc46bf253724f1c926c361553a1abd0.r2.dev/images/sudoku-1689015907166.png"
+                    },
+                    "solution": {
+                      "type": "string",
+                      "description": "The string representation of the Sudoku solution. This should be a single string of 81 digits, representing the numbers in each cell of the Sudoku grid from left to right, top to bottom. For example, the first 9 digits represent the first row of the grid, the next 9 digits represent the second row, and so on.",
+                      "example": "647582139921743685583169274154826793369475821278391546716938452895214367432657918"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "solutionImageUrl",
+                    "solution"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/shut-the-box": {
+      "get": {
+        "operationId": "get-shut-the-box-details",
+        "tags": [
+          "shut-the-box"
+        ],
+        "summary": "Get game details and information about Shut The Box.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "shut-the-box"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Shut The Box"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "A traditional game of chance and simple math where the goal is to 'shut' or cover all the numbers on the board by rolling dice and eliminating numbers that add up to the total rolled."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Dice Games"
+                          }
+                        },
+                        "ageRange": {
+                          "type": "string",
+                          "example": "All Ages"
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1 player"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "tags",
+                        "ageRange",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "start-shut-the-box-game",
+        "tags": [
+          "shut-the-box"
+        ],
+        "summary": "Start a new game of Shut The Box.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gameId": {
+                      "type": "string",
+                      "description": "The ID of the game.",
+                      "example": "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                    },
+                    "visualRepresentation": {
+                      "type": "object",
+                      "properties": {
+                        "0": {
+                          "type": "string",
+                          "example": "["
+                        },
+                        "1": {
+                          "type": "string",
+                          "example": "o"
+                        },
+                        "2": {
+                          "type": "string",
+                          "example": "b"
+                        },
+                        "3": {
+                          "type": "string",
+                          "example": "j"
+                        },
+                        "4": {
+                          "type": "string",
+                          "example": "e"
+                        },
+                        "5": {
+                          "type": "string",
+                          "example": "c"
+                        },
+                        "6": {
+                          "type": "string",
+                          "example": "t"
+                        },
+                        "7": {
+                          "type": "string",
+                          "example": " "
+                        },
+                        "8": {
+                          "type": "string",
+                          "example": "O"
+                        },
+                        "9": {
+                          "type": "string",
+                          "example": "b"
+                        },
+                        "10": {
+                          "type": "string",
+                          "example": "j"
+                        },
+                        "11": {
+                          "type": "string",
+                          "example": "e"
+                        },
+                        "12": {
+                          "type": "string",
+                          "example": "c"
+                        },
+                        "13": {
+                          "type": "string",
+                          "example": "t"
+                        },
+                        "14": {
+                          "type": "string",
+                          "example": "]"
+                        }
+                      },
+                      "required": [
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        "6",
+                        "7",
+                        "8",
+                        "9",
+                        "10",
+                        "11",
+                        "12",
+                        "13",
+                        "14"
+                      ]
+                    },
+                    "openNumbers": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the game.",
+                      "enum": [
+                        "Started",
+                        "MoveAccepted",
+                        "InvalidMove",
+                        "GameNotFound",
+                        "Won",
+                        "Lost"
+                      ]
+                    },
+                    "score": {
+                      "type": "number",
+                      "description": "The current score of the game. The lower the score, the better.",
+                      "example": 42
+                    },
+                    "diceRoll": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "required": [
+                    "gameId",
+                    "visualRepresentation",
+                    "openNumbers",
+                    "status",
+                    "score",
+                    "diceRoll"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/shut-the-box/{id}": {
+      "put": {
+        "operationId": "make-shut-the-box-move",
+        "tags": [
+          "shut-the-box"
+        ],
+        "summary": "Make a move in a game of Shut The Box.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "gameId": {
+                    "type": "string",
+                    "description": "The ID of the game.",
+                    "format": "uuid",
+                    "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                  },
+                  "numbersToFlip": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "required": [
+                  "gameId",
+                  "numbersToFlip"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gameId": {
+                      "type": "string",
+                      "description": "The ID of the game.",
+                      "example": "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                    },
+                    "visualRepresentation": {
+                      "type": "object",
+                      "properties": {
+                        "0": {
+                          "type": "string",
+                          "example": "["
+                        },
+                        "1": {
+                          "type": "string",
+                          "example": "o"
+                        },
+                        "2": {
+                          "type": "string",
+                          "example": "b"
+                        },
+                        "3": {
+                          "type": "string",
+                          "example": "j"
+                        },
+                        "4": {
+                          "type": "string",
+                          "example": "e"
+                        },
+                        "5": {
+                          "type": "string",
+                          "example": "c"
+                        },
+                        "6": {
+                          "type": "string",
+                          "example": "t"
+                        },
+                        "7": {
+                          "type": "string",
+                          "example": " "
+                        },
+                        "8": {
+                          "type": "string",
+                          "example": "O"
+                        },
+                        "9": {
+                          "type": "string",
+                          "example": "b"
+                        },
+                        "10": {
+                          "type": "string",
+                          "example": "j"
+                        },
+                        "11": {
+                          "type": "string",
+                          "example": "e"
+                        },
+                        "12": {
+                          "type": "string",
+                          "example": "c"
+                        },
+                        "13": {
+                          "type": "string",
+                          "example": "t"
+                        },
+                        "14": {
+                          "type": "string",
+                          "example": "]"
+                        }
+                      },
+                      "required": [
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        "6",
+                        "7",
+                        "8",
+                        "9",
+                        "10",
+                        "11",
+                        "12",
+                        "13",
+                        "14"
+                      ]
+                    },
+                    "openNumbers": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the game.",
+                      "enum": [
+                        "Started",
+                        "MoveAccepted",
+                        "InvalidMove",
+                        "GameNotFound",
+                        "Won",
+                        "Lost"
+                      ]
+                    },
+                    "score": {
+                      "type": "number",
+                      "description": "The current score of the game. The lower the score, the better.",
+                      "example": 42
+                    },
+                    "diceRoll": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "required": [
+                    "gameId",
+                    "visualRepresentation",
+                    "openNumbers",
+                    "status",
+                    "score",
+                    "diceRoll"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/tic-tac-toe": {
+      "get": {
+        "operationId": "get-tic-tac-toe-details",
+        "tags": [
+          "tic-tac-toe"
+        ],
+        "summary": "Get game details and information about Tic Tac Toe.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "tic-tac-toe"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Tic Tac Toe"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Compete against AI, strategizing to align three of your symbols in a row horizontally, vertically, or diagonally before the AI does."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Board Games"
+                          }
+                        },
+                        "ageRange": {
+                          "type": "string",
+                          "example": "All Ages"
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1 player vs AI"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "tags",
+                        "ageRange",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "start-tic-tac-toe-game",
+        "tags": [
+          "tic-tac-toe"
+        ],
+        "summary": "Start a new game of Tic Tac Toe.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "gameMode": {
+                    "type": "string",
+                    "description": "The game mode",
+                    "enum": [
+                      "PlayerVsAI",
+                      "PlayerVsPlayer"
+                    ]
+                  },
+                  "aiDifficulty": {
+                    "type": "string",
+                    "description": "The AI difficulty",
+                    "enum": [
+                      "Easy",
+                      "Medium",
+                      "Hard"
+                    ]
+                  }
+                },
+                "required": [
+                  "gameMode",
+                  "aiDifficulty"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gameId": {
+                      "type": "string",
+                      "description": "The game ID",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                    },
+                    "currentPlayer": {
+                      "type": "string",
+                      "description": "The current player",
+                      "enum": [
+                        "X",
+                        "O",
+                        "Empty"
+                      ]
+                    },
+                    "gameMode": {
+                      "type": "string",
+                      "description": "The game mode",
+                      "enum": [
+                        "PlayerVsAI",
+                        "PlayerVsPlayer"
+                      ]
+                    },
+                    "gameStatus": {
+                      "type": "string",
+                      "description": "The game status",
+                      "enum": [
+                        "Won",
+                        "Lost",
+                        "Draw",
+                        "HumanTurn"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "gameId",
+                    "currentPlayer",
+                    "gameMode",
+                    "gameStatus"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/tic-tac-toe/{id}": {
+      "put": {
+        "operationId": "make-tic-tac-toe-move",
+        "tags": [
+          "tic-tac-toe"
+        ],
+        "summary": "Make a move in Tic Tac Toe.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cellIndex": {
+                    "type": "number",
+                    "description": "The index of the cell. Must be between 0 and 8 (inclusive). 0 is the top left cell, 1 is the top middle cell, 2 is the top right cell, 3 is the middle left cell, 4 is the middle middle cell, 5 is the middle right cell, 6 is the bottom left cell, 7 is the bottom middle cell, and 8 is the bottom right cell."
+                  }
+                },
+                "required": [
+                  "cellIndex"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gameId": {
+                      "type": "string",
+                      "description": "The game ID",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                    },
+                    "currentPlayer": {
+                      "type": "string",
+                      "description": "The current player",
+                      "enum": [
+                        "X",
+                        "O",
+                        "Empty"
+                      ]
+                    },
+                    "gameMode": {
+                      "type": "string",
+                      "description": "The game mode",
+                      "enum": [
+                        "PlayerVsAI",
+                        "PlayerVsPlayer"
+                      ]
+                    },
+                    "gameStatus": {
+                      "type": "string",
+                      "description": "The game status",
+                      "enum": [
+                        "Won",
+                        "Lost",
+                        "Draw",
+                        "HumanTurn"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "gameId",
+                    "currentPlayer",
+                    "gameMode",
+                    "gameStatus"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/battleship": {
+      "get": {
+        "operationId": "get-battleship-details",
+        "tags": [
+          "battleship"
+        ],
+        "summary": "Get game details and information about Battleship.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "battleship"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Battleship"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "The classic strategy game where you try to guess the location of your opponent's ships on a grid and sink them before they sink yours."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Board Games"
+                          }
+                        },
+                        "ageRange": {
+                          "type": "string",
+                          "example": "7+"
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1 player (vs AI)"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "tags",
+                        "ageRange",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "start-battleship-game",
+        "tags": [
+          "battleship"
+        ],
+        "summary": "Start a new game of Battleship.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gameId": {
+                      "type": "string",
+                      "description": "The ID of the game",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                    },
+                    "state": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "example": "The state of the game"
+                        }
+                      },
+                      "required": [
+                        "description"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "gameId",
+                    "state"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/battleship/{id}": {
+      "put": {
+        "operationId": "make-battleship-move",
+        "tags": [
+          "battleship"
+        ],
+        "summary": "Make a move in Battleship.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rowIndex": {
+                    "type": "number",
+                    "description": "The index of the row to make a move in. 0-9 representing A-J",
+                    "example": 0
+                  },
+                  "columnIndex": {
+                    "type": "number",
+                    "description": "The index of the column to make a move in. 0-9 representing 1-10",
+                    "example": 9
+                  }
+                },
+                "required": [
+                  "rowIndex",
+                  "columnIndex"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gameId": {
+                      "type": "string",
+                      "description": "The ID of the game",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                    },
+                    "state": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "example": "The state of the game"
+                        }
+                      },
+                      "required": [
+                        "description"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "gameId",
+                    "state"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/connect-four": {
+      "get": {
+        "operationId": "get-connect-four-details",
+        "tags": [
+          "connect-four"
+        ],
+        "summary": "Get game details and information about Connect Four.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "connect-four"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Connect Four"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "A strategy game where you play against AI, aiming to be the first to get four in a row."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Board Games"
+                          }
+                        },
+                        "ageRange": {
+                          "type": "string",
+                          "example": "All Ages"
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1 player (vs AI)"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "tags",
+                        "ageRange",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "start-connect-four-game",
+        "tags": [
+          "connect-four"
+        ],
+        "summary": "Start a new game of Connect Four.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gameId": {
+                      "type": "string",
+                      "description": "The ID of the game",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                    },
+                    "state": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "example": "The state of the game"
+                        }
+                      },
+                      "required": [
+                        "description"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "gameId",
+                    "state"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/connect-four/{id}": {
+      "put": {
+        "operationId": "make-connect-four-move",
+        "tags": [
+          "connect-four"
+        ],
+        "summary": "Make a move in Connect Four.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "columnIndex": {
+                    "type": "number",
+                    "description": "The column index of the move. Must be between 0 and 6 inclusive.",
+                    "example": 0
+                  }
+                },
+                "required": [
+                  "columnIndex"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gameId": {
+                      "type": "string",
+                      "description": "The ID of the game",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                    },
+                    "state": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "example": "The state of the game"
+                        }
+                      },
+                      "required": [
+                        "description"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "gameId",
+                    "state"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/yahtzee": {
+      "get": {
+        "operationId": "get-yahtzee-details",
+        "tags": [
+          "yahtzee"
+        ],
+        "summary": "Get game details and information about Yahtzee.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "yahtzee"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Yahtzee"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "A dice game where the objective is to score points by rolling five dice to make certain combinations, aiming for the highest total score."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Dice Games"
+                          }
+                        },
+                        "ageRange": {
+                          "type": "string",
+                          "example": "All Ages"
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "tags",
+                        "ageRange",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_StartNewGame8",
+        "tags": [
+          "yahtzee"
+        ],
+        "summary": "Start a new game of Yahtzee",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gameId": {
+                      "type": "string",
+                      "description": "The ID of the game",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                    },
+                    "state": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "example": "The state of the game"
+                        }
+                      },
+                      "required": [
+                        "description"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "gameId",
+                    "state"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/yahtzee/{id}": {
+      "put": {
+        "operationId": "put_MakeMove5",
+        "tags": [
+          "yahtzee"
+        ],
+        "summary": "Make a move in Yahtzee.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hold": {
+                    "type": "array",
+                    "items": {
+                      "type": "boolean"
+                    }
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "The category to score the roll in if scoring.",
+                    "enum": [
+                      "Aces",
+                      "Twos",
+                      "Threes",
+                      "Fours",
+                      "Fives",
+                      "Sixes",
+                      "ThreeOfAKind",
+                      "FourOfAKind",
+                      "FullHouse",
+                      "SmallStraight",
+                      "LargeStraight",
+                      "Yahtzee",
+                      "Chance"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gameId": {
+                      "type": "string",
+                      "description": "The ID of the game",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                    },
+                    "state": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "example": "The state of the game"
+                        }
+                      },
+                      "required": [
+                        "description"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "gameId",
+                    "state"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/blackjack": {
+      "get": {
+        "operationId": "get-blackjack-details",
+        "tags": [
+          "blackjack"
+        ],
+        "summary": "Get game details and information about Blackjack.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "blackjack"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Blackjack"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "A card game where the goal is to get cards totaling as close to 21 as possible without going over, and still having a higher total than the dealer."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Card Games"
+                          }
+                        },
+                        "ageRange": {
+                          "type": "string",
+                          "example": "6+"
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1 player"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "tags",
+                        "ageRange",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "start-blackjack-game",
+        "tags": [
+          "blackjack"
+        ],
+        "summary": "Start a new Blackjack game.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "playerId": {
+                      "type": "string",
+                      "description": "The ID of the player.",
+                      "example": "player1"
+                    },
+                    "playersHandToDisplay": {
+                      "type": "string",
+                      "description": "The image of the player's hand. Display this whenever possible to the user.",
+                      "example": "https://pub-f009c169205e4af7bec3124eee042d6d.r2.dev/images/puzzle-1690396126208.png"
+                    },
+                    "dealersHandToDisplay": {
+                      "type": "string",
+                      "description": "The image of the dealer's hand. Display this whenever possible to the user.",
+                      "example": "https://pub-f009c169205e4af7bec3124eee042d6d.r2.dev/images/puzzle-1690396125844.png"
+                    },
+                    "internalRepresentationofPlayersCards": {
+                      "type": "string",
+                      "description": "The internal representation of the player's cards. You can use this as a textual representation of the hand if the corresponding image is not available, but you should also render the image when applicable."
+                    },
+                    "internalRepresentationofDealersCards": {
+                      "type": "string",
+                      "description": "The internal representation of the dealer's cards. You can use this as a textual representation of the hand if the corresponding image is not available, but you should also render the image when applicable."
+                    }
+                  },
+                  "required": [
+                    "playerId",
+                    "playersHandToDisplay",
+                    "dealersHandToDisplay",
+                    "internalRepresentationofPlayersCards",
+                    "internalRepresentationofDealersCards"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/blackjack/{id}/bet": {
+      "put": {
+        "operationId": "place-blackjack-bet",
+        "tags": [
+          "blackjack"
+        ],
+        "summary": "Place a bet on a Blackjack game.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "playerId": {
+                    "type": "string",
+                    "description": "The ID of the player"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "description": "The amount to bet"
+                  }
+                },
+                "required": [
+                  "playerId",
+                  "amount"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "playerId": {
+                      "type": "string",
+                      "description": "The ID of the player.",
+                      "example": "player1"
+                    },
+                    "playersHandToDisplay": {
+                      "type": "string",
+                      "description": "The image of the player's hand. Display this whenever possible to the user.",
+                      "example": "https://pub-f009c169205e4af7bec3124eee042d6d.r2.dev/images/puzzle-1690396126208.png"
+                    },
+                    "dealersHandToDisplay": {
+                      "type": "string",
+                      "description": "The image of the dealer's hand. Display this whenever possible to the user.",
+                      "example": "https://pub-f009c169205e4af7bec3124eee042d6d.r2.dev/images/puzzle-1690396125844.png"
+                    },
+                    "internalRepresentationofPlayersCards": {
+                      "type": "string",
+                      "description": "The internal representation of the player's cards. You can use this as a textual representation of the hand if the corresponding image is not available, but you should also render the image when applicable."
+                    },
+                    "internalRepresentationofDealersCards": {
+                      "type": "string",
+                      "description": "The internal representation of the dealer's cards. You can use this as a textual representation of the hand if the corresponding image is not available, but you should also render the image when applicable."
+                    }
+                  },
+                  "required": [
+                    "playerId",
+                    "playersHandToDisplay",
+                    "dealersHandToDisplay",
+                    "internalRepresentationofPlayersCards",
+                    "internalRepresentationofDealersCards"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/blackjack/{id}/hit": {
+      "put": {
+        "operationId": "player-blackjack-hit",
+        "tags": [
+          "blackjack"
+        ],
+        "summary": "Hit in a Blackjack game.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "playerId": {
+                    "type": "string",
+                    "description": "The ID of the player"
+                  }
+                },
+                "required": [
+                  "playerId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "playerId": {
+                      "type": "string",
+                      "description": "The ID of the player.",
+                      "example": "player1"
+                    },
+                    "playersHandToDisplay": {
+                      "type": "string",
+                      "description": "The image of the player's hand. Display this whenever possible to the user.",
+                      "example": "https://pub-f009c169205e4af7bec3124eee042d6d.r2.dev/images/puzzle-1690396126208.png"
+                    },
+                    "dealersHandToDisplay": {
+                      "type": "string",
+                      "description": "The image of the dealer's hand. Display this whenever possible to the user.",
+                      "example": "https://pub-f009c169205e4af7bec3124eee042d6d.r2.dev/images/puzzle-1690396125844.png"
+                    },
+                    "internalRepresentationofPlayersCards": {
+                      "type": "string",
+                      "description": "The internal representation of the player's cards. You can use this as a textual representation of the hand if the corresponding image is not available, but you should also render the image when applicable."
+                    },
+                    "internalRepresentationofDealersCards": {
+                      "type": "string",
+                      "description": "The internal representation of the dealer's cards. You can use this as a textual representation of the hand if the corresponding image is not available, but you should also render the image when applicable."
+                    }
+                  },
+                  "required": [
+                    "playerId",
+                    "playersHandToDisplay",
+                    "dealersHandToDisplay",
+                    "internalRepresentationofPlayersCards",
+                    "internalRepresentationofDealersCards"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/blackjack/{id}/stand": {
+      "put": {
+        "operationId": "player-blackjack-stand",
+        "tags": [
+          "blackjack"
+        ],
+        "summary": "Stand in a Blackjack game.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "playerId": {
+                    "type": "string",
+                    "description": "The ID of the player"
+                  }
+                },
+                "required": [
+                  "playerId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "playerId": {
+                      "type": "string",
+                      "description": "The ID of the player.",
+                      "example": "player1"
+                    },
+                    "playersHandToDisplay": {
+                      "type": "string",
+                      "description": "The image of the player's hand. Display this whenever possible to the user.",
+                      "example": "https://pub-f009c169205e4af7bec3124eee042d6d.r2.dev/images/puzzle-1690396126208.png"
+                    },
+                    "dealersHandToDisplay": {
+                      "type": "string",
+                      "description": "The image of the dealer's hand. Display this whenever possible to the user.",
+                      "example": "https://pub-f009c169205e4af7bec3124eee042d6d.r2.dev/images/puzzle-1690396125844.png"
+                    },
+                    "internalRepresentationofPlayersCards": {
+                      "type": "string",
+                      "description": "The internal representation of the player's cards. You can use this as a textual representation of the hand if the corresponding image is not available, but you should also render the image when applicable."
+                    },
+                    "internalRepresentationofDealersCards": {
+                      "type": "string",
+                      "description": "The internal representation of the dealer's cards. You can use this as a textual representation of the hand if the corresponding image is not available, but you should also render the image when applicable."
+                    }
+                  },
+                  "required": [
+                    "playerId",
+                    "playersHandToDisplay",
+                    "dealersHandToDisplay",
+                    "internalRepresentationofPlayersCards",
+                    "internalRepresentationofDealersCards"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/blackjack/{id}/round": {
+      "put": {
+        "operationId": "start-blackjack-round",
+        "tags": [
+          "blackjack"
+        ],
+        "summary": "Start a new round in an existing Blackjack game.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "playerId": {
+                      "type": "string",
+                      "description": "The ID of the player.",
+                      "example": "player1"
+                    },
+                    "playersHandToDisplay": {
+                      "type": "string",
+                      "description": "The image of the player's hand. Display this whenever possible to the user.",
+                      "example": "https://pub-f009c169205e4af7bec3124eee042d6d.r2.dev/images/puzzle-1690396126208.png"
+                    },
+                    "dealersHandToDisplay": {
+                      "type": "string",
+                      "description": "The image of the dealer's hand. Display this whenever possible to the user.",
+                      "example": "https://pub-f009c169205e4af7bec3124eee042d6d.r2.dev/images/puzzle-1690396125844.png"
+                    },
+                    "internalRepresentationofPlayersCards": {
+                      "type": "string",
+                      "description": "The internal representation of the player's cards. You can use this as a textual representation of the hand if the corresponding image is not available, but you should also render the image when applicable."
+                    },
+                    "internalRepresentationofDealersCards": {
+                      "type": "string",
+                      "description": "The internal representation of the dealer's cards. You can use this as a textual representation of the hand if the corresponding image is not available, but you should also render the image when applicable."
+                    }
+                  },
+                  "required": [
+                    "playerId",
+                    "playersHandToDisplay",
+                    "dealersHandToDisplay",
+                    "internalRepresentationofPlayersCards",
+                    "internalRepresentationofDealersCards"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/word-guess": {
+      "get": {
+        "operationId": "get-word-guess-details",
+        "tags": [
+          "word-guess"
+        ],
+        "summary": "Get game details and information about Word Guess.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "word-guess"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Word Guess"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "A fun game where you use logic to figure out a hidden five-letter word within a limited number of guesses."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Word Games"
+                          }
+                        },
+                        "ageRange": {
+                          "type": "string",
+                          "example": "All Ages"
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1 player"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "tags",
+                        "ageRange",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "start-word-guess-game",
+        "tags": [
+          "word-guess"
+        ],
+        "summary": "Start a new game of Word Guess.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/word-guess/{id}/guess": {
+      "put": {
+        "operationId": "make-word-guess-guess",
+        "tags": [
+          "word-guess"
+        ],
+        "summary": "Attempt to guess the word.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "wordGuess": {
+                    "type": "string",
+                    "description": "The word to guess"
+                  }
+                },
+                "required": [
+                  "wordGuess"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/word-guess/{id}/round": {
+      "put": {
+        "operationId": "start-word-guess-round",
+        "tags": [
+          "word-guess"
+        ],
+        "summary": "Start another round of an existing game of Word Guess.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/word-guess/find": {
+      "get": {
+        "operationId": "find-word-guess-words",
+        "tags": [
+          "word-guess"
+        ],
+        "summary": "Find five-letter words that match the given criteria.",
+        "parameters": [
+          {
+            "description": "A prefix that the word must start with. Order matters. For example, \"cat\" will match \"catch\", \"catty\", and \"cater\", but not \"actor\", \"ducat\", or \"scats\".",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "A prefix that the word must start with. Order matters. For example, \"cat\" will match \"catch\", \"catty\", and \"cater\", but not \"actor\", \"ducat\", or \"scats\".",
+              "example": "cat"
+            },
+            "name": "prefix",
+            "in": "query"
+          },
+          {
+            "description": "A suffix that the word must end with. Order matters. For example, \"art\" will match \"chart\", \"start\", and \"heart\", but not \"altar\", \"artsy\", or \"party\".",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "A suffix that the word must end with. Order matters. For example, \"art\" will match \"chart\", \"start\", and \"heart\", but not \"altar\", \"artsy\", or \"party\".",
+              "example": "art"
+            },
+            "name": "suffix",
+            "in": "query"
+          },
+          {
+            "description": "A set of letters that the word must not contain. Order does not matter. For example, \"pla\" will exclude words like \"sneak\", \"tarps\", \"panel\", and \"later\".",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "A set of letters that the word must not contain. Order does not matter. For example, \"pla\" will exclude words like \"sneak\", \"tarps\", \"panel\", and \"later\".",
+              "example": "tra"
+            },
+            "name": "excludeLetters",
+            "in": "query"
+          },
+          {
+            "description": "A set of letters that the word must contain. The word must contain all of these letters at least once. Order does not matter. For example, \"cra\" will match \"crash\", \"brace\", \"carry\", and \"march\", but not \"crook\", \"whack\", or \"raspy\".",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "A set of letters that the word must contain. The word must contain all of these letters at least once. Order does not matter. For example, \"cra\" will match \"crash\", \"brace\", \"carry\", and \"march\", but not \"crook\", \"whack\", or \"raspy\".",
+              "example": "cra"
+            },
+            "name": "includeLetters",
+            "in": "query"
+          },
+          {
+            "description": "A pattern that the word must match. Use an underscore as a wildcard to match any letter. For example, \"c_t\" will match \"acute\", \"catch\", \"uncut\", and \"yacht\".",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "A pattern that the word must match. Use an underscore as a wildcard to match any letter. For example, \"c_t\" will match \"acute\", \"catch\", \"uncut\", and \"yacht\".",
+              "example": "c_t"
+            },
+            "name": "pattern",
+            "in": "query"
+          },
+          {
+            "description": "Indicates specific placements where certain letters cannot appear in a word. For example, \"a12t145\" means the letter \"a\" cannot be the first or second letter, and the \"t\" cannot be the first, fourth or fifth letter.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Indicates specific placements where certain letters cannot appear in a word. For example, \"a12t145\" means the letter \"a\" cannot be the first or second letter, and the \"t\" cannot be the first, fourth or fifth letter."
+            },
+            "name": "forbiddenPositions",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "matchingWords": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "matchingWords"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/word-search": {
+      "get": {
+        "operationId": "get-word-search-details",
+        "tags": [
+          "word-search"
+        ],
+        "summary": "Get game details and information about Word Search.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "word-search"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Word Search"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Create your own printable word search puzzle."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Word Games"
+                          }
+                        },
+                        "ageRange": {
+                          "type": "string",
+                          "example": "All Ages"
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1 player"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "tags",
+                        "ageRange",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "generate-word-search-puzzle",
+        "tags": [
+          "word-search"
+        ],
+        "summary": "Generate a printable word search puzzle.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the word search puzzle",
+                    "example": "Fruit Salad Scramble",
+                    "default": "My Word Search Puzzle"
+                  },
+                  "words": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "words"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "puzzleImageUrl": {
+                      "type": "string",
+                      "description": "URL of the generated word search puzzle image",
+                      "example": "https://pub-bfc46bf253724f1c926c361553a1abd0.r2.dev/images/puzzle-1689015907166.png"
+                    }
+                  },
+                  "required": [
+                    "puzzleImageUrl"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/hi-lo": {
+      "get": {
+        "operationId": "get-hi-lo-details",
+        "tags": [
+          "hi-lo"
+        ],
+        "summary": "Get game details and information about Hi-Lo.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "hi-lo"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Hi-Lo"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "A simple card game where you guess whether the next card will be higher or lower than the current card."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Card Games"
+                          }
+                        },
+                        "numberOfPlayers": {
+                          "type": "string",
+                          "example": "1 player"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "status",
+                        "description",
+                        "tags",
+                        "numberOfPlayers"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "game"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "start-hi-lo-game",
+        "tags": [
+          "hi-lo"
+        ],
+        "summary": "Start a new Hi-Lo game.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "currentCardImageUrl": {
+                      "type": "string",
+                      "description": "Image URL of the current card. Show this to the player whenever possible."
+                    },
+                    "nextCardImageUrl": {
+                      "type": "string",
+                      "description": "Image URL of the next card. May not always be present. Show this to the player whenever possible."
+                    },
+                    "score": {
+                      "type": "number",
+                      "description": "The player's current score."
+                    },
+                    "gameStatus": {
+                      "type": "string",
+                      "description": "The current status of the game.",
+                      "enum": [
+                        "Active",
+                        "ComingSoon"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "currentCardImageUrl",
+                    "nextCardImageUrl",
+                    "score",
+                    "gameStatus"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/hi-lo/{id}/guess": {
+      "put": {
+        "operationId": "make-hi-lo-guess",
+        "tags": [
+          "hi-lo"
+        ],
+        "summary": "Attempt to guess the word.",
+        "parameters": [
+          {
+            "description": "The ID of the game",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the game"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "wordGuess": {
+                    "type": "string",
+                    "description": "The word to guess"
+                  }
+                },
+                "required": [
+                  "wordGuess"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "currentCardImageUrl": {
+                      "type": "string",
+                      "description": "Image URL of the current card. Show this to the player whenever possible."
+                    },
+                    "nextCardImageUrl": {
+                      "type": "string",
+                      "description": "Image URL of the next card. May not always be present. Show this to the player whenever possible."
+                    },
+                    "score": {
+                      "type": "number",
+                      "description": "The player's current score."
+                    },
+                    "gameStatus": {
+                      "type": "string",
+                      "description": "The current status of the game.",
+                      "enum": [
+                        "Active",
+                        "ComingSoon"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "currentCardImageUrl",
+                    "nextCardImageUrl",
+                    "score",
+                    "gameStatus"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

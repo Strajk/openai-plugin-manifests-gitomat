@@ -1,0 +1,39 @@
+openapi: 3.0.2
+info:
+  title: CSV Export
+  description: This API allows for the swift and efficient creation and export of custom CSV layouts. It not only enables you to structure and organize your data effectively but also provides the capability to visualize them in a table format.
+  version: '1.0.0'
+servers:
+  - url: https://csv-export-plugin.chatbot.so/
+paths:
+  /create:
+    post:
+      operationId: createCSV
+      summary: Create a new CSV file
+      description: This endpoint accepts a JSON object containing a CSV file name and an array of CSV data for integration into the CSV Export plugin.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                File:
+                  type: string
+                  description: The name of the CSV file to be created.
+                Data:
+                  type: array
+                  items:
+                    type: string
+                  description: An array of CSV data to be integrated into the CSV file.
+      responses:
+        "201":
+          description: Successfully created the CSV file.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "CSV file successfully created."

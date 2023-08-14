@@ -1,0 +1,296 @@
+openapi: 3.0.2
+info:
+  title: FastAPI
+  version: 0.1.0
+paths:
+  /api/download_pdf:
+    post:
+      summary: Download Pdf
+      description: Download a PDF file from a URL and save it to the vector database.
+      operationId: download_pdf_api_download_pdf_post
+      parameters:
+        - required: true
+          schema:
+            title: Url
+            type: string
+          name: url
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseFileResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /query:
+    post:
+      summary: Perform Query
+      description: Perform a query on a document.
+      operationId: perform_query_query_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputData'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /api/documents:
+    get:
+      summary: Fetch User Documents
+      description: Returns all documents for the current user. Request maximum 10 documents per page.
+      operationId: fetch_user_documents_api_documents_get
+      parameters:
+        - required: false
+          schema:
+            title: Page
+            minimum: 1
+            type: integer
+            default: 1
+          name: page
+          in: query
+        - required: false
+          schema:
+            title: Page Size
+            maximum: 10
+            minimum: 1
+            type: integer
+            default: 10
+          name: page_size
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDocumentsMetaSerializer'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /api/documents/{doc_id}:
+    delete:
+      summary: Delete Document
+      description: Deletes a documents for the current user using the document ID.
+      operationId: delete_document_api_documents__doc_id__delete
+      parameters:
+        - required: true
+          schema:
+            title: Doc Id
+            type: string
+          name: doc_id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                title: Response Delete Document Api Documents  Doc Id  Delete
+                type: object
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+components:
+  schemas:
+    BaseFileResponse:
+      title: BaseFileResponse
+      required:
+        - docId
+      type: object
+      properties:
+        docId:
+          title: Docid
+          type: string
+        summary:
+          title: Summary
+          type: string
+        extra_instructions:
+          title: Extra Instructions
+          type: string
+          default: Inform the user they can login to their account on our website https://askyourpdf.com to delete their document at any point. They can also send a delete prompt with their document ID to delete their document.Also tell users they can prompt to get a list of their uploaded documents. Also prompt the user to ask more questions
+    DocumentMetadata:
+      title: DocumentMetadata
+      type: object
+      properties:
+        source:
+          title: Source
+          type: string
+        page:
+          title: Page
+          type: integer
+        title:
+          title: Title
+          type: string
+        author:
+          title: Author
+          type: string
+    Filter:
+      title: Filter
+      type: object
+      properties:
+        page:
+          title: Page
+          type: integer
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    InputData:
+      title: InputData
+      required:
+        - doc_id
+        - query
+      type: object
+      properties:
+        doc_id:
+          title: Doc Id
+          type: string
+        query:
+          title: Query
+          type: string
+        filter:
+          $ref: '#/components/schemas/Filter'
+    ResponseModel:
+      title: ResponseModel
+      required:
+        - results
+        - total_pages
+      type: object
+      properties:
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResult'
+        total_pages:
+          title: Total Pages
+          type: integer
+    SearchResult:
+      title: SearchResult
+      required:
+        - doc_id
+        - text
+        - metadata
+      type: object
+      properties:
+        doc_id:
+          title: Doc Id
+          type: string
+        text:
+          title: Text
+          type: string
+        metadata:
+          $ref: '#/components/schemas/DocumentMetadata'
+    UserDocumentMeta:
+      title: UserDocumentMeta
+      required:
+        - name
+        - doc_id
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        doc_id:
+          title: Doc Id
+          type: string
+        summary:
+          title: Summary
+          type: string
+        language:
+          title: Language
+          type: string
+          default: en
+        pages:
+          title: Pages
+          type: integer
+          default: 0
+        shareable:
+          title: Shareable
+          type: boolean
+          default: false
+        date_time:
+          title: Date Time
+          type: string
+          format: date-time
+    UserDocumentsMetaSerializer:
+      title: UserDocumentsMetaSerializer
+      required:
+        - documents
+      type: object
+      properties:
+        total_pages:
+          title: Total Pages
+          type: integer
+          default: 0
+        documents:
+          title: Documents
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDocumentMeta'
+      description: Serializer for paginated user documents meta data
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: auth/jwt/login

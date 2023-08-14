@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: Snappy Gifts API
+  version: 1.0.0
+description: This is the API specification for the SnappyGifts service. It allows users to get a curated list of gift suggestions based on tags and a specified price range.
+servers:
+  - url: https://consumer-api.snappygifts.com/v1/integrations/openai
+paths:
+  /query:
+    post:
+      summary: Get gift suggestions
+      description: Returns a preview of a curated list of 5 gift suggestions based on the provided tags and price range. This is a preview from a full gift collection.
+      operationId: generateGifts
+      requestBody:
+        required: true
+        description: An object containing arrays of tags and a price range to filter the gift suggestions.
+        content:
+          application/json:
+            name: tags
+            schema:
+              schema:
+              $ref: '#/components/schemas/generateGiftsRequest'
+      responses:
+        '200':
+          description: An object containing a preview list of top 5 gift suggestions, along with URLs to send and preview each gift. The listed gifts are a preview from a full gift collection.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  gifts:
+                    name: gifts
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Gift'
+                  sendGiftUrl:
+                    name: sendGiftUrl
+                    type: string
+                    format: uri
+                    description: URL to view and to send the full gifts collection.
+                  previewGiftUrl:
+                    name: previewGiftUrl
+                    type: string
+                    format: uri
+                    description: URL to preview the full gifts collection.
+components:
+  schemas:
+    generateGiftsRequest:
+      type: object
+      description: An object containing an array of tags and a product price range.
+      properties:
+        tags:
+          name: tags
+          type: array
+          minItems: 5
+          items:
+            type: string
+          description: Tags to fetch relevant gift suggestions.
+        productsPriceRange:
+          name: productsPriceRange
+          description: An object representing a price range for products.
+          type: object
+          properties:
+            min:
+              type: number
+              format: float
+              description: The minimum price of the product range.
+            max:
+              type: number
+              format: float
+              description: The maximum price of the product range.
+    Gift:
+      type: object
+      description: An object representing a single gift suggestion. Contains the title, description, and URL of the gift.
+      properties:
+        title:
+          type: string
+          description: The title of the gift.
+        description:
+          type: string
+          description: The description of the gift.
+        url:
+          type: string
+          format: uri
+          description: The URL of the gift.

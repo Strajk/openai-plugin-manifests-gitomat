@@ -1,0 +1,139 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://link-analyzer-three.vercel.app"
+    }
+  ],
+  "paths": {
+    "/analyze/{url}": {
+      "get": {
+        "summary": "analyze a URL",
+        "operationId": "analyzeUrl",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "path",
+            "required": true,
+            "description": "URL to analyze",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "link_data": {
+                      "type": "object"
+                    },
+                    "graph_data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report/{url}": {
+      "get": {
+        "summary": "Get a report for a URL",
+        "operationId": "getReport",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "path",
+            "required": true,
+            "description": "URL to get report for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "report_data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/help": {
+      "get": {
+        "summary": "Get help",
+        "operationId": "getHelp",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

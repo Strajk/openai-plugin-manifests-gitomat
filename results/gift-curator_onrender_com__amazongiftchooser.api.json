@@ -1,0 +1,68 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Amazon Gift Chooser",
+    "description": "Curated gifts for every occasion and special person. Recommend gifts that fit the user's described recipient, occasion, and price range. Return a list of gifts related to the user's input.",
+    "version": "1.0.0",
+    "contact": {
+      "contact_email": "mshen27@uwo.ca"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://gift-curator.onrender.com/app/amazon_gift"
+    }
+  ],
+  "paths": {
+    "/list": {
+      "get": {
+        "operationId": "list",
+        "summary": "Retrieve a list of all available gifts",
+        "responses": {
+          "200": {
+            "description": "A list of all available gifts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Gift"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Gift": {
+        "type": "object",
+        "properties": {
+          "Item": {
+            "type": "string",
+            "description": "The name of the gift"
+          },
+          "Gender": {
+            "type": "string",
+            "description": "The gender for which the gift is suitable"
+          },
+          "Person": {
+            "type": "string",
+            "description": "The type of person for which the gift is suitable"
+          },
+          "Price": {
+            "type": "string",
+            "description": "The price of the gift"
+          },
+          "Link": {
+            "type": "string",
+            "description": "The URL where the gift can be purchased"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,765 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Telescope Labs",
+    "description": "Web3 gaming industry related data retrieval, analysis and visualizations.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.telescopelabs.io"
+    }
+  ],
+  "paths": {
+    "/gpt/get_events": {
+      "post": {
+        "operationId": "get_events",
+        "summary": "Define Events",
+        "description": "to get information about events (datasets) such as event name, fields, and metrics information when pre-defined KPIs are not available.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_events"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/get_games": {
+      "post": {
+        "operationId": "get_games",
+        "summary": "Define Games",
+        "description": "to access any known web3 game information.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_games"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/get_kpis": {
+      "post": {
+        "operationId": "get_kpis",
+        "summary": "Define KPIs",
+        "description": "to access pre-defined charts (aka. KPIs) inside dashboards.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_kpis"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/about_us": {
+      "post": {
+        "operationId": "about_us",
+        "summary": "About Us",
+        "description": "to provide general information about the product or company.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/about_us"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/get_smart_contracts": {
+      "post": {
+        "operationId": "get_smart_contracts",
+        "summary": "Smart Contracts",
+        "description": "to access the list of smart contract information of a game.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_smart_contracts"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/get_data": {
+      "post": {
+        "operationId": "get_data",
+        "summary": "Data Reasoning",
+        "description": "to analyze, provide extra information about the description, solution, and relation from data points in terms of analytical and economical perspectives for pre-defined charts (aka. KPIs) and event definitons.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_data"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/get_correlated_kpis": {
+      "post": {
+        "operationId": "get_correlated_kpis",
+        "summary": "Correlated KPIs",
+        "description": "to get list of other correlated KPIs and their correlation coefficent.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_correlated_kpis"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/get_dashboard": {
+      "post": {
+        "operationId": "get_dashboard",
+        "summary": "Dashboard",
+        "description": "to create, and manage custom dashboards. Using dashboards users can create, customize, and organize personalized charts and funnels.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_dashboard"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/get_journeys": {
+      "post": {
+        "operationId": "get_journeys",
+        "summary": "Analyze User Flow",
+        "description": "to retrieve data for user journey analysis. It tracks and analyzes the sequence of user interactions across multiple event branches and steps within a defined user journey. For each step and event branch, the API returns the remaining number of users who have been involved in the event sequence from the beginning. The data can be used to understand user behavior, identify potential drop-off points, and optimize user experience for improved retention and conversion rates.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_journeys"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "get_events": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Event name to search for "
+          },
+          "gameId": {
+            "type": "string",
+            "description": "Id of the game"
+          },
+          "showSample": {
+            "type": "integer",
+            "description": "If requires a list of sample event definitions, find the number of event definition samples needed (if not specified take 5)."
+          },
+          "listAllRecords": {
+            "type": "boolean",
+            "description": "If the event name is not specified and all of the available event definitions wants to be listed, provide 'true', if not provide 'false'.",
+            "default": false
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "get_games": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Game name to search for"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Page number if results are more than 10",
+            "default": 1
+          },
+          "showSample": {
+            "type": "integer",
+            "description": "If requires a list of sample games, find the number of game samples needed (if not specified take 5)"
+          },
+          "listAllRecords": {
+            "type": "boolean",
+            "description": "If the game name is not specified and all of the available games wants to be listed, provide 'true', if not provide 'false'.",
+            "default": false
+          }
+        }
+      },
+      "get_kpis": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "KPI name to search for"
+          },
+          "gameId": {
+            "type": "string",
+            "description": "Id of the game",
+            "minLength": 3
+          },
+          "showSample": {
+            "type": "integer",
+            "description": "If requires a list of sample kpis, find the number of KPI samples needed (if not specified take 5)"
+          },
+          "listAllRecords": {
+            "type": "boolean",
+            "description": "If the KPI name is not specified and all of the available KPIs wants to be listed, provide 'true', if not provide 'false'.",
+            "default": false
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "about_us": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "Specific question about the Telescope product",
+            "minLength": 3
+          }
+        }
+      },
+      "get_smart_contracts": {
+        "type": "object",
+        "properties": {
+          "gameId": {
+            "type": "string",
+            "description": "Id of the game",
+            "minLength": 3
+          }
+        }
+      },
+      "get_data": {
+        "type": "object",
+        "properties": {
+          "interval": {
+            "type": "object",
+            "description": "Start date time, end date time and aggregation period for the chart interval. Maximum data points to show should be less than 90.",
+            "properties": {
+              "start": {
+                "type": "string",
+                "description": "Start date time iso format, default start date is 1 week ago."
+              },
+              "end": {
+                "type": "string",
+                "description": "End date time iso format, default end date is today."
+              },
+              "aggregate": {
+                "type": "integer",
+                "description": "Aggregation period in terms of number of seconds, default is daily 86400.",
+                "enum": [
+                  3600,
+                  86400,
+                  604800,
+                  2592000
+                ],
+                "default": 86400
+              }
+            },
+            "required": [
+              "start",
+              "end",
+              "aggregate"
+            ]
+          },
+          "kpiParameters": {
+            "type": "array",
+            "description": "List of KPI Ids that are going to be visualized",
+            "items": {
+              "type": "string",
+              "description": "KPI id which can be provided by get_kpis function"
+            }
+          },
+          "eventDefinitionParameters": {
+            "type": "array",
+            "description": "List of custom chart axis parameters derived by event definitions",
+            "items": {
+              "type": "object",
+              "properties": {
+                "datasetName": {
+                  "type": "string",
+                  "description": "Name of the selected event"
+                },
+                "x": {
+                  "type": "string",
+                  "description": "X axis of the chart, which is datetime typed field name from the selected event."
+                },
+                "y": {
+                  "type": "string",
+                  "description": "Y axis of the chart, number typed metric name from the selected event."
+                },
+                "groupBu": {
+                  "type": "string",
+                  "description": "Optional groupBy string typed field name from the selected event."
+                }
+              },
+              "required": [
+                "datasetName",
+                "x",
+                "y"
+              ]
+            }
+          },
+          "chartType": {
+            "type": "string",
+            "description": "Chart type to visualize",
+            "enum": [
+              "line",
+              "column",
+              "bar",
+              "area",
+              "scatter",
+              "spline",
+              "pie",
+              "areaspline",
+              "lollipop",
+              "sankey",
+              "indicator",
+              "table",
+              "waterfall",
+              "pyramid"
+            ],
+            "default": "line"
+          },
+          "predictions": {
+            "type": "integer",
+            "description": "Number of data points to predict after the end datetime"
+          },
+          "gameId": {
+            "type": "string",
+            "description": "Id of the game which is interested",
+            "minLength": 3
+          },
+          "provideAdvancedReasoning": {
+            "type": "string",
+            "description": "Type of detail that the question requires, if it requires advanced reasoning",
+            "enum": [
+              "description",
+              "solution",
+              "relation"
+            ]
+          }
+        },
+        "required": [
+          "interval",
+          "chartType",
+          "gameId"
+        ]
+      },
+      "get_correlated_kpis": {
+        "type": "object",
+        "properties": {
+          "interval": {
+            "type": "object",
+            "description": "Start date time, end date time for the correlation analysis interval.",
+            "properties": {
+              "start": {
+                "type": "string",
+                "description": "Start date time iso format, default start date is 1 month ago."
+              },
+              "end": {
+                "type": "string",
+                "description": "End date time iso format, default end date is today."
+              }
+            },
+            "required": [
+              "start",
+              "end"
+            ]
+          },
+          "kpiIds": {
+            "type": "array",
+            "description": "List of KPI Ids that are going to be used in correlation analysis",
+            "items": {
+              "type": "string",
+              "description": "KPI id which can be provided by get_kpis function",
+              "minLength": 3,
+              "pattern": "^TL"
+            }
+          },
+          "gameId": {
+            "type": "string",
+            "description": "Id of the game",
+            "minLength": 3
+          }
+        },
+        "required": [
+          "interval",
+          "kpiIds",
+          "gameId"
+        ]
+      },
+      "get_dashboard": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the dashboard"
+          },
+          "chartData": {
+            "type": "object",
+            "description": "Data of the chart that is going to be added to this dashboard. The chart needs to be created beforehand.",
+            "properties": {
+              "kpiParameters": {
+                "type": "array",
+                "description": "List of KPI Ids that are going to be visualized",
+                "items": {
+                  "type": "string",
+                  "description": "Unique KPI id"
+                }
+              },
+              "chartType": {
+                "type": "string",
+                "description": "Chart type to visualize",
+                "enum": [
+                  "line",
+                  "column",
+                  "bar",
+                  "area",
+                  "scatter",
+                  "spline",
+                  "pie",
+                  "areaspline",
+                  "lollipop",
+                  "sankey",
+                  "indicator",
+                  "table",
+                  "waterfall",
+                  "pyramid"
+                ]
+              }
+            }
+          },
+          "isDelete": {
+            "type": "boolean",
+            "description": "Is the intention of the user to delete the dashboard.",
+            "default": false
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "get_journeys": {
+        "type": "object",
+        "properties": {
+          "interval": {
+            "type": "object",
+            "description": "Start date time, end date time and aggregation period for the chart interval. Maximum data points to show should be less than 90.",
+            "properties": {
+              "start": {
+                "type": "string",
+                "description": "Start date time iso format, default start date is 1 week ago."
+              },
+              "end": {
+                "type": "string",
+                "description": "End date time iso format, default end date is today."
+              },
+              "aggregate": {
+                "type": "integer",
+                "description": "Aggregation period in terms of number of seconds, default is daily 86400.",
+                "enum": [
+                  3600,
+                  86400,
+                  604800,
+                  2592000
+                ],
+                "default": 86400
+              }
+            },
+            "required": [
+              "start",
+              "end",
+              "aggregate"
+            ]
+          },
+          "steps": {
+            "type": "array",
+            "description": "Steps of the funnel. Each step has branches that consists of predefined event names. Each step can be optional. Each step can be filtered using filters that are special to concerning event.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "eventName": {
+                  "type": "string",
+                  "description": "List of predefined event names which can be provided by get_events function."
+                },
+                "filter": {
+                  "type": "object",
+                  "description": "Filter that can be used to narrow results for an event in a spesific dimension.",
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "description": "Name of the field."
+                    },
+                    "operator": {
+                      "type": "string",
+                      "description": "The relation between the 'field' and the 'value'",
+                      "enum": [
+                        "equal",
+                        "not_equal",
+                        "in",
+                        "not_in",
+                        "begins_with",
+                        "not_begins_with",
+                        "contains",
+                        "not_contains",
+                        "ends_with",
+                        "not_ends_with",
+                        "is_empty",
+                        "is_not_empty",
+                        "is_null",
+                        "is_not_null"
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "description": "The value provided for the 'field' in relation to 'operator'."
+                    }
+                  }
+                }
+              },
+              "required": [
+                "eventName"
+              ]
+            }
+          },
+          "condition": {
+            "type": "string",
+            "description": "How rules will apply in relation to each other.",
+            "enum": [
+              "or",
+              "and"
+            ],
+            "default": "and"
+          }
+        },
+        "required": [
+          "interval",
+          "steps",
+          "condition"
+        ]
+      }
+    }
+  }
+}

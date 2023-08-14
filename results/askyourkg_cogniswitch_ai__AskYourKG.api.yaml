@@ -1,0 +1,187 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: https://askyourkg.cogniswitch.ai
+  description: Generated server url
+paths:
+  /cs/knowledgeSource/url:
+    post:
+      tags:
+      - knowledge-api-impl
+      operationId: addSourceURL
+      parameters:
+      - name: url
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: platformToken
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /cs/knowledgeRequest:
+    post:
+      tags:
+      - knowledge-api-impl
+      operationId: getAnswer
+      parameters:
+      - name: query
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: platformToken
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /cs/emailRegistration:
+    post:
+      tags:
+      - knowledge-api-impl
+      operationId: registerEmail
+      parameters:
+      - name: emailAddress
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /cs/knowledgeSource/status:
+    get:
+      tags:
+      - knowledge-api-impl
+      operationId: getDocStatus
+      parameters:
+      - name: docName
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: platformToken
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /cs/graphViz:
+    get:
+      tags:
+      - knowledge-api-impl
+      operationId: getGraphVisualization
+      parameters:
+      - name: platformToken
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+components:
+  schemas:
+    ExceptionResponse:
+      type: object
+      properties:
+        status:
+          type: boolean
+        statusCode:
+          type: integer
+          format: int32
+        message:
+          type: string
+        description:
+          type: string

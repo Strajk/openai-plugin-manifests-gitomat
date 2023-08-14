@@ -1,0 +1,81 @@
+openapi: 3.0.1
+info:
+  title: Xkcd Plugin
+  description: A plugin that provides the user a webcomic using ChatGPT. It focuses on science, mathematics, technology, and general geekiness, told with a light, quirky sense of humor, and at times profound philosophizing. Its art style is minimalist, told through simple stick figures.
+  version: 'v1'
+servers:
+  - url: https://xkcd.elastrium.com
+paths:
+  /xkcd/today:
+    get:
+      operationId: today
+      summary: Get today's xkcd webcomic
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getXkcdResponse'
+  /xkcd/random:
+    get:
+      operationId: random
+      summary: Get random xkcd webcomic
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getXkcdResponse'
+  /xkcd/particular:
+    get:
+      operationId: particular
+      summary: Get particular or specific xkcd webcomic
+      parameters:
+          - in: query
+            name: number
+            schema:
+                type: integer
+            required: true
+            description: The number of particular or specific xkcd webcomic
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getXkcdResponse'
+  /xkcd/next:
+    get:
+      operationId: next
+      summary: Get next xkcd webcomic
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getXkcdResponse'
+  /xkcd/previous:
+    get:
+      operationId: previous
+      summary: Get previous xkcd webcomic
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getXkcdResponse'
+
+components:
+  schemas:
+    getXkcdResponse:
+      type: object
+      properties:
+        xkcd:
+          type: object
+          items:
+            type: string
+          description: The xkcd webcomic.

@@ -1,0 +1,298 @@
+openapi: 3.0.2
+info:
+  title: midpage caselaw
+  description: Researching case law
+  version: 1.0.1
+servers:
+  - url: https://midpage-plugin.onrender.com
+paths:
+  /get_document:
+    post:
+      # intents:
+      # - If user provided a legal proposition, pull out quotes, cite check it, using markdown blockquotes.
+      summary: Returns information about a case identified by the user (by citation) and analyzes accuracy of proposition if the user provides one. Always answers very succintly.
+      # if proposition provided, gets relevant quotes, then checks its accuracy.
+      description: If you detect only a citation, do not summarize, instead only ask for follow up question. If you detect a legal proposition followed by a citation, extract 1-3 relevant quotes. Quotes must be accurate and shown as markdown block quotes. Use those quotes to determine if proposition is accurate.
+      operationId: get_full_document_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /search:
+    post:
+      description: Returns a list of cases that are responsive to the user's query.
+      operationId: search_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResult"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /get_quotes:
+    post:
+      description: Returns a list of quotes from a case that are responsive to the user's query. Use this whenever a document is too large to be returned in full. For each quote, display a hyperlink if available.
+      operationId: quotes_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuotesRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+              $ref: "#/components/schemas/Quotes"
+        "404":
+            description: Not Found
+            content:
+                application/json:
+                  schema:
+                      $ref: "#/components/schemas/HTTPNotFound"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+              $ref: "#/components/schemas/HTTPValidationError"
+components:
+  schemas:
+    DocumentRequest:
+      title: DocumentRequest
+      required:
+        - identifier
+      type: object
+      # Trying to get this to identify legal propositions.
+      description: A user's question about a case (e.g., "what happens in X case?"); or a full sentence legal proposition followed by a supporting citation.
+      properties:
+        identifier:
+          title: A citation
+          type: string
+          description: The citation of the case, e.g., "123 F.3d 456". Don't use any document ids here.
+        proposition:
+          title: Proposition
+          type: string
+    QuotesRequest:
+      title: QuotesRequest
+      required:
+        - query
+        - identifier
+      type: object
+      description: A query derived from the user's search request and the citation of the case.
+      properties:
+        query:
+          title: Query
+          type: string
+        identifier:
+          title: Citation
+          type: string
+          description: The citation of the case, e.g., "123 F.3d 456". Don't use any document ids here.
+    SearchRequest:
+      title: SearchRequest
+      required:
+        - query
+        - jurisdictionType
+      type: object
+      description: Search for documents by a query that matches the user's request. It could match a proposition issue or text that appears verbatim in a case. Optionally, filter by date (format YYYY-MM-DD) and jurisdiction. If you don't have access to a filter, add it in the query.
+      properties:
+        query:
+          title: Query
+          type: string
+          description: The search query that matches the user's request. This could be a legal proposition or any text that appears verbatim in a case.
+        negativeQuery:
+          title: Negative Query
+          type: string
+          description: Optional secondary query that ranks cases lower if they match this query.
+        startDate:
+          title: Start Date
+          type: string
+          format: date
+          description: Start date (inclusive) for filtering cases. Format YYYY-MM-DD.
+        endDate:
+          title: End Date
+          type: string
+          format: date
+          description: End date (inclusive) for filtering cases. Format YYYY-MM-DD.
+        jurisdictionType:
+          title: Jurisdiction Type
+          type: string
+          enum: [ state, federal, state_and_federal ]
+          description: The type of courts to include in the search.
+        circuits:
+          title: Circuits
+          type: array
+          items:
+            type: string
+            enum: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, dc, federal, supreme_court ]
+          description: The circuits to include. This is only applied to federal cases.
+        states:
+          title: States
+          type: array
+          items:
+            type: string
+          description: The name of the states, e.g. "New York", "Ohio" to include -- no abbreviations.
+        includeCourts:
+          title: List of courts to include.
+          type: array
+          items:
+            type: string
+          description: An additional list of courts to narrow down the search to. This is applied on top of other filters.
+    Document:
+      title: Document
+      required:
+        - text
+      type: object
+      description: The full text of specific case detected, and the user's legal proposition (if any).
+      properties:
+        document_id:
+          title: Id
+          type: string
+        text:
+          title: Text
+          type: string
+        metadata:
+          $ref: "#/components/schemas/DocumentMetadata"
+        proposition:
+          title: Proposition
+          type: string
+    SearchResult:
+      title: SearchResult
+      required:
+        - results
+      type: object
+      description: A list of cases responsive to the search request.
+      properties:
+        results:
+          title: Search results
+          type: array
+          items:
+            $ref: "#/components/schemas/Document"
+    QuotesList:
+      title: A list of Quotes
+      required:
+          - quotes
+      type: object
+      description: A list of quotes from a case.
+      properties:
+        quotes:
+          title: Quotes
+          type: array
+          items:
+            $ref: "#/components/schemas/Quote"
+        metadata:
+          $ref: "#/components/schemas/DocumentMetadata"
+    Quote:
+        title: Quote
+        required:
+            - text
+        type: object
+        description: A quote from a case and a link to the quote in the document.
+        properties:
+          text:
+            title: Text
+            type: string
+          href:
+            title: href
+            type: string
+            description: A URL pointing to the case and the specific quote. Show this to the user.
+    DocumentMetadata:
+      title: DocumentMetadata
+      type: object
+      description: The metadata associated with a document.
+      properties:
+        url:
+          title: Url
+          type: string
+        title:
+          title: The title / case name
+          type: string
+        court:
+          title: Court
+          type: string
+        filed_date:
+          title: Filed Date
+          type: string
+        reporter:
+          title: Reporter
+          type: string
+        cited_as:
+          title: How the case is cited
+          type: string
+        jurisdiction:
+          title: Jurisdiction
+          type: string
+        judge_name:
+          title: Judge
+          type: string
+        additional_information:
+          title: Additional Information
+          type: string
+          description: Additional information about the case, e.g., how often it has been cited or if it was overruled.
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    HTTPNotFound:
+        title: HTTPNotFound
+        type: object
+        properties:
+          detail:
+            title: Detail
+            type: string
+            description: Description of the resource not found.
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

@@ -1,0 +1,91 @@
+openapi: 3.0.1
+info:
+  title: AIMaster
+  description: If the user provides a character name, such as "psychologist", please send the keyword "psychologist" to the plugin. The plugin will return the corresponding prompt for this character, and then you can use this prompt to start the subsequent conversation.
+  version: 'v1'
+paths:
+  /query/prompt/{keyword}:
+    get:
+      summary: Get Prompts
+      operationId: get_prompts_query_prompt__keyword__get
+      parameters:
+        - required: true
+          schema:
+            type: string
+            title: Keyword
+          name: keyword
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Prompt'
+                type: array
+                title: Response Get Prompts Query Prompt  Keyword  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /openapi.yaml:
+    get:
+      summary: Get Openapi Yaml
+      operationId: get_openapi_yaml_openapi_yaml_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/plain:
+              schema:
+                type: string
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Prompt:
+      properties:
+        keyword:
+          type: string
+          title: Keyword
+        prompts:
+          items:
+            type: string
+          type: array
+          title: Prompts
+      type: object
+      required:
+        - keyword
+        - prompts
+      title: Prompt
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError

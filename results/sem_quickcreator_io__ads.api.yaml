@@ -1,0 +1,101 @@
+openapi: 3.0.1
+info:
+    title: Marketing Tools for Google Ads Plugin
+    description: ' A plugin that allows the user to generate a google ads using ChatGPT'
+    version: 1.0.0
+tags:
+    - name: ad
+paths:
+    "/ads/google/generate/":
+        get:
+            summary: Generate Google Ads from a web URL using an asynchronous interface. It typically takes 2 minutes to complete. Use the download prompt to retrieve the available link.
+            deprecated: false
+            operationId: adsGoogleGenerateGet
+            tags:
+                - ad
+            parameters:
+                - name: url
+                  in: query
+                  description: 'the web page url'
+                  required: true
+                  example: https://quickcreator.io/sem/quick-creator-landing4
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                required:
+                                    - msg
+    "/ads/google/generatedResult":
+        get:
+            summary: The generated Google campaign includes Campaign, AdGroup, Ad, and Keywords. Returns empty if not generated.
+            deprecated: false
+            operationId: getResult
+            tags:
+                - ad
+            parameters:
+                -   name: url
+                    in: query
+                    required: false
+                    example:  https://quickcreator.io/sem/quick-creator-landing4
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    content:
+                                        type: string
+                                required:
+                                    - content
+components:
+    schemas:
+        deleteTodoRequest:
+            type: object
+            required:
+                - todo_idx
+            properties:
+                todo_idx:
+                    type: integer
+                    description: The index of the todo to delete.
+            x-apifox-orders:
+                - todo_idx
+            x-apifox-ignore-properties: []
+            x-apifox-folder: Schemas
+        getTodosResponse:
+            type: object
+            properties:
+                todos:
+                    type: array
+                    items:
+                        type: string
+                    description: The list of todos.
+            x-apifox-orders:
+                - todos
+            x-apifox-ignore-properties: []
+            x-apifox-folder: Schemas
+        addTodoRequest:
+            type: object
+            required:
+                - todo
+            properties:
+                todo:
+                    type: string
+                    description: The todo to add to the list.
+            x-apifox-orders:
+                - todo
+            x-apifox-ignore-properties: []
+            x-apifox-folder: Schemas
+servers:
+    - url: https://sem.quickcreator.io

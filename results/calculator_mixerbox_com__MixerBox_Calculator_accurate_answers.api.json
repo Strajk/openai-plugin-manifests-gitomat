@@ -1,0 +1,92 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MixerBox Calculator Plugin",
+    "description": "This plugin can help you handle simple arithmetic operations.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://calculator.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/calculator/calculate": {
+      "post": {
+        "operationId": "calculate",
+        "summary": "Calculate the mathematical expression",
+        "description": "Calculate the mathematical expression provided from user.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "evalString": {
+                    "type": "string",
+                    "description": "The mathematical expression provided from user.",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The arithmetic expression you provided might be invalid, please provide a valid one.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string",
+                      "title": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CalculateResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "The arithmetic result.",
+            "description": "The result of the arithmetic.",
+            "type": "string"
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow",
+            "description": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

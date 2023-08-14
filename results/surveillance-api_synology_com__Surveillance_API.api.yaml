@@ -1,0 +1,40 @@
+openapi: 3.0.2
+info:
+  title: Synology Surveillance Station API Helper
+  description: A retrieval API for querying Synology Surveillance Station API JSON files
+  version: 1.0.0
+  servers:
+    - url: https://surveillance-api.synology.com
+paths:
+  /.well-known/method_list.json:
+    get:
+      summary: Get Synology Surveillance Station API List
+      description: Return a list of Synology Surveillance Station API methods, each with a method name, summary and file name. Use this list to identify the file names of the API methods that need to be retrieved.
+      operationId: query-list_query-list_post
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            text/json:
+              schema:
+                type: string
+                format: binary
+  /chatgpt-plugin/specs/{filename}:
+    get:
+      summary: Get Synology Surveillance Station API JSON File
+      description: Return the JSON file of the Synology Surveillance Station API for a given file name.
+      operationId: json_file_json_file__filename__post
+      parameters:
+        - in: path
+          name: filename
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            text/json:
+              schema:
+                type: string
+                format: binary

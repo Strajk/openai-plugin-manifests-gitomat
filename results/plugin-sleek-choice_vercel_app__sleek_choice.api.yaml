@@ -1,0 +1,65 @@
+openapi: 3.0.1
+info:
+  title: sleek_choice
+  description: This plugin that helps users to find the highest-reviewed items within a specifique budget for each product on amazon and give 3 suggestions with smileys in the answer
+  version: v1
+servers:
+- url: https://plugin-sleek-choice.vercel.app
+paths:
+  /api/search:
+    get:
+      operationId: getProduct
+      summary: Get the information needed for the product
+      parameters:
+      - in: query
+        name: product_name
+        required: true
+        description: The name of the user.
+        schema:
+          type: string
+          example: Monitor
+      - in: query
+        name: review
+        required: false
+        description: ranked by the average review
+        schema:
+          type: string
+          example: best average review
+      - in: query
+        name: delivery
+        required: false
+        description: filter by putting the delievery time into account
+        schema:
+          type: string
+          example: delivery
+      - in: query
+        name: price_filter
+        required: false
+        description: low to high
+        schema:
+          type: string
+          example: ascendant
+      - in: query
+        name: budget
+        required: false
+        description: put the exact budget of the user
+        schema:
+          type: string
+          example: budget
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTodosResponse'
+components:
+  schemas:
+    getTodosResponse:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: The list of product to buy with the best reivew.

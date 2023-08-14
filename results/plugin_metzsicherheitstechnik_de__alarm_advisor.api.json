@@ -1,0 +1,125 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Alarm System Security Assistant API",
+    "version": "1.0.0",
+    "description": "This API provides expert advice on alarm systems, including Telenot systems, security cameras, access control, and fire alarm systems. Ask any question regarding security in your home or business, and get a quick, expert response."
+  },
+  "servers": [
+    {
+      "url": "https://plugin.metzsicherheitstechnik.de"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Advice",
+      "description": "Get expert advice on your security concerns"
+    }
+  ],
+  "paths": {
+    "/advice": {
+      "post": {
+        "tags": [
+          "Advice"
+        ],
+        "summary": "Get expert advice on your alarm system",
+        "operationId": "giveAdvice",
+        "description": "This endpoint accepts a text input about your security concern and returns expert advice. It's specifically designed to help with questions about alarm systems, including Telenot systems, security cameras, access control, and fire alarm systems.",
+        "requestBody": {
+          "description": "Text to get advice on",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdviceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdviceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdviceRequest": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Text to get advice on. Example: 'I'm considering a Telenot alarm system for my business. What should I consider?'"
+          }
+        }
+      },
+      "AdviceResponse": {
+        "type": "object",
+        "properties": {
+          "advice": {
+            "type": "string",
+            "description": "Advice on the input text"
+          },
+          "mailtoLinkForAdditionalSupport": {
+            "type": "string",
+            "description": "Mailto link for additional support"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ]
+}

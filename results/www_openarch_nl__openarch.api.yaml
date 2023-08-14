@@ -1,0 +1,401 @@
+openapi: 3.1.0
+info:
+  title: Open Archives
+  description: |-
+    Search the genealogical data of Dutch and Belgian archives and
+    societies via Open Archives.
+  contact:
+    email: api@openarch.nl
+  version: 0.1.1
+externalDocs:
+  description: Find out more about the Open Archives API
+  url: https://www.openarch.nl/api/docs/
+servers:
+  - url: https://api.openarch.nl/1.1
+paths:
+  /records/getBirths.json:
+    get:
+      operationId: getBirths
+      summary: Finds birth records
+      parameters:
+        - name: name
+          in: query
+          description: name of the person on the birth certificate
+          required: true
+          schema:
+            type: string
+        - name: eventyear
+          in: query
+          description: year of birth of the person
+          required: false
+          schema:
+            type: integer
+        - name: eventplace
+          in: query
+          description: place of birth of the person
+          required: false
+          schema:
+            type: string
+        - name: number_show
+          in: query
+          description: number of birth certificates in one response page
+          required: false
+          schema:
+            type: integer
+          default: 10
+        - name: start
+          in: query
+          description: number of the response page
+          required: false
+          schema:
+            type: integer
+          default: 0
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+  /records/getDeaths.json:
+    get:
+      operationId: getDeaths
+      summary: Finds death records
+      parameters:
+        - name: name
+          in: query
+          description: name of the person on the death certificate
+          required: true
+          schema:
+            type: string
+        - name: eventyear
+          in: query
+          description: year of death of the person
+          required: false
+          schema:
+            type: integer
+        - name: eventplace
+          in: query
+          description: place of death of the person
+          required: false
+          schema:
+            type: string
+        - name: number_show
+          in: query
+          description: number of death certificates in one response page
+          required: false
+          schema:
+            type: integer
+          default: 10
+        - name: start
+          in: query
+          description: number of the response page
+          required: false
+          schema:
+            type: integer
+          default: 0
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+  /records/getMarriages.json:
+    get:
+      operationId: getMarriages
+      summary: Finds marriage records of couples (bride or groom)
+      parameters:
+        - name: name1
+          in: query
+          description: name of the first person (bride or groom) on the marriage certificate
+          required: true
+          schema:
+            type: string
+        - name: name2
+          in: query
+          description: name of the second person (bride or groom) on the marriage certificate
+          required: true
+          schema:
+            type: string
+        - name: eventyear
+          in: query
+          description: year the bride and groom married
+          required: false
+          schema:
+            type: integer
+        - name: eventplace
+          in: query
+          description: place where the  bride and groom were married
+          required: false
+          schema:
+            type: string
+        - name: number_show
+          in: query
+          description: number of marriage certificates in one response page
+          required: false
+          schema:
+            type: integer
+          default: 10
+        - name: start
+          in: query
+          description: number of the response page
+          required: false
+          schema:
+            type: integer
+          default: 0
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+  /records/match.json:
+    get:
+      operationId: getRecordMatches
+      summary: Finds archival records for a person based on his or her name and year of birth
+      parameters:
+        - name: name
+          in: query
+          description: name of the person
+          required: true
+          schema:
+            type: string
+        - name: birthyear
+          in: query
+          description: year the person was born
+          required: true
+          schema:
+            type: integer
+        - name: number_show
+          in: query
+          description: number of records in one response page
+          required: false
+          schema:
+            type: integer
+          default: 10
+        - name: start
+          in: query
+          description: number of the response page
+          required: false
+          schema:
+            type: integer
+          default: 0
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+  /related/children.json:
+    get:
+      operationId: getChildren
+      summary: Find the children of a couple based on their marriage certificate identification
+      parameters:
+        - name: father
+          in: query
+          description: name of the father
+          required: true
+          schema:
+            type: string
+        - name: mother
+          in: query
+          description: name of the mother
+          required: true
+          schema:
+            type: string
+        - name: archive
+          in: query
+          description: archive_code of the archive where the marriage certificate of the parents is kept
+          required: true
+          schema:
+            type: string
+        - name: identifier
+          in: query
+          description: guid of the marriage certificate of the parents
+          required: true
+          schema:
+            type: string
+        - name: lang
+          in: query
+          description: preferred language of the search results
+          required: true
+          schema:
+            type: string
+          enum:
+          - "nl"
+          - "en"
+          - "de"
+          - "fr"
+          default: "nl"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchChildrenResponse'
+  /records/yearsago.json:
+    get:
+      operationId: getBornYearsAgo
+      summary: Find persons who where born the specified number of years ago (date is calculated from today)
+      parameters:
+        - name: years
+          in: query
+          description: number of years ago
+          required: true
+          schema:
+            type: integer
+        - name: number_show
+          in: query
+          description: maximum number of persons returned
+          required: false
+          schema:
+            type: string
+          default: 10
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchYearsAgoResponse'
+components:
+  schemas:
+    SearchYearsAgoResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/SearchYearsAgoResult'
+    SearchYearsAgoResult:
+      type: object
+      properties:
+        archive_code:
+          type: string
+        archive:
+          type: string
+          description: name of the archive where the birth certificate was found
+        identifier:
+          type: string
+        name:
+          type: string
+          description: name of the person, born years ago
+        place:
+          type: string
+          description: place the person was born
+        url:
+          type: string
+          description: URL of the birth certificate page
+    SearchChildrenResponse:
+      type: object
+      properties:
+        father:
+          type: string
+        mother:
+          type: string
+        response:
+          $ref: '#/components/schemas/SearchChildrenResults'
+    SearchChildrenResults:
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchChildResult'
+    SearchChildResult:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the child
+        eventyear:
+           type: integer
+           description: year the event (like birth or death) occured
+        eventtype:
+          type: string
+          description: the type of the event (birth, death, ...)
+        archive:
+          type: string
+          description: Archive code
+        identifier:
+          type: string
+          description: GUID of the record
+    SearchResponse:
+      type: object
+      properties:
+        query:
+          $ref: '#/components/schemas/SearchQuery'
+        response:
+          $ref: '#/components/schemas/SearchResults'
+    SearchQuery:
+      type: object
+      properties:
+        archive:
+          type: string
+        name:
+          type: string
+        only_results_with_scans:
+          type: boolean
+        start:
+          type: integer
+        number_show:
+          type: integer
+        sort:
+          type: integer
+        language:
+          type: string
+          enum:
+          - "nl"
+          - "en"
+          - "de"
+          - "fr"
+          default: "nl"
+    SearchResults:
+      type: object
+      properties:
+        number_found:
+          type: integer
+        docs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResult'
+    SearchResult:
+      type: object
+      properties:
+        pid:
+          identifier:
+            type: string
+          archive_code:
+            type: string
+          archive_org:
+            type: string
+          archive:
+            type: string
+          personname:
+            type: string
+          relationtype:
+            type: string
+          _relationtype:
+            type: string
+          eventtype:
+            type: string
+          _eventtype:
+            type: string
+          eventdate:
+            $ref: '#/components/schemas/EventDate'
+          eventplace:
+            type: string
+          sourcetype:
+            type: string
+          url:
+            type: string
+    EventDate:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer

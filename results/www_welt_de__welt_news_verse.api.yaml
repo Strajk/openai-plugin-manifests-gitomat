@@ -1,0 +1,52 @@
+openapi: 3.0.1
+info:
+  title: Welt NewsVerse
+  description: Get instant access to the most valuable teasers from welt.de, including politics, business, entertainment, and more. Whether you're looking for breaking news or specific categories, our plugin has got you covered.
+  version: 'v0.1'
+servers:
+  - url: https://www.welt.de
+paths:
+  /api/news-verse/teasers:
+    get:
+      operationId: getTextTeasers
+      summary: Get the latest teasers
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getWeltTeaserResponse'
+
+components:
+  schemas:
+    getWeltTeaserResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          headline:
+            type: string
+            title: Teaser Headline
+            description: Contains a short teaser headline.
+          link:
+            type: string
+            title: Article link
+            description: Links to the article page.
+          premium:
+            type: boolean
+            title: Premium article
+            description: Whether this article is a premium article or not. If this is a premium article you can only read it with a valid subscription.
+          intro:
+            type: string
+            title: Article text teaser
+            description: Contains the intro of the article.
+          category:
+            type: string
+            title: Home categories (also called section or resort) of the article
+            description: Contains the home category (also called section or resort) where this article was published in.
+          tags:
+            type: string
+            title: Further categories the article belongs to
+            description: Contains all parent categories (also called sections or resorts) where this article can be found in.
+      description: The list of text teasers.

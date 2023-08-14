@@ -1,0 +1,384 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Take Code Captures",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/render": {
+      "get": {
+        "operationId": "get__Render",
+        "tags": [
+          "Code Capture",
+          "Code Screenshot"
+        ],
+        "summary": "Takes a code snippet, renders it and returns a link to the code capture",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Version of the OpenAPI schema",
+              "default": "1.0",
+              "enum": [
+                "1.0"
+              ]
+            },
+            "name": "openApiSchemaVersion",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Programming language extension, for example py, js, ts, cpp, etc.",
+              "example": "ts",
+              "enum": [
+                "C",
+                "c",
+                "c++",
+                "cbl",
+                "cc",
+                "cdxml",
+                "changes",
+                "cl",
+                "class",
+                "clj",
+                "cljc",
+                "cljs",
+                "cob",
+                "coffee",
+                "conf",
+                "cpp",
+                "cpy",
+                "cql",
+                "cr",
+                "cs",
+                "css",
+                "csv",
+                "cxx",
+                "d",
+                "dart",
+                "db",
+                "diff",
+                "dockerfile",
+                "Dockerfile",
+                "edn",
+                "elm",
+                "erl",
+                "ex",
+                "exs",
+                "f",
+                "f90",
+                "feature",
+                "for",
+                "fs",
+                "fsi",
+                "fsscript",
+                "fsx",
+                "go",
+                "gql",
+                "graphql",
+                "groovy",
+                "h",
+                "h++",
+                "handlebars",
+                "hbs",
+                "hh",
+                "hpp",
+                "hrl",
+                "hs",
+                "htaccess",
+                "html",
+                "hx",
+                "hxml",
+                "hxx",
+                "ijl",
+                "ijs",
+                "inc",
+                "jar",
+                "java",
+                "jl",
+                "jlt",
+                "js",
+                "json",
+                "jsx",
+                "kt",
+                "kts",
+                "lhs",
+                "lisp",
+                "litcoffee",
+                "lp",
+                "lsp",
+                "lua",
+                "m",
+                "md",
+                "mj2",
+                "mj3",
+                "mjl",
+                "mjltest",
+                "ml",
+                "mli",
+                "mm",
+                "mysql",
+                "nb",
+                "nim",
+                "nims",
+                "nix",
+                "nse",
+                "nt",
+                "oct",
+                "octave",
+                "p8",
+                "pas",
+                "patch",
+                "pd_lua",
+                "php-s",
+                "php",
+                "php3",
+                "php4",
+                "php5",
+                "php7",
+                "phps",
+                "phtml",
+                "pl",
+                "pm",
+                "pp",
+                "pr",
+                "proto",
+                "ps1",
+                "ps1xml",
+                "psc1",
+                "psd1",
+                "psm1",
+                "pssc",
+                "py",
+                "pyc",
+                "pyd",
+                "pyo",
+                "pyw",
+                "pyz",
+                "r",
+                "R",
+                "rb",
+                "rbxl",
+                "rbxs",
+                "rda",
+                "RData",
+                "rds",
+                "rq",
+                "rs",
+                "rslib",
+                "sass",
+                "sc",
+                "scala",
+                "scode",
+                "scss",
+                "sh",
+                "sm",
+                "smalltalk",
+                "sol",
+                "sources",
+                "sql",
+                "st",
+                "stylus",
+                "swift",
+                "t",
+                "tbc",
+                "tcl",
+                "tex",
+                "toml",
+                "ts",
+                "tsv",
+                "tsx",
+                "ttl",
+                "twig",
+                "txt",
+                "v",
+                "vb",
+                "vhd",
+                "vhdl",
+                "vue",
+                "wl",
+                "wlua",
+                "xml",
+                "xq",
+                "xql",
+                "xqm",
+                "xquery",
+                "yaml",
+                "yml"
+              ]
+            },
+            "name": "languageExtension",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Color scheme for code capture",
+              "default": "seti",
+              "enum": [
+                "3024-night",
+                "a11y-dark",
+                "base16-dark",
+                "base16-light",
+                "blackboard",
+                "cobalt",
+                "dracula-pro",
+                "duotone-dark",
+                "hopscotch",
+                "lucario",
+                "material",
+                "monokai",
+                "night-owl",
+                "nord",
+                "oceanic-next",
+                "one-dark",
+                "one-light",
+                "panda-syntax",
+                "paraiso-dark",
+                "seti",
+                "shades-of-purple",
+                "synthwave-84",
+                "twilight",
+                "vscode",
+                "verminal",
+                "yeti",
+                "zenburn",
+                "solarized-light",
+                "solarized-dark"
+              ]
+            },
+            "name": "theme",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Background Color around the code. Supports hexadecimal(for example: #ADB7C1, #fff) and keyword(like css, for example: red, green, blue)",
+              "default": "#ADB7C1"
+            },
+            "name": "backgroundColor",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Window Theme above the code",
+              "default": "rounded",
+              "enum": [
+                "rounded",
+                "sharp",
+                "black-and-white",
+                "windows"
+              ]
+            },
+            "name": "windowTheme",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Window Controls above the code",
+              "default": true
+            },
+            "name": "windowControls",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Line numbers at the left side of the code",
+              "default": false
+            },
+            "name": "lineNumbers",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "number",
+              "description": "First Line number of the line numbers only visible when 'lineNumbers' parameter is true",
+              "default": 1
+            },
+            "name": "firstLineNumber",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Drop shadow around code",
+              "default": false
+            },
+            "name": "dropShadow",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Selected lines to highlight certain parts of the code. For example these values represent the same lines: '5,6,7,8', '5-8', '5,6-7,8'",
+              "default": "6-7"
+            },
+            "name": "selectedLines",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Code to render, separate lines using \n"
+            },
+            "name": "code",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "object",
+                      "properties": {
+                        "capture": {
+                          "type": "string",
+                          "description": "URL to the rendered capture"
+                        },
+                        "errorMessage": {
+                          "type": "string",
+                          "description": "Error message if there was an error"
+                        },
+                        "editCaptureOnline": {
+                          "type": "string",
+                          "description": "URL to the editor where the capture can be edited"
+                        },
+                        "additionalInstructions": {
+                          "type": "string",
+                          "description": "More instructions to help rendering the captures"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "results"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

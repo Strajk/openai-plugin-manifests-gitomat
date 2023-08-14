@@ -1,0 +1,148 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "UrbanLadder Plugin",
+    "description": "A plugin that allows the user to search products from UrbanLadder Product Catalog.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://prod-apiext.urbanladder.com/v1/plugin"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "operationId": "searchProducts",
+        "summary": "Get products for the given search query, q is the query parameter for the search query, per_page is to fetch the number of products in single shot, and page_no is to fetch the products of a given page no.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "search query"
+          },
+          {
+            "in": "query",
+            "name": "per_page",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "number of products to to be fetched"
+          },
+          {
+            "in": "query",
+            "name": "page_no",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "page number to fetch products"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/searchProductsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "product ID"
+          },
+          "sku": {
+            "type": "string",
+            "description": "unique identifier for the product"
+          },
+          "name": {
+            "type": "string",
+            "description": "name of the product"
+          },
+          "brand": {
+            "type": "string",
+            "description": "brand of the product"
+          },
+          "price": {
+            "type": "string",
+            "description": "price of the product after discount"
+          },
+          "discount": {
+            "type": "string",
+            "description": "discount on the product in percentage"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "url": {
+                "type": "string"
+              }
+            },
+            "description": "URLs of the product images"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL of the product"
+          }
+        }
+      },
+      "pagination": {
+        "type": "object",
+        "properties": {
+          "total_products": {
+            "type": "integer",
+            "description": "total number of products"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "total number of pages"
+          },
+          "page_no": {
+            "type": "integer",
+            "description": "current page number"
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "current page size"
+          }
+        },
+        "description": "pagination details"
+      },
+      "searchProductsResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/product"
+            },
+            "description": "list of products"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/pagination"
+          }
+        }
+      }
+    }
+  }
+}

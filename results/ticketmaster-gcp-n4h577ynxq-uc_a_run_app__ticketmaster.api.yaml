@@ -1,0 +1,55 @@
+openapi: 3.0.1
+info:
+  title: Tickmaster API 
+  description: Discover can't-miss concerts, games, theater and more. Get them directly from ticketmaster.
+  version: 'v0.0.1'
+servers:
+  - url: https://ticketmaster-gcp-n4h577ynxq-uc.a.run.app
+paths:
+  /gettm:
+    post:
+      operationId: getTickets
+      summary: Get Tickets  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/getTicketsRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTicketsResponse'
+
+components:
+  schemas:
+    getTicketsResponse:
+      type: object
+      properties:
+        currentgettm:
+          type: object
+          items:
+            type: string
+          description: Get tickets for current city.
+    getTicketsRequest:
+      type: object
+      required:
+      - artist 
+      properties:
+        artist:
+          type: string
+          description: The name of the artists.
+          required: true 
+        city:
+          type: string
+          description: The name of city.
+          required: false  
+        state:
+          type: string
+          description: The name of state.
+          required: false
+
+        

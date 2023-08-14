@@ -1,0 +1,54 @@
+openapi: 3.0.1
+info:
+  title: AI Extensions
+  description: A plugin that guides the user through the process of building a GPT-4 plugin.
+  version: 'v1'
+servers:
+  - url: https://gpt-4pluginmaker.pranavbhatt402.repl.co
+paths:
+  /plugin/{step}:
+    get:
+      operationId: getStep
+      summary: Get the guide for the specified step in the plugin building process.
+      parameters:
+        - name: step
+          in: path
+          description: The step number in the plugin building process.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getStepResponse'
+        "400":
+          description: Invalid step number
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+components:
+  schemas:
+    getStepResponse:
+      type: object
+      properties:
+        stepGuide:
+          type: array
+          items:
+            type: string
+          description: The guide for the specified step in the plugin building process.
+    errorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: The error message.

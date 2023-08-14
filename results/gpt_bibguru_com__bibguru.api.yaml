@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  title: Bibguru citation generator
+  description: Generate accurate citation in APA, MLA, or Harvard citation styles
+  version: 'v1'
+servers:
+  - url: https://gpt.bibguru.com
+paths:
+  /search:
+    get:
+      operationId: searchPaper
+      summary: Get citations of relevant papers by keywords search
+      parameters:
+        - name: q
+          in: query
+          description: keywords the user is interested in to discover relevant literature
+          required: true
+          schema:
+            type: string
+        - name: style
+          in: query
+          description: citation style user can choose from APA, MLA, or Harvard
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/citeResponse'
+  /cite:
+    get:
+      operationId: citePaper
+      summary: Get relevant paper by keywords search
+      parameters:
+        - name: q
+          in: query
+          description: DOI, PubMed ID, PubMed Central ID, or URL the user is interested in to generate a citation for
+          required: true
+          schema:
+            type: string
+        - name: style
+          in: query
+          description: citation style - APA, MLA, or Harvard
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/citeResponse'
+components:
+  schemas:
+    citeResponse:
+      type: object
+      properties:
+        abstracts:
+          type: array
+          items:
+            type: object
+            properties:
+              reference:
+                type: string
+                description: Reference text on publication.
+              intext:
+                type: string
+                description: In text abstract of reference.
+          description: The list of citations in the requested citation style.

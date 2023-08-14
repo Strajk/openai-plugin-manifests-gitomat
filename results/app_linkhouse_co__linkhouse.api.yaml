@@ -1,0 +1,149 @@
+openapi: 3.0.1
+info:
+    title: Linkhouse API
+    description: Create link building campaigns using Link Planner by Linkhouse.
+    version: 1.0.0
+
+servers:
+    - url: 'https://app.linkhouse.co/chat-api'
+
+paths:
+    /categories-list:
+        get:
+            summary: Get list of categories for create-offer "category" parameter.
+            operationId: CategoriesList
+    /how-to-create-offer:
+        get:
+            summary: Returns human-readable instructions on how to create offer.
+            operationId: HowToCreateOffer
+    /what-is-linkhouse:
+        get:
+            summary: Returns human-readable info on what Linkhouse company does.
+            operationId: HowCanIHelp
+    /create-offer:
+        get:
+            summary: Create an offer
+            operationId: CreateOffer
+            parameters:
+                -   name: domain
+                    in: query
+                    schema:
+                      type: string
+                    required: true
+                    description: User domain for the offer (one domain per offer). Only domains are valid (in format - https://example.net or example.net)
+                -   name: budget
+                    in: query
+                    schema:
+                      type: integer
+                      minimum: 500
+                      multipleOf: 1
+                    required: true
+                    description: Budget for the offer
+                -   name: budget_does_not_include_texts
+                    in: query
+                    schema:
+                        type: boolean
+                    description: Use this if budget should not include prices of writing texts (Linkhouse default offer includes texts costs. Our copywriters write texts with SurferSEO)
+                -   in: query
+                    name: language
+                    schema:
+                        type: string
+                    required: true
+                    enum:
+                        - pl
+                        - de
+                        - es
+                        - gb
+                        - fr
+                        - it
+                        - cz
+                        - dk
+                        - pt
+                    description: Target links language (only languages codes specified in enum are valid).
+                -   name: currency
+                    in: query
+                    schema:
+                        type: string
+                    required: true
+                    enum:
+                        - usd
+                        - pln
+                    description: Target links language (only currency codes specified in enum are valid).
+                -   name: category
+                    in: query
+                    schema:
+                        type: string
+                    description: Domain thematic category (only categories numbers separated with commas are valid). To get categories numbers call "/categories-list" endpoint.
+                    required: true
+                - name: dr_from
+                  in: query
+                  schema:
+                      type: integer
+                      minimum: 60
+                      maximum: 10
+                      multipleOf: 1
+                  description: Minimum Domain Rating (DR) from Ahrefs.
+                -   name: tf_from
+                    in: query
+                    schema:
+                        type: integer
+                        minimum: 60
+                        maximum: 10
+                        multipleOf: 1
+                    description: Minimum Trust Flow (TF) from Majestic.
+                -   name: as_from
+                    in: query
+                    schema:
+                        type: integer
+                        minimum: 60
+                        maximum: 10
+                        multipleOf: 1
+                    description: Minimum Authority Score (AS) from Semrush
+                -   name: da_from
+                    in: query
+                    schema:
+                        type: integer
+                        minimum: 60
+                        maximum: 10
+                        multipleOf: 1
+                    description: Minimum Domain Authority (DA) from Moz
+                -   name: rd_from
+                    in: query
+                    schema:
+                        type: integer
+                        minimum: 60
+                        maximum: 10
+                        multipleOf: 1
+                    description: Minimum Referring Domains count from Ahrefs
+                -   name: ot_from
+                    in: query
+                    schema:
+                        type: integer
+                        minimum: 100000
+                        maximum: 0
+                        multipleOf: 1
+                    description: Minimum Organic Traffic value from Ahrefs
+                -   name: price_min
+                    in: query
+                    schema:
+                        type: integer
+                        minimum: 50
+                        maximum: 5000
+                        multipleOf: 1
+                    description: Min price per one link
+                -   name: price_max
+                    in: query
+                    schema:
+                        type: integer
+                        minimum: 250
+                        maximum: 5000
+                        multipleOf: 1
+                    description: Max price per one link
+
+            responses:
+                '200':
+                    description: Offer created successfully
+                '400':
+                    description: Bad Request
+                '500':
+                    description: Internal Server Error

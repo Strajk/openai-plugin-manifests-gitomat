@@ -1,0 +1,1996 @@
+openapi: 3.0.1
+info:
+  title: GoPlus Security API Documentation
+  version: "1.0"
+servers:
+  - url: https://api.gopluslabs.io/
+tags:
+  - name: Supported BlockChains
+    description: Supported BlockChains
+  - name: Token Security API
+    description: Token Security API
+  - name: Malicious Address API
+    description: Malicious Address API
+  - name: Approval Security API (v1)
+    description: Approval Security API (v1)
+  - name: Approval Security API (v2)
+    description: Approval Security API (v2)
+  - name: Signature Data Decode API
+    description: Signature Data Decode API
+  - name: NFT Security API
+    description: NFT Security API
+  - name: dApp Security Info API
+    description: dApp Security Info API
+  - name: Phishing Site Detection API
+    description: Phishing Site Detection API
+  - name: Rug-Pull Detection API (Beta)
+    description: Rug-Pull Detection API (Beta)
+  - name: Access Token API
+    description: Access Token API
+paths:
+  /api/v1/supported_chains:
+    get:
+      tags:
+        - Supported BlockChains
+      summary: Get the list of chains supported by different functions.
+      description: Get supported blockchains.
+      operationId: getChainsListUsingGET
+      parameters:
+        - name: name
+          in: query
+          description: API name.
+          schema:
+            type: string
+            enum:
+              - token_security
+              - address_security
+              - approval_security
+              - token_approval_security
+              - nft721_approval_security
+              - nft1155_approval_security
+              - input_decode
+              - nft_security
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperListGetChainsList'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v1/token_security/{chain_id}:
+    get:
+      tags:
+        - Token Security API
+      summary: Get token's security and risk data.
+      description: Get token security information.
+      operationId: tokenSecurityUsingGET_1
+      parameters:
+        - name: chain_id
+          in: path
+          description: "The chain_id of the blockchain.\n\"1\" means Ethereum; \n\"10\" means Optimism;\n\"25\" means Cronos;\n\"56\" means BSC; \n\"66\" means OKC;\n\"100\" means Gnosis;\n\"128\" means HECO; \n\"137\" means Polygon; \n\"250\" means Fantom;\n\"321\" means KCC;\n\"324\" means zkSync Era;\n\"10001\" means ETHW;\n\"201022\" means FON;\n\"42161\" means Arbitrum; \n\"43114\" means Avalanche;\n\"59144\" means Linea Mainet;\n\"59140\" means Linea Testnet;\n\"8453\" Base;\n\"1666600000\" means Harmony;\n\"tron\" means Tron."
+          required: true
+          schema:
+            type: string
+          example: "56"
+        - name: contract_addresses
+          in: query
+          description: The contract address of tokens.
+          required: true
+          schema:
+            type: string
+          example: 0xEa51801b8F5B88543DdaD3D1727400c15b209D8f
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperTokenSecurity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v1/address_security/{address}:
+    get:
+      tags:
+        - Malicious Address API
+      summary: Check if the address is malicious
+      description: Get address security information.
+      operationId: addressContractUsingGET_1
+      parameters:
+        - name: address
+          in: path
+          description: address
+          required: true
+          schema:
+            type: string
+          example: 0x16Af29b7eFbf019ef30aae9023A5140c012374A5
+        - name: chain_id
+          in: query
+          description: "The chain_id of the blockchain.\n\"1\" means Ethereum; \n\"10\" means Optimism;\n\"25\" means Cronos;\n\"56\" means BSC; \n\"66\" means OKC;\n\"100\" means Gnosis;\n\"128\" means HECO; \n\"137\" means Polygon; \n\"250\" means Fantom;\n\"321\" means KCC;\n\"324\" means zkSync Era;\n\"10001\" means ETHW;\n\"201022\" means FON;\n\"42161\" means Arbitrum; \n\"43114\" means Avalanche;\n\"59140\" means Linea;\n\"1666600000\" means Harmony;\n\"tron\" means Tron."
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperAddressContract'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v1/approval_security/{chain_id}:
+    get:
+      tags:
+        - Approval Security API (v1)
+      summary: 'Check if the approval is secure '
+      description: Get approval security information.
+      operationId: approvalContractUsingGET
+      parameters:
+        - name: chain_id
+          in: path
+          description: 'Chain id, (ETH: 1,  BSC: 56, OKC: 66, Heco: 128, Polygon: 137, Fantom:250, Arbitrum: 42161, Avalanche: 43114)'
+          required: true
+          schema:
+            type: string
+          example: "1"
+        - name: contract_addresses
+          in: query
+          description: Contract needs to be detected
+          required: true
+          schema:
+            type: string
+          example: 0x16Af29b7eFbf019ef30aae9023A5140c012374A5
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperContractApproveResponse'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v2/token_approval_security/{chainId}:
+    get:
+      tags:
+        - Approval Security API (v2)
+      summary: Returns the ERC-20 approvals of an EOA address and associated risk items.
+      description: Reports the outstanding token approvals issued to ERC-20 contracts by the given EOA address and associated risk items, including the date that the approval was issued, the allowance of the approval, and the transaction ID issuing the allowance.
+      operationId: addressTokenApproveListUsingGET_1
+      parameters:
+        - name: addresses
+          in: query
+          description: contract address
+          required: true
+          schema:
+            type: string
+          example: 0x85f6be9460291e86e0fb49b07d0a83cc5f7206cd
+        - name: chainId
+          in: path
+          description: chain id
+          required: true
+          schema:
+            type: string
+          example: "56"
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperListApproveTokenOutListResponse'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v2/nft721_approval_security/{chainId}:
+    get:
+      tags:
+        - Approval Security API (v2)
+      summary: Returns the ERC-721 approvals of an EOA address and associated risk items.
+      description: Reports the outstanding token approvals issued to ERC-721 contracts by the given EOA address and associated risk items, including the date that the approval was issued, the allowance of the approval, and the transaction ID issuing the allowance.
+      operationId: addressNFT721ApproveListUsingGET_1
+      parameters:
+        - name: addresses
+          in: query
+          description: contract address
+          required: true
+          schema:
+            type: string
+          example: 0xd95dbdab08a9fed2d71ac9c3028aac40905d8cf3
+        - name: chainId
+          in: path
+          description: chain id
+          required: true
+          schema:
+            type: string
+          example: "1"
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperListApproveNFTListResponse'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v2/nft1155_approval_security/{chainId}:
+    get:
+      tags:
+        - Approval Security API (v2)
+      summary: Returns the ERC-1155 approvals of an EOA address and associated risk items.
+      description: Reports the outstanding token approvals issued to ERC-1155 contracts by the given EOA address and associated risk items, including the date that the approval was issued, the allowance of the approval, and the transaction ID issuing the allowance.
+      operationId: addressNFT1155ApproveListUsingGET_1
+      parameters:
+        - name: addresses
+          in: query
+          description: contract address
+          required: true
+          schema:
+            type: string
+          example: 0xd95dbdab08a9fed2d71ac9c3028aac40905d8cf3
+        - name: chainId
+          in: path
+          description: chain id
+          required: true
+          schema:
+            type: string
+          example: "1"
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperListApproveNFT1155ListResponse'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v1/abi/input_decode:
+    post:
+      tags:
+        - Signature Data Decode API
+      summary: Get abi decode info
+      description: Get abi decode information.
+      operationId: getAbiDataInfoUsingPOST
+      requestBody:
+        description: abiDataRequest
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParseAbiDataRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperParseAbiDataResponse'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: abiDataRequest
+  /api/v1/nft_security/{chain_id}:
+    get:
+      tags:
+        - NFT Security API
+      summary: Get NFT's security and risk data.
+      description: Get NFT security information.
+      operationId: getNftInfoUsingGET_1
+      parameters:
+        - name: chain_id
+          in: path
+          description: 'Chain id, (eth: 1, bsc: 56, Polygon: 137, Avalanche: 43114)'
+          required: true
+          schema:
+            type: string
+          example: "1"
+        - name: contract_addresses
+          in: query
+          description: NFT contract address
+          required: true
+          schema:
+            type: string
+          example: 0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85
+        - name: token_id
+          in: query
+          description: tokenId
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperGetNftInfo'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v1/dapp_security:
+    get:
+      tags:
+        - dApp Security Info API
+      summary: Check risk of dapp through URL
+      description: Get risk of dApp by URL.
+      operationId: getDappInfoUsingGET
+      parameters:
+        - name: url
+          in: query
+          description: Url or domain
+          schema:
+            type: string
+          example: https://www.0x.org
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperDappContractSecurityResponse'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v1/phishing_site:
+    get:
+      tags:
+        - Phishing Site Detection API
+      summary: Check if the the url is a phishing site
+      description: Check if the URL is a phishing site.
+      operationId: phishingSiteUsingGET
+      parameters:
+        - name: url
+          in: query
+          description: Url
+          required: true
+          schema:
+            type: string
+          example: go-ethdenver.com
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperPhishingSite'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v1/rugpull_detecting/{chain_id}:
+    get:
+      tags:
+        - Rug-Pull Detection API (Beta)
+      summary: Rug-pull Detection API Beta
+      description: Check if a contract has rug-pull risks (Beta).
+      operationId: getDefiInfoUsingGET
+      parameters:
+        - name: contract_addresses
+          in: query
+          description: Defi protocol address
+          required: true
+          schema:
+            type: string
+          example: 0x6B175474E89094C44Da98b954EedeAC495271d0F
+        - name: chain_id
+          in: path
+          description: 'Chain id, (eth: 1, bsc: 56)'
+          required: true
+          schema:
+            type: string
+          example: "1"
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GetDefiInfoResponse'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/v1/token:
+    post:
+      tags:
+        - Access Token API
+      summary: get token
+      description: Get access token.
+      operationId: getAccessTokenUsingPOST
+      requestBody:
+        description: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAccessTokenRequest'
+        required: false
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapperGetAccessTokenResponse'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: request
+components:
+  schemas:
+    AbiAddressInfo:
+      title: AbiAddressInfo
+      type: object
+      properties:
+        contract_name:
+          type: string
+          description: It describes the contract name if the address is a contract.
+        is_contract:
+          type: integer
+          description: It describes whether the address is a contract. "1" means true; "0" means false.
+          format: int32
+        malicious_address:
+          type: integer
+          description: |-
+            It describes whether the address is a suspected malicious contract."1" means true;
+            "0" means that we have not found malicious behavior of this address.
+          format: int32
+        name:
+          type: string
+          description: It describes the token name if the address is an ERC20 contract.
+        standard:
+          type: string
+          description: It describes the standard type of the contract.Example:"erc20".
+        symbol:
+          type: string
+          description: It describes the token symbol if the address is an ERC20 contract.
+    AbiParamInfo:
+      title: AbiParamInfo
+      type: object
+      properties:
+        address_info:
+          $ref: '#/components/schemas/AbiAddressInfo'
+        input:
+          type: object
+          properties: {}
+          description: It describes the input data in ABI.
+        name:
+          type: string
+          description: "It describes the parameter name in ABI, for example \n \"_from\", \"_to\", \"_value\"."
+        type:
+          type: string
+          description: It describes the parameter type in ABI, for example "address", "uint256", "bool".
+    ApproveAddressInfo:
+      title: ApproveAddressInfo
+      type: object
+      properties:
+        contract_name:
+          type: string
+          description: Spender name
+        creator_address:
+          type: string
+          description: Spender's deployer
+        deployed_time:
+          type: integer
+          description: Spender's deployed time
+          format: int64
+        doubt_list:
+          type: integer
+          description: Whether the spender has a history of malicious behavior or contains high risk.
+          format: int32
+        is_contract:
+          type: integer
+          description: Whether the spender is a contract.
+          format: int32
+        is_open_source:
+          type: integer
+          description: Whether the spender is verified on blockchain explorer.
+          format: int32
+        malicious_behavior:
+          type: array
+          description: Specific malicious behaviors or risks of this spender.
+          items:
+            type: string
+        tag:
+          type: string
+          description: Spender tag
+        trust_list:
+          type: integer
+          description: Whether the spender is on the whitelist, and can be trusted
+          format: int32
+    ApproveErc1155Result:
+      title: ApproveErc1155Result
+      type: object
+      properties:
+        address_info:
+          $ref: '#/components/schemas/ApproveAddressInfo'
+        approved_contract:
+          type: string
+          description: Spender Address
+        approved_time:
+          type: integer
+          description: Latest approval time
+          format: int64
+        hash:
+          type: string
+          description: Latest approval hash
+        initial_approval_hash:
+          type: string
+          description: Initial approval hash
+        initial_approval_time:
+          type: integer
+          description: Initial approval time
+          format: int64
+    ApproveNFT1155ListResponse:
+      title: ApproveNFT1155ListResponse
+      type: object
+      properties:
+        approved_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApproveErc1155Result'
+        chain_id:
+          type: string
+          description: ChainID
+        is_open_source:
+          type: integer
+          description: Whether the contract is verified on blockchain explorer.
+          format: int32
+        is_verified:
+          type: integer
+          description: Whether NFT is certified on a reputable trading platform.
+          format: int32
+        malicious_address:
+          type: integer
+          description: Whether the NFT is malicious or contains high risk.
+          format: int32
+        malicious_behavior:
+          type: array
+          description: Specific malicious behaviors or risks of this NFT.
+          items:
+            type: string
+        nft_address:
+          type: string
+          description: NFT address
+        nft_name:
+          type: string
+          description: NFT name
+        nft_symbol:
+          type: string
+          description: NFT symbol
+    ApproveNFTListResponse:
+      title: ApproveNFTListResponse
+      type: object
+      properties:
+        approved_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApproveResult'
+        chain_id:
+          type: string
+          description: ChainID
+        is_open_source:
+          type: integer
+          description: Whether the contract is verified on blockchain explorer.
+          format: int32
+        is_verified:
+          type: integer
+          description: Whether NFT is certified on a reputable trading platform.
+          format: int32
+        malicious_address:
+          type: integer
+          description: Whether the NFT is malicious or contains high risk.
+          format: int32
+        malicious_behavior:
+          type: array
+          description: Specific malicious behaviors or risks of this NFT.
+          items:
+            type: string
+        nft_address:
+          type: string
+          description: nft address
+        nft_name:
+          type: string
+          description: NFT name
+        nft_symbol:
+          type: string
+          description: NFT symbol
+    ApproveResult:
+      title: ApproveResult
+      type: object
+      properties:
+        address_info:
+          $ref: '#/components/schemas/ApproveAddressInfo'
+        approved_contract:
+          type: string
+          description: Spender Address
+        approved_for_all:
+          type: integer
+          description: 'Approval type: "1" means "approved for all"; "0" means "approved for single NFT"'
+          format: int32
+        approved_time:
+          type: integer
+          description: Latest approval time
+          format: int64
+        approved_token_id:
+          type: string
+          description: NFT token_id
+        hash:
+          type: string
+          description: Latest approval hash
+        initial_approval_hash:
+          type: string
+          description: Initial approval hash
+        initial_approval_time:
+          type: integer
+          description: Initial approval time
+          format: int64
+    ApproveTokenOutListResponse:
+      title: ApproveTokenOutListResponse
+      type: object
+      properties:
+        approved_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApproveTokenResult'
+        balance:
+          type: string
+          description: balance
+        chain_id:
+          type: string
+          description: ChainID
+        decimals:
+          type: integer
+          description: decimals
+        is_open_source:
+          type: integer
+          description: Whether the contract is verified on blockchain explorer.
+          format: int32
+        malicious_address:
+          type: integer
+          description: Whether the token is malicious or contains high risk.
+          format: int32
+        malicious_behavior:
+          type: array
+          description: Specific malicious behaviors or risks of this token.
+          items:
+            type: string
+        token_address:
+          type: string
+          description: Token address
+        token_name:
+          type: string
+          description: Token name
+        token_symbol:
+          type: string
+          description: Token symbol
+    ApproveTokenResult:
+      title: ApproveTokenResult
+      type: object
+      properties:
+        address_info:
+          $ref: '#/components/schemas/ApproveAddressInfo'
+        approved_amount:
+          type: string
+          description: Allowance of the spender
+        approved_contract:
+          type: string
+          description: Spender Address
+        approved_time:
+          type: integer
+          description: Latest approval time
+          format: int64
+        hash:
+          type: string
+          description: Latest approval hash
+        initial_approval_hash:
+          type: string
+          description: Initial approval hash
+        initial_approval_time:
+          type: integer
+          description: Initial approval time
+          format: int64
+    AuditInfo:
+      title: AuditInfo
+      type: object
+      properties:
+        audit_firm:
+          type: string
+          description: It describes the firm that audited the dApp.
+        audit_link:
+          type: string
+          description: It describes the website link of the audit report.
+        audit_time:
+          type: string
+          description: It describes the time shown in the latest audit report.
+    ContractApproveResponse:
+      title: ContractApproveResponse
+      type: object
+      properties:
+        contract_name:
+          type: string
+          description: It describes the approved contract name.
+        creator_address:
+          type: string
+          description: It describes the creator address of the contract.(Notice:When the address is not a contract ("is_contract"=0), it will return "null".)
+        deployed_time:
+          type: integer
+          description: |-
+            It describes the deployed time of the contract.
+            The value is presented as a timestamp.
+            Example: "deployed_time": 1626578345(Notice:When the address is not a contract ("is_contract"=0), it will return "null".)
+          format: int64
+        doubt_list:
+          type: integer
+          description: |-
+            It describes whether the address is a suspected malicious contract.
+            "1" means true;
+            "0" means that we have not found malicious behavior of this address.(Notice:Return "0" does not mean it is safe. Maybe we just haven't found its malicious behavior.)
+          format: int32
+        is_contract:
+          type: integer
+          description: |-
+            It describes whether the address is a contract.
+            "1" means true;
+            "0" means false.
+          format: int32
+        is_open_source:
+          type: integer
+          description: |-
+            It describes whether this contract is open source.
+            "1" means true;
+            "0" means false.(Notice:When the address is not a contract ("is_contract"=0), it will return "null".)
+          format: int32
+        is_proxy:
+          type: integer
+          description: Whether the spender is a proxy contract.
+          format: int32
+        malicious_behavior:
+          type: array
+          description: |-
+            It describes specific malicious behaviors.
+            "honeypot_related_address" means that the address is related to honeypot tokens or has created scam tokens.
+            "phishing_activities" means that this address has implemented phishing activities.
+            "blackmail_activities" means that this address has implemented blackmail activities.
+            "stealing_attack" means that this address has implemented stealing attacks.
+            "fake_kyc" means that this address is involved in fake KYC.
+            "malicious_mining_activities" means that this address is involved in malicious mining activities.
+            "darkweb_transactions" means that this address is involved in darkweb transactions.
+            "cybercrime" means that this address is involved in cybercrime.
+            "money_laundering" means that this address is involved in money laundering.
+            "financial_crime" means that this address is involved in financial crime.
+            "blacklist_doubt" means that the address is suspected of malicious behavior and is therefore blacklisted.(Notice:Returning an empty array means that no malicious behavior was found at that address.)
+          items:
+            type: string
+        tag:
+          type: string
+          description: |-
+            It describes which dapp uses the contract.
+            Example:"tag": "Compound"
+        trust_list:
+          type: integer
+          description: |-
+            It describes whether the address is a famous and trustworthy one.
+            "1" means true;
+            "0" means that we have not included this address in the trusted list;(Notice:Return "0" does not mean the address is not trustworthy. Maybe we just haven't included it yet.)
+          format: int32
+    Contracts:
+      title: Contracts
+      type: object
+      properties:
+        contract_address:
+          type: string
+          description: It describes the dAap's contract address.
+        creator_address:
+          type: string
+          description: It describes the creator address of the contract.
+        deployment_time:
+          type: integer
+          description: |-
+            It describes the deployed time of the contract.The value is presented as a timestamp.
+            Example: "deployed_time": 1626578345
+          format: int64
+        is_open_source:
+          type: integer
+          description: |-
+            It describes whether this contract is open source.
+            "1" means true;
+            "0" means false.
+          format: int32
+        malicious_behavior:
+          type: array
+          description: It describes specific malicious behaviors of the contract.
+          items:
+            type: object
+            properties: {}
+        malicious_contract:
+          type: integer
+          description: |-
+            It describes whether the address is a suspected malicious contract.
+            "1" means true;
+            "0" means that we have not found malicious behavior of this contract.(Notice:"malicious_contract" return "0" does not mean the address is completely safe. Maybe we just haven't found its malicious behavior.)
+          format: int32
+        malicious_creator:
+          type: integer
+          description: |-
+            It describes whether the creator is a suspected malicious address.
+            "1" means true;
+            "0" means that we have not found malicious behavior of this address.(Notice:"malicious_creator" return "0" does not mean the address is completely safe. Maybe we just haven't found its malicious behavior.)
+          format: int32
+        malicious_creator_behavior:
+          type: array
+          description: It describes specific malicious behaviors of the contract creator.
+          items:
+            type: object
+            properties: {}
+    ContractsSecurity:
+      title: ContractsSecurity
+      type: object
+      properties:
+        chain_id:
+          type: string
+          description: |-
+            It describes the chains that contracts are deployed on;"1" means Ethereum;
+            "25" means Cronos;
+            "56" means BSC;
+            "128" means HECO;
+            "137" means Polygon;
+            "250" means Fantom;
+            "42161" means Arbitrum;
+            "43114" means Avalanche.
+        contracts:
+          type: array
+          description: contract info
+          items:
+            $ref: '#/components/schemas/Contracts'
+    DappContractSecurityResponse:
+      title: DappContractSecurityResponse
+      type: object
+      properties:
+        audit_info:
+          type: array
+          description: audit info(Notice:When the dApp was not audited, ("is_audit"=0), it will return "null".If there are multiple audit reports, the information of the latest audit report is displayed.)
+          items:
+            $ref: '#/components/schemas/AuditInfo'
+        contracts_security:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractsSecurity'
+        is_audit:
+          type: integer
+          description: |-
+            It describes whether the dApp was audited by a reputable audit firm.
+            "1" means true;
+            "0" means that we have not found audit information for this dApp .(Notice:Return "0" does not mean the dApp was not audited. Maybe we just haven't found audit information for this dApp yet.)
+          format: int32
+        project_name:
+          type: string
+          description: It describes the dApp project name.
+        trust_list:
+          type: integer
+          description: "It describes whether the dapp is a famous and trustworthy one. \"1\" means true; \n\"0\" means that this dapp is not yet in our trusted list.(Notice:(1) Only \"trust_list\": \"1\" means it is a famous and trustworthy dapp. \n(2) \"0\" return doesn't mean it is risky.)"
+          format: int32
+        url:
+          type: string
+          description: It describes the dApp's website link.
+    GetAccessTokenRequest:
+      title: GetAccessTokenRequest
+      required:
+        - app_key
+        - sign
+        - time
+      type: object
+      properties:
+        app_key:
+          type: string
+          description: app_key
+        sign:
+          type: string
+          description: |-
+            Sign Method
+            Concatenate app_key, time, app_secret in turn, and do sha1() .
+            Example
+            app_key = mBOMg20QW11BbtyH4Zh0
+            time = 1647847498
+            app_secret = V6aRfxlPJwN3ViJSIFSCdxPvneajuJsh
+            sign = sha1(mBOMg20QW11BbtyH4Zh01647847498V6aRfxlPJwN3ViJSIFSCdxPvneajuJsh)
+                   = 7293d385b9225b3c3f232b76ba97255d0e21063e
+        time:
+          type: integer
+          description: Quest timestamp (Second)
+          format: int64
+    GetAccessTokenResponse:
+      title: GetAccessTokenResponse
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: access_token
+        expires_in:
+          type: integer
+          description: expires_in
+          format: int64
+    GetDefiInfoResponse:
+      title: GetDefiInfoResponse
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: object
+          properties:
+            approval_abuse:
+              type: integer
+              description: "It describes whether the owner can spend the allowance that obtained by the contract. If so, this function could potentially be abused to steal user assets.\n\"1\" means true; \n\"0\" means false;\n\"-1\" means unknown."
+              format: int32
+            blacklist:
+              type: integer
+              description: "It describes whether the contract has blacklist function that would block user from withdrawing their assets.\n\"1\" means true;\n\"0\" means false; \n\"-1\" means unknown."
+              format: int32
+            contract_name:
+              type: string
+              description: Name of the contract.
+            is_open_source:
+              type: integer
+              description: "It describes whether this contract is open source. \n\"1\" means true; \n\"0\" means false."
+              format: int32
+            is_proxy:
+              type: integer
+              description: "It describes whether this contract has a proxy contract. \n\"1\" means true; \n\"0\" means false;\n\"-1\" means unknown."
+              format: int32
+            owner:
+              type: object
+              properties:
+                owner_address:
+                  type: string
+                  description: "owner address of the contract. \nNo return means unknown."
+                owner_name:
+                  type: string
+                  description: "the function name of ownership. \nIf there is no return, means unknown."
+                owner_type:
+                  type: string
+                  description: |-
+                    blackhole" : the owner is a blackhole address.
+                    "contract" : the owner is a contract.
+                    "eoa" : the owner is a common address (eoa).
+                    "multi-address": the owner is an array/list.
+                    null: the address is not detected.
+                    No return means unknown.
+              description: |-
+                When there is no owner function, or the ownership is unreadable or private, it would return empty.
+                "owner": {  }
+            privilege_withdraw:
+              type: integer
+              description: "It descirbes whether the contract owner can withdraw all the assets in the contract, without uses' permission.\n\"1\" means true;\n\"0\" means false; \n\"-1\" means unknown."
+              format: int32
+            selfdestruct:
+              type: integer
+              description: "It describes whether this contract can self destruct.\n\"1\" means true; \n\"0\" means false;\n\"-1\" means unknown."
+              format: int32
+            withdraw_missing:
+              type: integer
+              description: "It describes whether the contract lacks withdrawal method. If it is missing, users will be unable to withdraw the assets they have putted in.\n\"1\" means true;\n\"0\" means false; \n\"-1\" means unknown."
+              format: int32
+          description: Response result
+    JSONObject:
+      title: JSONObject
+      type: object
+      additionalProperties:
+        type: object
+        properties: {}
+      properties: {}
+    MapStringString:
+      title: MapStringString
+      type: object
+      additionalProperties:
+        type: string
+      properties: {}
+    ParseAbiDataRequest:
+      title: ParseAbiDataRequest
+      required:
+        - chain_id
+        - data
+      type: object
+      properties:
+        chain_id:
+          type: string
+          description: 'Chain id, (ETH: 1, Cronos:25, BSC: 56, Heco: 128, Polygon: 137, Fantom:250, KCC: 321, Arbitrum: 42161, Avalanche: 43114)'
+          example: "56"
+        contract_address:
+          type: string
+          description: Carrying the signer and contract address will help to decode more information.
+          example: 0x55d398326f99059ff775485246999027b3197955
+        data:
+          type: string
+          description: Transaction input
+          example: 0xa9059cbb00000000000000000000000055d398326f99059ff775485246999027b319795500000000000000000000000000000000000000000000000acc749097d9d00000
+        input:
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+          description: input info
+          example: {}
+        signer:
+          type: string
+          description: Carrying the signer and contract address will help to decode more information.
+        transcation_type:
+          type: string
+          description: Transaction type
+          enum:
+            - common
+            - eth_signTypedData_v4
+            - personal_sign
+            - eth_sign
+    ParseAbiDataResponse:
+      title: ParseAbiDataResponse
+      type: object
+      properties:
+        contract_description:
+          type: string
+          description: Description of the contract.
+        contract_name:
+          type: string
+          description: The name of the contract that the user is interacting with.
+        malicious_contract:
+          type: integer
+          description: It tells if contract that the user is interacting with is malicious contract.
+          format: int32
+        method:
+          type: string
+          description: It describes the method name in ABI, for example "transfer".
+        params:
+          type: array
+          description: It describes the parameter info
+          items:
+            $ref: '#/components/schemas/AbiParamInfo'
+        risk:
+          type: string
+          description: It explains why the transaction that users are signing contains risk.(Notice:Even non-malicious, commonly used, well-known contracts can be highly risky if not used properly.)
+        risky_signature:
+          type: integer
+          description: It tells if the transaction that users are signing contains risk.(Notice:Even non-malicious, commonly used, well-known contracts can be highly risky if not used properly.)
+          format: int32
+        signature_detail:
+          type: string
+          description: It explain the function of the method
+    ResponseWrapperAddressContract:
+      title: ResponseWrapperAddressContract
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: object
+          properties:
+            blacklist_doubt:
+              type: string
+              description: |-
+                It describes whether this address is suspected of malicious behavior.
+                "1" means true;
+                "0" means false.
+            blackmail_activities:
+              type: string
+              description: |-
+                It describes whether this address has implemented blackmail activities.
+                "1" means true;
+                "0" means false.
+            contract_address:
+              type: string
+              description: |-
+                It describes whether this address is a contract address.
+                "1" means true;
+                "0" means false.(Notice:If only the address is sent to the API and not the chain id, the "contract_address" will not be returned (This is because there are cases where the same address is a contract in one public chain but not in other public chains.) Determining the contract address is achieved by calling a third-party blockchain browser interface. Since it takes time for the browser interface to return, the field may be empty on the first request.
+                Solution: the second call around 5s can return whether the address is the value of the contract normally.)
+            cybercrime:
+              type: string
+              description: |-
+                It describes whether this address is involved in cybercrime.
+                "1" means true;
+                "0" means false.
+            darkweb_transactions:
+              type: string
+              description: |-
+                It describes whether this address is involved in darkweb transactions.
+                "1" means true;
+                "0" means false.
+            data_source:
+              type: string
+              description: |-
+                It describes the data source for this address information.
+                For example: GoPlus/SlowMist
+            fake_kyc:
+              type: string
+              description: |-
+                It describes whether this address is involved in fake KYC.
+                "1" means true;
+                "0" means false.
+            financial_crime:
+              type: string
+              description: |-
+                It describes whether this address is involved in financial crime.
+                "1" means true;
+                "0" means false.
+            honeypot_related_address:
+              type: string
+              description: |-
+                It describes whether this address is related to honeypot tokens or has created scam tokens.
+                "1" means true;
+                "0" means false.(Notice:Addresses related to honeypot mean the creators or owners of the honeypot tokens.
+                This is a dangerous address if the address is ralated to honeypot tokens.)
+            malicious_mining_activities:
+              type: string
+              description: |-
+                It describes whether this address is involved in malicious mining activities.
+                "1" means true;
+                "0" means false.
+            mixer:
+              type: string
+              description: |-
+                It describes whether this address is coin mixer address.
+                "1" means true;
+                "0" means false.(Notice:Interacting with coin mixer may result in your address being added to the risk list of third-party institutions.)
+            money_laundering:
+              type: string
+              description: |-
+                It describes whether this address is involved in money laundering.
+                "1" means true;
+                "0" means false.
+            number_of_malicious_contracts_created:
+              type: string
+              description: This parameter describes how many malicious contracts have been created by this address.
+            phishing_activities:
+              type: string
+              description: |-
+                It describes whether this address has implemented phishing activities.
+                "1" means true;
+                "0" means false.
+            sanctioned:
+              type: string
+              description: |-
+                It describes whether this address is coin sanctioned address.
+                "1" means true;
+                "0" means false.
+            stealing_attack:
+              type: string
+              description: |-
+                It describes whether this address has implemented stealing attacks.
+                "1" means true;
+                "0" means false.
+          description: Response result
+    ResponseWrapperContractApproveResponse:
+      title: ResponseWrapperContractApproveResponse
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          $ref: '#/components/schemas/ContractApproveResponse'
+    ResponseWrapperDappContractSecurityResponse:
+      title: ResponseWrapperDappContractSecurityResponse
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          $ref: '#/components/schemas/DappContractSecurityResponse'
+    ResponseWrapperGetAccessTokenResponse:
+      title: ResponseWrapperGetAccessTokenResponse
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          $ref: '#/components/schemas/GetAccessTokenResponse'
+    ResponseWrapperGetNftInfo:
+      title: ResponseWrapperGetNftInfo
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: object
+          properties:
+            average_price_24h:
+              type: number
+              description: It describes the average price of the NFT in 24h.
+            create_block_number:
+              type: integer
+              description: |-
+                It describes the number of blocks created for the NFT.
+                Return "null" means that we didn't find the number of blocks created for the NFT.
+              format: int64
+            creator_address:
+              type: string
+              description: |-
+                It describes the creator address of the NFT.
+                Example: "creator_address": "0x1ee0af784b96bb55ece98c9b15675726b0da1b6b";
+                Return "null" means that we didn't find the creator address.
+            discord_url:
+              type: string
+              description: |-
+                It describes the discord url of the NFT.
+                Return "null" means there is no discord url or didn't find the discord url.
+            github_url:
+              type: string
+              description: |-
+                It describes the github url of the NFT.
+                Return "null" means there is no github url or didn't find the github url.
+            highest_price:
+              type: number
+              description: It describes the highest price of the NFT.
+            lowest_price_24h:
+              type: number
+              description: It describes the lowest price of the NFT in 24h.
+            malicious_nft_contract:
+              type: integer
+              description: |-
+                It describes whether this NFT has performed malicious behaviors.
+                "1" means true;
+                "0" means false.(Notice:Malicious behaviors include random additions, blacklist abuse, falsified transactions, and other high-risk behaviors. Interacting with NFTs flagged as Malicious may contain a high level of risk)
+              format: int32
+            medium_url:
+              type: string
+              description: |-
+                It describes the medium url of the NFT.
+                Return "null" means there is no medium url or didn't find the medium url.
+            metadata_frozen:
+              type: integer
+              description: metadata_frozen
+              format: int32
+            nft_description:
+              type: string
+              description: |-
+                It describes the introduction of the NFT.
+                Return "null" means there is no description of the NFT.
+            nft_erc:
+              type: string
+              description: |-
+                It describes the ERC protocol of the NFT.
+                Example: "nft_erc": "erc721"
+            nft_items:
+              type: integer
+              description: It describes the numbers of the NFT.
+              format: int64
+            nft_name:
+              type: string
+              description: nft_name
+            nft_open_source:
+              type: integer
+              description: "It describes whether this contract is open source. \n\"1\" means true; \n\"0\" means false.(Notice:Un-open-sourced contracts may hide various unknown mechanisms and are extremely risky. When the contract is not open source, we will not be able to detect other risk items.)"
+              format: int32
+            nft_owner_number:
+              type: integer
+              description: It describes the holders of the NFT.
+              format: int64
+            nft_proxy:
+              type: integer
+              description: "It describes whether this NFT contract has a proxy contract. \n\"1\" means true; \n\"0\" means false; \n\"Null\" means unknown.(Notice:(1) When \"is_open_source\": \"0\", it will return \"null\".\n(2) Most Proxy contracts are accompanied by modifiable implementation contracts, and implementation contracts may contain significant potential risk.)"
+              format: int32
+            nft_symbol:
+              type: string
+              description: nft_symbol
+            nft_verified:
+              type: integer
+              description: |-
+                It describes whether the NFT is verified.
+                "1" means that the NFT is verified;
+                "0" means that we did not find any information about whether the NFT is verified.
+              format: int32
+            oversupply_minting:
+              type: integer
+              description: "It describes whether this NFT owner can bypass the maximum amount of minting specified in the contract, and continue to mint NFTs beyond this limit. \n\"1\" means true; \n\"0\" means false; \n\"Null\" means unknown.(Notice:Oversupply minting refers to the existence of a special mint method in the NFT contract - the owner can bypass the maximum amount of minting specified in the contract, and continue to mint NFTs beyond this limit.)"
+              format: int32
+            privileged_burn:
+              type: object
+              properties:
+                owner_address:
+                  type: string
+                  description: "Owner_address describes the owner address. \nnull: the owner address cannot be fetched."
+                owner_type:
+                  type: string
+                  description: |-
+                    "blackhole" : the owner is a blackhole address.
+                    "contract" : the owner is a contract.
+                    "eoa" : the owner is a common address (eoa).
+                    "multi-address": the owner is an array/list.
+                    null: the address is not detected.
+                value:
+                  type: integer
+                  description: "The \"value\" describes the status of the risk.\nnull: the contract is not open source or there is a proxy, it is not possible to detect whether the risk exists. -1: the risk is detected but the ownership give up. If the detection of a code vulnerability, it can also be considered risk-free. \n0: the risk is not detected. \n1: the risk is detected, and the owner address is a common address (EOA), then it can be said that there is a clear risk. \n2: The risk is detected, but the owner address is a contract address, the risk is not significant. \n3: The risk is detected, but the owner address is not detectable / or an array.\n"
+                  format: int32
+              description: It describes whether the NFT owner can burn others NFT.(Notice:Privileged_burn means that the owner can burn others' NFTs directly through the method.)
+            privileged_minting:
+              type: object
+              properties:
+                owner_address:
+                  type: string
+                  description: "Owner_address describes the owner address. \nnull: the owner address cannot be fetched."
+                owner_type:
+                  type: string
+                  description: |-
+                    "blackhole" : the owner is a blackhole address.
+                    "contract" : the owner is a contract.
+                    "eoa" : the owner is a common address (eoa).
+                    "multi-address": the owner is an array/list.
+                    null: the address is not detected.
+                value:
+                  type: integer
+                  description: "The \"value\" describes the status of the risk.\nnull: the contract is not open source or there is a proxy, it is not possible to detect whether the risk exists. -1: the risk is detected but the ownership give up. If the detection of a code vulnerability, it can also be considered risk-free. \n0: the risk is not detected. \n1: the risk is detected, and the owner address is a common address (EOA), then it can be said that there is a clear risk. \n2: The risk is detected, but the owner address is a contract address, the risk is not significant. \n3: The risk is detected, but the owner address is not detectable / or an array.\n"
+                  format: int32
+              description: |-
+                It describes whether the NFT contract has  minting methods which can only be triggered by an address with special privileges.
+                (Notice:Some minting methods can only be triggered by an address with special privileges. Generally speaking, these are usually for the owner to mint.)
+            red_check_mark:
+              type: integer
+              description: red check mark
+              format: int32
+            restricted_approval:
+              type: integer
+              description: "It describes whether the NFT contract can restrict the approval, resulting in NFT can not be traded on the NFT DEX.\n\"1\" means true; \n\"0\" means false; \n\"Null\" means unknown.(Notice:If this risk exists, it means that users will not be able to trade the NFT on the exchange and only privileged users in the whitelist will be able to trade normally.)"
+              format: int32
+            sales_24h:
+              type: number
+              description: It describes the sales of the NFT in 24h.
+            same_nfts:
+              type: array
+              description: It describes the info of other NFTs with duplicate name and symbol.
+              items:
+                type: object
+                properties:
+                  create_block_number:
+                    type: integer
+                    description: |-
+                      describes the number of blocks created for the NFT.
+                      Return "null" means no NFTs with duplicate name and symbol.
+                    format: int64
+                  nft_address:
+                    type: string
+                    description: It describes the address of the NFTs;
+                  nft_name:
+                    type: string
+                    description: It describes the name of the NFT;
+                  nft_owner_number:
+                    type: integer
+                    description: It describes the holders of the NFT;
+                    format: int64
+                  nft_symbol:
+                    type: string
+                    description: It describes the symbol of the NFT;
+            self_destruct:
+              type: object
+              properties:
+                owner_address:
+                  type: string
+                  description: "Owner_address describes the owner address. \nnull: the owner address cannot be fetched."
+                owner_type:
+                  type: string
+                  description: |-
+                    "blackhole" : the owner is a blackhole address.
+                    "contract" : the owner is a contract.
+                    "eoa" : the owner is a common address (eoa).
+                    "multi-address": the owner is an array/list.
+                    null: the address is not detected.
+                value:
+                  type: integer
+                  description: "The \"value\" describes the status of the risk.\nnull: the contract is not open source or there is a proxy, it is not possible to detect whether the risk exists. -1: the risk is detected but the ownership give up. If the detection of a code vulnerability, it can also be considered risk-free. \n0: the risk is not detected. \n1: the risk is detected, and the owner address is a common address (EOA), then it can be said that there is a clear risk. \n2: The risk is detected, but the owner address is a contract address, the risk is not significant. \n3: The risk is detected, but the owner address is not detectable / or an array.\n"
+                  format: int32
+              description: |-
+                { value: owner_address: owner_type }It describes whether this NFT contract can self destruct.
+                (Notice:When the self-destruct function is triggered, this contract will be destroyed, all functions will be unavailable, and all related assets will be erased.)
+            telegram_url:
+              type: string
+              description: |-
+                It describes the telegram url of the NFT.
+                Return "null" means there is no telegram url or didn't find the telegram url.
+            token_id:
+              type: string
+              description: token_id
+            token_owner:
+              type: string
+              description: token_owner
+            total_volume:
+              type: number
+              description: It describes the total volume of the NFT.
+            traded_volume_24h:
+              type: number
+              description: It describes the trading volume of the NFT in 24h.
+            transfer_without_approval:
+              type: object
+              properties:
+                owner_address:
+                  type: string
+                  description: "Owner_address describes the owner address. \nnull: the owner address cannot be fetched."
+                owner_type:
+                  type: string
+                  description: |-
+                    "blackhole" : the owner is a blackhole address.
+                    "contract" : the owner is a contract.
+                    "eoa" : the owner is a common address (eoa).
+                    "multi-address": the owner is an array/list.
+                    null: the address is not detected.
+                value:
+                  type: integer
+                  description: "The \"value\" describes the status of the risk.\nnull: the contract is not open source or there is a proxy, it is not possible to detect whether the risk exists. -1: the risk is detected but the ownership give up. If the detection of a code vulnerability, it can also be considered risk-free. \n0: the risk is not detected. \n1: the risk is detected, and the owner address is a common address (EOA), then it can be said that there is a clear risk. \n2: The risk is detected, but the owner address is a contract address, the risk is not significant. \n3: The risk is detected, but the owner address is not detectable / or an array.\n"
+                  format: int32
+              description: |-
+                It describes whether the NFT owner can transfer NFT without approval.(Notice:Transfer_without_approval generally means the scammer does not need to get approvals to transfer another address's NFT.
+                One typical example is sleep_minting. Sleep_minting means that the scammer will first add the NFT to a well-known wallet address and then retrieve the NFT. After the value of the NFT has appreciated , it will be put back on the market.)
+            trust_list:
+              type: integer
+              description: "It describes whether the NFT is a famous and trustworthy one.\n\"1\" means true; \nReturn \"null\" means no result.(Notice:(1) Only \"trust_list\": \"1\" means it is a famous and trustworthy NFT.\n(2) Return \"null\" doesn't mean it is risky.Th)"
+              format: int32
+            twitter_url:
+              type: string
+              description: |-
+                It describes the twitter url of the NFT.
+                Return "null" means there is no twitter url or didn't find the twitter url.
+            website_url:
+              type: string
+              description: |-
+                It describes the website url of the NFT.
+                Return "null" means there is no website url or didn't find the website url.
+          description: Response result
+    ResponseWrapperJSONObject:
+      title: ResponseWrapperJSONObject
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+          description: Response result
+    ResponseWrapperListApproveNFT1155ListResponse:
+      title: ResponseWrapperListApproveNFT1155ListResponse
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: array
+          description: Response result
+          items:
+            $ref: '#/components/schemas/ApproveNFT1155ListResponse'
+    ResponseWrapperListApproveNFTListResponse:
+      title: ResponseWrapperListApproveNFTListResponse
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: array
+          description: Response result
+          items:
+            $ref: '#/components/schemas/ApproveNFTListResponse'
+    ResponseWrapperListApproveTokenOutListResponse:
+      title: ResponseWrapperListApproveTokenOutListResponse
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: array
+          description: Response result
+          items:
+            $ref: '#/components/schemas/ApproveTokenOutListResponse'
+    ResponseWrapperListGetChainsList:
+      title: ResponseWrapperListGetChainsList
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: array
+          description: Response result
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: chain id
+              name:
+                type: string
+                description: chain name
+    ResponseWrapperListJSONObject:
+      title: ResponseWrapperListJSONObject
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: array
+          description: Response result
+          items:
+            $ref: '#/components/schemas/JSONObject'
+    ResponseWrapperMapStringString:
+      title: ResponseWrapperMapStringString
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: object
+          additionalProperties:
+            type: string
+          description: Response result
+    ResponseWrapperParseAbiDataResponse:
+      title: ResponseWrapperParseAbiDataResponse
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          $ref: '#/components/schemas/ParseAbiDataResponse'
+    ResponseWrapperPhishingSite:
+      title: ResponseWrapperPhishingSite
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: object
+          properties:
+            phishing_site:
+              type: integer
+              description: |-
+                It means whether the website is a phishing site.
+                "1" means true;
+                "0" means that we have not found malicious behavior of this website.
+              format: int32
+            website_contract_security:
+              type: array
+              items:
+                type: string
+          description: Response result
+    ResponseWrapperTaTokenSecurityResponse:
+      title: ResponseWrapperTaTokenSecurityResponse
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          $ref: '#/components/schemas/TaTokenSecurityResponse'
+    ResponseWrapperTokenSecurity:
+      title: ResponseWrapperTokenSecurity
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              anti_whale_modifiable:
+                type: string
+                description: "It describes whether the contract has the function to modify the maximum amount of transactions or the maximum token position. \n\"1\" means true; \n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return.\n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3)When the anti whale value is set to a very small value, all tradinge would fail.)"
+              buy_tax:
+                type: string
+                description: "It describes the tax when buying the token. \nExample: \"buy_tax\": 0.1%. \nNo return means unknown.(Notice:(1) When \"is_in_dex\": \"0\", there will be no return. \n(2) Buy tax will cause the actual value received when buying a token to be less than expected, and too much buy tax may lead to heavy losses.\n(3) When \"buy_tax\": \"1\", it means buy tax is 100% or cannot buy.\n(4) Sometimes token's anti-bot mechanism would affect our sandbox system, leading to \"cannoy_buy\": \"1\",  causing the display of \"buy_tax\": \"1\".\n(5)Some of the token is deisgned not for sale, leading to \"cannot_buy\":1, causing the display of \"buy_tax\": \"1\".)"
+              can_take_back_ownership:
+                type: string
+                description: "It describes whether this contract has the function to take back ownership. \n\"1\" means true; \n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) Ownership is mostly used to adjust the parameters and status of the contract, such as minting, modification of slippage, suspension of trading, setting blacklsit, etc. \nWhen the contract does not have an owner (or if the owner is a black hole address) and the owner cannot be retrieved, these functions will most likely be disabled.)"
+              cannot_buy:
+                type: string
+                description: "It deiscribes whether the Token can be bought.\n\"1\" means true; \n\"0\" means false; \nNo return means unknown.(Notice:(1) Generally, \"cannot_buy\": \"1\" would be found in Reward Tokens. Such Tokens are issued as rewards for some on-chain applications and cannot be bought directly by users.\n(2) Sometimes token's anti-bot mechanism would affect our sandbox system, causing the display of \"buy_tax\": \"1\".\n(3) When \"cannot_buy\": \"1\", our sandbox system might be bloked, causing the display of \"buy_tax\": \"1\" and \"sell_tax\": \"1\")"
+              cannot_sell_all:
+                type: string
+                description: "It describes whether the contract has the function restricting token holder selling all the token. \n\"1\" means true; \n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_in_dex\": \"0\", there will be no return. \n(2) This feature means that you will not be able to sell all your tokens in a single sale. Sometimes you need to leave a certain percentage of the token, e.g. 10%, sometimes you need to leave a fixed number of token, such as 10 token.\n(3) When \"buy_tax\": \"1\", there will be no return.)"
+              creator_address:
+                type: string
+                description: "It describes this contract's owner address. \nExample: \"creator_address\": \"0x744aF9cBb7606BB040f6FBf1c0a0B0dcBA6385E5\";"
+              creator_balance:
+                type: string
+                description: "It describes the balance of the contract owner. \nExample:\"owner_balance\": 100000000."
+              creator_percent:
+                type: string
+                description: 'It describes the percentage of tokens held by the contract owner. Example:"owner_balance": 0.1.(Notice:1 means 100% here.)'
+              dex:
+                type: array
+                description: 'It describes Dex information of where the token that can be traded.(Notice:When "is_in_dex": "0", there will be empty array. )'
+                items:
+                  type: object
+                  properties:
+                    liquidity:
+                      type: string
+                      description: Liquidity is converted to USDT denomination.
+                    name:
+                      type: string
+                    pair:
+                      type: string
+                      description: ' It only counts when the token has a marketing pair with mainstream '
+              external_call:
+                type: string
+                description: "It describes whether the contract would call functions of other contracts when primary methods are executed.\n\"1\" means true; \n\"0\" means false;\nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) External call would cause the implementation of this contract to be highly dependent on other external contracts, which may be a potential risk.)"
+              hidden_owner:
+                type: string
+                description: "It describes whether the contract has hidden owners. For contract with a hidden owner, developer can still manipulate the contract even if the ownership has been abandoned.\n\"1\" means true;\n\"0\" means false;\nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) Hidden owner is often used by developers to hide ownership and is often accompanied by malicious functionality. When the hidden owner exists, it is assumed that ownership has not been abandoned.)"
+              holder_count:
+                type: string
+                description: |-
+                  It describes the number of token holders.
+                  Example:"holder_count": "4342"
+              holders:
+                type: array
+                description: Top10 holders info
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: string
+                      description: 'It describes the holder address; '
+                    balance:
+                      type: string
+                      description: 'It describes the balance of the holder. '
+                    is_contract:
+                      type: integer
+                      description: It describes whether the holder is a contract "1" means true; "0" means false.
+                      format: int32
+                    is_locked:
+                      type: integer
+                      description: "It describes whether the tokens owned by the holder are locked \"1\" means true; \"0\" means false; \n(3) \"tag\" describes the address's public tag. Example:Burn (Notice:About \"locked\": We only support the token lock addresses or black hole addresses that we have included. )"
+                      format: int32
+                    locked_detail:
+                      type: array
+                      description: 'It is an array, decribes lock position info of this holder, only shows when "locked": 1. This Array may contain multiple objects for multiple locking info. (Notice:When "locked":0, or lock address is a black hole address,  "locked_detail" will be no return.)'
+                      items:
+                        type: object
+                        properties:
+                          amount:
+                            type: string
+                            description: '"amount" describes the number of token locked'
+                          end_time:
+                            type: string
+                            description: '"end_time" describes when the token will be unlocked'
+                          opt_time:
+                            type: string
+                            description: '"opt_time" describes when the token was locked'
+                    percent:
+                      type: string
+                      description: 'It  describes the percentage of tokens held by this holder (Notice:About "percent": 1 means 100% here.)'
+                    tag:
+                      type: string
+                      description: 'It describes the address''s public tag. Example:Burn Address/Deployer; '
+              is_airdrop_scam:
+                type: string
+                description: |-
+                  It describes whether the token is an airdrop scam.
+                  "1" means true;
+                  "0" means false;
+                  None means no result (Because We did not find conclusive information on whether token is an airdrop scam).(Notice:Only "is_airdrop_scam": "1" means it is an airdrop scam.)
+              is_anti_whale:
+                type: string
+                description: "It describes whether the contract has the function to limit the maximum amount of transactions or the maximum token position that for single address. \n\"1\" means true; \n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return.\n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. )"
+              is_blacklisted:
+                type: string
+                description: "It describes whether the blacklist function is not included in the contract. If there is a blacklist, some addresses may not be able to trade normally.\n\"1\" means true;\n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\",  there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) The contract owner may add any address into the blacklist, and the token holder in blacklist will not be able to trade. Abuse of the blacklist function will lead to great risks. \n(4) For contracts without an owner (or the owner is a black hole address), the blacklist will not be able to get updated. However, the existing blacklist is still in effect.)"
+              is_honeypot:
+                type: string
+                description: "It describes whether the token is a honeypot. \"HoneyPot\" means that the token maybe cannot be sold because of the token contract's function, Or the token contains malicious code. \n\"1\" means true; \n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) Hight risk, definitely scam.)"
+              is_in_dex:
+                type: string
+                description: |-
+                  It describes whether the token can be traded on the main Dex.
+                  "1" means true;
+                  "0" means false(Notice:It only counts when the token has a marketing pair with mainstream coins/tokens.)
+              is_mintable:
+                type: string
+                description: "It describes whether this contract has the function to mint tokens. \n\"1\" means true; \n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) Mint function will directly trigger a massive sell-off, causing the coin price to plummet. It is extremely risky. \n(4) This function generally relies on ownership. When the contract does not have an owner (or if the owner is a black hole address) and the owner cannot be retrieved, this function will most likely be disabled.)"
+              is_open_source:
+                type: string
+                description: "It describes whether this contract is open source. \n\"1\" means true; \n\"0\" means false.(Notice:Un-open-sourced contracts may hide various unknown mechanisms and are extremely risky. When the contract is not open source, we will not be able to detect other risk items.)"
+              is_proxy:
+                type: string
+                description: "It describes whether this contract has a proxy contract. \n\"1\" means true; \n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) Most Proxy contracts are accompanied by modifiable implementation contracts, and implementation contracts may contain significant potential risk. When the contract is a Proxy, we will stop detecting other risk items.)"
+              is_true_token:
+                type: string
+                description: |-
+                  It describes whether the token is true or fake.
+                  "1" means true token;
+                  "0" means fake token;
+                  None means no result (Because we did not find decisive information about the truth or falsity)(Notice:Only "is_true_token": "0" means it is a fake token.)
+              is_whitelisted:
+                type: string
+                description: "It describes whether the whitelist function is not included in the contract. If there is a whitelist, some addresses may not be able to trade normally.\n\"1\" means true;\n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) Whitelisting is mostly used to allow specific addresses to make early transactions, tax-free, and not affected by transaction suspension.\n(4) For contracts without an owner (or the owner is a black hole address), the whitelist will not be able to get updated. However, the existing whitelist is still in effect.)"
+              lp_holder_count:
+                type: string
+                description: |-
+                  It describes the number of LP token holders.
+                  Example:"lp_holder_count": "4342".
+                  No return means no LP.(Notice:When "is_in_dex": "0", there will be no return.)
+              lp_holders:
+                type: array
+                description: 'Top10 LP token holders info(Notice:When "is_in_dex": "0", there will be no return. )'
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: string
+                      description: 'It describes the holder address; '
+                    balance:
+                      type: string
+                      description: 'It describes the balance of the holder. '
+                    is_contract:
+                      type: integer
+                      description: It describes whether the holder is a contract "1" means true; "0" means false.
+                      format: int32
+                    is_locked:
+                      type: integer
+                      description: "It describes whether the tokens owned by the holder are locked \"1\" means true; \"0\" means false; \n(3) \"tag\" describes the address's public tag. Example:Burn (Notice:About \"locked\": We only support the token lock addresses or black hole addresses that we have included. )"
+                      format: int32
+                    locked_detail:
+                      type: array
+                      description: 'It is an array, decribes lock position info of this holder, only shows when "locked": 1. This Array may contain multiple objects for multiple locking info. (Notice:When "locked":0, or lock address is a black hole address,  "locked_detail" will be no return.)'
+                      items:
+                        type: object
+                        properties:
+                          amount:
+                            type: string
+                            description: '"amount" describes the number of token locked'
+                          end_time:
+                            type: string
+                            description: '"end_time" describes when the token will be unlocked'
+                          opt_time:
+                            type: string
+                            description: '"opt_time" describes when the token was locked'
+                    percent:
+                      type: string
+                      description: 'It  describes the percentage of tokens held by this holder (Notice:About "percent": 1 means 100% here.)'
+                    tag:
+                      type: string
+                      description: 'It describes the address''s public tag. Example:Burn Address/Deployer; '
+              lp_total_supply:
+                type: string
+                description: "It describes the supply number of the LP token.\nExample:\"lp_total_supply\": \"100000000\".\nNo return means no LP.(Notice:(1) When \"is_in_dex\": \"0\", there will be no return. \n(2) It is LP token number, NOT token number)"
+              note:
+                type: string
+                description: "It describes whether the contract has other things investors need to know. \nExample: \n\"note\": \"Contract owner is a multisign contract.\"(Notice:(1) If we haven't found any other thing which is valuable yet, there will be no return. \n(2) Type: string.)"
+              other_potential_risks:
+                type: string
+                description: "It describes whether the contract has other potential risks.\nExample:\n\"other_potential_risks\": \"Owner can set different transaction taxes for each user, which can trigger serious losses.\"(Notice:(1) If we haven't found any other potential risk yet, there will be no return. \n(2) Type: string.)"
+              owner_address:
+                type: string
+                description: "It describes this contract's owner address. \nExample: \"owner_address\": \"0x744aF9cBb7606BB040f6FBf1c0a0B0dcBA6385E5\"; \nNo return means unknown; Return empty means there is no ownership or can't find ownership.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) Ownership is mostly used to adjust the parameters and status of the contract, such as minting, modification of slippage, suspension of trading, setting blacklist, etc. \nWhen the contract does not have an owner (or if the owner is a black hole address) and the owner cannot be retrieved, these functions will most likely be disabled.)"
+              owner_balance:
+                type: string
+                description: "It describes the balance of the contract owner. \nExample: \"owner_balance\": \"100000000\". \nNo return or return empty means there is no ownership or can't find ownership.(Notice:When \"owner_address\" returns empty, or no return, there will be no return.)"
+              owner_change_balance:
+                type: string
+                description: "It describes whether the contract owner has the authority to change the balance of any token holder. \n\"1\" means true; \n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) Token with this feature means that the owner can modify anyone's balance, resulting in an asset straight to zero or a massive minting and sell-off. \n(4) This function generally relies on ownership. When the contract does not have an owner (or if the owner is a black hole address) and the owner cannot be retrieved, this function will most likely be disabled.)"
+              owner_percent:
+                type: string
+                description: "It describes the percentage of tokens held by the contract owner. \nExample:\"owner_balance\": \"0.1\". \nNo return or return empty means there is no ownership or can't find ownership.(Notice:(1) 1 means 100% here.\n(2) When \"owner_address\" returns empty, or no return, there will be no return.)"
+              personal_slippage_modifiable:
+                type: string
+                description: "It describes whether the owner can set a different tax rate for every assigned address.\n\"1\" means ture;\n\"0\" means false;\nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\",  there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) The contract owner may set a very outrageous tax rate for assigned address to block it from trading. Abuse of this funtcion will lead to great risks. \n(4) For contracts without an owner (or the owner is a black hole address), this function would not able to be used. However, the existing tax rate would be still in effect.)"
+              selfdestruct:
+                type: string
+                description: "It describes whether this contract can self destruct.\n\"1\" means true; \n\"0\" means false;\nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) When the self-destruct function is triggered, this contract will be destroyed, all functions will be unavailable, and all related assets will be erased.)"
+              sell_tax:
+                type: string
+                description: "It describes the tax when selling the token. \nExample: \"sell_tax\": 0.1%. \nNo return means unknown.(Notice:(1) When \"is_in_dex\": \"0\", there will be no return. \n(2) Sell tax will cause the actual value received when selling a token to be less than expected, and too much buy tax may lead to large losses.\n(3) When \"sell_tax\": \"1\", it means sell-tax is 100% or this token cannot be sold.\n(4) Sometimes token's  trading-cool-down mechanism would affect our sandbox system. When \"trading_cooldown\": \"1\", \"sell_tax\" may return \"1\".)"
+              slippage_modifiable:
+                type: string
+                description: "It describes whether the trading tax can be modifiable by token contract.\n\"1\" means true;\n\"0\" means false;\nNo return means unknown.(Notice:(1) When When \"is_open_source\": \"0\", there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) Token with modifiable tax means that the contract owner can modify the buy tax or sell tax of the token. This may cause some losses, especially since some contracts have unlimited modifiable tax rates, which would make the token untradeable. \n(4) This function generally relies on ownership. When the contract does not have an owner (or if the owner is a black hole address) and the owner cannot be retrieved, this function will most likely be disabled.)"
+              token_name:
+                type: string
+                description: Token Name
+              token_symbol:
+                type: string
+                description: Token Symbol
+              total_supply:
+                type: string
+                description: |-
+                  It describes the supply number of the token.
+                  Example:"total_supply": 100000000
+              trading_cooldown:
+                type: string
+                description: "It describes whether the contract has trading-cool-down mechanism which can limits the minimum time between two transactions.\n\"1\" means true; \n\"0\" means false; \nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return.\n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. )"
+              transfer_pausable:
+                type: string
+                description: "It describes whether trading can be pausable by token contract.\n\"1\" means true;\n\"0\" means false;\nNo return means unknown.(Notice:(1) When \"is_open_source\": \"0\", there will be no return. \n(2) Sometimes, when \"is_proxy\": \"1\", there will be no return. \n(3) This feature means that the contract owner will be able to suspend trading at any time, after that anyone will not be able to sell, except those who have special authority. \n(4) This function generally relies on ownership. When the contract does not have an owner (or if the owner is a black hole address) and the owner cannot be retrieved, this function will most likely be disabled.)"
+              trust_list:
+                type: string
+                description: "It describes whether the token is a famous and trustworthy one. \"1\" means true; No return no result (Because We did not find conclusive information on whether token is a airdrop scam).(Notice:(1) Only \"trust_list\": \"1\" means it is a famous and trustworthy token. \n(2) No return doesn't mean it is risky.)"
+            description: key is contract address
+          description: Response result
+    ResponseWrapperobject:
+      title: ResponseWrapperobject
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'Code 1: Success'
+          format: int32
+        message:
+          type: string
+          description: Response message
+        result:
+          type: object
+          properties: {}
+          description: Response result
+    TaTokenSecurityResponse:
+      title: TaTokenSecurityResponse
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+              properties: {}

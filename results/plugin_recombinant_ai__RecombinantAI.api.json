@@ -1,0 +1,400 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Recombinant AI™",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "Initiate",
+        "description": "Root endpoint",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/welcome": {
+      "get": {
+        "operationId": "Welcome",
+        "description": "Endpoint to greet users and resume current projects",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/help": {
+      "get": {
+        "operationId": "Get Help",
+        "description": "Endpoint to provide help with errors or best practices",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "steps": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/HelpStep"
+                      }
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "steps"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_repo_files": {
+      "post": {
+        "operationId": "Get File List",
+        "description": "Endpoint that delivers a full repo tree",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RepoData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/get_file_content": {
+      "post": {
+        "operationId": "Get File Content",
+        "description": "Endpoint to pull file content from a given path",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/get_status_messages": {
+      "get": {
+        "operationId": "Get Status Messages",
+        "description": "Endpoint that should be called WHENEVER there is an error",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "operationId": "Get User",
+        "description": "Endpoint to retrieve user profile and project history",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "operationId": "Create User",
+        "description": "Endpoint to create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Delete User",
+        "description": "Endpoint to delete a user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "operationId": "Update User",
+        "description": "Endpoint to update a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/project": {
+      "get": {
+        "operationId": "Get Project",
+        "description": "Endpoint to retrieve project details",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "operationId": "Create Project",
+        "description": "Endpoint to create a new project",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Delete Project",
+        "description": "Endpoint to delete a project",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/gpt_eng_exc": {
+      "post": {
+        "operationId": "GPT Engineer Execution",
+        "description": "Endpoint to interact with GPT Engineer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GptEngData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "operationId": "Get Status",
+        "description": "Endpoint to retrieve status messages",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RepoData": {
+        "type": "object",
+        "properties": {
+          "repo_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "branch": {
+            "type": "string",
+            "default": "main"
+          }
+        },
+        "required": [
+          "repo_url"
+        ]
+      },
+      "FileData": {
+        "type": "object",
+        "properties": {
+          "repo_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "path": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string",
+            "default": "main"
+          }
+        },
+        "required": [
+          "repo_url",
+          "path"
+        ]
+      },
+      "UserData": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "name",
+          "email"
+        ]
+      },
+      "ProjectData": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "repo_urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "required": [
+          "project_id",
+          "title",
+          "description",
+          "repo_urls"
+        ]
+      },
+      "GptEngData": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "prompt",
+          "steps"
+        ]
+      },
+      "HelpStep": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://plugin.recombinant.ai"
+    }
+  ]
+}

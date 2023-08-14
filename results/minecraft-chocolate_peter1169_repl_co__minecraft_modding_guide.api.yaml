@@ -1,0 +1,201 @@
+openapi: 3.0.1
+info:
+  title: Minecraft Chocolate
+  description: Ask for recomendations about Minecraft mods and modpacks. Uses Modrinth API.
+  version: 'v1'
+servers:
+  - url: https://minecraft-chocolate.peter1169.repl.co
+paths:
+  /:
+    get:
+      summary: "Get Plugin Info"
+      operationId: "get_plugin_info"
+      responses:
+        '200':
+          description: "Info about this plugin"
+        'OTHER':
+          description: "Plugin error"
+  /minecraft/versions:
+    get:
+      summary: "Get Minecraft Versions (only the last 100)"
+      operationId: "get_minecraft_versions"
+      responses:
+        '200':
+          description: "The most recent 100 minecraft versions entries"
+        'OTHER':
+          description: "API error"
+  /minecraft/versions/{minecraft_version}:
+    get:
+      summary: "Verify Minecraft Version"
+      operationId: "verify_minecraft_version"
+      parameters:
+        - name: "minecraft_version"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "Version entry"
+        '404':
+          description: "Not a valid version"
+        'OTHER':
+          description: "API error"
+  /mods/search:
+    get:
+      summary: "Search Mods. If multiple categories are used must be separated by comas like: food,magic. Default search type if not specified is: relevance"
+      operationId: "search_mods"
+      parameters:
+        - name: "modloader"
+          in: "query"
+          schema:
+            type: "string"
+            enum: ["fabric", "forge", "quilt"]
+        - name: "minecraft_version"
+          in: "query"
+          schema:
+            type: "string"
+        - name: "search_type"
+          in: "query"
+          schema:
+            type: "string"
+            enum: ["relevance", "downloads", "follows", "newest", "updated"]
+        - name: "q"
+          in: "query"
+          schema:
+            type: "string"
+        - name: "categories"
+          in: "query"
+          schema:
+            type: "string"
+            enum: ["adventure", "cursed", "decoration", "economy", "equipement", "food", "game-mechanics", "library", "magic", "management", "minigame", "mobs", "optimization", "social", "storage", "technology", "transportation", "utility", "worldgen"]
+        - name: "type"
+          in: "query"
+          schema:
+            type: "string"
+            enum: ["mod", "modpack"]
+        - name: "client_side"
+          in: "query"
+          schema:
+            type: "string"
+            enum: ["required", "optional", "unsupported"]
+        - name: "server_side"
+          in: "query"
+          schema:
+            type: "string"
+            enum: ["required", "optional", "unsupported"]
+        - name: "limit"
+          in: "query"
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        '200':
+          description: "Search results"
+        '400':
+          description: "Incorrect arguments"
+        'OTHER':
+          description: "API error"
+  /mods/{mod_name}/version:
+    get:
+      summary: "Get Mod Version"
+      operationId: "get_mod_version"
+      parameters:
+        - name: "mod_name"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "modloader"
+          in: "query"
+          schema:
+            type: "string"
+            enum: ["fabric", "forge", "quilt"]
+        - name: "minecraft_version"
+          in: "query"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "Mod versions info"
+        'OTHER':
+          description: "API error"
+  /mods/{mod_name}/download:
+    get:
+      summary: "Get Mod Download Link"
+      operationId: "get_mod_download"
+      parameters:
+        - name: "mod_name"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "modloader"
+          in: "query"
+          schema:
+            type: "string"
+            enum: ["fabric", "forge", "quilt"]
+        - name: "minecraft_version"
+          in: "query"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "jar filename and URL to download the mod"
+        '404':
+          description: "No files matching that arguments"
+        'OTHER':
+          description: "API error"
+  /mods/{mod_name}/wiki:
+    get:
+      summary: "Get the main page of the Mod Wiki or go to another page in the wiki (provide full url for that)"
+      operationId: "get_mod_wiki"
+      parameters:
+        - name: "mod_name"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "go_to_url"
+          in: "query"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "Text and links from that wiki page"
+        '404':
+          description: "No wiki found"
+        'OTHER':
+          description: "API error"
+  /mods/{mod_name}/dependencies:
+    get:
+      summary: "Get Mod Dependencies"
+      operationId: "get_mod_dependencies"
+      parameters:
+        - name: "mod_name"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "List of mod dependencies"
+        'OTHER':
+          description: "API error"
+  /mods/{mod_name}:
+    get:
+      summary: "Get Mod Details"
+      operationId: "get_mod"
+      parameters:
+        - name: "mod_name"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "Mod details"
+        '404':
+          description: "No mod with that name"
+        'OTHER':
+          description: "API error"

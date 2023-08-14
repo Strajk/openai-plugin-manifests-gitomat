@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: Zeo Route Planner plugin
+  description: ZeoRoutePlanner is a route optimization plugin designed for route planning needs. It accepts a list of addresses and optional parameters such as vehicle type, start and end times, and specific order preferences. It returns the shortest possible route along with time, distance, and ETA details. Use it when the user requests route planning or optimization, particularly for delivery tasks, road trip planning, or city navigation.
+  version: 1.0.0
+servers:
+  - url: https://zeorouteplanner.com
+paths:
+  /api/v7/create_and_optimize_route:
+    post:
+      description: Let user add list of addresses
+      requestBody:
+        required: true
+        content:
+          application/json:
+      parameters:
+        - name: addresses
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              status:
+                type: boolean
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  addresses:
+                    type: array
+                    items:
+                      type: string
+      operationId: getOptimizedRoute

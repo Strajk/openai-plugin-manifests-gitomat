@@ -1,0 +1,41 @@
+openapi: 3.0.2
+info:
+  title: MomentOfZen By Spext
+  description: A knowledge retrieval system for the Moment Of Zen podcast in Spext
+  version: 'v1'
+servers:
+  - url: https://plugin.momentofzen.spext.com
+paths:
+  /search:
+    post:
+      operationId: search
+      summary: Search the podcast library of Moment Of Zen in Spext
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/searchRequest'
+      responses:
+        "200":
+          description: Successful Response
+
+  /search-suggestions:
+    get:
+      operationId: search-suggestions
+      summary: Get list of top items that can be searched
+      responses:
+        "200":
+          description: Successful Response
+
+components:
+  schemas:
+    searchRequest:
+      type: object
+      required:
+      - search
+      properties:
+        query:
+          type: string
+          description: Search the podcast library of Moment Of Zen in Spext
+          required: true

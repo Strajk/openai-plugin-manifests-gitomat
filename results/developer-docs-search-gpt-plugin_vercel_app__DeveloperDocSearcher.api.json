@@ -1,0 +1,644 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Developer Doc Search API",
+    "description": "Access thousands of open source packages and their documentation effortlessly.",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/search_packages": {
+      "get": {
+        "summary": "Search for packages",
+        "description": "This endpoint searches for packages based on a search term. It returns a list of packages that match the search term.",
+        "operationId": "search_packages_endpoint_search_packages_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search_term",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The term to search for in the package names.",
+              "title": "Search Term"
+            },
+            "description": "The term to search for in the package names."
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "The number of search results to return. Default is `5`.",
+              "default": 5,
+              "title": "Size"
+            },
+            "description": "The number of search results to return. Default is `5`."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PackageSearchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_package": {
+      "get": {
+        "summary": "Get information about a specific package",
+        "description": "This endpoint returns information about a specific package in a specified programming language. It uses an LRU cache for efficient repeated queries.",
+        "operationId": "get_package_get_package_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "package_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The name of the package to get information about.",
+              "title": "Package Name"
+            },
+            "description": "The name of the package to get information about."
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "js",
+                "py"
+              ],
+              "type": "string",
+              "description": "The programming language of the package. e.g., Python, JavaScript, etc.",
+              "title": "Language"
+            },
+            "description": "The programming language of the package. e.g., Python, JavaScript, etc."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PackageGetResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_folders_files": {
+      "get": {
+        "summary": "Get all folders and markdown files in a GitHub repository",
+        "description": "This endpoint returns a list of all folders and markdown (.md, .mdx) files in a given GitHub repository. The files are filtered based on a specific folder path if provided. You can also control the depth of subdirectories to traverse.",
+        "operationId": "get_folders_files_get_folders_files_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "github_url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The GitHub URL of the repository to analyze.",
+              "title": "Github Url"
+            },
+            "description": "The GitHub URL of the repository to analyze."
+          },
+          {
+            "name": "get_all_folders",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "A flag to get all folders. If it's set to `true`, it will return all folders ignoring the `depth` value.",
+              "default": false,
+              "title": "Get All Folders"
+            },
+            "description": "A flag to get all folders. If it's set to `true`, it will return all folders ignoring the `depth` value."
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "The maximum depth of subdirectories to traverse. Default is `3`. It's ignored if `get_all_folders` is `true`.",
+              "default": 3,
+              "title": "Depth"
+            },
+            "description": "The maximum depth of subdirectories to traverse. Default is `3`. It's ignored if `get_all_folders` is `true`."
+          },
+          {
+            "name": "folder_path",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The specific folder path to start the analysis from. For example, `src/` will only return folders and files under the `src` directory. Don't include a trailing slash. Example: `src`. When folder_path is included it is recommended to disable `get_all_folders` and set `depth` to 1",
+              "default": "",
+              "title": "Folder Path"
+            },
+            "description": "The specific folder path to start the analysis from. For example, `src/` will only return folders and files under the `src` directory. Don't include a trailing slash. Example: `src`. When folder_path is included it is recommended to disable `get_all_folders` and set `depth` to 1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GithubFoldersFilesGetResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_md_contents": {
+      "get": {
+        "summary": "Get the content from a list of Markdown files",
+        "description": "This endpoint takes a list of URLs as input, each pointing to a Markdown (.md or .mdx) file. It returns the heading titles content of these Markdown files.",
+        "operationId": "get_md_contents_get_md_contents_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "urls",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "A list of URLs, each pointing to a Markdown file from which to fetch the content.",
+              "title": "Urls"
+            },
+            "description": "A list of URLs, each pointing to a Markdown file from which to fetch the content."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarkdownContentGetResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_github_content": {
+      "get": {
+        "summary": "Get the content of a file from a GitHub repository",
+        "description": "This endpoint returns the all the data of a specific file from a given GitHub repository. It takes a URL as input, which should point to the file in the GitHub repository.",
+        "operationId": "get_github_content_get_github_content_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The URL of the file in the GitHub repository to fetch the content from.",
+              "title": "Url"
+            },
+            "description": "The URL of the file in the GitHub repository to fetch the content from."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/api__app__github_file_content__model__Content"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "ErrorResponse"
+      },
+      "GithubFoldersFilesGetResponse": {
+        "properties": {
+          "folders": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Folders"
+          },
+          "files": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Files"
+          }
+        },
+        "type": "object",
+        "required": [
+          "folders",
+          "files"
+        ],
+        "title": "GithubFoldersFilesGetResponse",
+        "example": {
+          "files": {
+            "README.md": "https://github.com/username/repo/blob/main/README.md",
+            "docs/CONTRIBUTING.md": "https://github.com/username/repo/blob/main/docs/CONTRIBUTING.md",
+            "src/main.md": "https://github.com/username/repo/blob/main/src/main.md"
+          },
+          "folders": [
+            "docs",
+            "src"
+          ]
+        }
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "MarkdownContentGetResponse": {
+        "properties": {
+          "contents": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/api__app__markdown_contents__model__Content"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Contents"
+          }
+        },
+        "type": "object",
+        "required": [
+          "contents"
+        ],
+        "title": "MarkdownContentGetResponse",
+        "example": {
+          "contents": {
+            "https://github.com/user/repo/blob/main/README.md": [
+              {
+                "heading": "Introduction",
+                "level": 1
+              },
+              {
+                "heading": "Installation",
+                "level": 2
+              },
+              {
+                "heading": "Usage",
+                "level": 2
+              },
+              {
+                "heading": "Contributing",
+                "level": 3
+              }
+            ]
+          }
+        }
+      },
+      "PackageGetResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/api__app__get_package__model__Package"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "results"
+        ],
+        "title": "PackageGetResponse",
+        "example": {
+          "results": [
+            {
+              "description": "NumPy is the fundamental package for array computing with Python.",
+              "name": "numpy",
+              "readme": "This is a readme",
+              "repository_url": "https://github.com/numpy/numpy",
+              "version": "1.22.0"
+            }
+          ]
+        }
+      },
+      "PackageSearchResponse": {
+        "properties": {
+          "NPM_Packages": {
+            "items": {
+              "$ref": "#/components/schemas/api__app__search_packages__model__Package"
+            },
+            "type": "array",
+            "title": "Npm Packages"
+          },
+          "Pypi_Packages": {
+            "items": {
+              "$ref": "#/components/schemas/api__app__search_packages__model__Package"
+            },
+            "type": "array",
+            "title": "Pypi Packages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "NPM_Packages",
+          "Pypi_Packages"
+        ],
+        "title": "PackageSearchResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "api__app__get_package__model__Package": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "readme": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Readme"
+          },
+          "repository_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Repository Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "version",
+          "description",
+          "readme",
+          "repository_url"
+        ],
+        "title": "Package",
+        "example": {
+          "description": "NumPy is the fundamental package for array computing with Python.",
+          "name": "numpy",
+          "readme": "This is a readme",
+          "repository_url": "https://github.com/numpy/numpy",
+          "version": "1.22.0"
+        }
+      },
+      "api__app__github_file_content__model__Content": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "title": "Content"
+      },
+      "api__app__markdown_contents__model__Content": {
+        "properties": {
+          "heading": {
+            "type": "string",
+            "title": "Heading"
+          },
+          "level": {
+            "type": "integer",
+            "title": "Level"
+          }
+        },
+        "type": "object",
+        "required": [
+          "heading",
+          "level"
+        ],
+        "title": "Content"
+      },
+      "api__app__search_packages__model__Package": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "link": {
+            "type": "string",
+            "title": "Link"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "version",
+          "link"
+        ],
+        "title": "Package"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

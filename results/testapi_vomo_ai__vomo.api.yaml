@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: VOMO
+  description: Simply input save, and AI transfers the generated text directly to the VOMO App.
+  version: 'v1'
+servers:
+  - url: https://testapi.vomo.ai
+paths:
+  /saveNote:
+    post:
+      operationId: saveNote
+      summary: Save a note
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        '200':
+          description: Note saved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  noteId:
+                    type: integer
+                  message:
+                    type: string

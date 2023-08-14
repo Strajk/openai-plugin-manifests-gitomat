@@ -1,0 +1,374 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox WebSearchG",
+    "description": "A plugin enables users to get information via a search engine or get content of a website URL.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://websearchg.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/websearchg/upload": {
+      "post": {
+        "summary": "Enable users to upload a PDF file by providing a publicly accessible PDF URL link.",
+        "description": "Users can upload PDF files by providing a publicly accessible URL link. Once the file is successfully loaded, the plugin will return a unique document ID that represents the uploaded file and the summary for this pdf file.",
+        "operationId": "uploadFile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "url"
+                ],
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "The temporary URL of the PDF document to load.",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loadPdfResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occur when loading user providing file, the reason might be pdf is too many pages or the file is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string",
+                      "title": "Error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/websearchg/query": {
+      "post": {
+        "summary": "Enable users to issue commands and ask questions related to the PDF content.",
+        "description": "After users interact with the plugin, it processes the queries, searches for relevant information within the PDF, and provides answers or references to the corresponding sections.",
+        "operationId": "queryFile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "url",
+                  "query"
+                ],
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "The url of PDF file.",
+                    "required": true
+                  },
+                  "query": {
+                    "type": "string",
+                    "description": "The user query",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/searchPdfResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/websearchg/search": {
+      "get": {
+        "summary": "The plugin enables users to conduct research, seek access to information, and find articles, blog posts, product reviews. It will generate URL, title, and description accordingly.",
+        "description": "After users search for a topic or ask a question, the plugin delivers google search link, search results, including clickable links, descriptive titles, and concise summaries.",
+        "operationId": "searchByKeyword",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search query, do not contain space in query.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "string",
+              "default": "5"
+            },
+            "description": "The upper bound of search results count. Use '5' if users asks less than 5 results",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/websearchg/browse": {
+      "get": {
+        "summary": "The plugin enables user to conduct web browsing by extracting the text content of a specified URL. It will generate title, meta tags, and content accordingly.",
+        "description": "After users type a specific URL with HTTP or HTTPS protocol and optionally ask a question about it, the plugins delivers the content of the URL, including title, meta tags, and content.",
+        "operationId": "browseByUrl",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "url",
+            "schema": {
+              "type": "string",
+              "format": "url"
+            },
+            "description": "URL of the website.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "question",
+            "schema": {
+              "type": "string"
+            },
+            "description": "question about this website. If user has no question, use 'summary' for this parameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "loadPdfResponse": {
+        "title": "loadPdfResponse",
+        "required": [
+          "documentId",
+          "chunks"
+        ],
+        "type": "object",
+        "properties": {
+          "chunks": {
+            "title": "The array of pdf summary results",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "use this array to generate pdf summary results for user."
+          }
+        }
+      },
+      "searchPdfResponse": {
+        "title": "searchPdfResponse",
+        "type": "object",
+        "properties": {
+          "chunks": {
+            "title": "The array of related query results",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of related query results"
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of rules which recommend gpt to follow."
+          }
+        }
+      },
+      "SearchResponse": {
+        "title": "SearchResponse",
+        "type": "object",
+        "properties": {
+          "googleSearchLink": {
+            "title": "Google search link",
+            "type": "string",
+            "description": "Google search link for user to click directly."
+          },
+          "items": {
+            "title": "Websites of search results.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebsiteItem"
+            },
+            "description": "The websites of search results."
+          }
+        }
+      },
+      "WebsiteItem": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Website title."
+          },
+          "description": {
+            "type": "string",
+            "title": "Website description."
+          },
+          "url": {
+            "type": "string",
+            "title": "Website url."
+          },
+          "html": {
+            "type": "string",
+            "title": "Website HTML."
+          },
+          "text": {
+            "type": "string",
+            "title": "Website content in text."
+          }
+        }
+      },
+      "BrowseResponse": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "type": "object",
+            "title": "Meta tags of the website."
+          },
+          "title": {
+            "type": "string",
+            "title": "Title of the website."
+          },
+          "content": {
+            "type": "string",
+            "title": "Text content of the website"
+          },
+          "chunks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "Embedding text content of the website"
+          },
+          "rules": {
+            "$ref": "#/components/schemas/Rules"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Error message."
+          },
+          "code": {
+            "type": "string",
+            "title": "Error code."
+          }
+        }
+      },
+      "Rules": {
+        "title": "The array of rules which recommend gpt to follow.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "The array of rules which recommend gpt to follow."
+      }
+    }
+  }
+}

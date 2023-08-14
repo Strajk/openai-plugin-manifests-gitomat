@@ -1,0 +1,188 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "JobDescription",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://job-description.copilot.us"
+    }
+  ],
+  "paths": {
+    "/api/job/getExamples": {
+      "post": {
+        "summary": "Retrieves job descriptions based on URLs provided",
+        "operationId": "getJobInfo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response. Job descriptions and instructions are returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. No URL provided or descriptions can't be retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/job/saveApplyUrl": {
+      "get": {
+        "summary": "Call this endpoint only when the user provides the apply URL. Saves the apply URL",
+        "operationId": "SaveApplyURL",
+        "parameters": [
+          {
+            "name": "applyUrl",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation. The apply URL was saved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulSaveResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. No apply URL is provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/job-desc/save": {
+      "post": {
+        "summary": "Saves the job description and returns a download link for the generated job description.",
+        "operationId": "SaveJobDescription",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobDescriptionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation. The job description was saved and the download link is provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulSaveJobDescriptionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "JobRequestBody": {
+        "type": "object",
+        "properties": {
+          "urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SuccessfulResponse": {
+        "type": "object",
+        "properties": {
+          "descriptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "responseInstructions": {
+            "type": "string"
+          }
+        }
+      },
+      "BadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "SuccessfulSaveResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "responseInstructions": {
+            "type": "string"
+          }
+        }
+      },
+      "JobDescriptionBody": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string"
+          },
+          "jobDescription": {
+            "type": "string"
+          }
+        }
+      },
+      "SuccessfulSaveJobDescriptionResponse": {
+        "type": "object",
+        "properties": {
+          "downloadLink": {
+            "type": "string"
+          },
+          "responseInstructions": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

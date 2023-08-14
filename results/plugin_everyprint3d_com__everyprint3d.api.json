@@ -1,0 +1,253 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "3D Printing Advice API",
+    "description": "This API provides services related to 3D printing, including idea generation and advice for issues encountered during 3D printing.",
+    "contact": {
+      "name": "API Support",
+      "url": "http://www.everyprint3d.com",
+      "email": "contact@everyprint3d.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://plugin.everyprint3d.com"
+    }
+  ],
+  "paths": {
+    "/generate_ideas": {
+      "post": {
+        "summary": "Generate unique and creative ideas for 3D printing.",
+        "description": "Accepts a list of keywords and returns a list of creative ideas that are connected to the provided keywords.",
+        "operationId": "generateIdeas",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Keywords to generate ideas from.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateIdeasRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A list of generated ideas.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateIdeasResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. User input is invalid."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/advice": {
+      "post": {
+        "summary": "Get advice for 3D printing issues.",
+        "description": "Accepts a text description of the issue and returns a response containing advice on how to resolve it.",
+        "operationId": "getAdvice",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Text description of the issue.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdviceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Advice on how to resolve the issue.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdviceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. User input is invalid."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/submitServiceRequest": {
+      "post": {
+        "summary": "Submit a New Service Request",
+        "description": "Submit a service request via this endpoint for new/broken component modeling or your design printing. Include your email, select 'idea', '3d-file', or 'broken-component', optionally add file URLs, and detail your request. We'll process it and reach out via email.",
+        "operationId": "submitServiceRequest",
+        "requestBody": {
+          "description": "Details for the new service request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmissionPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Your service request was received successfully. We will contact you soon.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The unique identifier for your service request. Keep this for future reference."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "There was a problem with your request. Please make sure that all required fields are filled out correctly and try again."
+          },
+          "500": {
+            "description": "There was a problem on our end. We apologize for the inconvenience. Please try again later."
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "GenerateIdeasRequest": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of keywords to generate 3D printing ideas from."
+          }
+        },
+        "required": [
+          "keywords"
+        ]
+      },
+      "GenerateIdeasResponse": {
+        "type": "object",
+        "properties": {
+          "ideas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of generated 3D printing ideas."
+          }
+        }
+      },
+      "AdviceRequest": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Text description of the 3D printing issue."
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "AdviceResponse": {
+        "type": "object",
+        "properties": {
+          "advice": {
+            "type": "string",
+            "description": "Advice on how to resolve the described issue."
+          },
+          "mailtoLinkForAdditionalSupport": {
+            "type": "string",
+            "format": "uri",
+            "description": "Mailto link for additional support."
+          }
+        }
+      },
+      "SubmissionPayload": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email address for contact."
+          },
+          "option": {
+            "type": "string",
+            "enum": [
+              "idea",
+              "3d-file",
+              "broken-component"
+            ],
+            "description": "The option chosen by the user for the service request."
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Optional. URLs to user's files, if any."
+          },
+          "details": {
+            "type": "string",
+            "description": "Detailed description of the service request."
+          }
+        },
+        "required": [
+          "email",
+          "option",
+          "details"
+        ]
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ]
+}

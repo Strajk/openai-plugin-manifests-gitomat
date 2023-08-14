@@ -1,0 +1,256 @@
+openapi: 3.0.1
+info:
+  title: Draw
+  description: A tool that allows the user to create Diagrams, Charts.
+  version: "v1"
+servers:
+    - url: https://draw.praison.ai
+paths:
+  /draw:
+    post:
+      operationId: post_DrawRoute
+      tags:
+        - Draw
+      summary: Takes a Mermaid diagram, creates a new post with the diagram data, and returns links to the post and the rendered image.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title of the post
+                description:
+                  type: string
+                  description: Description of the post
+                diagram:
+                  type: string
+                  description: >
+                    If 'mermaid' data, provide it as a string. If 'excalidraw' data, provide it as a stringified JSON object.
+                type:
+                  type: string
+                  description: Type of the diagram. If 'mermaid' data, then type is 'm'. If 'excalidraw' data, then type is 'e'. 
+              required:
+                - title
+                - description
+                - diagram
+                - type
+        required: true
+      responses:
+        "201":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  image_url:
+                    type: string
+                    description: URL to the rendered image
+                  post_url:
+                    type: string
+                    description: URL to the new WordPress post
+                required:
+                  - image_url
+                  - post_url
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+                  details:
+                    type: string
+                    description: Detailed error message
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+                  details:
+                    type: string
+                    description: Detailed error message
+
+  /chart/line:
+    post:
+      operationId: post_LineChartRoute
+      tags:
+        - Chart
+      summary: Takes labels and data for a line chart and returns the rendered chart.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineBarChart'
+        required: true
+      responses:
+        "201": 
+          $ref: '#/components/responses/ChartSuccessResponse'
+        "400":
+          $ref: '#/components/responses/BadRequestResponse'
+        "500":
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /chart/bar:
+    post:
+      operationId: post_BarChartRoute
+      tags:
+        - Chart
+      summary: Takes labels and data for a bar chart and returns the rendered chart.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineBarChart'
+        required: true
+      responses:
+        "201": 
+          $ref: '#/components/responses/ChartSuccessResponse'
+        "400":
+          $ref: '#/components/responses/BadRequestResponse'
+        "500":
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /chart/pie:
+    post:
+      operationId: post_PieChartRoute
+      tags:
+        - Chart
+      summary: Takes labels and data for a pie chart and returns the rendered chart.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PieChart'
+        required: true
+      responses:
+        "201": 
+          $ref: '#/components/responses/ChartSuccessResponse'
+        "400":
+          $ref: '#/components/responses/BadRequestResponse'
+        "500":
+          $ref: '#/components/responses/InternalServerErrorResponse'
+components:
+  schemas:
+    LineBarChart:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the chart.
+          example: "Sample title"
+        description:
+          type: string
+          description: Description of the chart.
+          example: "Sample description"
+        chart:
+          type: object
+          properties:
+            labels:
+              type: array
+              items:
+                type: object
+                properties:
+                  xaxis:
+                    type: array
+                    items:
+                      type: string
+                  sublabels:
+                    type: array
+                    items:
+                      type: string
+            data:
+              type: array
+              items:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: integer
+          example: 
+            labels: 
+              - xaxis: ["January", "February", "March"]
+              - sublabels: ["Apple", "Banana"]
+            data: [[[10, 40, 70], [20, 50, 80]]]
+              
+    PieChart:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the chart.
+          example: "Sample title"
+        description:
+          type: string
+          description: Description of the chart.
+          example: "Sample description"
+        chart:
+          type: object
+          properties:
+            labels:
+              type: array
+              items:
+                type: object
+                properties:
+                  sublabels:
+                    type: array
+                    items:
+                      type: string
+            data:
+              type: array
+              items:
+                type: array
+                items:
+                  type: integer
+          example: 
+            labels: 
+              - sublabels: ["Red", "Blue"]
+            data: [[2, 3], [5, 6]]
+  responses:
+    ChartSuccessResponse:
+      description: Successful Response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              image_url:
+                type: string
+                description: URL to the rendered image
+              post_url:
+                type: string
+                description: URL to the new post
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error message
+              details:
+                type: string
+                description: Detailed error message
+    InternalServerErrorResponse:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error message
+              details:
+                type: string
+                description: Detailed error message

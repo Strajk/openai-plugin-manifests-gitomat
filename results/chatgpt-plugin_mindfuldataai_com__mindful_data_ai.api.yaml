@@ -1,0 +1,50 @@
+openapi: 3.0.1
+
+info:
+  title: MindfulDataAI
+  description: A plugin that allows the user to search the web with Google when using ChatGPT.
+  version: "v1"
+
+servers:
+  - url: https://chatgpt-plugin.mindfuldataai.com
+
+paths:
+  /search:
+    get:
+      operationId: getSearch
+      summary: Search the web and get the top results
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+          required: true
+          description: The search query
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getSearchResponse"
+
+components:
+  schemas:
+    getSearchResponse:
+      type: object
+      properties:
+        results:
+          description: A list of search results.
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                description: The title of the search result.
+              url:
+                type: string
+                description: The URL of the search result.
+              body:
+                type: string
+                description: The body of the search result in markdown format.

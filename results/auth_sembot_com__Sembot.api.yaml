@@ -1,0 +1,1137 @@
+openapi: 3.0.1
+info:
+    title: Sembot
+    description: Keyword monitoring, google ads and analytics management
+    version: 'v1.9'
+servers:
+    -   url: https://auth.sembot.com
+paths:
+    /gpt/v1/getKeywordsData:
+        post:
+            operationId: getKeywordsData
+            summary: Get data for a list of keywords like search volume, competition
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                keywords:
+                                    type: array
+                                    items:
+                                        type: string
+                                language:
+                                    type: string
+                                    enum: [ 'Czech', 'Dutch', 'French', 'German', 'Italian', 'Japanese', 'Polish', 'Spanish', 'English' ]
+                                location:
+                                    type: string
+                                    enum: [ 'Czechia', 'France', 'Germany', 'Italy', 'Japan', 'Netherlands', 'Poland', 'Spain', 'United Kingdom', 'United States' ]
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        keyword:
+                                            type: string
+                                        views:
+                                            type: integer
+                                        competition:
+                                            type: string
+                                        competition_index:
+                                            type: number
+                                        low_top_of_page_bid:
+                                            type: number
+                                        high_top_of_page_bid:
+                                            type: number
+                '429':
+                    description: Limit for today reached
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: An error occured
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getAdsTraffic:
+        post:
+            operationId: getAdsTraffic
+            summary: Get ads traffic data for a given keyword like clicks, average cpc, ctr, impressions
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                keyword:
+                                    type: string
+                                bid:
+                                    type: number
+                                date_interval:
+                                    type: string
+                                    enum: [ 'next_week', 'next_month', 'next_quarter' ]
+                                language:
+                                    type: string
+                                    enum: [ 'Czech', 'Dutch', 'French', 'German', 'Italian', 'Japanese', 'Polish', 'Spanish', 'English' ]
+                                location:
+                                    type: string
+                                    enum: [ 'Czechia', 'France', 'Germany', 'Italy', 'Japan', 'Netherlands', 'Poland', 'Spain', 'United Kingdom', 'United States' ]
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        keyword:
+                                            type: string
+                                        impressions:
+                                            type: number
+                                        ctr:
+                                            type: number
+                                        average_cpc:
+                                            type: number
+                                        cost:
+                                            type: number
+                                        clicks:
+                                            type: number
+                '429':
+                    description: Limit for today reached
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: An error occured
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getKeywordsForSite:
+        post:
+            operationId: getKeywordsForSite
+            summary: Get keywords for website with data like views, competition
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                website:
+                                    type: string
+                                language:
+                                    type: string
+                                    enum: [ 'Czech', 'Dutch', 'French', 'German', 'Italian', 'Japanese', 'Polish', 'Spanish', 'English' ]
+                                location:
+                                    type: string
+                                    enum: [ 'Czechia', 'France', 'Germany', 'Italy', 'Japan', 'Netherlands', 'Poland', 'Spain', 'United Kingdom', 'United States' ]
+                                sort_by:
+                                    type: string
+                                    enum: [ 'relevance', 'search_volume', 'competition_index', 'low_top_of_page_bid', 'high_top_of_page_bid' ]
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        keyword:
+                                            type: string
+                                        views:
+                                            type: integer
+                                        competition:
+                                            type: string
+                                        competition_index:
+                                            type: number
+                                        low_top_of_page_bid:
+                                            type: number
+                                        high_top_of_page_bid:
+                                            type: number
+                '429':
+                    description: Limit for today reached
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: An error occured
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getSerpForKeyword:
+        post:
+            operationId: getSerpForKeyword
+            summary: Get serp data for a given keyword like positions, titles, domains
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                keyword:
+                                    type: string
+                                language:
+                                    type: string
+                                    required: true
+                                    enum: [ 'Czech', 'Dutch', 'French', 'German', 'Italian', 'Japanese', 'Polish', 'Spanish', 'English' ]
+                                location:
+                                    type: string
+                                    required: true
+                                    enum: [ 'Czechia', 'France', 'Germany', 'Italy', 'Japan', 'Netherlands', 'Poland', 'Spain', 'United Kingdom', 'United States' ]
+                                device:
+                                    type: string
+                                    enum: [ 'desktop', 'mobile' ]
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        position:
+                                            type: integer
+                                        title:
+                                            type: string
+                                        source:
+                                            type: string
+                                        url:
+                                            type: string
+                                        type:
+                                            type: string
+                                            enum: [ 'organic', 'paid', 'shopping' ]
+                '429':
+                    description: Limit for today reached
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: An error occured
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getVisibilityForSite:
+        post:
+            operationId: getVisibilityForSite
+            summary: Get visibility data for a given website like top3, top10, top50, total serps
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                website:
+                                    type: string
+                                language:
+                                    type: string
+                                    enum: [ 'Czech', 'Dutch', 'French', 'German', 'Italian', 'Japanese', 'Polish', 'Spanish', 'English' ]
+                                location:
+                                    type: string
+                                    enum: [ 'Czechia', 'France', 'Germany', 'Italy', 'Japan', 'Netherlands', 'Poland', 'Spain', 'United Kingdom', 'United States' ]
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        top3:
+                                            type: integer
+                                        top10:
+                                            type: integer
+                                        top50:
+                                            type: integer
+                                        total:
+                                            type: integer
+                                        type:
+                                            type: string
+                                            enum: [ 'organic', 'paid', 'featured_snippet', 'local_pack' ]
+                '429':
+                    description: Limit for today reached
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: An error occured
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getProjects:
+        post:
+            operationId: getProjects
+            summary: Get all sembot project names and IDs for user. Is user has not specified a project and wants to use an endpoit that requires project id ask him to specify one.
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        id:
+                                            type: integer
+                                        name:
+                                            type: string
+                '404':
+                    description: No projects found for user
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getShoppingPerformance:
+        post:
+            operationId: getShoppingPerformance
+            summary: Get Google Ads shopping performance data for a given sembot project like segments.product_title, metrics.clicks, metrics.conversions, metrics.conversions_value, metrics.cost_per_conversion, metrics.ctr, metrics.impressions, metrics.value_per_conversion, metrics.average_cpc
+            requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                        type: object
+                        properties:
+                            project_id:
+                                type: integer
+                            start_date:
+                                type: string
+                                format: date
+                                nullable: true
+                            end_date:
+                                type: string
+                                format: date
+                                nullable: true
+                            condition_field:
+                                type: string
+                                enum: [ 'metrics.conversions', 'metrics.cost_per_conversion', 'metrics.cost_per_all_conversions', 'metrics.value_per_conversion', 'metrics.value_per_all_conversions', 'metrics.clicks', 'metrics.average_cpc', 'metrics.impressions', 'metrics.ctr', 'metrics.cost_micros', 'metrics.conversions_value', 'campaign.status', 'ad_group.status', 'not_specified' ]
+                            condition_operator:
+                                type: string
+                                enum: ['=', '>', '<', '!=', 'not_specified']
+                            condition_value:
+                                type: number
+                                nullable: true
+                            sort_field:
+                                type: string
+                                enum: [ 'metrics.conversions', 'metrics.cost_per_conversion', 'metrics.cost_per_all_conversions', 'metrics.value_per_conversion', 'metrics.value_per_all_conversions', 'metrics.clicks', 'metrics.average_cpc', 'metrics.impressions', 'metrics.ctr', 'metrics.cost_micros', 'metrics.conversions_value', 'campaign.status', 'ad_group.status', 'not_specified' ]
+                            sort_order:
+                                type: string
+                                enum: ['asc', 'desc', 'not_specified']
+                            limit:
+                                type: integer
+                                nullable: true
+                                description: >
+                                    Specify the limit to limit the results. The default value is 3.
+                            product_name:
+                                type: string
+                                nullable: true
+                                description: >
+                                    Specify the product name to filter the results.
+                            page:
+                                type: integer
+                                nullable: true
+                                description: >
+                                    Specify the page of paginated results. The default value is 1.
+                        required:
+                            - "project_id"
+                            - "start_date"
+                            - "end_date"
+                            - "condition_field"
+                            - "condition_operator"
+                            - "condition_value"
+                            - "sort_field"
+                            - "sort_order"
+                            - "limit"
+                            - "product_name"
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data: 
+                                        type: array
+                                        items: 
+                                            type: object
+                                            properties: 
+                                                product_title: 
+                                                    type: string
+                                                conversions: 
+                                                    type: number
+                                                cost_per_conversion: 
+                                                    type: number
+                                                cost_per_all_conversions: 
+                                                    type: number
+                                                value_per_conversion: 
+                                                    type: number
+                                                value_per_all_conversions: 
+                                                    type: number
+                                                clicks: 
+                                                    type: integer
+                                                average_cpc: 
+                                                    type: number
+                                                impressions: 
+                                                    type: integer
+                                                click_through_rate: 
+                                                    type: string
+                                                cost: 
+                                                    type: number
+                                                conversions_value: 
+                                                    type: number
+                                                campaign_name: 
+                                                    type: string
+                                                campaign_status: 
+                                                    type: string
+                                                ad_group_name: 
+                                                    type: string
+                                                ad_group_status: 
+                                                    type: string
+                                                calculated_roas: 
+                                                    type: string
+                                    total: 
+                                        type: integer
+                                    per_page: 
+                                        type: integer
+                                    current_page: 
+                                        type: integer
+                                    last_page: 
+                                        type: integer
+                                    from: 
+                                        type: integer
+                                    to: 
+                                        type: integer
+                '404':
+                    description: Project not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '406':
+                    description: No Google Ads connections found for this project
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getCampaignInfo:
+        post:
+            operationId: getCampaignInfo
+            summary: Get Google Ads campaign info for a given sembot project like campaign.name, campaign.primary_status, campaign.advertising_channel_type, metrics.impressions, metrics.clicks, metrics.ctr, metrics.average_cpc, metrics.average_cpm, metrics.conversions, metrics.cost_per_conversion
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                project_id:
+                                    type: integer
+                                start_date:
+                                    type: string
+                                    format: date
+                                    nullable: true
+                                end_date:
+                                    type: string
+                                    format: date
+                                    nullable: true
+                                condition_field:
+                                    type: string
+                                    enum: [ 'campaign.status', 'metrics.conversions', 'metrics.cost_per_conversion', 'metrics.cost_per_all_conversions', 'metrics.value_per_conversion', 'metrics.value_per_all_conversions', 'metrics.clicks', 'metrics.average_cpc', 'metrics.impressions', 'metrics.absolute_top_impression_percentage', 'metrics.top_impression_percentage', 'metrics.ctr', 'metrics.cost_micros', 'metrics.conversions_value', 'campaign.target_roas.target_roas', 'not_specified' ]
+                                condition_operator:
+                                    type: string
+                                    enum: ['=', '>', '<', '!=', 'not_specified']
+                                condition_value:
+                                    type: number
+                                    nullable: true
+                                sort_field:
+                                    type: string
+                                    enum: [ 'campaign.name', 'campaign.status', 'campaign.advertising_channel_type', 'metrics.conversions', 'metrics.cost_per_conversion', 'metrics.cost_per_all_conversions', 'metrics.value_per_conversion', 'metrics.value_per_all_conversions', 'metrics.clicks', 'metrics.average_cpc', 'metrics.impressions', 'metrics.absolute_top_impression_percentage', 'metrics.top_impression_percentage', 'metrics.ctr', 'metrics.cost_micros', 'metrics.conversions_value', 'campaign.target_roas.target_roas', 'not_specified' ]
+                                sort_order:
+                                    type: string
+                                    enum: ['asc', 'desc', 'not_specified']
+                                limit:
+                                    type: integer
+                                    nullable: true
+                                    description: >
+                                        Specify the limit to limit the results. The default value is 3.
+                                campaign_name:
+                                    type: string
+                                    nullable: true
+                                    description: >
+                                        Specify the campaign name to filter the results.
+                                campaign_status:
+                                    type: string
+                                    enum: ['ENABLED', 'PAUSED', 'REMOVED', 'UNKNOWN', 'UNSPECIFIED', 'not_specified']
+                                    description: >
+                                        Specify the campaign status to filter the results. The default value is ENABLED. Use 'not_specified' to show all.
+                                campaign_type:
+                                    type: string
+                                    enum: [ 'DISCOVERY', 'DISPLAY', 'HOTEL', 'LOCAL', 'LOCAL_SERVICES', 'MULTI_CHANNEL', 'PERFORMANCE_MAX', 'SEARCH', 'SHOPPING', 'SMART', 'UNKNOWN', 'UNSPECIFIED', 'VIDEO', 'not_specified' ]
+                                    description: >
+                                        Specify the campaign type to filter the results. The default value is 'not_specified'.
+                                page:
+                                    type: integer
+                                    nullable: true
+                                    description: >
+                                        Specify the page of paginated results. The default value is 1.
+                            required:
+                                - "project_id"
+                                - "start_date"
+                                - "end_date"
+                                - "condition_field"
+                                - "condition_operator"
+                                - "condition_value"
+                                - "sort_field"
+                                - "sort_order"
+                                - "limit"
+                                - "campaign_name"
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data: 
+                                        type: array
+                                        items: 
+                                            type: object
+                                            properties: 
+                                                campaign_name: 
+                                                    type: string
+                                                campaign_status: 
+                                                    type: string
+                                                campaign_advertising_channel_type: 
+                                                    type: string
+                                                conversions: 
+                                                    type: number
+                                                cost_per_conversion: 
+                                                    type: number
+                                                cost_per_all_conversions: 
+                                                    type: number
+                                                value_per_conversion: 
+                                                    type: number
+                                                value_per_all_conversions: 
+                                                    type: number
+                                                clicks: 
+                                                    type: integer
+                                                average_cpc: 
+                                                    type: number
+                                                impressions: 
+                                                    type: integer
+                                                absolute_top_impression_percentage: 
+                                                    type: number
+                                                top_impression_percentage: 
+                                                    type: number
+                                                click_through_rate: 
+                                                    type: string
+                                                cost: 
+                                                    type: number
+                                                conversions_value: 
+                                                    type: number
+                                                campaign_target_roas: 
+                                                    type: string
+                                                calculated_roas: 
+                                                    type: string
+                                    total: 
+                                        type: integer
+                                    per_page: 
+                                        type: integer
+                                    current_page: 
+                                        type: integer
+                                    last_page: 
+                                        type: integer
+                                    from: 
+                                        type: integer
+                                    to: 
+                                        type: integer
+                '404':
+                    description: Project not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '406':
+                    description: No Google Ads connections found for this project
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getSearchTermInfo:
+        post:
+            operationId: getSearchTermInfo
+            summary: Get Google Ads search term info for a given sembot project like search_term_view.search_term, search_term_view.status, metrics.impressions, metrics.clicks, metrics.ctr, metrics.average_cpc, metrics.average_cpm, metrics.conversions, metrics.cost_per_conversion
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                project_id:
+                                    type: integer
+                                start_date:
+                                    type: string
+                                    format: date
+                                    nullable: true
+                                end_date:
+                                    type: string
+                                    format: date
+                                    nullable: true
+                                condition_field:
+                                    type: string
+                                    enum: [ 'metrics.conversions', 'metrics.cost_per_conversion', 'metrics.cost_per_all_conversions', 'metrics.value_per_conversion', 'metrics.value_per_all_conversions', 'metrics.clicks', 'metrics.average_cpc', 'metrics.impressions', 'metrics.ctr', 'metrics.cost_micros', 'metrics.conversions_value', 'campaign.status', 'ad_group.status', 'ad_group_ad.status', 'not_specified' ]
+                                condition_operator:
+                                    type: string
+                                    enum: ['=', '>', '<', '!=', 'not_specified']
+                                condition_value:
+                                    type: number
+                                    nullable: true
+                                sort_field:
+                                    type: string
+                                    enum: [ 'metrics.conversions', 'metrics.cost_per_conversion', 'metrics.cost_per_all_conversions', 'metrics.value_per_conversion', 'metrics.value_per_all_conversions', 'metrics.clicks', 'metrics.average_cpc', 'metrics.impressions', 'metrics.ctr', 'metrics.cost_micros', 'metrics.conversions_value', 'campaign.status', 'ad_group.status', 'ad_group_ad.status', 'not_specified' ]
+                                sort_order:
+                                    type: string
+                                    enum: ['asc', 'desc', 'not_specified']
+                                limit:
+                                    type: integer
+                                    nullable: true
+                                    description: >
+                                        Specify the limit to limit the results. The default value is 3.
+                                search_term:
+                                    type: string
+                                    nullable: true
+                                    description: >
+                                        Specify the search term name to filter the results.
+                                page:
+                                    type: integer
+                                    nullable: true
+                                    description: >
+                                        Specify the page of paginated results. The default value is 1.
+                            required:
+                                - "project_id"
+                                - "start_date"
+                                - "end_date"
+                                - "condition_field"
+                                - "condition_operator"
+                                - "condition_value"
+                                - "sort_field"
+                                - "sort_order"
+                                - "limit"
+                                - "search_term"
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data: 
+                                        type: array
+                                        items: 
+                                            type: object
+                                            properties: 
+                                                search_term: 
+                                                    type: string
+                                                search_term_status: 
+                                                    type: string
+                                                conversions: 
+                                                    type: number
+                                                cost_per_conversion: 
+                                                    type: number
+                                                cost_per_all_conversions: 
+                                                    type: number
+                                                value_per_conversion: 
+                                                    type: number
+                                                value_per_all_conversions: 
+                                                    type: number
+                                                clicks: 
+                                                    type: integer
+                                                average_cpc: 
+                                                    type: number
+                                                impressions: 
+                                                    type: integer
+                                                click_through_rate: 
+                                                    type: string
+                                                cost: 
+                                                    type: number
+                                                conversions_value: 
+                                                    type: number
+                                                campaign_name: 
+                                                    type: string
+                                                campaign_status: 
+                                                    type: string
+                                                ad_group_name: 
+                                                    type: string
+                                                ad_group_status: 
+                                                    type: string
+                                                ad_name: 
+                                                    type: string
+                                                ad_status: 
+                                                    type: string
+                                                calculated_roas: 
+                                                    type: string
+                                    total: 
+                                        type: integer
+                                    per_page: 
+                                        type: integer
+                                    current_page: 
+                                        type: integer
+                                    last_page: 
+                                        type: integer
+                                    from: 
+                                        type: integer
+                                    to: 
+                                        type: integer
+                '404':
+                    description: Project not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '406':
+                    description: No Google Ads connections found for this project
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getAdGroupInfo:
+        post:
+            operationId: getAdGroupInfo
+            summary: Get Google Ads ad group info for a given sembot project like ad_group.name, ad_group.status, metrics.impressions, metrics.clicks, metrics.ctr, metrics.average_cpc, metrics.average_cpm, metrics.conversions, metrics.cost_per_conversion
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                project_id:
+                                    type: integer
+                                start_date:
+                                    type: string
+                                    format: date
+                                    nullable: true
+                                end_date:
+                                    type: string
+                                    format: date
+                                    nullable: true
+                                condition_field:
+                                    type: string
+                                    enum: [ 'metrics.conversions', 'metrics.cost_per_conversion', 'metrics.cost_per_all_conversions', 'metrics.value_per_conversion', 'metrics.value_per_all_conversions', 'metrics.clicks', 'metrics.average_cpc', 'metrics.impressions', 'metrics.absolute_top_impression_percentage', 'metrics.top_impression_percentage', 'metrics.ctr', 'metrics.cost_micros', 'metrics.conversions_value', 'ad_group.target_roas', 'not_specified']
+                                condition_operator:
+                                    type: string
+                                    enum: ['=', '>', '<', '!=', 'not_specified']
+                                condition_value:
+                                    type: number
+                                    nullable: true
+                                sort_field:
+                                    type: string
+                                    enum: [ 'metrics.conversions', 'metrics.cost_per_conversion', 'metrics.cost_per_all_conversions', 'metrics.value_per_conversion', 'metrics.value_per_all_conversions', 'metrics.clicks', 'metrics.average_cpc', 'metrics.impressions', 'metrics.absolute_top_impression_percentage', 'metrics.top_impression_percentage', 'metrics.ctr', 'metrics.cost_micros', 'metrics.conversions_value', 'ad_group.target_roas', 'not_specified']
+                                sort_order:
+                                    type: string
+                                    enum: ['asc', 'desc', 'not_specified']
+                                limit:
+                                    type: integer
+                                    nullable: true
+                                    description: >
+                                        Specify the limit to limit the results. The default value is 3.
+                                ad_group_name:
+                                    type: string
+                                    nullable: true
+                                    description: >
+                                        Specify the ad group name to filter the results.
+                                page:
+                                    type: integer
+                                    nullable: true
+                                    description: >
+                                        Specify the page of paginated results. The default value is 1.
+                            required:
+                                - "project_id"
+                                - "start_date"
+                                - "end_date"
+                                - "condition_field"
+                                - "condition_operator"
+                                - "condition_value"
+                                - "sort_field"
+                                - "sort_order"
+                                - "limit"
+                                - "ad_group_name"
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data: 
+                                        type: array
+                                        items: 
+                                            type: object
+                                            properties: 
+                                                ad_group_name: 
+                                                    type: string
+                                                ad_group_status: 
+                                                    type: string
+                                                campaign_name: 
+                                                    type: string
+                                                campaign_status: 
+                                                    type: string
+                                                conversions: 
+                                                    type: number
+                                                cost_per_conversion: 
+                                                    type: number
+                                                cost_per_all_conversions: 
+                                                    type: number
+                                                value_per_conversion: 
+                                                    type: number
+                                                value_per_all_conversions: 
+                                                    type: number
+                                                clicks: 
+                                                    type: integer
+                                                average_cpc: 
+                                                    type: number
+                                                impressions: 
+                                                    type: integer
+                                                absolute_top_impression_percentage: 
+                                                    type: number
+                                                top_impression_percentage: 
+                                                    type: number
+                                                click_through_rate: 
+                                                    type: string
+                                                cost: 
+                                                    type: number
+                                                conversions_value: 
+                                                    type: number
+                                                ad_group_target_roas: 
+                                                    type: number
+                                                calculated_roas: 
+                                                    type: string
+                                    total: 
+                                        type: integer
+                                    per_page: 
+                                        type: integer
+                                    current_page: 
+                                        type: integer
+                                    last_page: 
+                                        type: integer
+                                    from: 
+                                        type: integer
+                                    to: 
+                                        type: integer
+                '404':
+                    description: Project not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '406':
+                    description: No Google Ads connections found for this project
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getKeywordInfo:
+        post:
+            operationId: getKeywordInfo
+            summary: Get Google Ads keyword info for a sembot project (ad_group_criterion.keyword.match_type, campaign.status, ad_group.status, ad_group_criterion.status, metrics.impressions, metrics.clicks, metrics.ctr, metrics.average_cpc, metrics.average_cpm, metrics.conversions, metrics.cost_per_conversion)
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                project_id:
+                                    type: integer
+                                start_date:
+                                    type: string
+                                    format: date
+                                    nullable: true
+                                end_date:
+                                    type: string
+                                    format: date
+                                    nullable: true
+                                condition_field:
+                                    type: string
+                                    enum: [ 'metrics.conversions', 'metrics.cost_per_conversion', 'metrics.cost_per_all_conversions', 'metrics.value_per_conversion', 'metrics.value_per_all_conversions', 'metrics.clicks', 'metrics.average_cpc', 'metrics.impressions', 'metrics.absolute_top_impression_percentage', 'metrics.top_impression_percentage', 'metrics.ctr', 'metrics.cost_micros', 'metrics.conversions_value', 'not_specified']
+                                condition_operator:
+                                    type: string
+                                    enum: ['=', '>', '<', '!=', 'not_specified']
+                                condition_value:
+                                    type: number
+                                    nullable: true
+                                sort_field:
+                                    type: string
+                                    enum: [ 'metrics.conversions', 'metrics.cost_per_conversion', 'metrics.cost_per_all_conversions', 'metrics.value_per_conversion', 'metrics.value_per_all_conversions', 'metrics.clicks', 'metrics.average_cpc', 'metrics.impressions', 'metrics.absolute_top_impression_percentage', 'metrics.top_impression_percentage', 'metrics.ctr', 'metrics.cost_micros', 'metrics.conversions_value', 'not_specified']
+                                sort_order:
+                                    type: string
+                                    enum: ['asc', 'desc', 'not_specified']
+                                limit:
+                                    type: integer
+                                    nullable: true
+                                    description: >
+                                        Specify the limit to limit the results. The default value is 3.
+                                keyword_text:
+                                    type: string
+                                    nullable: true
+                                    description: >
+                                        Specify the keyword text to filter the results.
+                                page:
+                                    type: integer
+                                    nullable: true
+                                    description: >
+                                        Specify the page of paginated results. The default value is 1.
+                            required:
+                                - "project_id"
+                                - "start_date"
+                                - "end_date"
+                                - "condition_field"
+                                - "condition_operator"
+                                - "condition_value"
+                                - "sort_field"
+                                - "sort_order"
+                                - "limit"
+                                - "keyword_text"
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data: 
+                                        type: array
+                                        items: 
+                                            type: object
+                                            properties: 
+                                                keyword_text: 
+                                                    type: string
+                                                keyword_match_type: 
+                                                    type: string
+                                                keyword_status: 
+                                                    type: string
+                                                campaign_name: 
+                                                    type: string
+                                                campaign_status: 
+                                                    type: string
+                                                ad_group_name: 
+                                                    type: string
+                                                ad_group_status: 
+                                                    type: string
+                                                conversions: 
+                                                    type: number
+                                                cost_per_conversion: 
+                                                    type: number
+                                                cost_per_all_conversions: 
+                                                    type: number
+                                                value_per_conversion: 
+                                                    type: number
+                                                value_per_all_conversions: 
+                                                    type: number
+                                                clicks: 
+                                                    type: integer
+                                                average_cpc: 
+                                                    type: number
+                                                impressions: 
+                                                    type: integer
+                                                absolute_top_impression_percentage: 
+                                                    type: number
+                                                top_impression_percentage: 
+                                                    type: number
+                                                click_through_rate: 
+                                                    type: string
+                                                cost: 
+                                                    type: number
+                                                conversions_value: 
+                                                    type: number
+                                                calculated_roas: 
+                                                    type: string
+                                    total: 
+                                        type: integer
+                                    per_page: 
+                                        type: integer
+                                    current_page: 
+                                        type: integer
+                                    last_page: 
+                                        type: integer
+                                    from: 
+                                        type: integer
+                                    to: 
+                                        type: integer
+                '404':
+                    description: Project not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '406':
+                    description: No Google Ads connections found for this project
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getAccountInfo:
+        post:
+            operationId: getAccountInfo
+            summary: Get Google Ads account info for a given sembot project like account cost, account roas, account conversion value, account average ctr, account clicks, account impressions, account conversions, account average cost per conversion, account average cpv
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                project_id:
+                                    type: integer
+                                start_date:
+                                    type: string
+                                    format: date
+                                    nullable: true
+                                end_date:
+                                    type: string
+                                    format: date
+                                    nullable: true
+                                type:
+                                    type: string
+                                    enum: [ 'account_cost', 'account_roas', 'account_conversion_value', 'account_average_ctr', 'account_clicks', 'account_impressions', 'account_conversions', 'account_average_cost_per_conversion', 'account_average_cpv' ]
+                                    description: >
+                                        Specify the type of data to be returned.
+                                campaign_status:
+                                    type: string
+                                    enum: ['ENABLED', 'PAUSED', 'REMOVED', 'UNKNOWN', 'UNSPECIFIED', 'not_specified']
+                                    description: >
+                                        Specify the campaign status to filter the results. The default value is ENABLED. Use 'not_specified' to show all.
+                                campaign_type:
+                                    type: string
+                                    enum: [ 'DISCOVERY', 'DISPLAY', 'HOTEL', 'LOCAL', 'LOCAL_SERVICES', 'MULTI_CHANNEL', 'PERFORMANCE_MAX', 'SEARCH', 'SHOPPING', 'SMART', 'UNKNOWN', 'UNSPECIFIED', 'VIDEO', 'not_specified' ]
+                                    description: >
+                                        Specify the campaign type to filter the results. The default value is 'not_specified'.
+                            required:
+                                - "project_id"
+                                - "start_date"
+                                - "end_date"
+                                - "type"
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: string
+                '404':
+                    description: Project not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '406':
+                    description: No Google Ads connections found for this project
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string

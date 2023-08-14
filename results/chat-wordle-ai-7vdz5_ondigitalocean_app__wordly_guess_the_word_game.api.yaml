@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: WORDLY - GUESS The WORD Game
+  version: 0.1.0
+  description: A model that allows a user play WORDLE like game with ChatGPT. You can start a game, make guesses and get feedback from ChatGPT.
+paths:
+  /:
+    get:
+      operationId: hello
+      responses:
+        '200':
+          description: Welcome to WORDLY GUESS the WORD game
+  /start_game/:
+    post:
+      operationId: start_game
+      responses:
+        '200':
+          description: Start a new WORDLE GUESS the WORD game
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  game_id:
+                    type: string
+  /games/{game_id}/guess/:
+    post:
+      operationId: make_guess
+      parameters:
+        - in: path
+          name: game_id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WordGuess'
+      responses:
+        '200':
+          description: Return the result of the guess
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  steps:
+                    type: integer
+                  last_guess:
+                    type: string
+  /game/{game_id}:
+    get:
+      operationId: get_game
+      parameters:
+        - in: path
+          name: game_id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Return the game status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  game_id:
+                    type: string
+                  word_length:
+                    type: integer
+                  steps:
+                    type: integer
+components:
+  schemas:
+    WordGuess:
+      type: object
+      properties:
+        guess:
+          type: string

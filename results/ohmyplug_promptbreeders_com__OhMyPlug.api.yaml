@@ -1,0 +1,185 @@
+openapi: 3.0.1
+info:
+  title: OhMyPlug
+  description: OhMyPlug is an invaluable tool for browsing and describing store plugins, operating on user prompts or queries. This tool provides comprehensive details about any plugin in the store, such as how to use it, its ratings, recommendations, visuals, and more. When the GPT AI Assistant reaches its conversational limitations, it can employ OhMyPlug to suggest relevant plugins tied to the ongoing discussion, thereby extending its capabilities.
+  version: v1
+paths:
+  /plugins:
+    post:
+      summary: Retrieve a list of plugins when requested specifically by the user. All fields of the request schema are required and must be written in English.
+      operationId: get_plugins
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/plugins"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/response_format"
+        "404":
+          description: Data not found
+
+  /pluginforAI:
+    post:
+      summary: Used by AI Assistant to retrieve and suggest a useful plugin when AI Assistant has limits (realtime info, knowledge data, specific actions...). All fields of the request schema are required and must be written in English.
+      operationId: get_plugins_for_ai
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/pluginforAI"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/response_format"
+        "404":
+          description: Data not found
+  /plugin:
+    post:
+      summary: Gives many details about an existing plugin, based on its name (name_for_human)
+      operationId: get_specific_plugin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/plugin"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/response_format"
+components:
+  schemas:
+    plugin:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the plugin. Must perfectly match with an existing "name_for_human" plugin name available in the plugin store.
+          required: true
+    plugins:
+      type: object
+      properties:
+        plugin_description:
+          type: string
+          description: A string made of a list of 15 keywords, comma separated, you expect to find in the plugin description that can help the user based on its prompt or question. Keywords should include generic and popular services, use cases, brands, interests that are usually associated to this request and its context. Important, it must be written in English. Only keywords, no details.
+          required: true
+        question:
+          type: string
+          description: A summary of the user prompt or question (max 7 words). Important, question must be written in English).
+          required: true
+        category:
+          type: string
+          description: The category of foreseen plugin. Must be one within the enum. 
+          enum:
+            - Travel
+            - Search Engines
+            - Data Analysis
+            - Finance
+            - Shopping Aids
+            - Artificial Intelligence
+            - Job Search
+            - Text Editing
+            - Image Editing
+            - Content Management
+            - Cryptocurrency
+            - Weather
+            - Learning
+            - Music
+            - Sports Analytics
+            - Legal Assistance
+            - Domain Checkers
+            - News
+            - Web
+            - Entertainment Guides
+            - Health & Wellness
+            - Product Comparisons
+            - Video Editing
+            - Document Management
+            - Coding
+            - Language Learning
+            - Property Finding
+            - Gaming
+            - Food & Nutrition
+            - Maps
+            - Reminders & Scheduling
+            - Social Media
+            - Transportation Info
+            - Content Creation
+            - Blockchain
+            - Sustainability
+            - Home Automation
+            - Pet Care
+            - Cooking
+          required: true
+    pluginforAI:
+      type: object
+      properties:
+        plugin_description:
+          type: string
+          description: A string made of a list of 15 keywords, comma separated, you expect to find in the plugin description that can help GPT AI Assistant based on the current discussion context. Keywords should include generic and popular services, use cases, brands, interests that are usually associated to this request and its context. Important, it must be written in English. Only keywords, no details.
+          required: true
+        question:
+          type: string
+          description: A summary of the discussion context explaining why help is needed (max 7 words). Important, question must be written in English).
+          required: true
+        category:
+          type: string
+          description: The category of foreseen plugin. Must be one within the enum. 
+          enum:
+            - Travel
+            - Search Engines
+            - Data Analysis
+            - Finance
+            - Shopping Aids
+            - Artificial Intelligence
+            - Job Search
+            - Text Editing
+            - Image Editing
+            - Content Management
+            - Cryptocurrency
+            - Weather
+            - Learning
+            - Music
+            - Sports Analytics
+            - Legal Assistance
+            - Domain Checkers
+            - News
+            - Web
+            - Entertainment Guides
+            - Health & Wellness
+            - Product Comparisons
+            - Video Editing
+            - Document Management
+            - Coding
+            - Language Learning
+            - Property Finding
+            - Gaming
+            - Food & Nutrition
+            - Maps
+            - Reminders & Scheduling
+            - Social Media
+            - Transportation Info
+            - Content Creation
+            - Blockchain
+            - Sustainability
+            - Home Automation
+            - Pet Care
+            - Cooking
+          required: true
+    response_format:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        body:
+          type: string

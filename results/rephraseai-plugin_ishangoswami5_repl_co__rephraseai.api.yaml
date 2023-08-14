@@ -1,0 +1,33 @@
+openapi: 3.0.1
+info:
+  title: Rephrase AI
+  description: An application to convert text to human avatar videos.
+  version: 'v1'
+servers:
+  - url: https://rephraseai-plugin.ishangoswami5.repl.co
+paths:
+  /api/campaign:
+    post:
+      operationId: createAndExportCampaign
+      summary: Create and export a video campaign using Rephrase AI.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transcript:
+                  type: string
+                  description: The transcript to be used in the video campaign.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  campaign_url:
+                    type: string
+                    description: The URL of the exported video campaign.

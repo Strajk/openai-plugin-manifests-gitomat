@@ -1,0 +1,132 @@
+openapi: 3.0.2
+info:
+  title: AskChloe Plugin API
+  description: API for querying fashion and styling advices, fetching and filtering products based on natural language queries and metadata
+  version: 1.0.0
+  servers:
+    - url: https://chatgptplugin.askchloe.app
+paths:
+  /query:
+    post:
+      summary: Query Store
+      operationId: query_store_query_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    Product:
+      title: Product
+      type: object
+      properties:
+        url:
+          title: Url
+          type: string
+        brand:
+          title: Brand
+          type: string
+        title:
+          title: Title
+          type: string
+        price:
+          title: Price
+          type: string
+        features:
+          title: Features
+          type: array
+          items:
+            type: string
+    Query:
+      title: Query
+      required:
+        - keywords
+      type: object
+      properties:
+        keywords:
+          title: Keywords
+          type: array
+          items:
+            type: string
+    QueryRequest:
+      title: QueryRequest
+      required:
+        - queries
+      type: object
+      properties:
+        queries:
+          title: Queries
+          type: array
+          items:
+            $ref: '#/components/schemas/Query'
+    QueryResponse:
+      title: QueryResponse
+      required:
+        - results
+      type: object
+      properties:
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: '#/components/schemas/QueryResult'
+    QueryResult:
+      title: QueryResult
+      required:
+        - query
+        - results
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

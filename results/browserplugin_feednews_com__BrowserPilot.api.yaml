@@ -1,0 +1,70 @@
+openapi: 3.0.1
+info:
+  title: BrowserPilot
+  description: This tool retrieves key information from web pages, including HTML metadata, title, and content. It leverages a real-time search engine to deliver up-to-date information based on user input.
+  version: 'v1.1'
+servers:
+  - url: https://browserplugin.feednews.com
+paths:
+  /openapi/browser/transcoder:
+    post:
+      operationId: transcodeWebPage
+      summary: transcode web page search information.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/transcodeWebPageRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/transcodeWebPageResponse'
+
+components:
+  schemas:
+    transcodeWebPageResponseResult:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of this web page.
+        content:
+          type: string
+          description: The primary content returned from the user's search.
+        metas:
+          type: array
+          description: The Html metas info of the web page.
+          items:
+            type: string
+        links:
+          type: array
+          description: Some links in the web page.
+          items:
+            type: string
+        rules:
+          description: Adherence is required when outputting content.
+          items:
+            type: string
+
+    transcodeWebPageResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Response status code, '0' means success, '1' means failure.
+          example: 0
+        result:
+          $ref: '#/components/schemas/transcodeWebPageResponseResult'
+
+    transcodeWebPageRequest:
+      type: object
+      required:
+        - link
+      properties:
+        link:
+          type: string
+          description: Required, Taking into account the user's input, the provided request serves as a search query that can incorporate search operators to ensure clarity.

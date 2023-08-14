@@ -1,0 +1,946 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Listen Notes Podcast Search Engine and Database Plugin",
+    "description": "A plugin that allows the user to discover podcasts and episodes using ChatGPT.",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://ai.listennotes.com/api/v2"
+    }
+  ],
+  "paths": {
+    "/search_podcasts": {
+      "get": {
+        "operationId": "searchPodcasts",
+        "description": "Search podcasts by keyword. A keyword can be a topic, a person name, a place, or a brand. Useful to discover podcasts by hosts, topics, publishers, etc. Also useful to find podcasts by name.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "A keyword to search, which could be person, place, topic...You can use double quotes to do verbatim match, e.g., \"game of thrones\". Otherwise, it's fuzzy search.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_by_date",
+            "in": "query",
+            "description": "Sort by published date or not? If 0, then sort by relevance. If 1, then sort by published date.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "enum": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "name": "len_min",
+            "in": "query",
+            "description": "Minimum audio length for episode in minutes.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "len_max",
+            "in": "query",
+            "description": "Maximum audio length for episode in minutes.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "published_before",
+            "in": "query",
+            "description": "Only show results published before this timestamp (in milliseconds).",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "published_after",
+            "in": "query",
+            "description": "Only show results published after this timestamp (in milliseconds).",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "only_in",
+            "in": "query",
+            "description": "A comma-delimited string to search only in specific fields. Allowed values are title, description, author, and audio. If not specified, then search every fields.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "title,description,author,audio"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Limit search results to a specific language. If not specified, it'll be any language. Get a list of supported languages from the `getLanguages` endpoint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "description": "Limit search results to a specific region (e.g., us, gb, in...). If not specified, it'll be any region. Get the supported country codes from the `getRegions` endpoint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of search results per page. A valid value should be an integer between 1 and 10 (inclusive).",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "episode_count_min",
+            "in": "query",
+            "description": "Minimum number of episodes.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "episode_count_max",
+            "in": "query",
+            "description": "Maximum number of episodes.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "update_freq_min",
+            "in": "query",
+            "description": "Minimum update frequency in hours. For example, if you want to find \"weekly\" podcasts, then you can set **update_freq_min**=144 hours (or 6 days) and **update_freq_max**=192 hours (or 8 days).",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "update_freq_max",
+            "in": "query",
+            "description": "Minimum update frequency in hours. For example, if you want to find \"weekly\" podcasts, then you can set **update_freq_min**=144 hours (or 6 days) and **update_freq_max**=192 hours (or 8 days).",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of podcasts in json format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "the id of the podcast, which can be used to pass to the other endpoints that need a podcast id as a parameter"
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "title of the podcast"
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "description of the podcast in html"
+                        },
+                        "listennotes_url": {
+                          "type": "string",
+                          "description": "the canonical url of the podcast on Listen Notes, which can be used to manually share this podcast"
+                        },
+                        "publisher": {
+                          "type": "string",
+                          "description": "publisher of the podcast"
+                        },
+                        "image": {
+                          "type": "string",
+                          "description": "image url of the podcast"
+                        },
+                        "latest_episode_id": {
+                          "type": "string",
+                          "description": "the id of the latest episode of the podcast, which can be used to fetch detailed metadata of the episode using the `getEpisode` endpoint"
+                        },
+                        "latest_pub_date_ms": {
+                          "type": "integer",
+                          "description": "published date of the latest episode of this podcast in milliseconds of the Unix epoch"
+                        },
+                        "earliest_pub_date_ms": {
+                          "type": "integer",
+                          "description": "The published date of the oldest episode of this podcast. In milliseconds"
+                        },
+                        "total_episodes": {
+                          "type": "integer",
+                          "description": "Total number of episodes in this podcast."
+                        },
+                        "audio_length_sec": {
+                          "type": "integer",
+                          "description": "Average audio length of all episodes of this podcast. In seconds."
+                        },
+                        "update_frequency_hours": {
+                          "type": "integer",
+                          "description": "How frequently does this podcast release a new episode? In hours. For example, if the value is 166, then it's every 166 hours (or weekly)."
+                        },
+                        "listen_score": {
+                          "type": "integer",
+                          "description": "Listen Score of the podcast, which indicates the estimated popularity of the podcast (similar to nielsen ratings)"
+                        },
+                        "listen_score_global_rank": {
+                          "type": "string",
+                          "description": "the global rank of the podcast according to Listen Score"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search_episodes": {
+      "get": {
+        "operationId": "searchEpisodes",
+        "description": "Search episodes by keyword. A keyword can be a topic, a person name, a place, or a brand. Useful to find podcast interviews of a person, or episodes discussing a specific topic / person.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "A keyword to search, which could be person, place, topic...You can use double quotes to do verbatim match, e.g., \"game of thrones\". Otherwise, it's fuzzy search.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_by_date",
+            "in": "query",
+            "description": "Sort by published date or not? If 0, then sort by relevance. If 1, then sort by published date.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "enum": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "name": "len_min",
+            "in": "query",
+            "description": "Minimum audio length for episode in minutes.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "len_max",
+            "in": "query",
+            "description": "Maximum audio length for episode in minutes.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "published_before",
+            "in": "query",
+            "description": "Only show results published before this timestamp (in milliseconds).",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "published_after",
+            "in": "query",
+            "description": "Only show results published after this timestamp (in milliseconds).",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "only_in",
+            "in": "query",
+            "description": "A comma-delimited string to search only in specific fields. Allowed values are title, description, author, and audio. If not specified, then search every fields.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "title,description,author,audio"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Limit search results to a specific language. If not specified, it'll be any language. Get a list of supported languages from the `getLanguages` endpoint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "description": "Limit search results to a specific region (e.g., us, gb, in...). If not specified, it'll be any region. Get the supported country codes from the `getRegions` endpoint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of search results per page. A valid value should be an integer between 1 and 10 (inclusive).",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of podcast episodes in json format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "the id of the episode, which can be used to pass to the other endpoints that need an episode id as a parameter"
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "title of the podcast episode"
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "description of the podcast episode in html"
+                        },
+                        "image": {
+                          "type": "string",
+                          "description": "image url of the podcast episode"
+                        },
+                        "audio": {
+                          "type": "string",
+                          "description": "audio url of the podcast episode, used for playing the audio"
+                        },
+                        "audio_length_sec": {
+                          "type": "integer",
+                          "description": "audio length of the podcast episode in seconds"
+                        },
+                        "pub_date_ms": {
+                          "type": "integer",
+                          "description": "published date of the podcast episode in milliseconds of the Unix epoch"
+                        },
+                        "listennotes_url": {
+                          "type": "string",
+                          "description": "the canonical url of the podcast episode on Listen Notes, which can be used to manually share this episode"
+                        },
+                        "podcast": {
+                          "type": "object",
+                          "description": "the podcast that this episode belongs to",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "the id of the podcast, which can be used to pass to the other endpoints that need a podcast id as a parameter"
+                            },
+                            "title": {
+                              "type": "string",
+                              "description": "title of the podcast"
+                            },
+                            "publisher": {
+                              "type": "string",
+                              "description": "publisher of the podcast"
+                            },
+                            "image": {
+                              "type": "string",
+                              "description": "image url of the podcast"
+                            },
+                            "listen_score": {
+                              "type": "integer",
+                              "description": "Listen Score of the podcast, which indicates the estimated popularity of the podcast (similar to nielsen ratings)"
+                            },
+                            "listen_score_global_rank": {
+                              "type": "string",
+                              "description": "the global rank of the podcast according to Listen Score"
+                            },
+                            "listennotes_url": {
+                              "type": "string",
+                              "description": "the canonical url of the podcast on Listen Notes, which can be used to manually share this podcast"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/best_podcasts": {
+      "get": {
+        "operationId": "getBestPodcasts",
+        "description": "Fetch a list of best podcasts by genre, region, and language.Get the genre ids from the `getGenres` endpoint",
+        "parameters": [
+          {
+            "name": "genre_id",
+            "in": "query",
+            "description": "Narrow down results for a specific podcast genre. Get the id from the `getGenres` endpoint.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "description": "Filter best podcasts by country/region. Get the supported country codes (e.g., us, jp, gb...) from the `getRegions` endpoint.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "us"
+            }
+          },
+          {
+            "name": "publisher_region",
+            "in": "query",
+            "description": "Filter best podcasts by the publisher's country/region. Get the supported country codes (e.g., us, jp, gb...) from the `getRegions` endpoint.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Limit search results to a specific language. If not specified, it'll be any language. Get a list of supported languages from the `getLanguages` endpoint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of podcasts in json format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "the id of the podcast, which can be used to pass to the other endpoints that need a podcast id as a parameter"
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "title of the podcast"
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "description of the podcast in html"
+                        },
+                        "listennotes_url": {
+                          "type": "string",
+                          "description": "the canonical url of the podcast on Listen Notes, which can be used to manually share this podcast"
+                        },
+                        "publisher": {
+                          "type": "string",
+                          "description": "publisher of the podcast"
+                        },
+                        "image": {
+                          "type": "string",
+                          "description": "image url of the podcast"
+                        },
+                        "latest_episode_id": {
+                          "type": "string",
+                          "description": "the id of the latest episode of the podcast, which can be used to fetch detailed metadata of the episode using the `getEpisode` endpoint"
+                        },
+                        "latest_pub_date_ms": {
+                          "type": "integer",
+                          "description": "published date of the latest episode of this podcast in milliseconds of the Unix epoch"
+                        },
+                        "earliest_pub_date_ms": {
+                          "type": "integer",
+                          "description": "The published date of the oldest episode of this podcast. In milliseconds"
+                        },
+                        "total_episodes": {
+                          "type": "integer",
+                          "description": "Total number of episodes in this podcast."
+                        },
+                        "audio_length_sec": {
+                          "type": "integer",
+                          "description": "Average audio length of all episodes of this podcast. In seconds."
+                        },
+                        "update_frequency_hours": {
+                          "type": "integer",
+                          "description": "How frequently does this podcast release a new episode? In hours. For example, if the value is 166, then it's every 166 hours (or weekly)."
+                        },
+                        "listen_score": {
+                          "type": "integer",
+                          "description": "Listen Score of the podcast, which indicates the estimated popularity of the podcast (similar to nielsen ratings)"
+                        },
+                        "listen_score_global_rank": {
+                          "type": "string",
+                          "description": "the global rank of the podcast according to Listen Score"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/just_listen": {
+      "get": {
+        "operationId": "justListen",
+        "description": "Get a random podcast episode, with all necessary metadata to describe this episode and stream the audio.Recently published episodes are more likely to be fetched.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns a json object with the podcast episode data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "the id of the episode, which can be used to pass to the other endpoints that need an episode id as a parameter"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "title of the podcast episode"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "description of the podcast episode in html"
+                    },
+                    "image": {
+                      "type": "string",
+                      "description": "image url of the podcast episode"
+                    },
+                    "audio": {
+                      "type": "string",
+                      "description": "audio url of the podcast episode, used for playing the audio"
+                    },
+                    "audio_length_sec": {
+                      "type": "integer",
+                      "description": "audio length of the podcast episode in seconds"
+                    },
+                    "pub_date_ms": {
+                      "type": "integer",
+                      "description": "published date of the podcast episode in milliseconds of the Unix epoch"
+                    },
+                    "listennotes_url": {
+                      "type": "string",
+                      "description": "the canonical url of the podcast episode on Listen Notes, which can be used to manually share this episode"
+                    },
+                    "podcast": {
+                      "type": "object",
+                      "description": "the podcast that this episode belongs to",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "the id of the podcast, which can be used to pass to the other endpoints that need a podcast id as a parameter"
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "title of the podcast"
+                        },
+                        "publisher": {
+                          "type": "string",
+                          "description": "publisher of the podcast"
+                        },
+                        "image": {
+                          "type": "string",
+                          "description": "image url of the podcast"
+                        },
+                        "listen_score": {
+                          "type": "integer",
+                          "description": "Listen Score of the podcast, which indicates the estimated popularity of the podcast (similar to nielsen ratings)"
+                        },
+                        "listen_score_global_rank": {
+                          "type": "string",
+                          "description": "the global rank of the podcast according to Listen Score"
+                        },
+                        "listennotes_url": {
+                          "type": "string",
+                          "description": "the canonical url of the podcast on Listen Notes, which can be used to manually share this podcast"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/genres": {
+      "get": {
+        "operationId": "getGenres",
+        "description": "Fetch a list of podcast genres. The `id` field can be used in other endpoints as `genre_id` parameter.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns a list of podcast genres in json format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "The id of this genre, which can be used in the `genre_ids` parameter in other endpoints."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Human-readable genre name."
+                      },
+                      "parent_id": {
+                        "type": "integer",
+                        "description": "Parent genre's id."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/languages": {
+      "get": {
+        "operationId": "getLanguages",
+        "description": "Fetch a list of supported languages for podcasts. Use the language name as `language` parameter in other endpoints.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns a list of podcast languages in json format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Human readable language name (e.g., English). Use this as `language` parameter in other endpoints."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/regions": {
+      "get": {
+        "operationId": "getRegions",
+        "description": "Fetch a list of supported countries/regions. The key of the returned json object is the region code (e.g., us, gb...) used in other endpoints as `region` parameter.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns a json object of countries/regions. The key is the region code (e.g., us, gb), and the value is the human-readable region name (e.g., United States)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "de": "Germany",
+                    "us": "United States",
+                    "au": "Australia",
+                    "ua": "Ukraine"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/episodes/{id}": {
+      "get": {
+        "operationId": "getEpisode",
+        "description": "Fetch detailed meta data for an episode by id. The `id` parameter of this endpoint can be obtained from the response of other endpoints.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id for a specific episode, which can be obtained id from the response of other endpoints.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "6b6d65930c5a4f71b254465871fed370"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a json object with the podcast episode data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "the id of the episode, which can be used to pass to the other endpoints that need an episode id as a parameter"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "title of the podcast episode"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "description of the podcast episode in html"
+                    },
+                    "image": {
+                      "type": "string",
+                      "description": "image url of the podcast episode"
+                    },
+                    "audio": {
+                      "type": "string",
+                      "description": "audio url of the podcast episode, used for playing the audio"
+                    },
+                    "audio_length_sec": {
+                      "type": "integer",
+                      "description": "audio length of the podcast episode in seconds"
+                    },
+                    "pub_date_ms": {
+                      "type": "integer",
+                      "description": "published date of the podcast episode in milliseconds of the Unix epoch"
+                    },
+                    "listennotes_url": {
+                      "type": "string",
+                      "description": "the canonical url of the podcast episode on Listen Notes, which can be used to manually share this episode"
+                    },
+                    "podcast": {
+                      "type": "object",
+                      "description": "the podcast that this episode belongs to",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "the id of the podcast, which can be used to pass to the other endpoints that need a podcast id as a parameter"
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "title of the podcast"
+                        },
+                        "publisher": {
+                          "type": "string",
+                          "description": "publisher of the podcast"
+                        },
+                        "image": {
+                          "type": "string",
+                          "description": "image url of the podcast"
+                        },
+                        "listen_score": {
+                          "type": "integer",
+                          "description": "Listen Score of the podcast, which indicates the estimated popularity of the podcast (similar to nielsen ratings)"
+                        },
+                        "listen_score_global_rank": {
+                          "type": "string",
+                          "description": "the global rank of the podcast according to Listen Score"
+                        },
+                        "listennotes_url": {
+                          "type": "string",
+                          "description": "the canonical url of the podcast on Listen Notes, which can be used to manually share this podcast"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/podcasts/{id}": {
+      "get": {
+        "operationId": "getPodcast",
+        "description": "Fetch detailed meta data for a podcast by id, including up to 10 episodes. The `id` parameter of this endpoint can be obtained from the response of other endpoints.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id for a specific podcast, which can be obtained id from the response of other endpoints.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "6b6d65930c5a4f71b254465871fed370"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a json object with the podcast metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "the id of the podcast, which can be used to pass to the other endpoints that need a podcast id as a parameter"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "title of the podcast"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "description of the podcast in html"
+                    },
+                    "listennotes_url": {
+                      "type": "string",
+                      "description": "the canonical url of the podcast on Listen Notes, which can be used to manually share this podcast"
+                    },
+                    "publisher": {
+                      "type": "string",
+                      "description": "publisher of the podcast"
+                    },
+                    "image": {
+                      "type": "string",
+                      "description": "image url of the podcast"
+                    },
+                    "latest_episode_id": {
+                      "type": "string",
+                      "description": "the id of the latest episode of the podcast, which can be used to fetch detailed metadata of the episode using the `getEpisode` endpoint"
+                    },
+                    "latest_pub_date_ms": {
+                      "type": "integer",
+                      "description": "published date of the latest episode of this podcast in milliseconds of the Unix epoch"
+                    },
+                    "earliest_pub_date_ms": {
+                      "type": "integer",
+                      "description": "The published date of the oldest episode of this podcast. In milliseconds"
+                    },
+                    "total_episodes": {
+                      "type": "integer",
+                      "description": "Total number of episodes in this podcast."
+                    },
+                    "audio_length_sec": {
+                      "type": "integer",
+                      "description": "Average audio length of all episodes of this podcast. In seconds."
+                    },
+                    "update_frequency_hours": {
+                      "type": "integer",
+                      "description": "How frequently does this podcast release a new episode? In hours. For example, if the value is 166, then it's every 166 hours (or weekly)."
+                    },
+                    "listen_score": {
+                      "type": "integer",
+                      "description": "Listen Score of the podcast, which indicates the estimated popularity of the podcast (similar to nielsen ratings)"
+                    },
+                    "listen_score_global_rank": {
+                      "type": "string",
+                      "description": "the global rank of the podcast according to Listen Score"
+                    },
+                    "episodes": {
+                      "type": "array",
+                      "description": "most recent episodes of this podcast",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "the id of the episode, which can be used to pass to the other endpoints that need an episode id as a parameter"
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "title of the podcast episode"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "description of the podcast episode in html"
+                          },
+                          "image": {
+                            "type": "string",
+                            "description": "image url of the podcast episode"
+                          },
+                          "audio": {
+                            "type": "string",
+                            "description": "audio url of the podcast episode, used for playing the audio"
+                          },
+                          "audio_length_sec": {
+                            "type": "integer",
+                            "description": "audio length of the podcast episode in seconds"
+                          },
+                          "pub_date_ms": {
+                            "type": "integer",
+                            "description": "published date of the podcast episode in milliseconds of the Unix epoch"
+                          },
+                          "listennotes_url": {
+                            "type": "string",
+                            "description": "the canonical url of the podcast episode on Listen Notes, which can be used to manually share this episode"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+openapi: "3.0.0"
+info:
+  title: "UwU Translator"
+  description: "This tool translates text into \"UwU\" language."
+  version: "1.0.0"
+servers:
+  - url: "https://uwu-translator.capybaracraze.repl.co"
+paths:
+  /translate:
+    post:
+      summary: "Translate text into \"UwU\" language."
+      operationId: "translateText"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                text:
+                  type: "string"
+              required:
+                - "text"
+      responses:
+        "200":
+          description: "Translation successful."
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  translated_text:
+                    type: "string"
+  /analyze:
+    post:
+      summary: "Analyze a message to determine if it should be translated."
+      operationId: "analyzeMessage"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                message:
+                  type: "string"
+              required:
+                - "message"
+      responses:
+        "200":
+          description: "Analysis successful."
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  translated_message:
+                    type: "string"
+                  activate:
+                    type: "boolean"

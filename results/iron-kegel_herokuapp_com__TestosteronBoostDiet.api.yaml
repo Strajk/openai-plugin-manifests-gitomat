@@ -1,0 +1,179 @@
+openapi: '3.0.1'
+info:
+  title: Iron Kegel API
+  description: API documentation for Iron Kegel
+  termsOfService: https://ironkegel.com/app-terms-and-conditions/
+  contact:
+    email: hello@softroids.com
+  license:
+    name: BSD License
+schemes:
+- http
+servers:
+  - url: https://iron-kegel.herokuapp.com/api/diets
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+- Basic: []
+paths:
+  /meals:
+    get:
+      operationId: meals
+      description: Retrieve meals list. Filter with 'meal_type' (1-Breakfast, 2-Second breakfast, 3-Lunch, 4-Dessert, 5-Dinner) and 'lang' (1-English, 2-Polish).
+      summary: Get the list of meals
+      parameters:
+        - name: meal_type
+          in: query
+          description: The type of meal to filter by. Possible values are number IDs 1 (for Śniadanie), 2 (for Drugie śniadanie), 3 (for Obiad), 4 (for Deser), and 5 (for Kolacja).
+          schema:
+            type: integer
+        - name: lang
+          in: query
+          description: Language for the response. Possible values are 1 - (for English), 2 - (for Polish)
+          schema:
+            type: integer
+        - name: min_calories
+          in: query
+          description: Minimum value of calories for a meal
+          schema:
+            type: integer
+        - name: max_calories
+          in: query
+          description: Maximum value of calories for a meal
+          schema:
+            type: integer
+        - name: ingredients
+          in: query
+          description: Select ingredients in meal
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/Meal'
+      tags:
+        - meals
+definitions:
+  MealType:
+    required:
+    - name
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        title: Name
+        type: string
+        maxLength: 128
+        minLength: 1
+      order:
+        title: Order
+        type: integer
+  Lang:
+    required:
+    - name
+    - short_name
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        title: Name
+        type: string
+        maxLength: 128
+        minLength: 1
+      short_name:
+        title: Short name
+        type: string
+        maxLength: 3
+        minLength: 1
+  Ingredient:
+    required:
+    - name
+    - amount
+    - unit
+    - amount_description
+    - unit_description
+    type: object
+    properties:
+      name:
+        title: Name
+        type: string
+        maxLength: 512
+        minLength: 1
+      amount:
+        title: Amount
+        type: number
+      unit:
+        title: Unit
+        type: string
+        maxLength: 10
+        minLength: 1
+      amount_description:
+        title: Amount description
+        type: number
+      unit_description:
+        title: Unit description
+        type: string
+        maxLength: 256
+        minLength: 1
+  RecipeStep:
+    type: object
+    properties:
+      text:
+        title: Text
+        type: string
+        minLength: 1
+      order:
+        title: Order
+        type: integer
+  Meal:
+    required:
+    - meal_type
+    - name
+    - calories
+    - lang
+    - ingredients
+    - recipe_steps
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      meal_type:
+        $ref: '#/definitions/MealType'
+      name:
+        title: Name
+        type: string
+        maxLength: 512
+        minLength: 1
+      calories:
+        title: Calories
+        type: integer
+      info:
+        title: Info
+        type: string
+        minLength: 1
+      lang:
+        $ref: '#/definitions/Lang'
+      ingredients:
+        type: array
+        items:
+          $ref: '#/definitions/Ingredient'
+      recipe_steps:
+        type: array
+        items:
+          $ref: '#/definitions/RecipeStep'

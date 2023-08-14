@@ -1,0 +1,153 @@
+openapi: 3.0.1
+info:
+  title: Back4App Backend-as-a-Service
+  description: Help the user with creating an application's backend using Back4App. Database, REST and GraphQL APIs, Cloud Code Functions, User Authentication, Access Control, and more.
+  version: v1
+servers:
+  - url: https://chatgpt.back4app.com
+paths:
+  /parse-apps:
+    post:
+      operationId: createParseApp
+      description: Create a new Parse App. The endpoint callParseAPI can later on be used to send requests to the new app.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - appName
+              properties:
+                appName:
+                  type: string
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  appId:
+                    type: string
+                  appName:
+                    type: string
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+        500:
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+    get:
+      operationId: getParseApps
+      description: Get existing Parse Apps. The endpoint callParseAPI can later on be used to send requests to one of these apps.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    appId:
+                      type: string
+                    appName:
+                      type: string
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+        500:
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+  /call-parse-api:
+    post:
+      operationId: callParseAPI
+      description: Call a Parse Server REST API. This endpoint can be used to send multiple requests at once in order to create classes, insert values, perform queries, execute cloud code functions or perform any other operation supported by Parse. Use this endpoint to help users to create applications' backend.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - appId
+                - requests
+              properties:
+                appId:
+                  type: string
+                  description: Specify the id of the app whose API will be called.
+                requests:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - method
+                      - url
+                      - body
+                    properties:
+                      method:
+                        type: string
+                      url:
+                        type: string
+                      body:
+                        type: object
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  responses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: integer
+                        body:
+                          type: object
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+        500:
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string

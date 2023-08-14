@@ -1,0 +1,104 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "v1",
+    "title": "Nominus.com ChatGPT Plugin"
+  },
+  "servers": [
+    {
+      "url": "https://domain-search.nominus.com/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "domainCheck",
+      "description": "ChatGPT Domain Check Endpoint. This endpoint enables you to verify the accessibility of a domain name and obtain a purchase link for the domain if it is available."
+    }
+  ],
+  "paths": {
+    "gpt/domainCheck": {
+      "post": {
+        "tags": [
+          "domainCheck"
+        ],
+        "summary": "The API provides a convenient way to verify the availability of a domain name and obtain a link to purchase the domain if it is currently unclaimed.",
+        "operationId": "domainCheckPOST",
+        "requestBody": {
+          "description": "Request body containing the domain name to check availability.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "description": "Array of valid domain names without the protocol.",
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "google.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Checked availability for domain names",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/domainCheckResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "405": {
+            "description": "method not allowed"
+          },
+          "500": {
+            "description": "internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "domainCheckResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "The domain name being checked for availability.",
+              "example": "google.com"
+            },
+            "available": {
+              "type": "boolean",
+              "description": "Indicates the availability status of the domain for purchase."
+            },
+            "purchaseLink": {
+              "type": "string",
+              "format": "uri",
+              "description": "If the domain is available, a link in the specified format https://www.nominus.com/en/dm/domain-search will be provided for purchasing it.",
+              "example": "https://www.nominus.com/en/dm/domain_search_results?domain=google.com"
+            }
+          },
+          "required": [
+            "domain",
+            "available",
+            "purchaseLink"
+          ]
+        }
+      }
+    }
+  }
+}

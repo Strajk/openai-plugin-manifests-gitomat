@@ -1,0 +1,76 @@
+openapi: 3.0.1
+info:
+  title: Toolblox Plugin
+  description: Plugin for creating smart-contract workflows.
+  version: 'v1'
+servers:
+  - url: https://toolbloxfunctions.azurewebsites.net/api
+paths:
+  /Generate:
+    post:
+      operationId: generate
+      summary: Users can describe in free text (not structured json) their flow by issuing statements like 'Create a workflow that manages sales orders within a department'. Content should describe some kind of process, activity or scenario.
+      parameters:
+      - in: query
+        name: apiKey
+        schema:
+            type: string
+        required: false
+        description: The api key to identify the current user. API keys can be generated in https://app.toolblox.net/profile If API key is not know, ask the user and mention the URL (https://app.toolblox.net/profile ) where he can generate one easily.
+      - in: query
+        name: id
+        schema:
+            type: string
+        required: false
+        description: If the user issues an update statement like 'Add a verification step to workflow' or 'update the workflow to include a client approval' then the id must be filled with the id returned in the previous call to Generate (field id).
+      - in: query
+        name: user
+        schema:
+            type: string
+        required: true
+        description: contains unique id of the user logged into chat.openai.com. From variable $userIDString
+      requestBody:
+        description: This is the content in free text (NOT structured json) describing the workflow. It can contain statements like 'Create a workflow that manages sales orders within a department'. Users need to describe an asset, its lifecycle and the stakeholders but even if some info is missing, it is a valid input. As long as it seems to describe some kind of process, activity or scenario.
+        required: true
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    type: string
+                    example: Create a workflow for a coffee production - operated by the producer - starting with harvest, processing and packaging. Also add a step where the regulators can certify the quality.
+            'text/plain':
+                examples:
+                    user:
+                        summary: Just some free form text, exactly the same as the user input.
+                        value: Create a workflow for a coffee production - operated by the producer - starting with harvest, processing and packaging. Also add a step where the regulators can certify the quality.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/generateResponse'
+
+components:
+  schemas:
+    generateResponse:
+      type: object
+      properties:
+        currentUsage:
+          type: integer
+          format: int32
+          description: The API usage of this account in the current calendar month.
+        url:
+          type: string
+          description: URL containing the newly built or altered smart-contract.
+        id:
+          type: string
+          description: Id of the smart-contract which was created or altered.
+        imageUrl:
+          type: string
+          description: Screenshot of the smart contract workflow in PNG format - please show this to user to make it easier to understand the content of the workflow. 
+        spec:
+          type: string
+          description: Internal system representation that describes the entire result of the smart contract which was generated. This field is not understandable by humans and needs to be summarized.

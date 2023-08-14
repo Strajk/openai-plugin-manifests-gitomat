@@ -1,0 +1,101 @@
+openapi: 3.0.1
+info:
+  title: ChatWithBible
+  description: Sematically search the Bible. From the returned query, educate the user about the verses and text that is most valuable and informative to them.
+  version: "v1"
+servers:
+  - url: https://bible.religions.chat/
+paths:
+  /search:
+    post:
+      operationId: search
+      summary: Semantically search the Bible
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+  /get_verse:
+    post:
+      operationId: get_verse
+      summary: Look up a specific verse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetVerseRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetVerseResponse"
+  /get_chapter:
+    post:
+      operationId: get_chapter
+      summary: Look up a whole chapter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetChapterRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetChapterResponse"
+
+components:
+  schemas:
+    SearchRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: The search query.
+        num_results:
+          type: integer
+          description: number of results
+    GetVerseRequest:
+      type: object
+      required:
+        - Book
+        - Chapter
+        - Verse
+      properties:
+        Book:
+          type: string
+          description: The book of the Bible. For example, Genesis.
+        Chapter:
+          type: string
+          description: The chapter number.
+        Verse:
+          type: string
+          description: The verse number.
+    GetChapterRequest:
+      type: object
+      required:
+        - Book
+        - Chapter
+      properties:
+        Book:
+          type: string
+          description: The book of the Bible. For example, Genesis.
+        Chapter:
+          type: string
+          description: The chapter number.

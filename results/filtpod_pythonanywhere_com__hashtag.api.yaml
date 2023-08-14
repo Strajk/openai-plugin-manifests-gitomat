@@ -1,0 +1,37 @@
+openapi: 3.0.1
+info:
+  title: Hashtag Analytics Plugin
+  description: A plugin that allows the user to find the follower count, trend and related hashtags of a given LinkedIn hashtag.
+  version: 'v1'
+servers:
+  - url: https://filtpod.pythonanywhere.com
+paths:
+  /api/hashtag/{hashtag}:
+      get:
+        operationId: getHashtagFollowerCount
+        summary: Get the follower count, follower count over time and related trending hashtags of a specified LinkedIn hashtag
+        parameters:
+          - in: path
+            name: hashtag
+            schema:
+                type: string
+            required: true
+            description: The specified hashtag.
+        responses:
+          "200":
+            description: OK
+          "400":
+            description: Cannot retrieve data.
+          "500":
+            description: Internal server error. Please contact hello@engage-ai.co
+components:
+  schemas:
+    getHashtagFollowerCount:
+      type: object
+      required:
+      - hashtag
+      properties:
+        hashtag:
+          type: string
+          description: The specified hashtag
+          required: true

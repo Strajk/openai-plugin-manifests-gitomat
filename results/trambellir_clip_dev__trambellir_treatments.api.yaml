@@ -1,0 +1,260 @@
+openapi: 3.0.1
+info:
+  title: Trambellir.com
+  description: A plugin that allows the user to interact with Trambellir services.
+  version: 'v1'
+servers:
+  - url: https://trambellir.clip.dev
+paths:
+  /treatment:
+    get:
+      operationId: ListTreatment
+      summary: Get the list of treatments
+      parameters:
+      - in: query
+        name: key
+        schema:
+          type: string
+        description: The country name of the treatment.
+      - in: query
+        name: area
+        schema:
+          type: string
+          description: 'The area of the treatment. not country name. only lowercase values are accepted. use name if area is country. Don NOT put country name into this parameter like thailand, japan, use key instead.'
+      - in: query
+        name: category
+        schema:
+          type: string
+          enum: [
+            covid-19-pcr-test-rapid-test,
+            nose-and-lips,
+            eyes,
+            lips,
+            face-and-face-lifting,
+            face-lifting,
+            breast,
+            body,
+            slimming,
+            cosmetic-dermatology,
+            dentistry,
+            hair-removal,
+            hair-and-hair-removal,
+            beauty-drip-injection,
+            regenerative-medicine,
+            spa-and-wellness,
+            wellness,
+            mens-health,
+            womens-health,
+            health-check-up,
+            mental-health,
+            online-program,
+            cancer,
+            products-and-devices
+          ]
+      - in: query
+        name: page_start
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+        description: The page number of items to return.
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+          default: 10
+          maximum: 50
+          minimum: 1
+        description: The maximum number of items to return.
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum: [popularity, price-asc, price-desc]
+          default: popularity
+        description: The sort order of results.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTreatmentsResponse'
+  '/treatment/{id}':
+    get:
+      operationId: GetTreatment
+      summary: Get details of a treatment
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The ID of the treatment.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTreatmentResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestResponse'
+
+components:
+  schemas:
+    getTreatmentsResponse:
+      type: object
+      properties:
+        treatments:
+          type: array
+          items:
+            $ref: '#/components/schemas/treatmentSummary'
+          description: The list of treatments.
+    getTreatmentResponse:
+      title: treatment
+      type: object
+      properties:
+        id:
+          type: string
+          example: general-check-up-phuket
+        pay_at_the_clinic:
+          type: boolean
+        area:
+          type: object
+          properties:
+            name:
+              type: string
+            url:
+              type: string
+        clinic:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              url:
+                type: string
+        name:
+          type: string
+        currency:
+          type: string
+        operation_time:
+          type: string
+        recovery_time:
+          type: string
+        number_of_postoperative_visit:
+          type: string
+        hospitalization:
+          type: string
+        limitations:
+          type: string
+        other_information:
+          type: string
+        cancellation_policy:
+          type: string
+        include_in_this_price:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              url:
+                type: string
+        price_detail:
+          type: string
+        location_map:
+          type: string
+        plans:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              gross:
+                type: string
+              sale:
+                type: string
+              descriptions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+        descriptions:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+    badRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Details about the error.
+    treatmentSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          example: general-check-up-phuket
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Cosmetic Dermatology
+              url:
+                type: string
+                example: cosmetic-dermatology
+        area:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Kuala Lumpur
+            url:
+              type: string
+              example: kuala-lumpur
+        currency:
+          type: string
+          example: USD
+        name:
+          type: string
+          example: 'Dental Bonding (Repair Chipped or Cracked Teeth) '
+        picture:
+          type: string
+          example: 'https://image.trambellir.com/2019%2F08%2FMassageandRelaxationTreatment730x483.png'
+        price:
+          type: object
+          properties:
+            min:
+              type: string
+            max:
+              type: string
+        tags:
+          type: array
+          items:
+            type: string

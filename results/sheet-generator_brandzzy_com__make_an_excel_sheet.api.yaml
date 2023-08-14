@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: CSV Generator API
+  version: 1.0.0
+paths:
+  /generate-csv:
+    post:
+      operationId: generateCsv
+      summary: Generate a CSV file from an array of arrays
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: array
+                    items: {}
+      responses:
+        '200':
+          description: URL of the created CSV file
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+        '400':
+          description: Invalid data. Expected an array of arrays.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

@@ -1,0 +1,707 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Content.app",
+    "version": "1.0.2",
+    "description": "An assistant that can post content to blogs, social and ad platforms. Only create an article if the user explicitly asks you to do so. Never call this plugin automatically after another plugin.A dashboard is available at this url : https://dashboard.content.app, the user can access it to add connections, manage subscriptions or change his preferences."
+  },
+  "servers": [
+    {
+      "url": "https://smyth.content.app"
+    }
+  ],
+  "paths": {
+    "/createNewPost": {
+      "post": {
+        "summary": "Creates a new post and returns a postID that you will use to append content to the article. You are not allowed to call this endpoint unless the user explicitly asks you to publish content.",
+        "operationId": "createNewPost",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "The platform to post the content to. If none specified ask the user to choose one from the available platforms.",
+                    "example": "wordpress"
+                  },
+                  "account": {
+                    "type": "string",
+                    "description": "If multiple instances of the platform are configured in the user dashboard, we need to determine which one to use, leave this blank if you don't have the information."
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "The title for this post."
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "description": "The primary or featured image for the post."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "The post status, default value is \"default\". Accepted values are : \"default\", \"publish\", \"draft\", \"planned\". if the user wants to schedule the post, first publish it as \"planned\" then set the schedule after posting",
+                    "example": "none"
+                  },
+                  "metaKeywords": {
+                    "type": "string",
+                    "description": "A list of keywords to be used as metadata",
+                    "example": "Challenge, business, opportunity"
+                  },
+                  "metaDescription": {
+                    "type": "string",
+                    "description": "A meta description of 120 characters about the post"
+                  },
+                  "_context": {
+                    "type": "string",
+                    "description": "Describes the user query in less than 50 words",
+                    "example": "The user wants to post a tweet"
+                  }
+                },
+                "required": [
+                  "platform",
+                  "account",
+                  "title",
+                  "status",
+                  "metaKeywords",
+                  "metaDescription",
+                  "_context"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/appendToPost": {
+      "post": {
+        "summary": "This endpoint appends content to an existing post. The content should not exceed 300 words. You can insert backlink urls in the content when they are relevant",
+        "operationId": "appendToPost",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "The post's platform. If none specified ask the user to choose one from the available platforms.",
+                    "example": "wordpress"
+                  },
+                  "account": {
+                    "type": "string",
+                    "description": "If multiple instances of the platform are configured in the user dashboard we need to determine which one to use, leave this blank if you don't have the information."
+                  },
+                  "postID": {
+                    "type": "string",
+                    "description": "The post's ID to be updated"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "The content to be appended (300 words max). The content cannot exceed 300 words. The content should be in HTML format. (It's recommended to send paragraph by paragraph in order to avoid exceeding the limit.)",
+                    "example": "<h2>Heading 2</h2><p>Paragraph content</p>"
+                  }
+                },
+                "required": [
+                  "platform",
+                  "postID",
+                  "content"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/setPostCategory": {
+      "post": {
+        "summary": "Sets post category.\nIMPORTANT : call this endpoint after posting an article/content in order to set its category. Try to determine the category automatically, If you can't, tell the user that you were unable to set one automatically, provide available categories let the user make a choice.",
+        "operationId": "setPostCategory",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "The post's platform. if none specified ask the user to choose one from the available platforms",
+                    "example": "wordpress"
+                  },
+                  "account": {
+                    "type": "string",
+                    "description": "If multiple instances of the platform are configured in the user dashboard we need to determine which one to use, leave this blank if you don't have the information."
+                  },
+                  "postID": {
+                    "type": "string",
+                    "description": "The post ID to be updated"
+                  },
+                  "categoryID": {
+                    "type": "string",
+                    "description": "The category ID to set"
+                  }
+                },
+                "required": [
+                  "platform",
+                  "postID",
+                  "categoryID"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/setPostProperty": {
+      "post": {
+        "summary": "Sets post property value.",
+        "operationId": "setPostProperty",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "The post's platform. if none specified ask the user to choose one from the available platforms",
+                    "example": "wordpress"
+                  },
+                  "account": {
+                    "type": "string",
+                    "description": "If multiple instances of the platform are configured in the user dashboard we need to determine which one to use, leave this blank if you don't have the information"
+                  },
+                  "postID": {
+                    "type": "string",
+                    "description": "The post ID to be updated"
+                  },
+                  "propertyID": {
+                    "type": "string",
+                    "description": "The property identifier"
+                  },
+                  "propertyValue": {
+                    "type": "string",
+                    "description": "The property value"
+                  }
+                },
+                "required": [
+                  "platform",
+                  "postID",
+                  "propertyID",
+                  "propertyValue"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/editPost": {
+      "post": {
+        "summary": "Allows the user to modify or edit an existing post’s content",
+        "operationId": "editPost",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "The post's platform. If none specified ask the user to choose one from the available platforms",
+                    "example": "wordpress"
+                  },
+                  "account": {
+                    "type": "string",
+                    "description": "If multiple instances of the platform are configured in the user dashboard, we need to determine which one to use. Leave this blank if you don't have the information"
+                  },
+                  "postID": {
+                    "type": "string",
+                    "description": "The post ID to be updated"
+                  },
+                  "searchContent": {
+                    "type": "string",
+                    "description": "The content to search for"
+                  },
+                  "newContent": {
+                    "type": "string",
+                    "description": "The content to replace with"
+                  }
+                },
+                "required": [
+                  "platform",
+                  "postID"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAccounts": {
+      "post": {
+        "summary": "Lists available accounts for user configured platforms",
+        "operationId": "getAccounts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "The platform to list accounts from"
+                  }
+                },
+                "required": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/listPostProperties": {
+      "post": {
+        "summary": "Returns a list of available post properties and their descriptions for a given platform",
+        "operationId": "listPostProperties",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "The platform to list post properties from. if none specified ask the user to choose one from the available platforms",
+                    "example": "wordpress"
+                  }
+                },
+                "required": [
+                  "platform"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getPostProperty": {
+      "post": {
+        "summary": "Reads property value from an article",
+        "operationId": "getPostProperty",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "The platform to read the post from. If none specified ask the user to choose one from the available platforms",
+                    "example": "wordpress"
+                  },
+                  "account": {
+                    "type": "string",
+                    "description": "If multiple instances of the platform are configured in the user dashboard we need to determine which one to use. Leave this blank if you don't have the information"
+                  },
+                  "postID": {
+                    "type": "string",
+                    "description": "The post ID to be read"
+                  },
+                  "propertyID": {
+                    "type": "string",
+                    "description": "The property identifier"
+                  }
+                },
+                "required": [
+                  "platform",
+                  "postID",
+                  "propertyID"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/supportedPlatforms": {
+      "post": {
+        "summary": "Provides a list of supported platforms",
+        "operationId": "platformAction",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "If the user query is less than 100 words, copy it here, otherwise summarize it in less than 100 words."
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/showScheduler": {
+      "post": {
+        "summary": "Shows the posts scheduler entries",
+        "operationId": "showScheduler",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "If specified, we will show the schedule for the specified platform, otherwise we will show the schedule for all platforms",
+                    "example": "twitter"
+                  }
+                },
+                "required": [
+                  "platform"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/addSchedulerEntry": {
+      "post": {
+        "summary": "Adds an entry to the posts scheduler",
+        "operationId": "addSchedulerEntry",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "the platform to which add the entry",
+                    "example": "twitter"
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "the date and time of the entry in ISO format",
+                    "example": "2020-01-01T00:00:00Z"
+                  }
+                },
+                "required": [
+                  "platform",
+                  "date"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/removeSchedulerEntry": {
+      "post": {
+        "summary": "Removes an entry from the posts scheduler",
+        "operationId": "removeSchedulerEntry",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "the platform from which remove the entry",
+                    "example": "twitter"
+                  },
+                  "entryID": {
+                    "type": "string",
+                    "description": "the entry ID to remove"
+                  }
+                },
+                "required": [
+                  "platform",
+                  "entryID"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schedule": {
+      "post": {
+        "summary": "Schedules a post for publishing",
+        "operationId": "schedule",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "the platform from which we read the post by ID",
+                    "example": "twitter"
+                  },
+                  "postID": {
+                    "type": "string",
+                    "description": "the post ID to be scheduled"
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "a date/time in ISO format, if specified we will use it as the date/time of the post, otherwise we will use the next available scheduler entry"
+                  },
+                  "entryID": {
+                    "type": "string",
+                    "description": "the scheduler entryID to schedule the post to. this property cannot be set if a publishing date is explicitly provided. in this case use the date parameter instead"
+                  }
+                },
+                "required": [
+                  "platform",
+                  "postID"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platformAction": {
+      "post": {
+        "summary": "Call this endpoint if the user asks an action that cannot be handled by the other endpoints.",
+        "operationId": "platformAction",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "description": "The platform to post the article to. if none specified, use \"wordpress\"",
+                    "example": "wordpress"
+                  },
+                  "query": {
+                    "type": "string",
+                    "description": "if the user query is less than 100 words, copy it here, otherwise summarize it in 100 words max"
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/about": {
+      "post": {
+        "summary": "Provides help and up to date information about the plugin. Use this when the user asks for help, or asks questions about this plugin",
+        "operationId": "about",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "if the user query is less than 100 words, copy it here, otherwise summarize it in 100 words max"
+                  }
+                },
+                "required": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

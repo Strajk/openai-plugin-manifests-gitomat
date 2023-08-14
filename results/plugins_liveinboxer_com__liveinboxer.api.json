@@ -1,0 +1,61 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "liveinboxer",
+    "description": "Get the latest emails from top brands",
+    "version": "v1"
+  },
+  "paths": {
+    "/liveinboxer.php": {
+      "get": {
+        "operationId": "liveinboxer",
+        "summary": "Get the latest email by brand",
+        "description": "With sender as input, this endpoint returns the latest email by the sender. Details include subject line, the email in markdown format and an image of the email.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sender",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Brand name or Email Sender"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object of the email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Email"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Email": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "type": "string",
+            "description": "The subject of the email"
+          },
+          "text": {
+            "type": "string",
+            "description": "The text content of the email"
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "The URL of the email thumbnail image"
+          }
+        }
+      }
+    }
+  }
+}

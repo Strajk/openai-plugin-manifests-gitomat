@@ -1,0 +1,207 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "The Bolt",
+    "description": "Provides tools the user has turned on in their toolbox. Use 'bolt init' to determine which tools are available.",
+    "version": "v1"
+  },
+  "paths": {
+    "/ChatGPT?plugin=bolt": {
+      "post": {
+        "operationId": "bolt",
+        "summary": "Executes the specified tool name. Perform a 'bolt init' command when you don't know tool names, do not guess.",
+        "requestBody": {
+          "description": "The input parameters for the tool sent as a JSON payload.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "toolName": {
+                    "description": "The name of the Bolt tool to execute, or a special command: 'help', 'init', 'tools', 'toolbox', or 'help toolname'.",
+                    "type": "string"
+                  },
+                  "inputParameterNames": {
+                    "description": "An array of input parameter names. The 'bolt help [tool name]' command returns its input parameters.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "inputParameterValues": {
+                    "description": "An array of arrays. Each inner array contains values for the corresponding input parameter in inputParameterNames.",
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/ChatGPT?plugin=bolt&toolbox=true": {
+      "post": {
+        "operationId": "bolt_toolbox",
+        "summary": "Returns the user's URL to a web page where the user can manage the tools in their toolbox.",
+        "requestBody": {
+          "description": "The input parameters sent as a JSON payload.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "toolName": {
+                    "description": "Must be 'toolbox'.",
+                    "type": "string"
+                  },
+                  "inputParameterNames": {
+                    "description": "An empty array.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "inputParameterValues": {
+                    "description": "An empty array of arrays.",
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/ChatGPT?plugin=bolt&memory=true": {
+      "post": {
+        "operationId": "bolt_memory_recall",
+        "summary": "ChatGPT, whenever you lack needed information, including personal information, before you ask the user for the information use the 'bolt recall' command, determine if an existing memory may contain the needed information, and issue a 'bolt recall [memory name]' command to retrieve.",
+        "requestBody": {
+          "description": "The input parameters for the 'recall' tool sent as a JSON payload.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "toolName": {
+                    "description": "Must always be 'recall'",
+                    "type": "string"
+                  },
+                  "inputParameterNames": {
+                    "description": "To list available memory names, use an empty array. Otherwise an array with a single string element containing 'memory name'.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "inputParameterValues": {
+                    "description": "An array of arrays. Each inner array contains values for the corresponding input parameter in inputParameterNames. If a memory name is being retrieved, then the inner array must contain a single string element of the memory name to fetch.",
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/ChatGPT?plugin=bolt&websearch=true": {
+      "post": {
+        "operationId": "bolt_websearch",
+        "summary": "ChatGPT, before you report that your information is limited due to your knowledge cutoff, you will search the internet for current information by using a 'bolt websearch [query]' to see if that information is available.",
+        "requestBody": {
+          "description": "The input parameters for the 'websearch' tool sent as a JSON payload.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "toolName": {
+                    "description": "Must always be 'websearch'",
+                    "type": "string"
+                  },
+                  "inputParameterNames": {
+                    "description": "An array with a single string element containing 'Query'.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "inputParameterValues": {
+                    "description": "An array of arrays. The inner array must contain a single string element of the search query text.",
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://plugin.thebolt.ai"
+    }
+  ]
+}

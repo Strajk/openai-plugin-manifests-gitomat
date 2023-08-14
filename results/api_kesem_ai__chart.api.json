@@ -1,0 +1,351 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Read Root",
+        "operationId": "read_root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/info": {
+      "get": {
+        "summary": "Read Root",
+        "operationId": "read_root_info_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/chart": {
+      "post": {
+        "summary": "Chart Plugin",
+        "operationId": "chart_plugin_plugin_chart_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChartRequestPlugin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChartResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Subscription required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionRequiredResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chart/status/{session_id}": {
+      "get": {
+        "summary": "Get Task Status",
+        "operationId": "get_task_status_chart_status__session_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "string"
+            },
+            "name": "session_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStatusResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions": {
+      "get": {
+        "summary": "Get Subscriptions",
+        "description": "Returns a list of available subscription options from Kesem.AI.",
+        "operationId": "get_subscriptions_subscriptions_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Subscriptions Subscriptions Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PricingOption"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChartRequestPlugin": {
+        "title": "ChartRequestPlugin",
+        "required": [
+          "prompt"
+        ],
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "title": "Prompt",
+            "type": "string"
+          }
+        }
+      },
+      "ChartResponse": {
+        "title": "ChartResponse",
+        "required": [
+          "session_id",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "title": "Session Id",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "PricingOption": {
+        "title": "PricingOption",
+        "required": [
+          "id",
+          "name",
+          "billing_cycle",
+          "audience",
+          "benefits",
+          "payment_link"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "price": {
+            "title": "Price",
+            "type": "number"
+          },
+          "currency": {
+            "title": "Currency",
+            "type": "string"
+          },
+          "billing_cycle": {
+            "title": "Billing Cycle",
+            "type": "string"
+          },
+          "audience": {
+            "title": "Audience",
+            "type": "string"
+          },
+          "benefits": {
+            "title": "Benefits",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "payment_link": {
+            "title": "Payment Link",
+            "type": "string"
+          }
+        }
+      },
+      "SubscriptionRequiredResponse": {
+        "title": "SubscriptionRequiredResponse",
+        "required": [
+          "detail"
+        ],
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          }
+        }
+      },
+      "TaskStatusResponse": {
+        "title": "TaskStatusResponse",
+        "required": [
+          "session_id",
+          "status",
+          "status_message",
+          "prompt"
+        ],
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "title": "Session Id",
+            "type": "string",
+            "description": "Unique identifier for the session."
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Current status of the task."
+          },
+          "status_message": {
+            "title": "Status Message",
+            "type": "string",
+            "description": "Detailed status message for the task."
+          },
+          "prompt": {
+            "title": "Prompt",
+            "type": "string",
+            "description": "Prompt for the task."
+          },
+          "image": {
+            "title": "Image",
+            "type": "string",
+            "description": "URL for the generated chart image, typically in PNG format. Note that the image will have a watermark unless the user subscribes to one of the paid plans."
+          },
+          "link_to_data": {
+            "title": "Link To Data",
+            "type": "string",
+            "description": "URL for the data (in csv format) on kesem.ai that used to generate the chart"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string",
+            "description": "Source of the task data."
+          },
+          "source_date_updated": {
+            "title": "Source Date Updated",
+            "type": "string",
+            "description": "Date the source data was last updated."
+          },
+          "is_data_artificial": {
+            "title": "Is Data Artificial",
+            "type": "string",
+            "description": "Indicates whether the data for the task is artificial."
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

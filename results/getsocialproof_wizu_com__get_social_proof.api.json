@@ -1,0 +1,158 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Get Social Proof",
+    "description": "Create engaging testimonials, customer stories and case studies using AI-powered interviews.",
+    "contact": {
+      "name": "Get Social Proof",
+      "url": "https://wizu.com",
+      "email": "support@wizu.com"
+    },
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/plugin/invitations": {
+      "get": {
+        "tags": [
+          "ChatGptPlugin"
+        ],
+        "summary": "Gets a list of AI social proof interviews.",
+        "operationId": "GetUrls",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/plugin/invitations/filtered/{name}": {
+      "get": {
+        "tags": [
+          "ChatGptPlugin"
+        ],
+        "summary": "Gets a social proof interview by name.",
+        "operationId": "GetUrlByName",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the social proof interview",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/plugin/invitations/{id}": {
+      "get": {
+        "tags": [
+          "ChatGptPlugin"
+        ],
+        "summary": "Gets a social proof interview by name.",
+        "operationId": "GetUrlById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the social proof interview",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/plugin/stories": {
+      "get": {
+        "tags": [
+          "ChatGptPlugin"
+        ],
+        "summary": "Returns a list of stories and that have been previously collected.  The user can choose to retrieve the transcript or generated content for that story.",
+        "operationId": "GetStories",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/plugin/stories/{id}": {
+      "get": {
+        "tags": [
+          "ChatGptPlugin"
+        ],
+        "summary": "Returns a story including the transcript, that has been previously collected.",
+        "operationId": "GetStory",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Guid Identifier",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/plugin/stories/customers/{name}": {
+      "get": {
+        "tags": [
+          "ChatGptPlugin"
+        ],
+        "summary": "Returns stories (testimonials, customer stories and case studies) for a specific customer by customer name",
+        "operationId": "GetStoryByName",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Customer Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/diagnostics/ping": {
+      "get": {
+        "tags": [
+          "Diagnostics"
+        ],
+        "operationId": "Ping",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  }
+}

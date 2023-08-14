@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  title: Quantum KEM Checker API
+  version: 1.1.0
+  description: This API checks if a given website is using quantum-safe key encapsulation mechanisms. For more information, visit our website at https://freenetworkmonitor.click.
+
+servers:
+  - url: https://srv1.freenetworkmonitor.click
+paths:
+  /Chat/CheckQuantum:
+    post:
+      operationId: checkQuantum
+      summary: Check if the supplied URL is using quantum-safe key encapsulation mechanisms.
+      description: This endpoint checks if the supplied URL is using quantum-safe key encapsulation mechanisms. For more information, visit our website at https://freenetworkmonitor.click.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: The URL to check for quantum-safe key encapsulation mechanisms.
+              required:
+                - url
+      responses:
+        '200':
+          description: The result is returned with the status of the quantum check. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultObj'
+components:
+  schemas:
+    ResultObj: 
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message describing the result of the quantum check.
+        success:
+          type: boolean
+          description: Indicates whether the quantum check was successful.
+        data:
+          type: object
+          description: Contains additional details about the quantum check.
+          properties:
+            setupQuantumMonitor:
+              type: string
+              description: Instructions for setting up a quantum-ready monitor.
+            quantumKeyExchange:
+              type: string
+              description: The quantum key exchange protocol used by the tested URL.
+            testedUrl:
+              type: string
+              description: The URL that was tested for quantum safety.
+            resultSuccess:
+              type: boolean
+              description: Indicates whether the tested URL uses a quantum-safe protocol.
+            resultStatus:
+              type: string
+              description: Describes the status of the quantum safety of the tested URL.
+

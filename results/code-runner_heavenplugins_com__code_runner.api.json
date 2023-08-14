@@ -1,0 +1,282 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Code Runner",
+    "version": "1.0"
+  },
+  "paths": {
+    "/run_code": {
+      "post": {
+        "summary": "Run code",
+        "operationId": "runCode",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Code"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Code output"
+          }
+        }
+      }
+    },
+    "/save_code": {
+      "post": {
+        "summary": "Save code",
+        "operationId": "saveCode",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CodeFile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Code saved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "download_link": {
+                      "type": "string",
+                      "example": "/download/hello_world.cpp"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/download/{filename}": {
+      "get": {
+        "summary": "Download file",
+        "operationId": "downloadFile",
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "hello_world.cpp"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File downloaded"
+          }
+        }
+      }
+    },
+    "/help": {
+      "get": {
+        "summary": "Help",
+        "operationId": "help",
+        "responses": {
+          "200": {
+            "description": "Help",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/credit_limit": {
+      "get": {
+        "summary": "Get Credits limit",
+        "operationId": "creditLimit",
+        "responses": {
+          "200": {
+            "description": "Credits limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload": {
+      "post": {
+        "summary": "Upload file with filename and data",
+        "operationId": "uploadFile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded and saved in database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "download_link": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quick_chart": {
+      "post": {
+        "summary": "Create a quick chart",
+        "operationId": "quickChart",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chart_type",
+                  "labels",
+                  "datasets"
+                ],
+                "properties": {
+                  "chart_type": {
+                    "type": "string",
+                    "description": "The type of the chart."
+                  },
+                  "labels": {
+                    "type": "string",
+                    "description": "The labels for the chart."
+                  },
+                  "datasets": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "label",
+                        "data"
+                      ],
+                      "properties": {
+                        "label": {
+                          "type": "string",
+                          "description": "The label for the dataset."
+                        },
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          },
+                          "description": "The data for the dataset."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Chart created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "chart_link": {
+                        "type": "string",
+                        "description": "The link to the created chart."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Code": {
+        "type": "object",
+        "required": [
+          "code",
+          "language"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The code to be run."
+          },
+          "language": {
+            "type": "string",
+            "description": "The programming language code."
+          }
+        }
+      },
+      "CodeFile": {
+        "type": "object",
+        "required": [
+          "filename",
+          "code"
+        ],
+        "properties": {
+          "filename": {
+            "type": "string",
+            "description": "The name of the file."
+          },
+          "code": {
+            "type": "string",
+            "description": "The code to be saved."
+          }
+        }
+      },
+      "FileData": {
+        "type": "object",
+        "required": [
+          "filename",
+          "data"
+        ],
+        "properties": {
+          "filename": {
+            "type": "string",
+            "description": "The name of the file."
+          },
+          "data": {
+            "type": "string",
+            "description": "The data to be uploaded."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,277 @@
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    SimpleEntry:
+      properties:
+        description:
+          description: Description of the entry.
+          title: Description
+          type: string
+        discount_percent:
+          description: Discount percent for the entry.
+          maximum: 1.0
+          minimum: 0.0
+          title: Discount Percent
+          type: number
+        is_discountable:
+          default: true
+          description: Whether the entry is discountable.
+          title: Is Discountable
+          type: boolean
+        is_taxable:
+          default: true
+          description: Whether the entry is taxable.
+          title: Is Taxable
+          type: boolean
+        quantity:
+          description: Quantity of units.
+          title: Quantity
+          type: number
+        tax_percent:
+          description: Tax percent for the entry.
+          maximum: 1.0
+          minimum: 0.0
+          title: Tax Percent
+          type: number
+        unit_measure:
+          default: n/a
+          description: Unit measure for the entry.
+          title: Unit Measure
+          type: string
+        unit_price:
+          description: Price per unit.
+          title: Unit Price
+          type: number
+      required:
+      - description
+      - unit_price
+      - quantity
+      title: SimpleEntry
+      type: object
+    SimpleInvoice:
+      properties:
+        customer_address:
+          description: (Optional) address of the customer.
+          title: Customer Address
+          type: string
+        customer_email:
+          description: (Optional) email of the customer.
+          title: Customer Email
+          type: string
+        customer_name:
+          description: Name of the customer.
+          title: Customer Name
+          type: string
+        customer_phone:
+          description: (Optional) phone number of the customer.
+          title: Customer Phone
+          type: string
+        date:
+          description: Human-readable issue date of the invoice (default today).
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          title: Date
+          type: string
+        discount_percent:
+          description: User may provide discount percent for the invoice.
+          maximum: 1.0
+          minimum: 0.0
+          title: Discount Percent
+          type: number
+        due_date:
+          description: Human-readable due date of the invoice (default 15 days).
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          title: Due Date
+          type: string
+        entries:
+          description: Entries for the invoice.
+          items:
+            $ref: '#/components/schemas/SimpleEntry'
+          title: Entries
+          type: array
+        gcs_logo_public_link:
+          description: User may provide a URL to a logo to add to invoice.
+          title: Gcs Logo Public Link
+          type: string
+        invoice_number:
+          description: Invoice number (leave blank to automatically assign number)
+          title: Invoice Number
+          type: string
+        labels:
+          default: []
+          description: Custom labels for invoice, such as order number, job number,
+            etc.
+          items:
+            $ref: '#/components/schemas/SimpleInvoiceLabel'
+          title: Labels
+          type: array
+        language:
+          description: Language of invoice (default en)
+          maxLength: 2
+          minLength: 2
+          title: Language
+          type: string
+        notes:
+          default: ''
+          description: User may provide notes for the invoice.
+          title: Notes
+          type: string
+        status:
+          default: Draft
+          description: Status of the invoice.
+          title: Status
+          type: string
+        tax_percent:
+          description: User may provide tax percent for the invoice.
+          maximum: 1.0
+          minimum: 0.0
+          title: Tax Percent
+          type: number
+        vendor_address:
+          description: Address of the vendor.
+          title: Vendor Address
+          type: string
+        vendor_currency:
+          description: Currency code of the vendor (default USD).
+          maxLength: 3
+          minLength: 3
+          title: Vendor Currency
+          type: string
+        vendor_email:
+          description: Email of the vendor.
+          title: Vendor Email
+          type: string
+        vendor_name:
+          description: Name of the vendor.
+          title: Vendor Name
+          type: string
+        vendor_phone:
+          description: (Optional) phone number of the vendor.
+          title: Vendor Phone
+          type: string
+        vendor_registration_ids:
+          default: []
+          description: 'Registration IDs of the vendor (e.g. VAT, GST #, business
+            license IDs, etc).'
+          items:
+            $ref: '#/components/schemas/SimpleRegistrationId'
+          title: Vendor Registration Ids
+          type: array
+      required:
+      - language
+      - entries
+      - discount_percent
+      - tax_percent
+      title: SimpleInvoice
+      type: object
+    SimpleInvoiceLabel:
+      properties:
+        name:
+          description: Name of the invoice label.
+          title: Name
+          type: string
+        value:
+          description: Value of the invoice label.
+          title: Value
+          type: string
+      required:
+      - name
+      - value
+      title: SimpleInvoiceLabel
+      type: object
+    SimpleRegistrationId:
+      properties:
+        name:
+          description: Name of the business registration ID.
+          title: Name
+          type: string
+        value:
+          description: Value of the business registration ID.
+          title: Value
+          type: string
+      required:
+      - name
+      - value
+      title: SimpleRegistrationId
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+info:
+  description: A plugin that allows the user to create an invoice or estimate PDF
+    using ChatGPT.
+  title: Create Invoice Plugin
+  version: v1
+openapi: 3.0.2
+paths:
+  /create_estimate:
+    post:
+      operationId: create_estimate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleInvoice'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Estimate
+  /create_invoice:
+    post:
+      operationId: create_invoice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleInvoice'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Invoice
+servers:
+- url: https://invoice.level2labs.xyz

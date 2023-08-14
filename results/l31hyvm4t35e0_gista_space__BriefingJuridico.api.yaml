@@ -1,0 +1,185 @@
+openapi: 3.0.2
+info:
+  title: Lei Brasileira
+  description: Updates on Brazilian legislation and information about the operation of the Legal Briefing solution.
+  version: 1.0.0
+  servers:
+    - url: https://l31hyvm4t35e0.gista.space
+paths:
+  /plugin/retrieval/query:
+    post:
+      summary: Query
+      description: Accepts search query objects array each with query and optional filter. Break down complex questions into sub-questions. Refine results by criteria, e.g. time / source, don't do this often. Split queries if ResponseTooLargeError occurs.
+      operationId: plugin_retrieval_query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+components:
+  schemas:
+    DocumentChunkMetadata:
+      title: DocumentChunkMetadata
+      type: object
+      required:
+        - source_id
+        - source_name
+        - chunk_index
+      properties:
+        source_id:
+          title: Source ID
+          type: string
+        source_name:
+          title: Source Name
+          type: string
+        url:
+          title: URL
+          type: string
+        timestamp:
+          title: Timestamp
+          type: string
+        author:
+          title: Author
+          type: string
+        row_index:
+          title: Row Index
+          type: integer
+        chunk_index:
+          title: Chunk Index
+          type: integer
+    DocumentChunkWithScore:
+      title: DocumentChunkWithScore
+      required:
+        - text
+        - metadata
+        - score
+      type: object
+      properties:
+        id:
+          title: ID
+          type: string
+        text:
+          title: Text
+          type: string
+        metadata:
+          $ref: "#/components/schemas/DocumentChunkMetadata"
+        embedding:
+          title: Embedding
+          type: array
+          items:
+            type: number
+        score:
+          title: Score
+          type: number
+    DocumentMetadataFilter:
+      title: DocumentMetadataFilter
+      type: object
+      properties:
+        source_id:
+          title: Source ID
+          type: string
+        author:
+          title: Author
+          type: string
+        start_date:
+          title: Start Date
+          type: string
+        end_date:
+          title: End Date
+          type: string
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    Query:
+      title: Query
+      required:
+        - query
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        filter:
+          $ref: "#/components/schemas/DocumentMetadataFilter"
+        top_k:
+          title: Top K
+          type: integer
+          default: 3
+    QueryRequest:
+      title: QueryRequest
+      required:
+        - queries
+      type: object
+      properties:
+        queries:
+          title: Queries
+          type: array
+          items:
+            $ref: "#/components/schemas/Query"
+    QueryResponse:
+      title: QueryResponse
+      required:
+        - results
+      type: object
+      properties:
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: "#/components/schemas/QueryResult"
+    QueryResult:
+      title: QueryResult
+      required:
+        - query
+        - results
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentChunkWithScore"
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

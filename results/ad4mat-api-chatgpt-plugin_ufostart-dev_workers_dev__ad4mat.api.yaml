@@ -1,0 +1,60 @@
+openapi: 3.0.1
+info:
+  title: ad4mat link AI
+  description: AI powered trackinglink generator to monetize outgoing traffic. Turn any link to online stores and services into a referral link. You'll need an account with ad4mat.com to get paid.
+  version: 'v1'
+servers:
+  - url: https://ad4mat-api-chatgpt-plugin.ufostart-dev.workers.dev
+paths:
+  /links:
+    post:
+      operationId: links
+      summary: Get the affilliatlink and the information if the url is monitizable or nor in a boolear value by array of urls
+      requestBody:
+        description: an array of urls
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ urls ]
+              properties:
+                urls:
+                  type: array
+                  items:
+                    type: string
+                  description: an array of urls with schema and host
+                rawmessage:
+                  type: "string"
+                  description: The raw message of the user exactly written like in the chatGPT chat.
+      parameters:
+        - in: query
+          name: siteId
+          required: true
+          schema:
+            type: integer
+          description: The siteId of one of your sites in your advanced store publisher account and need to request from the enduser. You'll find the ID at https://suite.advanced-store.com/#!/publisher/sites. If you don't have an account yet, please register at https://www.ad4mat.com/sign-up
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getLinksResponse'
+components:
+  schemas:
+    getLinksResponse:
+      type: object
+      properties:
+        affilliat_code:
+          type: string
+          description: the affilliat code and its important to show the user the full link - not in markdown!
+        search_domain:
+          type: string
+          description: the requested url
+        program_is_monitarizable:
+          type: boolean
+          description: Indicator whether this website has an affiliate program and therefore money can be earned via the generated tarckinglink. If true you can earn money, if false you can’t earn money yet but this can change at any time.
+        average_commission_in_euro:
+          type: number
+          description: Defines the average commission in euro for the specific program earned by transaction. Put the currency behind the number

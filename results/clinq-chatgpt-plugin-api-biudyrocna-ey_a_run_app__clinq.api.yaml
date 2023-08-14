@@ -1,0 +1,218 @@
+openapi: 3.0.0
+paths:
+  /get-user-info:
+    get:
+      operationId: get-user-info
+      summary: Get the current user
+      description: Gets the current CLINQ user with some useful account information.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: &ref_0
+        - clinq-chat-api
+  /toggle-dnd:
+    put:
+      operationId: toggle-dnd
+      summary: Set the do not disturb status of the user
+      description: >-
+        toggle the do not disturb status of the user. The status can be set to
+        active or inactive. The status can be set to active until a certain
+        date.
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToggleDoNotDisturbRequest'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+  /get-calls:
+    post:
+      operationId: get-calls
+      summary: Get user calls
+      description: >-
+        Get the latest calls the user made. The calls can be queried by date
+        range or by username.
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCallsRequest'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_0
+  /create-call-reminder:
+    post:
+      operationId: create-call-reminder
+      summary: create a reminder for a call a contact at a specific time
+      description: >-
+        Get the latest calls the user made. The calls can be queried by date
+        range or by username.
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCallReminderRequest'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_0
+  /health:
+    get:
+      operationId: HealthController_check
+      parameters: []
+      responses:
+        '200':
+          description: The Health Check is successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  info:
+                    type: object
+                    example: &ref_1
+                      database: &ref_2
+                        status: up
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+                    nullable: true
+                  error:
+                    type: object
+                    example: {}
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+                    nullable: true
+                  details:
+                    type: object
+                    example: *ref_1
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+        '503':
+          description: The Health Check is not successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  info:
+                    type: object
+                    example: *ref_1
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+                    nullable: true
+                  error:
+                    type: object
+                    example:
+                      redis: &ref_3
+                        status: down
+                        message: Could not connect
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+                    nullable: true
+                  details:
+                    type: object
+                    example:
+                      database: *ref_2
+                      redis: *ref_3
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+info:
+  title: CLINQ ChatGPT Plugin API
+  description: ''
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas:
+    ToggleDoNotDisturbRequest:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: The desired do not disturb status
+          example: false
+      required:
+        - enabled
+    GetCallsRequest:
+      type: object
+      properties:
+        startDate:
+          format: date-time
+          type: string
+          description: The start datetime of the query
+          example: '2023-05-23T17:00:00.00Z'
+        endDate:
+          format: date-time
+          type: string
+          description: The end datetime of the query
+          example: '2023-05-23T17:00:00.00Z'
+      required:
+        - startDate
+        - endDate
+    CreateCallReminderRequest:
+      type: object
+      properties:
+        contactName:
+          type: string
+          description: The name of the contact that should be called back
+          example: Müller & Söhne Automobilwerke GmbH & Co. KG
+        phoneNumber:
+          type: string
+          description: The phone number that should be called back
+          example: '0176123456789'
+        date:
+          format: date-time
+          type: string
+          description: The datetime of the reminder
+          example: '2023-05-23T17:00:00.00Z'
+      required:
+        - contactName
+        - phoneNumber
+        - date

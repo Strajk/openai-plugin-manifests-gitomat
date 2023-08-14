@@ -1,0 +1,60 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Outreach AI",
+    "version": "1.0.0",
+    "description": "Generate a personalized email for a prospect to whom you want to reach out to for selling your service."
+  },
+  "paths": {
+    "/gather_email_information": {
+      "get": {
+        "summary": "Get the required information for generating the personalized email.",
+        "operationId": "gatherEmailInformation",
+        "description": "Given a recipient's work email ID and the sender's company information, get back a summary of recipient's company that will help generate the personalized email.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "recipient_email",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Recipient's work email."
+          },
+          {
+            "in": "query",
+            "name": "sender_company_desc",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Description of what the sender's company does."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recipient's company information and sender's company information is retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recipient_company_desc": {
+                      "type": "string"
+                    },
+                    "sender_company_desc": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://fcf85ccb2cb348fe4ade1bd957825f88.preview.pluginlab.ai"
+    }
+  ]
+}

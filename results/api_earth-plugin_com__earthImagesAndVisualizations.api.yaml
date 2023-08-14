@@ -1,0 +1,124 @@
+openapi: 3.0.0
+info:
+  title: Maps API
+  version: 0.1.0
+  description: This is a simple API for generating map images from coordinates.
+  contact:
+    name: Marvin Müller
+    url: https://www.earth-plugin.com
+    email: contact@earth-plugin.com
+servers:
+  - url: https://api.earth-plugin.com
+paths:
+  /map-from-coordinates:
+    post:
+      summary: Generate a map image from coordinates
+      operationId: mapFromCoordinates
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                coordinates:
+                  type: object
+                  properties:
+                    lat:
+                      type: number
+                    long:
+                      type: number
+                zoom:
+                  type: number
+                bearing:
+                  type: number
+                pitch:
+                  type: number
+                style:
+                  type: string
+      responses:
+        '200':
+          description: Image URL along with coordinates and Google Maps link
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imageUrl:
+                    type: string
+                  coordinates:
+                    type: object
+                    properties:
+                      lat:
+                        type: number
+                      long:
+                        type: number
+                  gmaps_link:
+                    type: string
+  /map-from-location:
+    post:
+      summary: Generate a map image from a location string
+      operationId: mapFromLocation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                location:
+                  type: string
+                zoom:
+                  type: number
+                bearing:
+                  type: number
+                pitch:
+                  type: number
+                style:
+                  type: string
+      responses:
+        '200':
+          description: Image URL along with coordinates and Google Maps link
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imageUrl:
+                    type: string
+                  coordinates:
+                    type: object
+                    properties:
+                      lat:
+                        type: number
+                      long:
+                        type: number
+                  gmaps_link:
+                    type: string
+  /get-coordinates:
+    post:
+      summary: Get coordinates from a location string
+      operationId: getCoordinates
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                location:
+                  type: string
+      responses:
+        '200':
+          description: Coordinates and Google Maps link
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  coordinates:
+                    type: object
+                    properties:
+                      lat:
+                        type: number
+                      long:
+                        type: number
+                  gmaps_link:
+                    type: string

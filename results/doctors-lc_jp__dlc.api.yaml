@@ -1,0 +1,246 @@
+openapi: 3.0.1
+info:
+  title: "Doctor's Life Career"
+  description: "Searching Japanese medical doctors' jobs based on your preferences."
+  version: 'v1'
+servers:
+  - url: https://doctors-lc.jp
+paths:
+  /jobs/api/v1/search.php:
+    get:
+      operationId: getSearch
+      summary: Search jobs based on requested parameters.
+      parameters:
+      - in: query
+        name: data
+        schema: 
+          $ref: '#/components/schemas/searchRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchResponse'
+    post:
+      operationId: postSearch
+      summary: Search jobs based on requested parameters.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/searchRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchResponse'
+
+components:
+  schemas:
+    searchRequest:
+      type: object
+      properties:
+        departments:
+          type: array
+          items: 
+            type: int
+          description: |
+            Medical departments for job search. The id mapping is the following:
+             - 0: 一般内科(総合内科)
+             - 1: 消化器内科
+             - 2: 循環器内科
+             - 3: 呼吸器内科
+             - 4: 腫瘍内科
+             - 5: 代謝内科
+             - 6: 内分泌内科
+             - 7: 神経内科
+             - 8: 高血圧内科
+             - 9: 感染症内科
+             - 10: 血液内科
+             - 11: 腎臓内科
+             - 12: 心療内科
+             - 13: 人工透析
+             - 14: リウマチ・膠原病内科
+             - 15: 糖尿病内科
+             - 16: 一般外科
+             - 17: 上部消化管外科
+             - 18: 下部消化管外科
+             - 19: 消化器外科
+             - 20: 肝・胆・膵外科
+             - 21: 呼吸器外科
+             - 22: 乳腺外科
+             - 23: 小児外科
+             - 24: 甲状腺・内分泌外科
+             - 25: 心臓外科
+             - 26: 血管外科
+             - 27: 整形外科
+             - 28: 形成外科
+             - 29: 頭頸部外科
+             - 30: 脳神経外科
+             - 31: 精神科
+             - 32: 小児科
+             - 33: 産婦人科
+             - 34: 産科
+             - 35: 婦人科
+             - 36: 泌尿器科
+             - 37: 眼科
+             - 38: 耳鼻いんこう科
+             - 39: 皮膚科
+             - 40: リハビリテーション科
+             - 41: 救急科
+             - 42: 内視鏡科
+             - 43: 放射線科
+             - 44: 訪問診療
+             - 45: 臨床検査科
+             - 46: 病理診断科
+             - 47: 麻酔科
+             - 48: 緩和ケア
+             - 49: ペインクリニック
+             - 50: その他
+             - 51: 総合診療科
+             - 52: 健診・ドック
+          required: false
+        prefectures:
+          type: array
+          items: 
+            type: int
+          description: |
+            Prefectures in Japan. The IDs correspond to as the following:
+             - 1: 北海道
+             - 2: 青森県
+             - 3: 岩手県
+             - 4: 宮城県
+             - 5: 秋田県
+             - 6: 山形県
+             - 7: 福島県
+             - 8: 茨城県
+             - 9: 栃木県
+             - 10: 群馬県
+             - 11: 埼玉県
+             - 12: 千葉県
+             - 13: 東京都
+             - 14: 神奈川県
+             - 15: 新潟県
+             - 16: 富山県
+             - 17: 石川県
+             - 18: 福井県
+             - 19: 山梨県
+             - 20: 長野県
+             - 21: 岐阜県
+             - 22: 静岡県
+             - 23: 愛知県
+             - 24: 三重県
+             - 25: 滋賀県
+             - 26: 京都府
+             - 27: 大阪府
+             - 28: 兵庫県
+             - 29: 奈良県
+             - 30: 和歌山県
+             - 31: 鳥取県
+             - 32: 島根県
+             - 33: 岡山県
+             - 34: 広島県
+             - 35: 山口県
+             - 36: 徳島県
+             - 37: 香川県
+             - 38: 愛媛県
+             - 39: 高知県
+             - 40: 福岡県
+             - 41: 佐賀県
+             - 42: 長崎県
+             - 43: 熊本県
+             - 44: 大分県
+             - 45: 宮崎県
+             - 46: 鹿児島県
+             - 47: 沖縄県
+          required: false
+        working_days:
+          type: array
+          items: 
+            type: int
+          description: |
+            Working days condition for searching jobs. Each id corresponds to the following rule:
+             - 1: 常勤(週3日間)
+             - 2: 常勤(週3.5日)
+             - 3: 常勤(週4.0日)
+             - 4: 常勤(週5.0日)
+             - 5: 常勤(週5.5日)
+             - 11: 非常勤(月曜日)
+             - 12: 非常勤(火曜日)
+             - 13: 非常勤(水曜日)
+             - 14: 非常勤(木曜日)
+             - 15: 非常勤(金曜日)
+             - 16: 非常勤(土曜日)
+             - 17: 非常勤(日曜日)
+          required: false
+        working_hours_part:
+          type: array
+          items: 
+            type: int
+          description: |
+            Working hour conditions for searching jobs. This condition can be set if working days are not specified or "非常勤" is selected at least once.
+            IDs correspond as the following:
+             - 1: 日勤(全日)
+             - 2: 日勤(午前のみ)
+             - 3: 日勤(午後のみ)
+             - 4: 夕・夜診
+             - 5: 当直
+             - 6: 日直
+             - 7: 日当直
+          required: false
+        wage_fulltime:
+          type: array
+          items: 
+            type: int
+          description: |
+            Wage condition for searching for jobs. This condition can be set if working days are not specified or "常勤" is selected at least once.
+            IDs correspond as the following:
+             - 0: 指定しない
+             - 1: 800万円以上
+             - 2: 1000万円以上
+             - 3: 1200万円以上
+             - 4: 1400万円以上
+             - 5: 1600万円以上
+             - 6: 1800万円以上
+             - 7: 2000万円以上
+          required: false
+    searchResponse:
+      type: object
+      properties:
+        search_results:
+          type: array
+          items:
+            type: object
+            properties:
+              working_type:
+                type: string
+                description: \"常勤/非常勤\". This specifies the job type in terms of a full-time job or part-time job.
+              prefecture:
+                type: string
+                description: \"都道府県\". This means which of prefectures this job requires of the applicants.
+              department:
+                type: string
+                description: \"募集科目\". This means which of the medical departments this job requests.
+              wage:
+                type: string
+                description: \"給与・賞与\". Wage of this job.
+              working_days:
+                type: string
+                description: \"勤務日\". Days of working of this job.
+              working_hours:
+                type: string
+                description: \"勤務時間\". Working hours of this job.
+              descriptions:
+                type: string
+                description: \"職務・業務内容\". Job descriptions.
+              url:
+                type: string
+                description: URL of this job. It must always appear for responses to users.
+              note:
+                type: string
+                description: Note for users.

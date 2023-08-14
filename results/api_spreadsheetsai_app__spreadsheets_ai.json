@@ -1,0 +1,39 @@
+{
+  "id": "plugin-6ba7689d-207a-4ea3-b496-299cea06ea04",
+  "domain": "api.spreadsheetsai.app",
+  "namespace": "spreadsheets_ai",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "spreadsheets_ai",
+    "name_for_human": "A Spreadsheet Pal",
+    "description_for_model": "Perform analysis on databases and spreadsheets.",
+    "description_for_human": "Effortlessly converse with spreadsheets; use commands to analyze, filter, or visualize your data.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://chatwithyourdata.us.auth0.com/authorize",
+      "scope": "openid profile email offline_access",
+      "authorization_url": "https://chatwithyourdata.us.auth0.com/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "2e3b4143220f442eb3d408a05d7c7de6"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://api.spreadsheetsai.app/openapi.yaml"
+    },
+    "logo_url": "https://api.spreadsheetsai.app/logo.png",
+    "contact_email": "team@julius.ai",
+    "legal_info_url": "https://spreadsheetsai.app/tos"
+  },
+  "oauth_client_id": "70vLEWpfjCVn1S2hRLm5OT3dhvCDDOTq",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-14T11:22:40.699Z"
+}

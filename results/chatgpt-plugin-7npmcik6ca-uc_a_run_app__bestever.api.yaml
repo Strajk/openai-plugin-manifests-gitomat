@@ -1,0 +1,107 @@
+openapi: "3.0.1"
+info:
+  title: Bestever
+  description: Bestever converts your product references into captivating image ads. Our AI scripts, polishes your visuals, and generates amazing results!
+  version: "0.1"
+servers:
+  - url: https://chatgpt-plugin-7npmcik6ca-uc.a.run.app
+paths:
+  /suggestions:
+    post:
+      summary: Get suggestions for the plugin
+      operationId: suggestions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                suggestion:
+                  type: string
+                  description: The suggestion given by the user, for later reference by the developers
+      responses:
+        '204':
+          description: No Content
+  /fetch:
+    post:
+      summary: Search for ad data from a product, preferably from amazon. This will return a list of images that the user can choose from to create an ad. If fetching of the product fails or takes time, suggest to the user that they can give us their own image link, product name and product description instead. 
+      operationId: fetch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: The product page URL. A product listing should be provided here, amazon is preferred. But others might be supported in the future.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchResponse'
+  /generate:
+    post:
+       summary: Generate a new ad, or retry if previous request fails or doesn't meet user's quality requirements. If they are not happy with the results, they can provide their own image, product name and product description along with the project_id for better quality results.
+       operationId: newAd
+       requestBody:
+         required: true
+         content:
+           application/json:
+             schema:
+              $ref: '#/components/schemas/StartProjectGeneration'
+       responses:
+         '200':
+           description: OK
+           content:
+             application/json:
+               schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: Generated image ad url
+                  hint:
+                    type: string
+                    description: A hint to the user on how to improve the generated ad
+components:
+  schemas:
+    FetchedAssetSummary:
+      type: object
+      properties:
+        image_url:
+          type: string
+          description: The url of the image
+        asset_id:
+          type: string
+          description: The id of the image, to be used as reference when the user chooses which he wants to use
+    FetchResponse:
+      type: object
+      properties:
+        image_choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/FetchedAssetSummary'
+          description: A list of images the user must choose from in order to create an ad. Currently, only one can be chosen
+    StartProjectGeneration:
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: The project UUID of project generated from the /fetch call, must be provided in all cases
+        chosen_asset_id:
+          type: string
+          description: The asset UUID chosen by the user from the list of images shown to the user from the previous step. This must only be one that they choose, or empty uuid if the user provided their own image
+        product_name:
+          type: string
+          description: If the user is disatisfied with the fetching and provided their own product name, this will be the product name they provided. This is optional if they prpovide it, or else it will be empty.
+        product_description:
+          type: string
+          description: If the user is disatisfied with the fetching and provided their own product description, this will be the product description they provided. This is optional if they prpovide it, or else it will be empty.
+        image_url:
+          type: string
+          description: The url of the image provided by the user if they provided their own image

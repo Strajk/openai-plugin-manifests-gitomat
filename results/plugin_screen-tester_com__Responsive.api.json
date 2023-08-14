@@ -1,0 +1,142 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Responsive plugin",
+    "description": "A plugin that allows the user to take screenshots of a website on one or several browsers and devices",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/screen": {
+      "post": {
+        "operationId": "takeScreenshots",
+        "summary": "take one or several screenshots",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "The url of the website to screenshot"
+                  },
+                  "devices": {
+                    "type": "array",
+                    "description": "The different devices/browsers to use",
+                    "items": {
+                      "type": "string",
+                      "description": "all the requested devices to choose from android, iphone, chrome, edge, firefox, safari, tablet. Use all parameter for all devices",
+                      "enum": [
+                        "all",
+                        "android",
+                        "iphone",
+                        "chrome",
+                        "edge",
+                        "firefox",
+                        "safari",
+                        "tablet"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created the screenshots.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "android": {
+                      "type": "string",
+                      "description": "The android screenshot url"
+                    },
+                    "iphone": {
+                      "type": "string",
+                      "description": "The iphone screenshot url"
+                    },
+                    "chrome": {
+                      "type": "string",
+                      "description": "The chrome screenshot url"
+                    },
+                    "edge": {
+                      "type": "string",
+                      "description": "The edge screenshot url"
+                    },
+                    "firefox": {
+                      "type": "string",
+                      "description": "The firefox screenshot url"
+                    },
+                    "safari": {
+                      "type": "string",
+                      "description": "The safari screenshot url"
+                    },
+                    "tablet": {
+                      "type": "string",
+                      "description": "The tablet screenshot url"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://plugin.screen-tester.com"
+    }
+  ]
+}

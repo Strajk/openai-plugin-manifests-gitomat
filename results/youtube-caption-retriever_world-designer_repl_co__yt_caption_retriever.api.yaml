@@ -1,0 +1,102 @@
+openapi: 3.0.1
+info:
+  title: YT Caption Retriever
+  description: A plugin that retrieves captions from YouTube videos.
+  version: 'v1'
+servers:
+  - url: https://youtube-caption-retriever.world-designer.repl.co
+paths:
+  /captions:
+    get:
+      operationId: fetchCaptions
+      summary: Get the captions for a YouTube video in various languages
+      parameters:
+        - name: url
+          in: query
+          description: The URL of the YouTube video
+          required: true
+          schema:
+            type: string
+        - name: format
+          in: query
+          description: The format to return the captions in ('srt' or 'text')
+          required: false
+          schema:
+            type: string
+            default: text
+            enum: [srt, text]
+        - name: type
+          in: query
+          description: The type of transcript to fetch ('auto' or 'manual')
+          required: false
+          schema:
+            type: string
+            default: manual
+            enum: [auto, manual]
+        - name: lang
+          in: query
+          description: The language code for the captions
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fetchCaptionsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+  /available_languages:
+    get:
+      operationId: fetchAvailableLanguages
+      summary: Get the available languages for a YouTube video's captions
+      parameters:
+        - name: url
+          in: query
+          description: The URL of the YouTube video
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fetchAvailableLanguagesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+components:
+  schemas:
+    fetchCaptionsResponse:
+      type: object
+      properties:
+        captions:
+          type: object
+          additionalProperties:
+            type: string
+          description: The captions of the YouTube video
+    fetchAvailableLanguagesResponse:
+      type: object
+      properties:
+        available_languages:
+          type: array
+          items:
+            type: string
+          description: The available languages for the YouTube video's captions
+    errorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: An error message describing the issue

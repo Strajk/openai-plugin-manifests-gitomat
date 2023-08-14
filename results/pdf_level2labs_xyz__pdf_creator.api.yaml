@@ -1,0 +1,151 @@
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    Markdown2PdfRequest:
+      properties:
+        camelcase_filename:
+          default: Untitled
+          description: 'Mandatory: suggested CamelCase filename. Do NOT include file
+            extension.'
+          title: Camelcase Filename
+          type: string
+        formatted_markdown:
+          default: ''
+          title: Formatted Markdown
+          type: string
+      title: Markdown2PdfRequest
+      type: object
+    Markdown2ResumeRequest:
+      properties:
+        camelcase_filename:
+          default: Untitled
+          description: 'Mandatory: suggested CamelCase filename. Do NOT include file
+            extension.'
+          title: Camelcase Filename
+          type: string
+        formatted_markdown:
+          default: ''
+          description: Formatted markdown text for the resume. Do NOT include any
+            of the above information (name, email, phone, location, website url) here;
+            they should be directly placed via their respective fields. When using
+            acronyms, ensure to write out the full term as well. For example, instead
+            of writing 'SEO', write 'Search Engine Optimization (SEO)'.
+          title: Formatted Markdown
+          type: string
+        resume_field_email:
+          description: 'Optional: Personal email to be placed directly into the resume/cv.
+            If supplied, do NOT include it in the formatted_markdown field.'
+          title: Resume Field Email
+          type: string
+        resume_field_location:
+          description: 'Optional: Location to be placed directly into the resume/cv.
+            If supplied, do NOT include it in the formatted_markdown field.'
+          title: Resume Field Location
+          type: string
+        resume_field_name:
+          default: ''
+          description: 'Mandatory: Personal name to be placed directly into the resume/cv.
+            Do NOT include it in the formatted_markdown field.'
+          title: Resume Field Name
+          type: string
+        resume_field_phone:
+          description: 'Optional: Phone number to be placed directly into the resume/cv.
+            If supplied, do NOT include it in the formatted_markdown field.'
+          title: Resume Field Phone
+          type: string
+        resume_field_website_url:
+          description: 'Optional: Website URL to be placed directly into the resume/cv.
+            If supplied, do NOT include it in the formatted_markdown field.'
+          title: Resume Field Website Url
+          type: string
+      title: Markdown2ResumeRequest
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+info:
+  description: A plugin that allows the user to create an PDF using ChatGPT.
+  title: Create PDF Plugin
+  version: v1
+openapi: 3.0.2
+paths:
+  /create_pdf_v2:
+    post:
+      operationId: create_pdf_v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Markdown2PdfRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                title: Response Create Pdf V2 Create Pdf V2 Post
+                type: object
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Pdf V2
+  /create_resume_v2:
+    post:
+      operationId: create_resume_v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Markdown2ResumeRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                title: Response Create Resume V2 Create Resume V2 Post
+                type: object
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Resume V2
+servers:
+- url: https://pdf.level2labs.xyz

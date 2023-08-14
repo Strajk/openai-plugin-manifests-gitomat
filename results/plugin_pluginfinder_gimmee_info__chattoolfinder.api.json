@@ -1,0 +1,154 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Plugin.PluginFinder.Gimmee.io",
+    "version": "1.0"
+  },
+  "paths": {
+    "/Categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "operationId": "GetPluginCategories",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PluginFinder": {
+      "get": {
+        "tags": [
+          "PluginFinder"
+        ],
+        "operationId": "GetPlugins",
+        "parameters": [
+          {
+            "name": "searchType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/SearchType"
+            }
+          },
+          {
+            "name": "toSearchFor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PluginInfo"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PluginInfo"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PluginInfo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PluginInfo": {
+        "type": "object",
+        "properties": {
+          "logoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "promptExample": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetAudience": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchType": {
+        "enum": [
+          "Name",
+          "Category",
+          "Description"
+        ],
+        "type": "string"
+      }
+    }
+  }
+}

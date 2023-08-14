@@ -1,0 +1,76 @@
+openapi: 3.0.2
+info:
+  title: Lingo
+  description: A helpful plugin to search among all Japanese's shopping platforms using ChatGPT. You have to find out what are they need, ask them question to make sure what do they want to buy. Then call Lingo in their native language together with needs translated into japanese.
+  version: 1.0.4
+  servers:
+    - url: https://lingo.wandougongzhu.cn
+paths:
+  /api/plugin:
+    post:
+      summary: Query
+      description: Accepts a search query and returns a list of items.
+      operationId: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResponse"
+components:
+  schemas:
+    Goods:
+      title: Goods
+      required:
+        - id
+        - name
+        - price
+        - link
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        name:
+          title: Name
+          type: string
+        price:
+          title: Price
+          type: number
+        link:
+          title: Link
+          type: string
+          description: goods hyperlink to view detail of goods
+    QueryRequest:
+      title: Query
+      required:
+          - query
+          - query_jp
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        query_jp:
+          title: QueryInJapanese
+          type: string
+          description: query translated into japanese
+    QueryResponse:
+      title: QueryResponse
+      required:
+        - results
+      type: object
+      properties:
+        results:
+          title: Results
+          description: The list of searched goods
+          type: array
+          items:
+            $ref: "#/components/schemas/Goods"

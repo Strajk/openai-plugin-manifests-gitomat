@@ -1,0 +1,137 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox ImageGen",
+    "description": "The plugin enables users to express their ideas, generate optimized prompts for AI image generation platforms, and directly create AI pictures with DALL·E 2.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://imagegen.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/image_gen": {
+      "get": {
+        "summary": "After users express their ideas, the plugin generates optimized prompts to integrate with AI image-generation platforms and creates a link that connects users to the DALL·E 2 generation platform.",
+        "description": "The plugin transforms inputs into prompts, specifically optimized for AI image generation, and generates a link that connects users to the DALL·E 2 generation platform. ",
+        "operationId": "imageGeneration",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Description of the image, do not contain space in query",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "string",
+              "default": "3"
+            },
+            "description": "The upper bound of prompts count",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "get_image",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "description": "Indicates if urls should be included in the response",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "is_wallpaper",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Indicates if mobile wallpapers should be generated",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "model_type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "anime",
+                "realistic",
+                "landscape",
+                "fantasy",
+                "artistic"
+              ],
+              "default": "realistic"
+            },
+            "description": "Indicates the style of the model used in generating the images",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageGenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ImageGenResponse": {
+        "title": "ImageGenResponse",
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Generated prompts or images",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageGenItem"
+            },
+            "description": "Generated prompts or images based on descriptions."
+          },
+          "rules": {
+            "$ref": "#/components/schemas/Rules"
+          }
+        }
+      },
+      "ImageGenItem": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "title": "Prompt for the image generation model",
+            "type": "string"
+          },
+          "url": {
+            "title": "A clickable link on a webpage, not a link to an image. This website will generate the image.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "Rules": {
+        "title": "The array of rules which recommend gpt to follow.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "The array of rules which recommend gpt to follow."
+      }
+    }
+  }
+}

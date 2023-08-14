@@ -1,0 +1,103 @@
+openapi: 3.0.1
+info:
+  title: Mpc Wallet Plugin
+  description: A plugin that allows the user to query web3 information by mpc wallet using ChatGPT
+  version: 'v1'
+servers:
+  - url: https://mpcwalletplugin.mpcbot.ai/
+  #- url: https://chatgpt-plugin.paths.finance/
+paths:
+  /api/getBalance:
+    get:
+      operationId: get_balance
+      summary: Query Address Balance
+      description: Query the balance of the address on each chain
+      parameters:
+        - in: query
+          name: address
+          description: The address of the account to query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the balance of the address on each chain
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressBalanceResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/getTopNUsersForLayer0:
+    get:
+      operationId: get_top_n_users_for_layer0
+      summary: Query top n users for layer zero
+      description: Query top n users for layer zero
+      parameters:
+        - in: query
+          name: top_num
+          description: The scope number
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns top n users for layer zero
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Top10UsersForLayerResponse'
+        '500':
+          description: Error fetching data from API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    AddressBalanceResponse:
+      type: object
+      properties:
+        eth:
+          type: string
+        bnb:
+          type: string
+        ht:
+          type: string
+        ethf:
+          type: string
+        ethw:
+          type: string
+    Top10UsersForLayerResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          ranking:
+            type: integer
+          userAddress:
+            type: string
+          rankScore:
+            type: integer
+          transactionCount:
+            type: integer
+          amountUsd:
+            type: number
+          sourceDestChainAndContractCount:
+            type: string
+          dayWeekMonth:
+            type: string
+          lzAgeDays:
+            type: integer
+          initialBlockTime:
+            type: string
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string

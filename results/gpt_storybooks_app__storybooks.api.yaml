@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  title: Storybooks
+  description: Helps users create illustrated bedtime stories.
+  version: 'v1'
+servers:
+  - url: https://gpt.storybooks.app
+paths:
+  /createStory:
+    post:
+      operationId: createStory
+      summary: Create a bedtime story
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createStoryRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createStoryResponse'
+
+components:
+  schemas:
+    createStoryResponse:
+      type: object
+      properties:
+        storydata:
+          type: object
+          items:
+            type: string
+          description: The story data for the requested story.
+    createStoryRequest:
+      type: object
+      required:
+      - prompt
+      properties:
+        prompt:
+          type: string
+          description: The prompt of the bedtime story.
+          required: true

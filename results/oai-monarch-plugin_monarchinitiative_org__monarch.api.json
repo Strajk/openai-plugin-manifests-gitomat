@@ -1,0 +1,1203 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/.well-known/ai-plugin.json": {
+      "get": {
+        "summary": "Get Ai Plugin",
+        "operationId": "get_ai_plugin__well_known_ai_plugin_json_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "summary": "Search for entities in the Monarch knowledge graph",
+        "description": "Search for entities in the Monarch knowledge graph",
+        "operationId": "search_entity",
+        "parameters": [
+          {
+            "description": "The ontology term to search for.",
+            "required": true,
+            "schema": {
+              "title": "Term",
+              "type": "string",
+              "description": "The ontology term to search for."
+            },
+            "name": "term",
+            "in": "query"
+          },
+          {
+            "description": "A single category to search within as a string. Valid categories are: biolink:Disease, biolink:PhenotypicQuality, and biolink:Gene",
+            "required": false,
+            "schema": {
+              "title": "Category",
+              "type": "string",
+              "description": "A single category to search within as a string. Valid categories are: biolink:Disease, biolink:PhenotypicQuality, and biolink:Gene",
+              "default": "biolink:Disease"
+            },
+            "example": "biolink:Disease",
+            "name": "category",
+            "in": "query"
+          },
+          {
+            "description": "The maximum number of search results to return.",
+            "required": false,
+            "schema": {
+              "title": "Limit",
+              "type": "integer",
+              "description": "The maximum number of search results to return.",
+              "default": 10
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "description": "Offset for pagination of results",
+            "required": false,
+            "schema": {
+              "title": "Offset",
+              "type": "integer",
+              "description": "Offset for pagination of results",
+              "default": 0
+            },
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results for the given ontology term",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResultItems"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/phenotype-profile-search": {
+      "get": {
+        "summary": "Allows fuzzy-matching of genes and/or diseases to each other. The input is provided as a list of genes and/or diseases from which associated phenotypes will be extracted and unioned.",
+        "description": "Semantic similarity search, or fuzzy search, between genes and/or diseases.",
+        "operationId": "search_phenotype_profiles",
+        "parameters": [
+          {
+            "description": "The ontology identifiers to search for as a list of gene and/or disease IDs.",
+            "required": true,
+            "schema": {
+              "title": "Ids",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The ontology identifiers to search for as a list of gene and/or disease IDs."
+            },
+            "name": "ids",
+            "in": "query"
+          },
+          {
+            "description": "The maximum number of search results to return.",
+            "required": false,
+            "schema": {
+              "title": "Limit",
+              "type": "integer",
+              "description": "The maximum number of search results to return.",
+              "default": 10
+            },
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results as an array of MatchItem objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchItems"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entity": {
+      "get": {
+        "summary": "Returns information on entities such as name, description, synonyms, categories, and counts of associations to other entities of different types.",
+        "description": "Get information about arbitrary entities by identifier, e.g. MONDO:0005737, HP:0002721, HGNC:1884.",
+        "operationId": "get_entities",
+        "parameters": [
+          {
+            "description": "List of entity ids",
+            "required": true,
+            "schema": {
+              "title": "Ids",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of entity ids"
+            },
+            "name": "ids",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of entity descriptors.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Entities",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Entity"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/disease-genes": {
+      "get": {
+        "summary": "Get a list of genes associated with a disease",
+        "description": "Get a list of genes associated with a disease",
+        "operationId": "get_disease_gene_associations",
+        "parameters": [
+          {
+            "description": "The ontology identifier of the disease.",
+            "required": true,
+            "schema": {
+              "title": "Disease Id",
+              "type": "string",
+              "description": "The ontology identifier of the disease."
+            },
+            "example": "MONDO:0009061",
+            "name": "disease_id",
+            "in": "query"
+          },
+          {
+            "description": "The maximum number of associations to return.",
+            "required": false,
+            "schema": {
+              "title": "Limit",
+              "type": "integer",
+              "description": "The maximum number of associations to return.",
+              "default": 10
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "description": "Offset for pagination of results",
+            "required": false,
+            "schema": {
+              "title": "Offset",
+              "type": "integer",
+              "description": "Offset for pagination of results",
+              "default": 0
+            },
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A GeneAssociations object containing a list of GeneAssociation objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneAssociations"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/disease-phenotypes": {
+      "get": {
+        "summary": "Get a list of phenotypes associated with a disease",
+        "description": "Get a list of phenotypes associated with a disease",
+        "operationId": "get_disease_phenotype_associations",
+        "parameters": [
+          {
+            "description": "The ontology identifier of the disease.",
+            "required": true,
+            "schema": {
+              "title": "Disease Id",
+              "type": "string",
+              "description": "The ontology identifier of the disease."
+            },
+            "example": "MONDO:0009061",
+            "name": "disease_id",
+            "in": "query"
+          },
+          {
+            "description": "The maximum number of associations to return.",
+            "required": false,
+            "schema": {
+              "title": "Limit",
+              "type": "integer",
+              "description": "The maximum number of associations to return.",
+              "default": 10
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "description": "Offset for pagination of results.",
+            "required": false,
+            "schema": {
+              "title": "Offset",
+              "type": "integer",
+              "description": "Offset for pagination of results.",
+              "default": 0
+            },
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A PhenotypeAssociations object containing a list of PhenotypeAssociation objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhenotypeAssociations"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gene-diseases": {
+      "get": {
+        "summary": "Get a list of diseases associated with a gene",
+        "description": "Get a list of diseases associated with a gene",
+        "operationId": "get_gene_disease_associations",
+        "parameters": [
+          {
+            "description": "The identifier of the gene.",
+            "required": true,
+            "schema": {
+              "title": "Gene Id",
+              "type": "string",
+              "description": "The identifier of the gene."
+            },
+            "example": "HGNC:1884",
+            "name": "gene_id",
+            "in": "query"
+          },
+          {
+            "description": "The maximum number of associations to return.",
+            "required": false,
+            "schema": {
+              "title": "Limit",
+              "type": "integer",
+              "description": "The maximum number of associations to return.",
+              "default": 10
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "description": "Offset for pagination of results",
+            "required": false,
+            "schema": {
+              "title": "Offset",
+              "type": "integer",
+              "description": "Offset for pagination of results",
+              "default": 0
+            },
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A DiseaseAssociations object containing a list of DiseaseAssociation objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiseaseAssociations"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gene-phenotypes": {
+      "get": {
+        "summary": "Get a list of phenotypes associated with a gene",
+        "description": "Get a list of phenotypes associated with a gene",
+        "operationId": "get_gene_phenotype_associations",
+        "parameters": [
+          {
+            "description": "The ontology identifier of the gene.",
+            "required": true,
+            "schema": {
+              "title": "Gene Id",
+              "type": "string",
+              "description": "The ontology identifier of the gene."
+            },
+            "example": "HGNC:1884",
+            "name": "gene_id",
+            "in": "query"
+          },
+          {
+            "description": "The maximum number of associations to return.",
+            "required": false,
+            "schema": {
+              "title": "Limit",
+              "type": "integer",
+              "description": "The maximum number of associations to return.",
+              "default": 10
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "description": "Offset for pagination of results",
+            "required": false,
+            "schema": {
+              "title": "Offset",
+              "type": "integer",
+              "description": "Offset for pagination of results",
+              "default": 0
+            },
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A PhenotypeAssociations object containing a list of PhenotypeAssociation objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhenotypeAssociations"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/phenotype-diseases": {
+      "get": {
+        "summary": "Get a list of diseases associated with a phenotype",
+        "description": "Get a list of diseases associated with a phenotype",
+        "operationId": "get_phenotype_disease_associations",
+        "parameters": [
+          {
+            "description": "The ontology identifier of the phenotype.",
+            "required": true,
+            "schema": {
+              "title": "Phenotype Id",
+              "type": "string",
+              "description": "The ontology identifier of the phenotype."
+            },
+            "example": "HP:0002721",
+            "name": "phenotype_id",
+            "in": "query"
+          },
+          {
+            "description": "The maximum number of associations to return.",
+            "required": false,
+            "schema": {
+              "title": "Limit",
+              "type": "integer",
+              "description": "The maximum number of associations to return.",
+              "default": 10
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "description": "Offset for pagination of results",
+            "required": false,
+            "schema": {
+              "title": "Offset",
+              "type": "integer",
+              "description": "Offset for pagination of results",
+              "default": 0
+            },
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A DiseaseAssociations object containing a list of DiseaseAssociation objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiseaseAssociations"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/phenotype-genes": {
+      "get": {
+        "summary": "Get a list of genes associated with a phenotype",
+        "description": "Get a list of genes associated with a phenotype",
+        "operationId": "get_phenotype_gene_associations",
+        "parameters": [
+          {
+            "description": "The ontology identifier of the phenotype.",
+            "required": true,
+            "schema": {
+              "title": "Phenotype Id",
+              "type": "string",
+              "description": "The ontology identifier of the phenotype."
+            },
+            "example": "HP:0002721",
+            "name": "phenotype_id",
+            "in": "query"
+          },
+          {
+            "description": "The maximum number of associations to return.",
+            "required": false,
+            "schema": {
+              "title": "Limit",
+              "type": "integer",
+              "description": "The maximum number of associations to return.",
+              "default": 10
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "description": "Offset for pagination of results",
+            "required": false,
+            "schema": {
+              "title": "Offset",
+              "type": "integer",
+              "description": "Offset for pagination of results",
+              "default": 1
+            },
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A GeneAssociations object containing a list of GeneAssociation objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneAssociations"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AssociationCount": {
+        "title": "AssociationCount",
+        "required": [
+          "label",
+          "count"
+        ],
+        "type": "object",
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string",
+            "description": "The type of the associations (e.g. Disease or Gene)",
+            "example": "Causal"
+          },
+          "count": {
+            "title": "Count",
+            "type": "integer",
+            "description": "The number of associations of that type."
+          }
+        }
+      },
+      "Disease": {
+        "title": "Disease",
+        "required": [
+          "disease_id",
+          "label"
+        ],
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Other metadata associaciated with the entity or association.",
+            "default": {}
+          },
+          "publications": {
+            "title": "Publications",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": "List of related publications and associated metadata.",
+            "default": []
+          },
+          "disease_id": {
+            "title": "Disease Id",
+            "type": "string",
+            "description": "The ontology identifier of the disease.",
+            "example": "MONDO:0009061"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string",
+            "description": "The human-readable label of the disease.",
+            "example": "cystic fibrosis"
+          }
+        }
+      },
+      "DiseaseAssociation": {
+        "title": "DiseaseAssociation",
+        "required": [
+          "disease"
+        ],
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Other metadata associaciated with the entity or association.",
+            "default": {}
+          },
+          "publications": {
+            "title": "Publications",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": "List of related publications and associated metadata.",
+            "default": []
+          },
+          "disease": {
+            "title": "Disease",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Disease"
+              }
+            ],
+            "description": "The Disease object."
+          },
+          "type": {
+            "title": "Type",
+            "type": "string",
+            "description": "The type of the association (causal or correlated)."
+          }
+        }
+      },
+      "DiseaseAssociations": {
+        "title": "DiseaseAssociations",
+        "required": [
+          "associations",
+          "total",
+          "disease_url_template"
+        ],
+        "type": "object",
+        "properties": {
+          "associations": {
+            "title": "Associations",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DiseaseAssociation"
+            },
+            "description": "The list of DiseaseAssociation objects."
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer",
+            "description": "The total number of disease associations available."
+          },
+          "disease_url_template": {
+            "title": "Disease Url Template",
+            "type": "string",
+            "description": "URL template for constructing links to the Monarch Initiative website.",
+            "example": "https://monarchinitiative.org/disease/{disease_id}"
+          }
+        }
+      },
+      "Entity": {
+        "title": "Entity",
+        "required": [
+          "id",
+          "category",
+          "synonym",
+          "association_counts"
+        ],
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Other metadata associaciated with the entity or association.",
+            "default": {}
+          },
+          "publications": {
+            "title": "Publications",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": "List of related publications and associated metadata.",
+            "default": []
+          },
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "The ontology identifier of the entity.",
+            "example": "MONDO:0009061"
+          },
+          "category": {
+            "title": "Category",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The categories of the entity.",
+            "example": [
+              "biolink:Disease"
+            ]
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "description": "The human-readable label of the entity.",
+            "example": "cystic fibrosis"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "The description of the entity."
+          },
+          "symbol": {
+            "title": "Symbol",
+            "type": "string",
+            "description": "The symbol of the entity, usually a short name like FBN1."
+          },
+          "synonym": {
+            "title": "Synonym",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The synonyms of the entity."
+          },
+          "association_counts": {
+            "title": "Association Counts",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociationCount"
+            },
+            "description": "Counts of associations between this entity and other entities of different types."
+          }
+        }
+      },
+      "Gene": {
+        "title": "Gene",
+        "required": [
+          "gene_id",
+          "label"
+        ],
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Other metadata associaciated with the entity or association.",
+            "default": {}
+          },
+          "publications": {
+            "title": "Publications",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": "List of related publications and associated metadata.",
+            "default": []
+          },
+          "gene_id": {
+            "title": "Gene Id",
+            "type": "string",
+            "description": "The ontology identifier of the gene.",
+            "example": "HGNC:1884"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string",
+            "description": "The human-readable label of the gene.",
+            "example": "CFTR"
+          }
+        }
+      },
+      "GeneAssociation": {
+        "title": "GeneAssociation",
+        "required": [
+          "gene"
+        ],
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Other metadata associaciated with the entity or association.",
+            "default": {}
+          },
+          "publications": {
+            "title": "Publications",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": "List of related publications and associated metadata.",
+            "default": []
+          },
+          "gene": {
+            "$ref": "#/components/schemas/Gene"
+          }
+        }
+      },
+      "GeneAssociations": {
+        "title": "GeneAssociations",
+        "required": [
+          "associations",
+          "total",
+          "gene_url_template"
+        ],
+        "type": "object",
+        "properties": {
+          "associations": {
+            "title": "Associations",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GeneAssociation"
+            },
+            "description": "The list of GeneAssociation objects."
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer",
+            "description": "The total number of gene associations available."
+          },
+          "gene_url_template": {
+            "title": "Gene Url Template",
+            "type": "string",
+            "description": "URL template for constructing links to the Monarch Initiative website.",
+            "example": "https://monarchinitiative.org/gene/{gene_id}"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "MatchItem": {
+        "title": "MatchItem",
+        "required": [
+          "rank",
+          "score",
+          "type",
+          "taxon",
+          "id",
+          "label"
+        ],
+        "type": "object",
+        "properties": {
+          "rank": {
+            "title": "Rank",
+            "type": "string",
+            "description": "The rank of the match, with 1 being the closest match."
+          },
+          "score": {
+            "title": "Score",
+            "type": "integer",
+            "description": "The score of the matching item using the phenodigm metric."
+          },
+          "type": {
+            "title": "Type",
+            "type": "string",
+            "description": "The type of the matching item, e.g. disease or gene."
+          },
+          "taxon": {
+            "title": "Taxon",
+            "type": "object",
+            "description": "The taxon of the matching item as a dict with keys for id and label."
+          },
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "The ontology identifier of the matching item."
+          },
+          "label": {
+            "title": "Label",
+            "type": "string",
+            "description": "The human-readable label of the matching item."
+          }
+        }
+      },
+      "MatchItems": {
+        "title": "MatchItems",
+        "required": [
+          "matches",
+          "max_max_ic"
+        ],
+        "type": "object",
+        "properties": {
+          "matches": {
+            "title": "Matches",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatchItem"
+            },
+            "description": "A list of MatchItem objects."
+          },
+          "max_max_ic": {
+            "title": "Max Max Ic",
+            "type": "number",
+            "description": "max_max_ic"
+          }
+        }
+      },
+      "Phenotype": {
+        "title": "Phenotype",
+        "required": [
+          "phenotype_id",
+          "label"
+        ],
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Other metadata associaciated with the entity or association.",
+            "default": {}
+          },
+          "publications": {
+            "title": "Publications",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": "List of related publications and associated metadata.",
+            "default": []
+          },
+          "phenotype_id": {
+            "title": "Phenotype Id",
+            "type": "string",
+            "description": "The ontology identifier of the phenotype.",
+            "example": "HP:0002721"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string",
+            "description": "The human-readable label of the phenotype.",
+            "example": "Immunodeficiency"
+          }
+        }
+      },
+      "PhenotypeAssociation": {
+        "title": "PhenotypeAssociation",
+        "required": [
+          "phenotype"
+        ],
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Other metadata associaciated with the entity or association.",
+            "default": {}
+          },
+          "publications": {
+            "title": "Publications",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": "List of related publications and associated metadata.",
+            "default": []
+          },
+          "phenotype": {
+            "$ref": "#/components/schemas/Phenotype"
+          }
+        }
+      },
+      "PhenotypeAssociations": {
+        "title": "PhenotypeAssociations",
+        "required": [
+          "associations",
+          "total",
+          "phenotype_url_template"
+        ],
+        "type": "object",
+        "properties": {
+          "associations": {
+            "title": "Associations",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhenotypeAssociation"
+            },
+            "description": "The list of PhenotypeAssociation objects."
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer",
+            "description": "The total number of phenotype associations available."
+          },
+          "phenotype_url_template": {
+            "title": "Phenotype Url Template",
+            "type": "string",
+            "description": "URL template for constructing links to the Monarch Initiative website.",
+            "example": "https://monarchinitiative.org/phenotype/{phenotype_id}"
+          }
+        }
+      },
+      "SearchResultItem": {
+        "title": "SearchResultItem",
+        "required": [
+          "id",
+          "name",
+          "categories"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "The ontology identifier of the search result.",
+            "example": "MONDO:0009061"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "description": "The name of the search result.",
+            "example": "cystic fibrosis"
+          },
+          "categories": {
+            "title": "Categories",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The categories of the search result.",
+            "example": [
+              "biolink:Disease"
+            ]
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "The description of the search result.",
+            "example": "Cystic fibrosis (CF) is a genetic disorder characterized by the production of sweat with a high salt content and mucus secretions with an abnormal viscosity."
+          }
+        }
+      },
+      "SearchResultItems": {
+        "title": "SearchResultItems",
+        "required": [
+          "results",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "results": {
+            "title": "Results",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchResultItem"
+            },
+            "description": "A list of SearchResultItem objects."
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer",
+            "description": "The total number of search results available."
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

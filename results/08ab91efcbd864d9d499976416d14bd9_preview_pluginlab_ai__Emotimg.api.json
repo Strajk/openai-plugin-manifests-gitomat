@@ -1,0 +1,108 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API for emotimg plugin",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/images/{personasInPath}/{emotionInPath}": {
+      "get": {
+        "description": "Get images that matches the personas and emotion. If no matching, multiple available images are returned.",
+        "operationId": "getEmotionImages",
+        "parameters": [
+          {
+            "name": "personasInPath",
+            "in": "path",
+            "description": "Personas; Persona ID (if exists) or multiple keywords (separated by commas, represents the persona, in English) to denote the principal of this response",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "personaId": {
+                "value": "common.maid"
+              },
+              "keywords": {
+                "value": "maid,lady"
+              }
+            }
+          },
+          {
+            "name": "emotionInPath",
+            "in": "path",
+            "description": "Emotion; a keyword for emotion",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "default"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "metadata": {
+                      "$ref": "#/components/schemas/metadata"
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "personaId",
+                          "imageUrl",
+                          "emotion"
+                        ],
+                        "properties": {
+                          "personaId": {
+                            "description": "Persona ID",
+                            "type": "string",
+                            "example": "common.maid"
+                          },
+                          "imageUrl": {
+                            "description": "Image URL",
+                            "type": "string",
+                            "example": "http://localhost:5000/images/common/maid/01_cu.png"
+                          },
+                          "emotion": {
+                            "description": "Emotion",
+                            "type": "string",
+                            "example": "happy"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "metadata": {
+        "description": "Metadata",
+        "type": "object",
+        "properties": {
+          "message": {
+            "description": "Message",
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://08ab91efcbd864d9d499976416d14bd9.preview.pluginlab.ai"
+    }
+  ]
+}

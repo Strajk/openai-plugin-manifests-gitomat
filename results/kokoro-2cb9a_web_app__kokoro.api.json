@@ -1,0 +1,133 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Kokoro Plugin",
+    "description": "A plugin that allows ChatGPT to teach lessons using content from Sanity.io.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://kokoro-2cb9a.web.app/"
+    }
+  ],
+  "paths": {
+    "/getLesson": {
+      "get": {
+        "summary": "Get a lesson by its ID",
+        "operationId": "getLesson",
+        "parameters": [
+          {
+            "name": "lessonId",
+            "in": "query",
+            "required": true,
+            "description": "The ID of the lesson to retrieve.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "The lesson data."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Lesson not found"
+          }
+        }
+      }
+    },
+    "/getCourses": {
+      "get": {
+        "summary": "Get all courses",
+        "operationId": "getCourses",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "The list of courses."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getChapters": {
+      "get": {
+        "summary": "Get chapters of a specific course",
+        "operationId": "getChapters",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "query",
+            "required": true,
+            "description": "The ID of the course to retrieve chapters from.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "The list of chapters."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      }
+    },
+    "/getLessons": {
+      "get": {
+        "summary": "Get lessons of a specific chapter",
+        "operationId": "getLessons",
+        "parameters": [
+          {
+            "name": "chapterId",
+            "in": "query",
+            "required": true,
+            "description": "The ID of the chapter to retrieve lessons from.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "The list of lessons."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Chapter not found"
+          }
+        }
+      }
+    }
+  }
+}

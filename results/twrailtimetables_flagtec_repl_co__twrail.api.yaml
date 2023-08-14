@@ -1,0 +1,93 @@
+openapi: 3.0.1
+info:
+  title: Taiwan Railway Timetables
+  description: >
+    Query for the ID for Taiwan Railway stations and 
+    timetables for the specified departure and destination station.
+  version: 'v1'
+servers:
+  - url: https://twrailtimetables.flagtec.repl.co
+paths:
+  /station/{station_name}:
+    get:
+      operationId: getStationID
+      summary: >
+        Get station ID for the specified station name of Taiwan Railway.
+        the ID '0000' means the station specified doesn't existed.
+      parameters:
+      - in: path
+        name: station_name
+        schema:
+            type: string
+        required: true
+        description: Station name of Taiwan Railwai
+        responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getStationIDResponse'
+  /timetables/{start_station}/{end_station}:
+    get:
+      operationId: getTimetables
+      summary: >
+        Get the timetables for the specified departure station and 
+        destination station of Taiwan Railway. 
+        All the time in the timetables are UTC+8:00 Taipei timezone.
+      parameters:
+      - in: path
+        name: start_station
+        schema:
+            type: string
+        required: true
+        description: The ID of departure station.
+      - in: path
+        name: end_station
+        schema:
+            type: string
+        required: true
+        description: The ID of destination station.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTimetablesResponse'
+
+components:
+  schemas:
+    getStationIDResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the station
+    getTimetablesResponse:
+      type: object
+      properties:
+        now:
+          type: string
+          description: current time in the ISO 8601 format as UTC+8:00 Taipei timezone
+        timetables:
+          type: array
+          items:
+            type: object
+            properties:
+              train_no:
+                type: string
+                description: Train Number
+              start_station: 
+                type: string
+                description: departure station name
+              departure_time:
+                type: string
+                description: departure time (in Taipei timezone)
+              end_station: 
+                type: string
+                description: destination station name
+              arrive_time:
+                type: string
+                description: arrive time (in Taipei timezone)
+          description: timetables ordered by departure time

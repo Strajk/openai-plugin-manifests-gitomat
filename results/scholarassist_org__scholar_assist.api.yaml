@@ -1,0 +1,133 @@
+openapi: 3.0.2
+info:
+  title: Scholar Assist
+  description: Searches relevant academic papers and answers any specific question from the papers.
+  version: 1.0.3
+  servers:
+    - url: https://plugin.scholarassist.org
+paths:
+  /collect:
+    post:
+      summary: Search Abstracts
+      description: Come up with relevant search terms in English for arXiv, collect relevant academic papers from arXiv and summarizes each paper, providing reference information.
+      operationId: collect
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Collect"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CollectResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+  /ask:
+    post:
+      summary: Ask Questions
+      description: Extracts an answer in response to the user's question from a given PDF, and given a summary of the PDF. Users must specify which PDF they want an answer from.
+      operationId: ask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Ask"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AskResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    Collect:
+      title: Collect
+      type: object
+      properties:
+        query:
+          title: Collect
+          type: string
+    CollectResponse:
+      title: CollectResponse
+      required:
+        - result
+      type: object
+      properties:
+        result:
+          title: Results
+          type: string
+    Ask:
+      title: Ask
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        download_url:
+          title: pdf_url
+          type: string
+        title:
+          title: Title
+          type: string
+        summary:
+          title: Summary
+          type: string
+    AskResponse:
+      title: AskResponse
+      required:
+        - result
+      type: object
+      properties:
+        result:
+          title: Results
+          type: string
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

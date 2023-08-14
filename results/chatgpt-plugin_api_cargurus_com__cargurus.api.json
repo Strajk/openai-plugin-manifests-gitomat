@@ -1,0 +1,532 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "CarGurus ChatGPT Plugin API",
+    "description": "An API to enable the CarGurus ChatGPT plugin to find and view information about vehicle listings",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://chatgpt-plugin.api.cargurus.com",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/chatgpt-plugin/v1/listings": {
+      "get": {
+        "tags": [
+          "Used Car Listings API"
+        ],
+        "summary": "Search for active listings using provided search criteria",
+        "operationId": "listingSearch",
+        "parameters": [
+          {
+            "name": "postalCode",
+            "in": "query",
+            "description": "The user's ZIP code. Must be for a location explicitly provided by the user and not a default or template value.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "makeName",
+            "in": "query",
+            "description": "Vehicle make to search for. Cannot search by makeName and bodyStyle at the same time.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modelName",
+            "in": "query",
+            "description": "Vehicle model to search for. makeName must also be provided.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bodyStyle",
+            "in": "query",
+            "description": "Vehicle body style. Cannot search by makeName and bodyStyle at the same time.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Sedan",
+                "SUV / Crossover",
+                "Hatchback",
+                "Convertible",
+                "Van",
+                "Minivan",
+                "Pickup Truck",
+                "Coupe",
+                "Wagon"
+              ]
+            }
+          },
+          {
+            "name": "maxMileage",
+            "in": "query",
+            "description": "Maximum mileage",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "description": "Minimum price",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "description": "Maximum price",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "minModelYear",
+            "in": "query",
+            "description": "Minimum model year",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "maxModelYear",
+            "in": "query",
+            "description": "Maximum model year",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "maxDistance",
+            "in": "query",
+            "description": "Maximum distance from postal code",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          },
+          {
+            "name": "fuelTypes",
+            "in": "query",
+            "description": "Desired fuel types",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "DIESEL",
+                  "ELECTRIC",
+                  "GASOLINE",
+                  "HYBRID",
+                  "COMPRESSED_NATURAL_GAS",
+                  "FLEX_FUEL_VEHICLE",
+                  "BIODIESEL"
+                ]
+              }
+            }
+          },
+          {
+            "name": "sortCriteria",
+            "in": "query",
+            "description": "Sort criteria",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The sort type for the search results",
+              "enum": [
+                "DEFAULT",
+                "DEAL_SCORE",
+                "PRICE",
+                "MILEAGE",
+                "DISTANCE",
+                "NEWEST_MODEL_YEAR",
+                "LISTING_AGE"
+              ],
+              "default": "DEFAULT"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Desired sort order of results",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The sort order for the search results",
+              "enum": [
+                "BEST_TO_WORST",
+                "WORST_TO_BEST",
+                "LOWEST_TO_HIGHEST",
+                "HIGHEST_TO_LOWEST",
+                "NEWEST_TO_OLDEST",
+                "OLDEST_TO_NEWEST"
+              ],
+              "default": "BEST_TO_WORST"
+            }
+          },
+          {
+            "name": "additionalFeatures",
+            "in": "query",
+            "description": "Any features requested by the user that are not supported explicitly by the other parameters to this endpoint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userQuery",
+            "in": "query",
+            "description": "The exact text from the user that prompted this request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "postalCodeFromUserProvidedInformation",
+            "in": "query",
+            "description": "Set to true if the postal code provided was based on information explicitly provided by the user",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResults"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidInputError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UncategorizedError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Authentication": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "InvalidInputError": {
+        "type": "object",
+        "properties": {
+          "parameterName": {
+            "type": "string",
+            "description": "The name of the parameter that invalid data was provided for"
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "A description of what invalid data was provided"
+          },
+          "validInputConstraints": {
+            "type": "string",
+            "description": "Information about what data is considered valid"
+          },
+          "suggestedRequestModification": {
+            "type": "string",
+            "description": "Suggestions for AI assistants for how to respond to this error"
+          }
+        },
+        "description": "An error message that is returned when invalid data was provided to the API"
+      },
+      "UncategorizedError": {
+        "type": "object",
+        "properties": {
+          "errorMessage": {
+            "type": "string",
+            "description": "A message describing this error"
+          },
+          "reference": {
+            "type": "string",
+            "description": "A reference that can be provided to CarGurus Support to help diagnose the cause of the error"
+          },
+          "suggestedRequestModification": {
+            "type": "string",
+            "description": "Suggestions for AI assistants for how to respond to this error"
+          }
+        },
+        "description": "An error response that is returned when an unexpected, 500 level error has occurred"
+      },
+      "FullSearchResultsSummary": {
+        "type": "object",
+        "properties": {
+          "totalListings": {
+            "type": "integer",
+            "description": "The total number of listings found for this search query",
+            "format": "int32"
+          },
+          "minModelYear": {
+            "type": "integer",
+            "description": "The earliest model year available",
+            "format": "int32"
+          },
+          "maxModelYear": {
+            "type": "integer",
+            "description": "The latest model year available",
+            "format": "int32"
+          },
+          "minPrice": {
+            "type": "number",
+            "description": "The minimum listing price",
+            "format": "float"
+          },
+          "maxPrice": {
+            "type": "number",
+            "description": "The maximum listing price",
+            "format": "float"
+          }
+        },
+        "description": "Information about the total number of listings available on CarGurus matching a search query"
+      },
+      "Listing": {
+        "type": "object",
+        "properties": {
+          "listingId": {
+            "type": "integer",
+            "description": "The listing's identifier. Can be used to look up additional details about this listing.",
+            "format": "int64"
+          },
+          "listingTitle": {
+            "type": "string",
+            "description": "A formatted title to display for this listing"
+          },
+          "listingUrl": {
+            "type": "string",
+            "description": "A link to the CarGurus website to view more information about this listing and to contact the dealer"
+          },
+          "mileage": {
+            "type": "integer",
+            "description": "Mileage of the vehicle",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "description": "Vehicle list price",
+            "format": "float"
+          },
+          "dealRating": {
+            "type": "string",
+            "description": "CarGurus proprietary deal rating, which rates the listing price of this vehicle relative to similar vehicles",
+            "enum": [
+              "Great Deal",
+              "Good Deal",
+              "Fair Deal",
+              "High Price",
+              "Overpriced",
+              "No Price Analysis",
+              "Uncertain"
+            ]
+          },
+          "dealerName": {
+            "type": "string",
+            "description": "The name of the dealer listing this vehicle"
+          },
+          "dealerLocation": {
+            "type": "string",
+            "description": "The location of the dealer listing this vehicle"
+          },
+          "listingDistance": {
+            "type": "number",
+            "description": "The distance of the dealer listing this vehicle from the user's location",
+            "format": "float"
+          },
+          "fuelType": {
+            "type": "string",
+            "description": "The fuel type of this vehicle (gas, diesel, electric, hybrid, etc)"
+          }
+        },
+        "description": "Details about an individual vehicle listing on the CarGurus website"
+      },
+      "SearchCriteria": {
+        "type": "object",
+        "properties": {
+          "postalCode": {
+            "type": "string",
+            "description": "Postal code (ZIP code in the USA) used to center the geographic search"
+          },
+          "makeName": {
+            "type": "string",
+            "description": "Vehicle make name"
+          },
+          "modelName": {
+            "type": "string",
+            "description": "Vehicle model name"
+          },
+          "bodyStyle": {
+            "type": "string",
+            "description": "Vehicle body style",
+            "enum": [
+              "Sedan",
+              "SUV / Crossover",
+              "Hatchback",
+              "Convertible",
+              "Van",
+              "Minivan",
+              "Pickup Truck",
+              "Coupe",
+              "Wagon"
+            ]
+          },
+          "maxDistance": {
+            "type": "integer",
+            "description": "Maximum distance of the listing dealership from the provided postal code",
+            "format": "int32"
+          },
+          "maxMileage": {
+            "type": "integer",
+            "description": "Maximum mileage",
+            "format": "int32"
+          },
+          "minPrice": {
+            "type": "integer",
+            "description": "Minimum price",
+            "format": "int32"
+          },
+          "maxPrice": {
+            "type": "integer",
+            "description": "Maximum price",
+            "format": "int32"
+          },
+          "minModelYear": {
+            "type": "integer",
+            "description": "Minimum model year",
+            "format": "int32"
+          },
+          "maxModelYear": {
+            "type": "integer",
+            "description": "Maximum model year",
+            "format": "int32"
+          },
+          "fuelTypes": {
+            "type": "array",
+            "description": "Fuel types",
+            "items": {
+              "type": "string",
+              "description": "Fuel types",
+              "enum": [
+                "DIESEL",
+                "ELECTRIC",
+                "GASOLINE",
+                "HYBRID",
+                "COMPRESSED_NATURAL_GAS",
+                "FLEX_FUEL_VEHICLE",
+                "BIODIESEL"
+              ]
+            }
+          },
+          "sortCriteria": {
+            "type": "string",
+            "description": "The sort type for the search results",
+            "enum": [
+              "DEFAULT",
+              "DEAL_SCORE",
+              "PRICE",
+              "MILEAGE",
+              "DISTANCE",
+              "NEWEST_MODEL_YEAR",
+              "LISTING_AGE"
+            ]
+          },
+          "sortOrder": {
+            "type": "string",
+            "description": "The sort order for the search results",
+            "enum": [
+              "BEST_TO_WORST",
+              "WORST_TO_BEST",
+              "LOWEST_TO_HIGHEST",
+              "HIGHEST_TO_LOWEST",
+              "NEWEST_TO_OLDEST",
+              "OLDEST_TO_NEWEST"
+            ]
+          }
+        },
+        "description": "The criteria used for a listing search operation"
+      },
+      "SearchResults": {
+        "type": "object",
+        "properties": {
+          "searchCriteria": {
+            "$ref": "#/components/schemas/SearchCriteria"
+          },
+          "fullSearchResultsSummary": {
+            "$ref": "#/components/schemas/FullSearchResultsSummary"
+          },
+          "listings": {
+            "type": "array",
+            "description": "The top six listings found for this search. This is only a portion of the total listings available. A summary of all listings available can be found in fullSearchResultsSummary.",
+            "items": {
+              "$ref": "#/components/schemas/Listing"
+            }
+          },
+          "searchUrl": {
+            "type": "string",
+            "description": "A link to the CarGurus website to view search results for the provided search criteria"
+          },
+          "searchResultMessage": {
+            "type": "string",
+            "description": "If present, provides additional context about the search results that may be helpfulto the user"
+          }
+        },
+        "description": "The results of the search operation"
+      }
+    },
+    "securitySchemes": {
+      "Bearer Authentication": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OpenAI Service Access Token"
+      }
+    }
+  }
+}

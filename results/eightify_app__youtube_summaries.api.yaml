@@ -1,0 +1,127 @@
+openapi: 3.0.1
+info:
+  title: Eightify Insights
+  description: Api that allows to get Insights from the Youtube video.
+  version: 'v1'
+servers:
+  - url: https://eightify.app
+paths:
+  /plugin/video:
+    post:
+      operationId: getVideoInsights
+      summary: Get the Youtube video Insights.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                video_url:
+                  type: string
+                  description: The Youtube video url.
+                  example: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+
+      responses:
+        default:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoInsights'
+
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoInsights'
+
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example: |
+                {
+                  "message": "Video is not supported"
+                }
+
+        "500":
+          description: internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example: |
+                {
+                  "message": "Something went wrong 😿 Please try again later. We are working on it."
+                }
+
+components:
+  schemas:
+    ApiError:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The error message.
+
+    VideoInsights:
+      type: object
+      properties:
+        insights:
+          type: object
+          properties:
+            sections:
+              type: array
+              items:
+                $ref: '#/components/schemas/Insight'
+
+            template:
+              type: string
+              description: The handlebars template used to render the Insights
+              example: |
+                {% for part in parts %}
+                      **{{part.title}}**
+
+                      {% for step in steps %}
+                        {{step.emoji}} {{step.text}} 
+
+                      {% endfor %}
+                    {% endfor %}
+
+        full_summary_link:
+          $ref: '#/components/schemas/FullSummaryLink'
+
+    InsightSection:
+      type: object
+      properties:
+        title:
+          type: string
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/Insight'
+
+    Insight:
+      type: object
+      properties:
+        text:
+          type: string
+        emoji:
+          type: string
+          description: Emoji that can be used as bullet in the list of Insights.
+          example: '🚀'
+
+    FullSummaryLink:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The link to share the Youtube Video Insights with friends.
+          example: 'https://eightify.app/summary/music-and-performance/spacex-launches-60-starlink-satellites-with-falcon-9-rocket'
+        description:
+          type: string
+          description: Markdown message with full_summary_link shown to the user.
+          example: 'You can check full summary [**here**](https://eightify.app/summary/music-and-performance/spacex-launches-60-starlink-satellites-with-falcon-9-rocket)'

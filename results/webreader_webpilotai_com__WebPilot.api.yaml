@@ -1,0 +1,113 @@
+openapi: 3.0.1
+info:
+  title: web_pilot
+  description: This plugin allows users to input a URL retrieves the web page content, and returns a comprehensible summary of it. Also allows user to access real-time content.
+  version: 'v1.1'
+servers:
+  - url: https://webreader.webpilotai.com
+paths:
+  /api/visit-web:
+    post:
+      operationId: visitWebPage
+      summary: visit web page
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/visitWebPageRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/visitWebPageResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/visitWebPageError'
+components:
+  schemas:
+    visitWebPageResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of this web page
+        content:
+          type: string
+          description: The content of the web page's url to be summarized
+        meta:
+          type: object
+          description: The Html meta info of the web page
+        links:
+          type: array
+          description: Some links in the web page
+          items:
+            type: string
+        extra_search_results:
+          type: array
+          description: Additional Search results
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                description: the title of this search result
+              link:
+                type: string
+                description: the link of this search result
+              snippet:
+                type: string
+                description: the snippet of this search result
+        todo:
+          type: array
+          description: what to do with the content
+          items:
+            type: string
+        tips:
+          type: array
+          description: Tips placed at the end of the answer
+          items:
+            type: string
+        rules:
+          description: Adherence is required when outputting content.
+          items:
+            type: string
+
+    visitWebPageRequest:
+      type: object
+      properties:
+        link:
+          required: true
+          type: string
+          description: Required, The web page's url to visit and retrieve content from.
+        ur:
+          required: true
+          type: string
+          description: Required, a clear statement of the user's request, can be used as a search query and may include search operators.
+        lp:
+          type: boolean
+          description: Required, Whether the link is directly provided by the user
+        rt:
+          type: boolean
+          description: If the last request doesn't meet user's need, set this to true when trying to retry another request.
+        l:
+          type: string
+          description: Required, the language used by the user in the request, according to the ISO 639-1 standard. For Chinese, use zh-CN for Simplified Chinese and zh-TW for Traditional Chinese.
+
+    visitWebPageError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: error code
+        message:
+          type: string
+          description: error message
+        detail:
+          type: string
+          description: error detail

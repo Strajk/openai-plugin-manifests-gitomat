@@ -1,0 +1,182 @@
+openapi: 3.0.1
+info:
+  title: Feng Shui Divination
+  description: Using the user-provided birth date and time, calculate their BaZi (Four Pillars of Destiny) based on the I Ching. Then, perform divinations concerning aspects of their life they care about, such as work, life, love, and health, and provide the divination results.
+  version: 'v1'
+servers:
+  - url: https://www.china-fengshui.com
+paths:
+  /list:
+    get:
+      operationId: get_list
+      summary: Get the list of direction options where divination can be performed.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  properties:
+                    id:
+                      type: integer
+                      example: 4
+                    directionName:
+                      type: string
+                      example: Love and Marriage
+                description: The list of direction options where divination can be performed.
+
+  /result:
+    get:
+      operationId: add_divination
+      summary: Using the user-provided birth date and time, calculate their BaZi (Four Pillars of Destiny) based on the I Ching.
+      parameters:
+      - in: query
+        name: birthday
+        schema:
+            type: string
+        required: true
+        description: The user's birthday time in the format 'YYYY-MM-DD HH:00'. This is used to begin the divinations that occur on or after this date.
+      - in: query
+        name: qtype
+        schema:
+          type: integer
+          example: 2
+          description: Select the specific option number of divination, which is used to select the direction that the user needs to divination.The options contains:1.Personality,2.Love and Marriage,3.Career,4.Health,5.Easy Living,6.Diet,7.Fortune,8.About this year,9.All of Above.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultResponse'
+components:
+  schemas:
+    resultResponse:
+      type: object
+      properties:
+        birthday:
+          type: string
+          description: The user's birthday time,this date and time for divination.
+          example: 1987-02-16 07:00
+        qtype:
+          type: object
+          description: The specific option content of the chosen divination.
+          properties: 
+            id:
+              type: integer
+              description: The specific option number of the chosen divination.
+              example: 4
+            directionName:
+              type: string
+              description: The specific option name of the chosen divination.
+              example: Love and Marriage
+        Zodiac:
+          type: string
+          description: The user's zodiac calculated based on the birthday date and time provided by the user.
+          example: Rabbit
+        Lunar Birth:
+          type: string
+          description: The user's lunar birthday calculated based on the birthday date and time provided by the user.
+          example: Year of Ding Mao (Zodiac Rabbit), 19th day of the first lunar month, during the Chen hour
+        Birth Bazi:
+          type: object
+          description: The user's horoscope(Birth Bazi) calculated based on the birthday date and time provided by the user.
+          properties:
+            title:
+              type: string
+              description: The title of Bazi
+              example: Four Pillars of Destiny
+            Heavenly Stems:
+              type: object
+              description: The user's Heavenly Stems of Birth Bazi calculated based on the birthday date and time provided by the user.
+              properties:
+                Year Pillar:
+                  type: string
+                  example: Ding (Fire)
+                Month Pillar:
+                  type: string
+                  example: Ding (Fire)
+                Day Pillar:
+                  type: string
+                  example: Ding (Fire)
+                Hour Pillar:
+                  type: string
+                  example: Ding (Fire)
+            Earthly Branches:
+              type: object
+              description: The user's Earthly Branches of Birth Bazi calculated based on the birthday date and time provided by the user.
+              properties:
+                Year Pillar:
+                  type: string
+                  example: Mao (Rabbit)
+                Month Pillar:
+                  type: string
+                  example: Mao (Rabbit)
+                Day Pillar:
+                  type: string
+                  example: Mao (Rabbit)
+                Hour Pillar:
+                  type: string
+                  example: Mao (Rabbit)
+            Hidden Stems:
+              type: object
+              description: The user's Hidden Stems of Birth Bazi calculated based on the birthday date and time provided by the user.
+              properties:
+                Year Pillar:
+                  type: string
+                  example: Ren (Water)
+                Month Pillar:
+                  type: string
+                  example: Ren (Water)
+                Day Pillar:
+                  type: string
+                  example: Ren (Water)
+                Hour Pillar:
+                  type: string
+                  example: Ren (Water)
+            Lunar Mansions:
+              type: object
+              description: The user's Lunar Mansions of Birth Bazi calculated based on the birthday date and time provided by the user.
+              properties:
+                Year Pillar:
+                  type: string
+                  example: Fire in the Furnace
+                Month Pillar:
+                  type: string
+                  example: Fire in the Furnace
+                Day Pillar:
+                  type: string
+                  example: Fire in the Furnace
+                Hour Pillar:
+                  type: string
+                  example: Fire in the Furnace
+            Ten Gods:
+              type: object
+              description: The user's Ten Gods of Birth Bazi calculated based on the birthday date and time provided by the user.
+              properties:
+                Year Pillar:
+                  type: string
+                  example: Rob Wealth
+                Month Pillar:
+                  type: string
+                  example: Rob Wealth
+                Day Pillar:
+                  type: string
+                  example: Rob Wealth
+                Hour Pillar:
+                  type: string
+                  example: Rob Wealth
+        answer:
+          type: array
+          items:
+            properties:
+              title:
+                type: string
+                example: Love and Marriage
+              content:
+                type: array
+                items:
+                  type: string
+          description: The result list of divination based on the birthday date and time provided by the user.

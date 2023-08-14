@@ -1,0 +1,190 @@
+openapi: 3.0.1
+info:
+  title: PointsRecap
+  description: We empower your financial analysis with video highlights. Skip hours of video watching and note-taking with AI-generated viewpoints.
+  version: 'v1'
+servers:
+  - url: https://pointsrecap.com
+paths:
+  /chatgpt/viewpoints:
+    get:
+      operationId: getViewPoints
+      summary: Retrieve viewpoints and disclaimer given a ticker
+      parameters:
+      - in: query
+        name: ticker
+        schema:
+          type: string
+        description: ticker used to fetch viewpoints
+      responses:
+        '200':
+          description: response contains a list of viewpoints from different videos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  viewpoints:
+                    type: array
+                    description: a list of viewpoints object from different videos
+                    items:
+                      type: object
+                      description: a viewpoint obj from a video
+                      properties:
+                        viewpoints:
+                          type: object
+                          description: a map of viewpoints from a video, key is the Language, value is the viewpoint
+                          additionalProperties:
+                            type: string
+                        vid:
+                          type: string
+                          description: youtube video id
+                        cid:
+                          type: string
+                          description: youtube channel id
+                        date:
+                          type: string
+                          description: date of the video
+                        ticker:
+                          type: string
+                          description: ticker of the viewpoints
+                  moreDetailsWebsite:
+                    type: string
+                    description: website to allow user get more details
+                  disclaimerAnswerPrefix:
+                    type: string
+                    description: prefix of the answer for disclaimer
+  /chatgpt/recent-highlights:
+    get:
+      operationId: getRecentHighlights
+      summary: Retrieve recent highlighted youtube video docs.
+      responses:
+        '200':
+          description: A successful response returns a list of recent highlighted videos and how to get more details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  videos:
+                    type: array
+                    description: a list of highligt videos
+                    items:
+                      type: object
+                      description: highlighted video doc
+                      properties:
+                        $ref: '#/components/schemas/VideoDoc'
+                  moreDetailsWebsite:
+                    type: string
+                    description: website to allow user get more details and video highlights
+                  disclaimerAnswerPrefix:
+                    type: string
+                    description: prefix of the answer for disclaimer
+  /chatgpt/wordcloud:
+    get:
+      operationId: getWordCloud
+      summary: Get images and frequency of words in the word cloud. It represents the most frequent words in the recent videos. Can be used to answer the question like "What is everyone talking about in the market lately?"
+      responses:
+        '200':
+          description: A successful response returns a list of recent wordcloud objects how to get more details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wordClouds:
+                    type: array
+                    description: a list of wordcloud objects
+                    items:
+                      type: object
+                      description: wordcloud object
+                      properties:
+                        $ref: '#/components/schemas/WordCloud'
+                  moreDetailsWebsite:
+                    type: string
+                    description: website to allow user get more details and video highlights
+components:
+  schemas:
+    SentimentInfo:
+      type: object
+      description: Sentiment information including the sentiment and its score. The sentiment can be positive, negative, or neutral. The score is between 1 and 7. The higher the score, the more positive the sentiment is. The lower the score, the more negative the sentiment is. A disclamer is also provided.
+      properties:
+        sentiment:
+          type: string
+          description: The type of sentiment.
+        score:
+          type: integer
+          description: The sentiment score.
+    VideoDoc:
+      type: object
+      description: Detailed video document containing various information about the video.
+      properties:
+        title:
+          type: string
+          description: The title of the video.
+        channel:
+          type: string
+          description: The channel where the video was broadcasted.
+        date:
+          type: string
+          description: The date when the video was broadcasted.
+        lang:
+          type: string
+          description: The language of the video.
+        vid:
+          type: string
+          description: The youtube video id. Can be used to generate youtube video url.
+        category:
+          type: string
+          description: The category of the video.
+        senti:
+          type: object
+          description: The sentiment analysis result.
+          additionalProperties:
+            $ref: '#/components/schemas/SentimentInfo'
+        bpi:
+          type: object
+          description: mapping from language to bias, prediction, idea extracted from the video
+          additionalProperties:
+            type: string
+        viewpoints16k:
+          type: object
+          description: Detailed viewpoints of the video mapping from language.
+          additionalProperties:
+            type: string
+        tickers:
+          type: array
+          description: List of related tickers.
+          items:
+            type: string
+    WordCloud:
+      type: object
+      description: Word cloud object containing the image url and frequency of words in the word cloud.
+      properties:
+        date:
+          type: string
+          description: The date when the word cloud was generated.
+        en:
+          type: object
+          description: mapping from top 10 words to frequency in English
+          additionalProperties:
+            type: integer
+            format: int32
+        ja:
+          type: object
+          description: mapping from top 10 words to frequency in Japanese
+          additionalProperties:
+            type: integer
+            format: int32
+        zh:
+          type: object
+          description: mapping from top 10 words to frequency in Chinese
+          additionalProperties:
+            type: integer
+            format: int32
+        image:
+          type: string
+          description: The image url in markdown format for this word cloud. The image can be printed to the chat to help user understand the word cloud.
+        moreDetailsWebsite:
+          type: string
+          description: website to allow user get more details and video highlights

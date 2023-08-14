@@ -1,0 +1,199 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GetByBus",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://getbybus.com",
+      "description": "GetByBus Server"
+    }
+  ],
+  "paths": {
+    "/api/openai/v1/search-results": {
+      "get": {
+        "operationId": "getSearchResults",
+        "summary": "Get GetByBus search results",
+        "responses": {
+          "200": {
+            "description": "The result of the GetByBus results processing.",
+            "content": {
+              "text/plain": {}
+            }
+          },
+          "400": {
+            "description": "The request is missing parameters"
+          },
+          "403": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "GetByBus was unable to generate a result"
+          },
+          "503": {
+            "description": "Service temporarily unavailable. This may be the result of too many requests."
+          }
+        },
+        "parameters": [
+          {
+            "name": "departureStation",
+            "in": "query",
+            "description": "Station or city from which the trip is departing.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "destinationStation",
+            "in": "query",
+            "description": "Station or city where trip is ending",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "departureDate",
+            "in": "query",
+            "description": "Date of departure in yyyy-mm-dd format",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "numberOfPassengers",
+            "in": "query",
+            "description": "How many passengers will be buying a ticket.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "transportType",
+            "in": "query",
+            "description": "Can be only bus or ferry.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/openai/v1/company-info": {
+      "get": {
+        "operationId": "getCompanyInfo",
+        "summary": "Get GetByBus bus company information",
+        "responses": {
+          "200": {
+            "description": "List of company names and addresses",
+            "content": {
+              "text/plain": {}
+            }
+          },
+          "400": {
+            "description": "The request is missing parameters"
+          },
+          "403": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "GetByBus was unable to generate company info"
+          },
+          "503": {
+            "description": "Service temporarily unavailable. This may be the result of too many requests."
+          }
+        },
+        "parameters": [
+          {
+            "name": "companyName",
+            "in": "query",
+            "description": "Company name.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/openai/v1/station-info": {
+      "get": {
+        "operationId": "getStationInfo",
+        "summary": "Get GetByBus station info",
+        "responses": {
+          "200": {
+            "description": "The result of station info query",
+            "content": {
+              "text/plain": {}
+            }
+          },
+          "400": {
+            "description": "The request is missing parameters"
+          },
+          "403": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "GetByBus was unable to generate station info"
+          },
+          "503": {
+            "description": "Service temporarily unavailable. This may be the result of too many requests."
+          }
+        },
+        "parameters": [
+          {
+            "name": "stationName",
+            "in": "query",
+            "description": "Name of the station or city.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/openai/country-info": {
+      "get": {
+        "operationId": "getCountryInfo",
+        "summary": "Get GetByBus country info",
+        "responses": {
+          "200": {
+            "description": "The result of country info query",
+            "content": {
+              "text/plain": {}
+            }
+          },
+          "400": {
+            "description": "The request is missing parameters"
+          },
+          "403": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "GetByBus was unable to generate country info"
+          },
+          "503": {
+            "description": "Service temporarily unavailable. This may be the result of too many requests."
+          }
+        },
+        "parameters": [
+          {
+            "name": "countryName",
+            "in": "query",
+            "description": "Name of the country.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

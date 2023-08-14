@@ -1,0 +1,2984 @@
+---
+openapi: "3.0.1"
+info:
+  title: "Women's Health Information Plugin API"
+  version: "1.0.0"
+servers:
+  - url: https://pokedex.automateyournetwork.ca
+paths:
+  /All_Pokemon/:
+    get:
+      operationId: "getAllPokemon"
+      summary: "Get All Pokemon JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All Pokemon API JSON output"
+  /bulbasaur/:
+    get:
+      operationId: "getbulbasaur"
+      summary: "Get All bulbasaur JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All bulbasaur API JSON output"
+  /charmander/:
+    get:
+      operationId: "getcharmander"
+      summary: "Get All charmander JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All charmander API JSON output"
+  /squirtle/:
+    get:
+      operationId: "getsquirtle"
+      summary: "Get All squirtle JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All squirtle API JSON output"
+  /ivysaur/:
+    get:
+      operationId: "getivysaur"
+      summary: "Get All ivysaur JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All ivysaur API JSON output"
+  /venusaur/:
+    get:
+      operationId: "getvenusaur"
+      summary: "Get All venusaur JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All venusaur API JSON output"
+  /charmeleon/:
+    get:
+      operationId: "getcharmeleon"
+      summary: "Get All charmeleon JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All charmeleon API JSON output"
+  /wartortle/:
+    get:
+      operationId: "getwartortle"
+      summary: "Get All wartortle JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All wartortle API JSON output"
+  /blastoise/:
+    get:
+      operationId: "getblastoise"
+      summary: "Get All blastoise JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All blastoise API JSON output"
+  /caterpie/:
+    get:
+      operationId: "getcaterpie"
+      summary: "Get All caterpie JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All caterpie API JSON output"
+  /metapod/:
+    get:
+      operationId: "getmetapod"
+      summary: "Get All metapod JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All metapod API JSON output"
+  /butterfree/:
+    get:
+      operationId: "getbutterfree"
+      summary: "Get All butterfree JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All butterfree API JSON output"
+  /weedle/:
+    get:
+      operationId: "getweedle"
+      summary: "Get All weedle JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All weedle API JSON output"
+  /kakuna/:
+    get:
+      operationId: "getkakuna"
+      summary: "Get All kakuna JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All kakuna API JSON output"
+  /beedrill/:
+    get:
+      operationId: "getbeedrill"
+      summary: "Get All beedrill JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All beedrill API JSON output"
+  /pidgey/:
+    get:
+      operationId: "getpidgey"
+      summary: "Get All pidgey JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All pidgey API JSON output"
+  /pidgeotto/:
+    get:
+      operationId: "getpidgeotto"
+      summary: "Get All pidgeotto JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All pidgeotto API JSON output"
+  /pidgeot/:
+    get:
+      operationId: "getpidgeot"
+      summary: "Get All pidgeot JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All pidgeot API JSON output"
+  /rattata/:
+    get:
+      operationId: "getrattata"
+      summary: "Get All rattata JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All rattata API JSON output"
+  /raticate/:
+    get:
+      operationId: "getraticate"
+      summary: "Get All raticate JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All raticate API JSON output"
+  /spearow/:
+    get:
+      operationId: "getspearow"
+      summary: "Get All spearow JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All spearow API JSON output"
+  /fearow/:
+    get:
+      operationId: "getfearow"
+      summary: "Get All fearow JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All fearow API JSON output"
+  /ekans/:
+    get:
+      operationId: "getekans"
+      summary: "Get All ekans JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All ekans API JSON output"
+  /arbok/:
+    get:
+      operationId: "getarbok"
+      summary: "Get All arbok JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All arbok API JSON output"
+  /pikachu/:
+    get:
+      operationId: "getpikachu"
+      summary: "Get All pikachu JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All pikachu API JSON output"
+  /raichu/:
+    get:
+      operationId: "getraichu"
+      summary: "Get All raichu JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All raichu API JSON output"
+  /sandshrew/:
+    get:
+      operationId: "getsandshrew"
+      summary: "Get All sandshrew JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All sandshrew API JSON output"
+  /sandslash/:
+    get:
+      operationId: "getsandslash"
+      summary: "Get All sandslash JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All sandslash API JSON output"
+  /nidoran-f/:
+    get:
+      operationId: "getnidoran-f"
+      summary: "Get All nidoran-f JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All nidoran-f API JSON output"
+  /nidorina/:
+    get:
+      operationId: "getnidorina"
+      summary: "Get All nidorina JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All nidorina API JSON output"
+  /nidoqueen/:
+    get:
+      operationId: "getnidoqueen"
+      summary: "Get All nidoqueen JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All nidoqueen API JSON output"
+  /nidoran-m/:
+    get:
+      operationId: "getnidoran-m"
+      summary: "Get All nidoran-m JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All nidoran-m API JSON output"
+  /nidorino/:
+    get:
+      operationId: "getnidorino"
+      summary: "Get All nidorino JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All nidorino API JSON output"
+  /nidoking/:
+    get:
+      operationId: "getnidoking"
+      summary: "Get All nidoking JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All nidoking API JSON output"
+  /clefairy/:
+    get:
+      operationId: "getclefairy"
+      summary: "Get All clefairy JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All clefairy API JSON output"
+  /clefable/:
+    get:
+      operationId: "getclefable"
+      summary: "Get All clefable JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All clefable API JSON output"
+  /vulpix/:
+    get:
+      operationId: "getvulpix"
+      summary: "Get All vulpix JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All vulpix API JSON output"
+  /ninetales/:
+    get:
+      operationId: "getninetales"
+      summary: "Get All ninetales JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All ninetales API JSON output"
+  /jigglypuff/:
+    get:
+      operationId: "getjigglypuff"
+      summary: "Get All jigglypuff JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All jigglypuff API JSON output"
+  /wigglytuff/:
+    get:
+      operationId: "getwigglytuff"
+      summary: "Get All wigglytuff JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All wigglytuff API JSON output"
+  /zubat/:
+    get:
+      operationId: "getzubat"
+      summary: "Get All zubat JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All zubat API JSON output"
+  /golbat/:
+    get:
+      operationId: "getgolbat"
+      summary: "Get All golbat JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All golbat API JSON output"
+  /oddish/:
+    get:
+      operationId: "getoddish"
+      summary: "Get All oddish JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All oddish API JSON output"
+  /gloom/:
+    get:
+      operationId: "getgloom"
+      summary: "Get All gloom JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All gloom API JSON output"
+  /vileplume/:
+    get:
+      operationId: "getvileplume"
+      summary: "Get All vileplume JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All vileplume API JSON output"
+  /paras/:
+    get:
+      operationId: "getparas"
+      summary: "Get All paras JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All paras API JSON output"
+  /parasect/:
+    get:
+      operationId: "getparasect"
+      summary: "Get All parasect JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All parasect API JSON output"
+  /venonat/:
+    get:
+      operationId: "getvenonat"
+      summary: "Get All venonat JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All venonat API JSON output"
+  /venomoth/:
+    get:
+      operationId: "getvenomoth"
+      summary: "Get All venomoth JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All venomoth API JSON output"
+  /diglett/:
+    get:
+      operationId: "getdiglett"
+      summary: "Get All diglett JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All diglett API JSON output"
+  /dugtrio/:
+    get:
+      operationId: "getdugtrio"
+      summary: "Get All dugtrio JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All dugtrio API JSON output"
+  /meowth/:
+    get:
+      operationId: "getmeowth"
+      summary: "Get All meowth JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All meowth API JSON output"
+  /persian/:
+    get:
+      operationId: "getpersian"
+      summary: "Get All persian JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All persian API JSON output"
+  /psyduck/:
+    get:
+      operationId: "getpsyduck"
+      summary: "Get All psyduck JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All psyduck API JSON output"
+  /golduck/:
+    get:
+      operationId: "getgolduck"
+      summary: "Get All golduck JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All golduck API JSON output"
+  /mankey/:
+    get:
+      operationId: "getmankey"
+      summary: "Get All mankey JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All mankey API JSON output"
+  /primeape/:
+    get:
+      operationId: "getprimeape"
+      summary: "Get All primeape JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All primeape API JSON output"
+  /growlithe/:
+    get:
+      operationId: "getgrowlithe"
+      summary: "Get All growlithe JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All growlithe API JSON output"
+  /arcanine/:
+    get:
+      operationId: "getarcanine"
+      summary: "Get All arcanine JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All arcanine API JSON output"
+  /poliwag/:
+    get:
+      operationId: "getpoliwag"
+      summary: "Get All poliwag JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All poliwag API JSON output"
+  /poliwhirl/:
+    get:
+      operationId: "getpoliwhirl"
+      summary: "Get All poliwhirl JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All poliwhirl API JSON output"
+  /poliwrath/:
+    get:
+      operationId: "getpoliwrath"
+      summary: "Get All poliwrath JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All poliwrath API JSON output"
+  /abra/:
+    get:
+      operationId: "getabra"
+      summary: "Get All abra JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All abra API JSON output"
+  /kadabra/:
+    get:
+      operationId: "getkadabra"
+      summary: "Get All kadabra JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All kadabra API JSON output"
+  /alakazam/:
+    get:
+      operationId: "getalakazam"
+      summary: "Get All alakazam JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All alakazam API JSON output"
+  /machop/:
+    get:
+      operationId: "getmachop"
+      summary: "Get All machop JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All machop API JSON output"
+  /machoke/:
+    get:
+      operationId: "getmachoke"
+      summary: "Get All machoke JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All machoke API JSON output"
+  /machamp/:
+    get:
+      operationId: "getmachamp"
+      summary: "Get All machamp JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All machamp API JSON output"
+  /bellsprout/:
+    get:
+      operationId: "getbellsprout"
+      summary: "Get All bellsprout JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All bellsprout API JSON output"
+  /weepinbell/:
+    get:
+      operationId: "getweepinbell"
+      summary: "Get All weepinbell JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All weepinbell API JSON output"
+  /victreebel/:
+    get:
+      operationId: "getvictreebel"
+      summary: "Get All victreebel JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All victreebel API JSON output"
+  /tentacool/:
+    get:
+      operationId: "gettentacool"
+      summary: "Get All tentacool JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All tentacool API JSON output"
+  /tentacruel/:
+    get:
+      operationId: "gettentacruel"
+      summary: "Get All tentacruel JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All tentacruel API JSON output"
+  /geodude/:
+    get:
+      operationId: "getgeodude"
+      summary: "Get All geodude JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All geodude API JSON output"
+  /graveler/:
+    get:
+      operationId: "getgraveler"
+      summary: "Get All graveler JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All graveler API JSON output"
+  /golem/:
+    get:
+      operationId: "getgolem"
+      summary: "Get All golem JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All golem API JSON output"
+  /ponyta/:
+    get:
+      operationId: "getponyta"
+      summary: "Get All ponyta JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All ponyta API JSON output"
+  /rapidash/:
+    get:
+      operationId: "getrapidash"
+      summary: "Get All rapidash JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All rapidash API JSON output"
+  /slowpoke/:
+    get:
+      operationId: "getslowpoke"
+      summary: "Get All slowpoke JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All slowpoke API JSON output"
+  /slowbro/:
+    get:
+      operationId: "getslowbro"
+      summary: "Get All slowbro JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All slowbro API JSON output"
+  /magnemite/:
+    get:
+      operationId: "getmagnemite"
+      summary: "Get All magnemite JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All magnemite API JSON output"
+  /magneton/:
+    get:
+      operationId: "getmagneton"
+      summary: "Get All magneton JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All magneton API JSON output"
+  /farfetchd/:
+    get:
+      operationId: "getfarfetchd"
+      summary: "Get All farfetchd JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All farfetchd API JSON output"
+  /doduo/:
+    get:
+      operationId: "getdoduo"
+      summary: "Get All doduo JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All doduo API JSON output"
+  /dodrio/:
+    get:
+      operationId: "getdodrio"
+      summary: "Get All dodrio JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All dodrio API JSON output"
+  /seel/:
+    get:
+      operationId: "getseel"
+      summary: "Get All seel JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All seel API JSON output"
+  /dewgong/:
+    get:
+      operationId: "getdewgong"
+      summary: "Get All dewgong JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All dewgong API JSON output"
+  /grimer/:
+    get:
+      operationId: "getgrimer"
+      summary: "Get All grimer JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All grimer API JSON output"
+  /muk/:
+    get:
+      operationId: "getmuk"
+      summary: "Get All muk JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All muk API JSON output"
+  /shellder/:
+    get:
+      operationId: "getshellder"
+      summary: "Get All shellder JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All shellder API JSON output"
+  /cloyster/:
+    get:
+      operationId: "getcloyster"
+      summary: "Get All cloyster JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All cloyster API JSON output"
+  /gastly/:
+    get:
+      operationId: "getgastly"
+      summary: "Get All gastly JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All gastly API JSON output"
+  /haunter/:
+    get:
+      operationId: "gethaunter"
+      summary: "Get All haunter JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All haunter API JSON output"
+  /gengar/:
+    get:
+      operationId: "getgengar"
+      summary: "Get All gengar JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All gengar API JSON output"
+  /onix/:
+    get:
+      operationId: "getonix"
+      summary: "Get All onix JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All onix API JSON output"
+  /drowzee/:
+    get:
+      operationId: "getdrowzee"
+      summary: "Get All drowzee JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All drowzee API JSON output"
+  /hypno/:
+    get:
+      operationId: "gethypno"
+      summary: "Get All hypno JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All hypno API JSON output"
+  /krabby/:
+    get:
+      operationId: "getkrabby"
+      summary: "Get All krabby JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All krabby API JSON output"
+  /kingler/:
+    get:
+      operationId: "getkingler"
+      summary: "Get All kingler JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All kingler API JSON output"
+  /voltorb/:
+    get:
+      operationId: "getvoltorb"
+      summary: "Get All voltorb JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All voltorb API JSON output"
+  /electrode/:
+    get:
+      operationId: "getelectrode"
+      summary: "Get All electrode JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All electrode API JSON output"
+  /exeggcute/:
+    get:
+      operationId: "getexeggcute"
+      summary: "Get All exeggcute JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All exeggcute API JSON output"
+  /exeggutor/:
+    get:
+      operationId: "getexeggutor"
+      summary: "Get All exeggutor JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All exeggutor API JSON output"
+  /cubone/:
+    get:
+      operationId: "getcubone"
+      summary: "Get All cubone JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All cubone API JSON output"
+  /marowak/:
+    get:
+      operationId: "getmarowak"
+      summary: "Get All marowak JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All marowak API JSON output"
+  /hitmonlee/:
+    get:
+      operationId: "gethitmonlee"
+      summary: "Get All hitmonlee JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All hitmonlee API JSON output"
+  /hitmonchan/:
+    get:
+      operationId: "gethitmonchan"
+      summary: "Get All hitmonchan JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All hitmonchan API JSON output"
+  /lickitung/:
+    get:
+      operationId: "getlickitung"
+      summary: "Get All lickitung JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All lickitung API JSON output"
+  /koffing/:
+    get:
+      operationId: "getkoffing"
+      summary: "Get All koffing JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All koffing API JSON output"
+  /weezing/:
+    get:
+      operationId: "getweezing"
+      summary: "Get All weezing JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All weezing API JSON output"
+  /rhyhorn/:
+    get:
+      operationId: "getrhyhorn"
+      summary: "Get All rhyhorn JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All rhyhorn API JSON output"
+  /rhydon/:
+    get:
+      operationId: "getrhydon"
+      summary: "Get All rhydon JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All rhydon API JSON output"
+  /chansey/:
+    get:
+      operationId: "getchansey"
+      summary: "Get All chansey JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All chansey API JSON output"
+  /tangela/:
+    get:
+      operationId: "gettangela"
+      summary: "Get All tangela JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All tangela API JSON output"
+  /kangaskhan/:
+    get:
+      operationId: "getkangaskhan"
+      summary: "Get All kangaskhan JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All kangaskhan API JSON output"
+  /horsea/:
+    get:
+      operationId: "gethorsea"
+      summary: "Get All horsea JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All horsea API JSON output"
+  /seadra/:
+    get:
+      operationId: "getseadra"
+      summary: "Get All seadra JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All seadra API JSON output"
+  /goldeen/:
+    get:
+      operationId: "getgoldeen"
+      summary: "Get All goldeen JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All goldeen API JSON output"
+  /seaking/:
+    get:
+      operationId: "getseaking"
+      summary: "Get All seaking JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All seaking API JSON output"
+  /staryu/:
+    get:
+      operationId: "getstaryu"
+      summary: "Get All staryu JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All staryu API JSON output"
+  /starmie/:
+    get:
+      operationId: "getstarmie"
+      summary: "Get All starmie JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All starmie API JSON output"
+  /mr-mime/:
+    get:
+      operationId: "getmr-mime"
+      summary: "Get All mr-mime JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All mr-mime API JSON output"
+  /scyther/:
+    get:
+      operationId: "getscyther"
+      summary: "Get All scyther JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All scyther API JSON output"
+  /jynx/:
+    get:
+      operationId: "getjynx"
+      summary: "Get All jynx JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All jynx API JSON output"
+  /electabuzz/:
+    get:
+      operationId: "getelectabuzz"
+      summary: "Get All electabuzz JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All electabuzz API JSON output"
+  /magmar/:
+    get:
+      operationId: "getmagmar"
+      summary: "Get All magmar JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All magmar API JSON output"
+  /pinsir/:
+    get:
+      operationId: "getpinsir"
+      summary: "Get All pinsir JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All pinsir API JSON output"
+  /tauros/:
+    get:
+      operationId: "gettauros"
+      summary: "Get All tauros JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All tauros API JSON output"
+  /magikarp/:
+    get:
+      operationId: "getmagikarp"
+      summary: "Get All magikarp JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All magikarp API JSON output"
+  /gyarados/:
+    get:
+      operationId: "getgyarados"
+      summary: "Get All gyarados JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All gyarados API JSON output"
+  /lapras/:
+    get:
+      operationId: "getlapras"
+      summary: "Get All lapras JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All lapras API JSON output"
+  /ditto/:
+    get:
+      operationId: "getditto"
+      summary: "Get All ditto JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All ditto API JSON output"
+  /eevee/:
+    get:
+      operationId: "geteevee"
+      summary: "Get All eevee JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All eevee API JSON output"
+  /vaporeon/:
+    get:
+      operationId: "getvaporeon"
+      summary: "Get All vaporeon JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All vaporeon API JSON output"
+  /jolteon/:
+    get:
+      operationId: "getjolteon"
+      summary: "Get All jolteon JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All jolteon API JSON output"
+  /flareon/:
+    get:
+      operationId: "getflareon"
+      summary: "Get All flareon JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All flareon API JSON output"
+  /porygon/:
+    get:
+      operationId: "getporygon"
+      summary: "Get All porygon JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All porygon API JSON output"
+  /omanyte/:
+    get:
+      operationId: "getomanyte"
+      summary: "Get All omanyte JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All omanyte API JSON output"
+  /omastar/:
+    get:
+      operationId: "getomastar"
+      summary: "Get All omastar JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All omastar API JSON output"
+  /kabuto/:
+    get:
+      operationId: "getkabuto"
+      summary: "Get All kabuto JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All kabuto API JSON output"
+  /kabutops/:
+    get:
+      operationId: "getkabutops"
+      summary: "Get All kabutops JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All kabutops API JSON output"
+  /aerodactyl/:
+    get:
+      operationId: "getaerodactyl"
+      summary: "Get All aerodactyl JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All aerodactyl API JSON output"
+  /snorlax/:
+    get:
+      operationId: "getsnorlax"
+      summary: "Get All snorlax JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All snorlax API JSON output"
+  /articuno/:
+    get:
+      operationId: "getarticuno"
+      summary: "Get All articuno JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All articuno API JSON output"
+  /zapdos/:
+    get:
+      operationId: "getzapdos"
+      summary: "Get All zapdos JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All zapdos API JSON output"
+  /moltres/:
+    get:
+      operationId: "getmoltres"
+      summary: "Get All moltres JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All moltres API JSON output"
+  /dratini/:
+    get:
+      operationId: "getdratini"
+      summary: "Get All dratini JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All dratini API JSON output"
+  /dragonair/:
+    get:
+      operationId: "getdragonair"
+      summary: "Get All dragonair JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All dragonair API JSON output"
+  /dragonite/:
+    get:
+      operationId: "getdragonite"
+      summary: "Get All dragonite JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All dragonite API JSON output"
+  /mewtwo/:
+    get:
+      operationId: "getmewtwo"
+      summary: "Get All mewtwo JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All mewtwo API JSON output"
+  /mew/:
+    get:
+      operationId: "getmew"
+      summary: "Get All mew JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All mew API JSON output"
+  /chikorita/:
+    get:
+      operationId: "getchikorita"
+      summary: "Get All chikorita JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All chikorita API JSON output"
+  /bayleef/:
+    get:
+      operationId: "getbayleef"
+      summary: "Get All bayleef JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All bayleef API JSON output"
+  /meganium/:
+    get:
+      operationId: "getmeganium"
+      summary: "Get All meganium JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All meganium API JSON output"
+  /cyndaquil/:
+    get:
+      operationId: "getcyndaquil"
+      summary: "Get All cyndaquil JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All cyndaquil API JSON output"
+  /quilava/:
+    get:
+      operationId: "getquilava"
+      summary: "Get All quilava JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All quilava API JSON output"
+  /typhlosion/:
+    get:
+      operationId: "gettyphlosion"
+      summary: "Get All typhlosion JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All typhlosion API JSON output"
+  /totodile/:
+    get:
+      operationId: "gettotodile"
+      summary: "Get All totodile JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All totodile API JSON output"
+  /croconaw/:
+    get:
+      operationId: "getcroconaw"
+      summary: "Get All croconaw JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All croconaw API JSON output"
+  /feraligatr/:
+    get:
+      operationId: "getferaligatr"
+      summary: "Get All feraligatr JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All feraligatr API JSON output"
+  /sentret/:
+    get:
+      operationId: "getsentret"
+      summary: "Get All sentret JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All sentret API JSON output"
+  /furret/:
+    get:
+      operationId: "getfurret"
+      summary: "Get All furret JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All furret API JSON output"
+  /hoothoot/:
+    get:
+      operationId: "gethoothoot"
+      summary: "Get All hoothoot JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All hoothoot API JSON output"
+  /noctowl/:
+    get:
+      operationId: "getnoctowl"
+      summary: "Get All noctowl JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All noctowl API JSON output"
+  /ledyba/:
+    get:
+      operationId: "getledyba"
+      summary: "Get All ledyba JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All ledyba API JSON output"
+  /ledian/:
+    get:
+      operationId: "getledian"
+      summary: "Get All ledian JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All ledian API JSON output"
+  /spinarak/:
+    get:
+      operationId: "getspinarak"
+      summary: "Get All spinarak JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All spinarak API JSON output"
+  /ariados/:
+    get:
+      operationId: "getariados"
+      summary: "Get All ariados JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All ariados API JSON output"
+  /crobat/:
+    get:
+      operationId: "getcrobat"
+      summary: "Get All crobat JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All crobat API JSON output"
+  /chinchou/:
+    get:
+      operationId: "getchinchou"
+      summary: "Get All chinchou JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All chinchou API JSON output"
+  /lanturn/:
+    get:
+      operationId: "getlanturn"
+      summary: "Get All lanturn JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All lanturn API JSON output"
+  /pichu/:
+    get:
+      operationId: "getpichu"
+      summary: "Get All pichu JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All pichu API JSON output"
+  /cleffa/:
+    get:
+      operationId: "getcleffa"
+      summary: "Get All cleffa JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All cleffa API JSON output"
+  /igglybuff/:
+    get:
+      operationId: "getigglybuff"
+      summary: "Get All igglybuff JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All igglybuff API JSON output"
+  /togepi/:
+    get:
+      operationId: "gettogepi"
+      summary: "Get All togepi JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All togepi API JSON output"
+  /togetic/:
+    get:
+      operationId: "gettogetic"
+      summary: "Get All togetic JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All togetic API JSON output"
+  /natu/:
+    get:
+      operationId: "getnatu"
+      summary: "Get All natu JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All natu API JSON output"
+  /xatu/:
+    get:
+      operationId: "getxatu"
+      summary: "Get All xatu JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All xatu API JSON output"
+  /mareep/:
+    get:
+      operationId: "getmareep"
+      summary: "Get All mareep JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All mareep API JSON output"
+  /flaaffy/:
+    get:
+      operationId: "getflaaffy"
+      summary: "Get All flaaffy JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All flaaffy API JSON output"
+  /ampharos/:
+    get:
+      operationId: "getampharos"
+      summary: "Get All ampharos JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All ampharos API JSON output"
+  /bellossom/:
+    get:
+      operationId: "getbellossom"
+      summary: "Get All bellossom JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All bellossom API JSON output"
+  /marill/:
+    get:
+      operationId: "getmarill"
+      summary: "Get All marill JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All marill API JSON output"
+  /azumarill/:
+    get:
+      operationId: "getazumarill"
+      summary: "Get All azumarill JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All azumarill API JSON output"
+  /sudowoodo/:
+    get:
+      operationId: "getsudowoodo"
+      summary: "Get All sudowoodo JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All sudowoodo API JSON output"
+  /politoed/:
+    get:
+      operationId: "getpolitoed"
+      summary: "Get All politoed JSON"
+      description: "Retrieve the Pokemon JSON data from the API."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  networkData:
+                    type: "object"
+                    description: "All politoed API JSON output"

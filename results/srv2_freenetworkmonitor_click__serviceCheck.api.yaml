@@ -1,0 +1,575 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Service Check",
+    "description": "Check if services are running and how fast they are responding. You can check Website, Email, Domain Lookup and Ping.",
+    "termsOfService": "https://freenetworkmonitor.click/privacypolicy.html",
+    "contact": {
+      "name": "Mahadeva Cottrell",
+      "url": "https://freenetworkmonitor.click/faq",
+      "email": "support@freenetworkmonitor.click"
+    },
+    "license": {
+      "name": "Free Network Monitor License",
+      "url": "https://freenetworkmonitor.click/license.html"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/Chat/CheckQuantum": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Check if the supplied URL is using quantum-safe key encapsulation mechanisms.",
+        "description": "To setup a quantum ready monitor visit : https://freenetworkmonitor.click/dashboard . You can Login to create a free account and then add hosts to monitor.\r\n            \r\nSample request:\r\n            \r\n    POST /Chat/CheckQuantum\r\n    {\r\n       \"url\": \"https://cloudflare.com\"\r\n    }",
+        "operationId": "CheckQuantumOperation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UrlObject"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UrlObject"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UrlObject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuantumDataObjTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuantumDataObjTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuantumDataObjTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the url is null or is unable to be converted to a URI",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Chat/CheckSmtp": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Check if the stmp server is responding with a helo message.",
+        "description": "To setup a email service monitor visit : https://freenetworkmonitor.click/dashboard . You can Login to create a free account and then add hosts to monitor.\r\n    POST /Chat/CheckSmtp\r\n    {\r\n       \"address\": \"smtp.gmail.com\",\r\n       \"port\": 587,\r\n    }",
+        "operationId": "CheckSmtpOperation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the address is null or is unable to be converted to a string",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Chat/CheckHttp": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Check the response time and status of a website.",
+        "description": "To setup a http service monitor visit : https://freenetworkmonitor.click/dashboard to Login and create a free account then add hosts to start monitoring.\r\n    POST /Chat/CheckHttp\r\n    {\r\n       \"address\": \"https://www.cloudflare.com\"\r\n    }",
+        "operationId": "CheckHttpOperation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the address is null or is unable to be converted to a URI",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Chat/CheckDns": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Perform a dns lookup on the host address.",
+        "description": "To setup a dns monitor visit : https://freenetworkmonitor.click/dashboard . You can Login to create a free account and then add hosts to monitor.\r\n    POST /Chat/CheckDns\r\n    {\r\n       \"address\": \"google.com\"\r\n    }",
+        "operationId": "CheckDnsOperation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the address is null or is unable to be converted to a URI",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Chat/CheckIcmp": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Check the ping response time of a host.",
+        "description": "To setup a ping monitor visit : https://freenetworkmonitor.click/dashboard . You can Login to create a free account and then add hosts to monitor.\r\n    POST /Chat/CheckIcmp\r\n    {\r\n       \"address\": \"1.1.1.1\"\r\n    }",
+        "operationId": "CheckIcmpOperation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostObject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataObjTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the address is null or is unable to be converted to a URI",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DataObj": {
+        "type": "object",
+        "properties": {
+          "resultSuccess": {
+            "type": "boolean",
+            "description": "Indicates whether the check was successful."
+          },
+          "resultStatus": {
+            "type": "string",
+            "description": "Instructions for setting up a free network monitor.",
+            "nullable": true
+          },
+          "testedAddress": {
+            "type": "string",
+            "description": "The address of the tested host.",
+            "nullable": true
+          },
+          "testedPort": {
+            "type": "integer",
+            "description": "The port used for the check.",
+            "format": "int32",
+            "nullable": true
+          },
+          "responseTime": {
+            "type": "integer",
+            "description": "The time taken to perform the test in milliseconds. This indicates the response time of the host service. -1 indicates a timeout.",
+            "format": "int32",
+            "nullable": true
+          },
+          "setupFreeNetworkMonitor": {
+            "type": "string",
+            "description": "Instructions for setting up a free network monitor.",
+            "nullable": true
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "The timeout value used in milliseconds.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Object that contains details about the check."
+      },
+      "DataObjTResultObj": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DataObj"
+          },
+          "sentData": {
+            "nullable": true
+          },
+          "hasMorePages": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HostObject": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "This field is required.\r\nAddress of the host.",
+            "nullable": true
+          },
+          "port": {
+            "type": "integer",
+            "description": "This field is optional.\r\nPort used by the host service to test. Set to zero to use the default for the end point type.",
+            "format": "int32"
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "This field is optional.\r\nThe timeout in milliseconds to be used when testing this host service. The default is not included is to set the timeout to 10000 ms.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "QuantumDataObj": {
+        "type": "object",
+        "properties": {
+          "setupQuantumMonitor": {
+            "type": "string",
+            "description": "Instructions for setting up a quantum-ready monitor.",
+            "nullable": true
+          },
+          "quantumKeyExchange": {
+            "type": "string",
+            "description": "The quantum key exchange protocol used by the tested URL.",
+            "nullable": true
+          },
+          "testedUrl": {
+            "type": "string",
+            "description": "The URL that was tested for quantum safety.",
+            "nullable": true
+          },
+          "resultSuccess": {
+            "type": "boolean",
+            "description": "Indicates whether the tested URL uses a quantum-safe protocol."
+          },
+          "resultStatus": {
+            "type": "string",
+            "description": "Describes the status of the quantum safety of the tested URL.",
+            "nullable": true
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "The timeout value used in milliseconds.",
+            "format": "int32",
+            "nullable": true
+          },
+          "responseTime": {
+            "type": "integer",
+            "description": "The time taken to perform the test in milliseconds. This indicates the response time of the host service. -1 indicates a timeout.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Object that contains details about the quantum check."
+      },
+      "QuantumDataObjTResultObj": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/QuantumDataObj"
+          },
+          "sentData": {
+            "nullable": true
+          },
+          "hasMorePages": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UrlObject": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": true
+          },
+          "port": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

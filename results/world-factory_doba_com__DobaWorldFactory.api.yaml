@@ -1,0 +1,85 @@
+openapi: 3.0.1
+info:
+  title: doba-world-factory
+  description: Searching for the best manufacturers worldwide.
+  version: 'v1'
+servers:
+  - url: https://world-factory.doba.com/doba-world-factory
+paths:
+  /search:
+    get:
+      operationId: search
+      summary: Retrieve suitable factories based on the product requirements described by the user, the estimated delivery address, the maximum acceptable delivery time, the maximum affordable price, and the minimum acceptable number of employees.
+      parameters:
+        - name: userDescriptionOfRequirement
+          in: query
+          description: The product requirements described by the user include FAQs, shipping methods, legal status, business nature, factory classification, brand name, manufacturer, specifications, net weight, payment methods, certification information, product classification, etc.
+          schema:
+            type: string
+        - name: expectedDeliveryAddress
+          in: query
+          description: The expected delivery address can only be specified up to the city level, and does not support administrative divisions smaller than the city.
+          schema:
+            type: string
+        - name: maxAcceptableDeliveryPeriod
+          in: query
+          description: 'Maximum acceptable delivery period, unit: days.'
+          schema:
+            type: integer
+            format: int32
+        - name: maximumPriceToBear
+          in: query
+          description: 'Maximum affordable price, unit: USD'
+          schema:
+            type: number
+            format: double
+        - name: minAcceptedEmployeeCount
+          in: query
+          description: Minimum acceptable number of employees.
+          schema:
+            type: integer
+            format: int32
+      responses: 
+        "200": 
+          description: OK
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Factories'
+        "503":
+          description: Service Unavailable
+
+components:
+  schemas:
+    Factories:
+      type: array
+      items:
+        $ref: '#/components/schemas/Factory'
+    Factory:
+      type: object
+      properties:
+        factoryName:
+          type: string
+          description: Factory name, a formal name or trademark used by a factory or business.
+        factoryIntroduction:
+          type: string
+          description: Factory Description, including the factory's address, types of products produced, services provided, and logistics service providers collaborated with, etc.
+        factoryWebsite:
+          type: string
+          description: The official website link of the factory.
+        coreProducts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    Product:
+      type: object
+      properties:
+        productName:
+          type: string
+          description: Product name, the formal name or trademark used for the product.
+        productDescription:
+          type: string
+          description: Product description, including the product's features, uses, price, supported shipping methods, purchasing information, and more.
+        productDetailsPageUrl:
+          type: string
+          description: Product Details Page URL.

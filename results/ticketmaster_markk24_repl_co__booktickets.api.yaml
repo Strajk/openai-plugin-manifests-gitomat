@@ -1,0 +1,114 @@
+openapi: 3.0.1
+info:
+  title: Ticketmaster Events
+  description: A plugin that retrieves events from the Ticketmaster API based on various parameters such as location, date range, and event type.
+  version: 'v1'
+servers:
+  - url: https://ticketmaster.markk24.repl.co
+paths:
+  /events:
+    get:
+      operationId: getEvents
+      summary: Get list of events
+      parameters:
+        - name: keyword
+          in: query
+          description: Keyword for events
+          required: false
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: Location for events
+          required: false
+          schema:
+            type: string
+        - name: startDateTime
+          in: query
+          description: Start date and time for events
+          required: false
+          schema:
+            type: string
+        - name: endDateTime
+          in: query
+          description: End date and time for events
+          required: false
+          schema:
+            type: string
+        - name: classificationName
+          in: query
+          description: Classification name for events
+          required: false
+          schema:
+            type: string
+        - name: countryCode
+          in: query
+          description: Country code for events
+          required: false
+          schema:
+            type: string
+        - name: stateCode
+          in: query
+          description: State code for events
+          required: false
+          schema:
+            type: string
+        - name: geoPoint
+          in: query
+          description: Geohash for events
+          required: false
+          schema:
+            type: string
+        - name: preferredCountry
+          in: query
+          description: Preferred country for events
+          required: false
+          schema:
+            type: string
+        - name: includeSpellcheck
+          in: query
+          description: Include spellcheck suggestions in the response
+          required: false
+          schema:
+            type: string
+        - name: domain
+          in: query
+          description: Domain for events
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          description: Page size of the response
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: A list of URLs for the requested events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: uri
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

@@ -1,0 +1,118 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Web3 User Activity",
+    "description": "A plugin to get any Web3 user's activity.",
+    "version": "v1.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://chatgpt-plugin.rss3.ai"
+    }
+  ],
+  "paths": {
+    "/activities": {
+      "get": {
+        "operationId": "getActivities",
+        "summary": "Get the recent activities by address",
+        "description": "Use the `tag` query parameter to filter the type of activities, use the `limit` and `page` query parameters to paginate the results",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "address",
+            "description": "The address to query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "examples": {
+              "ens": {
+                "description": "ENS address",
+                "value": "vitalik.eth"
+              },
+              "0x": {
+                "description": "0x prefixed address",
+                "value": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 30
+            },
+            "description": "The number of activities each page should return"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            },
+            "description": "The page number"
+          },
+          {
+            "in": "query",
+            "name": "tag",
+            "schema": {
+              "type": "string",
+              "description": "The filter for activity type",
+              "enum": [
+                "transaction",
+                "exchange",
+                "collectible",
+                "metaverse",
+                "social",
+                "donation",
+                "governance"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Activity"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Activity": {
+        "description": "a single activity",
+        "type": "object",
+        "properties": {
+          "summary": {
+            "type": "string",
+            "description": "The summary of the activity"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "The date time of when the activity happens"
+          }
+        },
+        "required": [
+          "summary",
+          "type",
+          "transactionId",
+          "createdAt"
+        ]
+      }
+    }
+  }
+}

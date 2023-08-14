@@ -1,0 +1,1542 @@
+openapi: 3.0.1
+info:
+  title: FCA FS Search
+  description: A plugin that fetches product, individual, and firm details from the Financial Conduct Authority (FCA) registry using the product reference number (PRN), individual reference number (IRN), and firm reference number (FRN).
+  version: '1.0'
+servers:
+  - url: https://fca.tradexy.repl.co
+paths:
+  /firm:
+    get:
+      operationId: fetchFirm
+      summary: Get the details of a firm
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/{category}:
+    get:
+      operationId: fetchFirmByCategory
+      summary: Get the details of a firm by category
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+        - name: category
+          in: path
+          description: The category to fetch details for (e.g. Address, Names, Permissions, etc.)
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmByCategoryResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/other-names:
+    get:
+      operationId: fetchFirmOtherNames
+      summary: Get the other names used by the firms
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmOtherNamesResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/address:
+    get:
+      operationId: fetchFirmAddress
+      summary: Get the address details of a firm
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmAddressResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/controlled-functions:
+    get:
+      operationId: fetchFirmControlledFunctions
+      summary: Get information about the controlled functions of a firm
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmControlledFunctionsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/individuals:
+    get:
+      operationId: fetchFirmIndividuals
+      summary: Get information about the Individuals associated with a firm
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmIndividualsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/permissions:
+    get:
+      operationId: fetchFirmPermissions
+      summary: Get information about the activities and permissions associated with a specific firm
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmPermissionsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/requirements:
+    get:
+      operationId: fetchFirmRequirements
+      summary: Get information about the requirements associated with a specific firm
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmRequirementsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/regulators:
+    get:
+      operationId: fetchFirmRegulators
+      summary: Get information about a regulator on a firm
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmRegulatorsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/passports:
+    get:
+      operationId: fetchFirmPassports
+      summary: Get information about a firm's passport details
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmPassportsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/passports/permission:
+    get:
+      operationId: fetchFirmPassportPermission
+      summary: Get information about a passport permission by using its Firm Reference Number and Country
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+        - name: country
+          in: query
+          description: The country to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmPassportPermissionResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/waiver:
+    get:
+      operationId: fetchFirmWaiver
+      summary: Get information about a Waiver on a firm using its Firm Reference Number
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmWaiverResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/exclusions:
+    get:
+      operationId: fetchFirmExclusions
+      summary: Get information about an Exclusion on a firm using its Firm Reference Number
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmExclusionsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/disciplinaryhistory:
+    get:
+      operationId: fetchFirmDisciplinaryHistory
+      summary: Get information about a DisciplinaryHistory on a firm using its Firm Reference Number
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmDisciplinaryHistoryResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /firm/appointedrepresentatives:
+    get:
+      operationId: fetchFirmAppointedRepresentatives
+      summary: Get information about the Appointed Representatives associated with a firm using its Firm Reference Number
+      parameters:
+        - name: frn
+          in: query
+          description: The Firm Reference Number (FRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchFirmAppointedRepresentativesResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /individuals:
+    get:
+      operationId: fetchIndividuals
+      summary: Get the details of an individual
+      parameters:
+        - name: irn
+          in: query
+          description: The Individual Reference Number (IRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchIndividualsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+/individuals/details:
+  get:
+    operationId: fetchIndividualDetails
+    summary: Get information about the Individuals associated with its Individual Reference Number
+    parameters:
+      - name: irn
+        in: query
+        description: The Individual Reference Number (IRN) to search for
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchIndividualDetailsResponse'
+      '400':
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+/individuals/controlled-functions:
+  get:
+    operationId: fetchIndividualControlledFunctions
+    summary: Get information about all the firms the Individual has a controlled function at using their Individual Reference Number
+    parameters:
+      - name: irn
+        in: query
+        description: The Individual Reference Number (IRN) to search for
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchIndividualControlledFunctionsResponse'
+      '400':
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+/individuals/disciplinary-history:
+  get:
+    operationId: fetchIndividualDisciplinaryHistory
+    summary: Get information about Disciplinary History on an Individual using its Individual Reference Number
+    parameters:
+      - name: irn
+        in: query
+        description: The Individual Reference Number (IRN) to search for
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchIndividualDisciplinaryHistoryResponse'
+      '400':
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+  /products:
+    get:
+      operationId: fetchProducts
+      summary: Get the details of a product
+      parameters:
+        - name: prn
+          in: query
+          description: The Product Reference Number (PRN) to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchProductsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+/product/details:
+  get:
+    operationId: fetchProductDetails
+    summary: Get information about a product by using its Product Reference Number
+    parameters:
+      - name: prn
+        in: query
+        description: The Product Reference Number (PRN) to search for
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchProductDetailsResponse'
+      '400':
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+/product/subfund:
+  get:
+    operationId: fetchSubfundDetails
+    summary: Get information about subfund of a product by using its Product Reference Number
+    parameters:
+      - name: prn
+        in: query
+        description: The Product Reference Number (PRN) to search for
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchSubfundDetailsResponse'
+      '400':
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+/product/other-names:
+  get:
+    operationId: fetchProductOtherNames
+    summary: Get information about other names of a product by using its Product Reference Number
+    parameters:
+      - name: prn
+        in: query
+        description: The Product Reference Number (PRN) to search for
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchProductOtherNamesResponse'
+      '400':
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+  /search:
+    get:
+      operationId: commonSearch
+      summary: Common search in the FS register
+      parameters:
+        - name: query
+          in: query
+          description: The query to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonSearchResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+/regulated-market:
+  get:
+    operationId: fetchRegulatedMarket
+    summary: Search the FS register for regulated market information
+    parameters:
+      - name: q
+        in: query
+        description: Query parameter for searching regulated market information (e.g. "RM")
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchRegulatedMarketResponse'
+      '400':
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    FetchFirmResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+    FetchFirmByCategoryResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+    FetchFirmOtherNamesResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Current Names:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Effective From:
+                      type: string
+                    Status:
+                      type: string
+                    Name:
+                      type: string
+              Previous Names:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Effective To:
+                      type: string
+                    Effective From:
+                      type: string
+                    Status:
+                      type: string
+                    Name:
+                      type: string
+    FetchFirmAddressResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              URL:
+                type: string
+              Website Address:
+                type: string
+              Phone Number:
+                type: string
+              Country:
+                type: string
+              Postcode:
+                type: string
+              County:
+                type: string
+              Town:
+                type: string
+              Address Line 4:
+                type: string
+              Address Line 3:
+                type: string
+              Address Line 2:
+                type: string
+              Address Line 1:
+                type: string
+              Address Type:
+                type: string
+    FetchFirmControlledFunctionsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Current:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    Suspension / Restriction End Date:
+                      type: string
+                    Suspension / Restriction Start Date:
+                      type: string
+                    Restriction:
+                      type: string
+                    Effective Date:
+                      type: string
+                    Individual Name:
+                      type: string
+                    Name:
+                      type: string
+                    URL:
+                      type: string
+              Previous:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    End Date:
+                      type: string
+                    Suspension / Restriction End Date:
+                      type: string
+                    Suspension / Restriction Start Date:
+                      type: string
+                    Restriction:
+                      type: string
+                    Effective Date:
+                      type: string
+                    Individual Name:
+                      type: string
+                    Name:
+                      type: string
+                    URL:
+                      type: string
+    FetchFirmIndividualsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            Next:
+              type: string
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Status:
+                type: string
+              URL:
+                type: string
+              IRN:
+                type: string
+              Name:
+                type: string
+    FetchFirmPermissionsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+            Prev:
+              type: string
+            Next:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+    FetchFirmRequirementsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Effective Date:
+                type: string
+              Derivatives as incidental services only.:
+                type: string
+    FetchFirmRegulatorsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Regulator Name:
+                type: string
+              Effective Date:
+                type: string
+              Termination Date:
+                type: string
+    FetchFirmPassportsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            Next:
+              type: string
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Passports:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    PassportDirection:
+                      type: string
+                    Permissions:
+                      type: string
+                    Country:
+                      type: string
+    FetchFirmPassportPermissionResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Permissions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Name:
+                      type: string
+                    InvestmentTypes:
+                      type: array
+                      items:
+                        type: string
+              PassportType:
+                type: string
+              PassportDirection:
+                type: string
+              Directive:
+                type: string
+              Country:
+                type: string
+    FetchFirmWaiverResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Waivers_Discretions_URL:
+                type: string
+              Waivers_Discretions:
+                type: string
+              Rule_ArticleNo:
+                type: array
+                items:
+                  type: string
+    FetchFirmExclusionsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              PSD2_Exclusion_Type:
+                type: string
+              Particular_Exclusion_relied_upon:
+                type: string
+              Description_of_services:
+                type: string
+    FetchFirmDisciplinaryHistoryResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              TypeofDescription:
+                type: string
+              TypeofAction:
+                type: string
+              EnforcementType:
+                type: string
+              ActionEffectiveFrom:
+                type: string
+    FetchFirmAppointedRepresentativesResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            Next:
+              type: string
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: object
+          properties:
+            PreviousAppointedRepresentatives:
+              type: array
+              items:
+                type: object
+                properties:
+                  URL:
+                    type: string
+                  TerminationDate:
+                    type: string
+                  RecordSubType:
+                    type: string
+                  PrincipalFRN:
+                    type: string
+                  PrincipalFirmName:
+                    type: string
+                  EffectiveDate:
+                    type: string
+                  EEATiedAgent:
+                    type: string
+                  TiedAgent:
+                    type: string
+                  InsuranceDistribution:
+                    type: string
+                  FRN:
+                    type: string
+                  Name:
+                    type: string
+            CurrentAppointedRepresentatives:
+              type: array
+              items:
+                type: object
+                properties:
+                  URL:
+                    type: string
+                  RecordSubType:
+                    type: string
+                  PrincipalFRN:
+                    type: string
+                  PrincipalFirmName:
+                    type: string
+                  EffectiveDate:
+                    type: string
+                  EEATiedAgent:
+                    type: string
+                  TiedAgent:
+                    type: string
+                  InsuranceDistribution:
+                    type: string
+                  FRN:
+                    type: string
+                  Name:
+                    type: string
+    FetchIndividualsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Details:
+                type: object
+                properties:
+                  Controlled Functions:
+                    type: string
+                  IRN:
+                    type: string
+                  Commonly Used Name:
+                    type: string
+                  Individual Status:
+                    type: string
+                  Full Name:
+                    type: string
+    FetchIndividualDetailsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Details:
+                type: object
+                properties:
+                  Status:
+                    type: string
+                  DisciplinaryHistory:
+                    type: string
+                  RolesAndActivities:
+                    type: string
+                  IRN:
+                    type: string
+                  CommonlyUsedName:
+                    type: string
+                  FullName:
+                    type: string
+              WorkplaceLocation1:
+                type: object
+                properties:
+                  FirmName:
+                    type: string
+                  Location1:
+                    type: string
+    FetchIndividualControlledFunctionsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Current:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    CustomerEngagementMethod:
+                      type: string
+                    EffectiveDate:
+                      type: string
+                    FirmName:
+                      type: string
+                    Name:
+                      type: string
+                    SuspensionOrRestrictionStartDate:
+                      type: string
+                    SuspensionOrRestrictionEndDate:
+                      type: string
+                    URL:
+                      type: string
+              Previous:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    CustomerEngagementMethod:
+                      type: string
+                    EffectiveDate:
+                      type: string
+                    EndDate:
+                      type: string
+                    FirmName:
+                      type: string
+                    Name:
+                      type: string
+                    SuspensionOrRestrictionStartDate:
+                      type: string
+                    SuspensionOrRestrictionEndDate:
+                      type: string
+                    URL:
+                      type: string
+    FetchIndividualDisciplinaryHistoryResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              TypeofDescription:
+                type: string
+              TypeofAction:
+                type: string
+              EnforcementType:
+                type: string
+              ActionEffectiveFrom:
+                type: string
+    FetchProductsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Sub-funds:
+                type: string
+              Other Name:
+                type: string
+              CIS Depositary:
+                type: string
+              CIS Depositary Name:
+                type: string
+              Operator Name:
+                type: string
+              Operator:
+                type: string
+              MMF Term Type:
+                type: string
+              MMF NAV Type:
+                type: string
+              Effective Date:
+                type: string
+              Scheme Type:
+                type: string
+              Product Type:
+                type: string
+              ICVC Registration No:
+                type: string
+              Status:
+                type: string
+    FetchProductDetailsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              SubFunds:
+                type: string
+              OtherName:
+                type: string
+              CISDepositary:
+                type: string
+              CISDepositaryName:
+                type: string
+              OperatorName:
+                type: string
+              Operator:
+                type: string
+              MMFTermType:
+                type: string
+              MMFNAVType:
+                type: string
+              EffectiveDate:
+                type: string
+              SchemeType:
+                type: string
+              ProductType:
+                type: string
+              ICVCRegistrationNo:
+                type: string
+              Status:
+                type: string
+    FetchSubfundDetailsResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              URL:
+                type: string
+              Name:
+                type: string
+              SubFundType:
+                type: string
+    FetchProductOtherNamesResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              EffectiveTo:
+                type: string
+              EffectiveFrom:
+                type: string
+              ProductOtherName:
+                type: string
+    CommonSearchResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Name:
+                type: string
+              Type of Business or Individual:
+                type: string
+              Reference Number:
+                type: string
+              Status:
+                type: string
+              URL:
+                type: string
+    FetchRegulatedMarketResponse:
+      type: object
+      properties:
+        Status:
+          type: string
+        ResultInfo:
+          type: object
+          properties:
+            page:
+              type: string
+            per_page:
+              type: string
+            total_count:
+              type: string
+        Message:
+          type: string
+        Data:
+          type: array
+          items:
+            type: object
+            properties:
+              Name:
+                type: string
+              TradingName:
+                type: string
+              TypeOfBusinessOrIndividual:
+                type: string
+              ReferenceNumber:
+                type: string
+              Status:
+                type: string
+              FirmURL:
+                type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string

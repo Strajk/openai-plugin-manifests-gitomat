@@ -1,0 +1,169 @@
+openapi: 3.0.1
+info:
+  title: CommenEvents
+  description: Allows users to search among all South Korea event information.
+  version: '1.0'
+servers:
+  - url: https://commonevents.io
+paths:
+  /search:
+    get:
+      description: Accepts a search query  and returns a list of event information.
+      operationId: getSearch
+      parameters:
+        - name: language
+          in: query
+          schema:
+            type: string
+          description: language of request text.
+          required: true
+        - name: fullQuery
+          in: query
+          schema:
+            type: string
+          description: origianl full text of the users question.
+          required: true
+        - name: fullQueryInEnglish
+          in: query
+          schema:
+            type: string
+          description: full text of the users question in English.
+          required: true
+        - name: fullQueryInKorean
+          in: query
+          schema:
+            type: string
+          description: full text of the users question in Korean.
+          required: true
+        - name: title
+          in: query
+          schema:
+            type: string
+          description: Event title name in Korean.
+        - name: startDate
+          in: query
+          schema:
+            type: string
+          description: Start date of period.
+        - name: endDate
+          in: query
+          schema:
+            type: string
+          description: End date of period.
+        - name: ageLimit
+          in: query
+          schema:
+            type: integer
+          description: Lower age limit.
+        - name: location
+          in: query
+          schema:
+            type: string
+          description: Denotes broader geographical areas or jurisdictions, including civic entities. in Korean.
+        - name: place
+          in: query
+          schema:
+            type: string
+          description: Refers to specific venues where arts and cultural activities occur in Korean.
+        - name: price
+          in: query
+          schema:
+            type: integer
+          description: Ticket price.
+        - name: duration
+          in: query
+          schema:
+            type: integer
+          description: Duration of event.
+        - name: cast
+          in: query
+          schema:
+            type: string
+          description: Cast of event in Korean.
+        - name: organizer
+          in: query
+          schema:
+            type: string
+          description: The person or organization responsible for the event. This can include a range of roles such as director, producer, sponsor, host, etc in Korena.
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: category of event. performance, music, movie, magic, act, exhibition, festival, etc in Korean.
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: The page index number to search for.
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+          description: The number of events to return. The default is 5.
+      responses:
+        '200':
+          description: resposne provided in number and korean
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/searchResponse'
+components:
+  schemas:
+    searchResponse:
+      type: object
+      properties:
+        language:
+          type: String
+          enum: [English, Korean]
+          description: Other fields should be translated to the value set here.
+        totalCount:
+          type: integer
+          description: Total number of events found.
+        totalPage:
+          type: integer
+          description: Total number of pages for the search results of events.
+        currentPage:
+          type: integer
+          description: The current page number of the provided events among the search results.
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the event. In Korean.
+              titleEng:
+                type: string
+                description: Title of the event. In English.
+              link:
+                type: string
+                description: Link to the original source of event information.
+              img:
+                type: string
+                description: path of event thumnail.
+              startDate:
+                type: string
+                description: Start date of the event.
+              endDate:
+                type: string
+                description: End date of the event.
+              ageLimit:
+                type: integer
+                description: Age restriction for the event. unit is years.
+              cast:
+                type: string
+                description: The cast of the event.
+              price:
+                type: integer
+                description: Price of the event tickets. price unit is  KRW.
+              place:
+                type: string
+                description: place name of event.
+              provider:
+                type: string
+                description: Provider of information.
+              contact:
+                type: string
+                description: Contact information.
+          description: The event list of the current page number and translate given language.

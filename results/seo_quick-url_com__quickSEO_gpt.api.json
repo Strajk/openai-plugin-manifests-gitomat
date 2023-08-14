@@ -1,0 +1,907 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "A+QuickSEO",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/audit": {
+      "get": {
+        "summary": "Get a quick SEO audit of your link",
+        "operationId": "quickSEOAuditUsingGET",
+        "parameters": [
+          {
+            "name": "link",
+            "in": "query",
+            "required": true,
+            "description": "URL to audit in SEO",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SEO audit results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "examples": {
+                            "zero": {
+                              "value": 0,
+                              "summary": "The audit was performed correctly"
+                            },
+                            "negative": {
+                              "value": -1,
+                              "summary": "There was an error during the audit"
+                            }
+                          },
+                          "description": "Audit status"
+                        },
+                        "title": {
+                          "type": "string",
+                          "nullable": "true",
+                          "description": "Page title (null if absent)"
+                        },
+                        "description": {
+                          "type": "string",
+                          "nullable": "true",
+                          "description": "Page description (null if absent)"
+                        },
+                        "firstH1": {
+                          "type": "string",
+                          "nullable": "true",
+                          "description": "The content of the first H1 tag found on the page (null if absent)"
+                        },
+                        "pageSize": {
+                          "type": "integer",
+                          "description": "Page weight in bytes"
+                        },
+                        "metaCanonical": {
+                          "type": "string",
+                          "nullable": "true",
+                          "description": "The address provided by the meta canonical tag (null if absent)"
+                        },
+                        "metaLang": {
+                          "type": "string",
+                          "nullable": "true",
+                          "description": "Language information defined by meta tag http-equiv (null if absent)"
+                        },
+                        "metaLanguage": {
+                          "type": "string",
+                          "nullable": "true",
+                          "description": "Language information defined by meta tag language (null if absent)"
+                        },
+                        "htmlLang": {
+                          "type": "string",
+                          "nullable": "true",
+                          "description": "The language information defined in the html tag (null if absent)"
+                        },
+                        "wordCount": {
+                          "type": "integer",
+                          "description": "The number of words on the page"
+                        },
+                        "linksCount": {
+                          "type": "integer",
+                          "description": "The number of links on the page"
+                        },
+                        "linksExternalCount": {
+                          "type": "integer",
+                          "description": "The number of external links on the page"
+                        },
+                        "linksInternalCount": {
+                          "type": "integer",
+                          "description": "The number of internal links on the page"
+                        },
+                        "seoRating": {
+                          "type": "string",
+                          "description": "SEO optimization note",
+                          "enum": [
+                            "A+",
+                            "A",
+                            "B+",
+                            "C",
+                            "D",
+                            "E",
+                            "F",
+                            "G",
+                            "N/A"
+                          ],
+                          "examples": {
+                            "min": {
+                              "value": "G",
+                              "summary": "Worst SEO score"
+                            },
+                            "max": {
+                              "value": "A+",
+                              "summary": "Top SEO rating"
+                            },
+                            "not-possible": {
+                              "value": "N/A",
+                              "summary": "No SEO rating possible"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "network": {
+                      "type": "object",
+                      "properties": {
+                        "Ip": {
+                          "type": "string",
+                          "description": "Page IP"
+                        },
+                        "IpReverse": {
+                          "type": "string",
+                          "description": "Hostname"
+                        },
+                        "gzip": {
+                          "type": "boolean",
+                          "examples": {
+                            "true": {
+                              "value": "true",
+                              "summary": "Page is compressed by gzip"
+                            },
+                            "false": {
+                              "value": "false",
+                              "summary": "Page is not compressed by gzip"
+                            }
+                          }
+                        },
+                        "pageSizeCompressed": {
+                          "type": "integer",
+                          "description": "Size of page compressed"
+                        },
+                        "connectTime": {
+                          "type": "number",
+                          "description": "Time needed to connect to the page"
+                        },
+                        "loadTime": {
+                          "type": "number",
+                          "description": "Time needed to load to the page"
+                        },
+                        "HttpLocation": {
+                          "type": "string",
+                          "nullable": "true",
+                          "description": "Final URL after redirection. Only if it's a redirect"
+                        },
+                        "HttpResponseCode": {
+                          "type": "integer"
+                        },
+                        "HttpResponse": {
+                          "type": "string"
+                        },
+                        "HttpRequest": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "seoAudit": {
+                      "type": "object",
+                      "properties": {
+                        "wordsNumber": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit the total number of words on the page."
+                        },
+                        "wordsNumberDistincts": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit the number of distinct words on the page."
+                        },
+                        "wordsNumberRelevant": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit the number of relevant words on the page."
+                        },
+                        "wordsNumberRelevantDistinct": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit the number of distinct relevant words on the page."
+                        },
+                        "freqRepetitionGlobal": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit the overall repetition frequency of words on the page."
+                        },
+                        "freqRepetitionWordsRelevantDistinct": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit the frequency of repetition of distinct relevant words on the page."
+                        },
+                        "freqRepetitionPhrase": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit the frequency of sentence repetition on the page."
+                        },
+                        "weightForWord": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit the weight of words on the page."
+                        },
+                        "titleLong": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the length of the title on the page."
+                        },
+                        "titleAbsent": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the presence of the title on the page."
+                        },
+                        "descLong": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the length of the description on the page."
+                        },
+                        "descAbsent": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the presence of the description on the page."
+                        },
+                        "descShort": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the brevity of the description on the page."
+                        },
+                        "keywords": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of keywords on the page."
+                        },
+                        "urlQuery": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of query parameters in the URL."
+                        },
+                        "urlUnderscore": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of underscores in the URL."
+                        },
+                        "h1": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the presence and appropriateness of the h1 tag on the page."
+                        },
+                        "h2": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the presence and appropriateness of the h2 tag on the page."
+                        },
+                        "h1first": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the order of the h1 tag on the page."
+                        },
+                        "noHx": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the absence of heading tags on the page."
+                        },
+                        "jsInline": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of inline JavaScript on the page."
+                        },
+                        "styleInline": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of inline CSS on the page."
+                        },
+                        "inlineStyleAttr": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of inline style attributes on the page."
+                        },
+                        "jsFiles": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use and loading of JavaScript files on the page."
+                        },
+                        "styleFiles": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use and loading of CSS files on the page."
+                        },
+                        "frames": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of frames on the page."
+                        },
+                        "iFrames": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of iFrames on the page."
+                        },
+                        "langue": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the language declaration on the page."
+                        },
+                        "encoding": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the character encoding declaration on the page."
+                        },
+                        "icons": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of icons on the page."
+                        },
+                        "robotsarchive": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the robots.txt file's archive directive for the page."
+                        },
+                        "robotsindex": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the robots.txt file's index directive for the page."
+                        },
+                        "robotsfollow": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the robots.txt file's follow directive for the page."
+                        },
+                        "robotssnippet": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the robots.txt file's snippet directive for the page."
+                        },
+                        "robotsodp": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the robots.txt file's odp directive for the page."
+                        },
+                        "robotsydir": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the robots.txt file's ydir directive for the page."
+                        },
+                        "robotsimageindex": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the robots.txt file's image index directive for the page."
+                        },
+                        "robotstranslate": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the robots.txt file's translate directive for the page."
+                        },
+                        "linksQuery": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of query parameters in links on the page."
+                        },
+                        "linksPath": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of paths in links on the page."
+                        },
+                        "linksNofollow": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of the nofollow attribute in links on the page."
+                        },
+                        "linksScheme": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of schemes in links on the page."
+                        },
+                        "linksSecureTarget": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of secure targets in links on the page."
+                        },
+                        "imagesNoOpt": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the optimization of images on the page."
+                        },
+                        "imagesNoAlt": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of alt attributes in images on the page."
+                        },
+                        "imagesAltDuplicate": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the duplication of alt attributes in images on the page."
+                        },
+                        "socialOg": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of Open Graph protocol on the page."
+                        },
+                        "socialTwitter": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of Twitter cards on the page."
+                        },
+                        "loadTime": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the page load time."
+                        },
+                        "connectTime": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the connection time to the page."
+                        },
+                        "httpGzip": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of Gzip compression on the page."
+                        },
+                        "useHTTPS": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of HTTPS on the page."
+                        },
+                        "useHSTS": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the use of HTTP Strict Transport Security on the page."
+                        },
+                        "pageGzipSize": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "warning",
+                            "error"
+                          ],
+                          "description": "Audit of the Gzip size of the page."
+                        }
+                      }
+                    },
+                    "keywords": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "score": {
+                            "type": "number",
+                            "description": "The weighted score assigned to the keyword."
+                          },
+                          "occurrences": {
+                            "type": "integer",
+                            "description": "The number of times the keyword was encountered."
+                          },
+                          "tags": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "integer",
+                              "description": "The number of times the keyword appears in this tag."
+                            },
+                            "description": "The list of tags in which the keyword is present. In this list, the name of the tag is the name of the object."
+                          }
+                        },
+                        "description": "An object containing information extracted during the SEO audit for a specific keyword."
+                      },
+                      "description": "A list of objects containing information extracted during the SEO audit for each keyword."
+                    },
+                    "keywordsPairs": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "score": {
+                            "type": "integer",
+                            "description": "The score calculated based on the number of repetitions of the pair on the page and the importance of the tags in which they are found."
+                          },
+                          "occurrences": {
+                            "type": "integer",
+                            "description": "The number of times the pair is repeated on the page."
+                          }
+                        },
+                        "description": "An object containing information extracted during the SEO audit for a specific keyword pair."
+                      },
+                      "description": "A list of objects containing information extracted during the SEO audit for each keyword pair, sorted by their score."
+                    },
+                    "internalLinks": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "occurrences": {
+                            "type": "integer",
+                            "description": "The number of times the link is present on the page."
+                          },
+                          "queryString": {
+                            "type": "string",
+                            "description": "The potential query string of the URL (after example.com?)."
+                          },
+                          "underscore": {
+                            "type": "boolean",
+                            "description": "True if an underscore is present in the URL string (not optimal)."
+                          },
+                          "scheme": {
+                            "type": "boolean",
+                            "description": "True if the internal link is not in the same protocol as the URL (example: link in https on a page in http)."
+                          },
+                          "linkDetails": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "text": {
+                                  "type": "string",
+                                  "description": "The text of the link."
+                                },
+                                "rel": {
+                                  "type": "string",
+                                  "description": "The potential rel attribute of the link."
+                                },
+                                "bodyPosition": {
+                                  "type": "integer",
+                                  "description": "The position in the body text."
+                                },
+                                "fragment": {
+                                  "type": "string",
+                                  "description": "The potential URL fragment."
+                                },
+                                "target": {
+                                  "type": "string",
+                                  "description": "The potential target attribute of the link."
+                                },
+                                "path": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "description": "The tags in which the link is found."
+                                },
+                                "position": {
+                                  "type": "string",
+                                  "description": "The relative position (top, middle, bottom)."
+                                }
+                              },
+                              "description": "An object containing information about each occurrence of the link on the page."
+                            },
+                            "description": "A list of objects containing information about each occurrence of the link on the page."
+                          }
+                        },
+                        "description": "An object containing information extracted during the SEO audit for a specific internal link."
+                      },
+                      "description": "A list of objects containing information extracted during the SEO audit for each internal link."
+                    },
+                    "externalLinks": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "occurrences": {
+                            "type": "integer",
+                            "description": "The number of times the link is present on the page."
+                          },
+                          "linkDetails": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "text": {
+                                  "type": "string",
+                                  "description": "The text of the link."
+                                },
+                                "rel": {
+                                  "type": "string",
+                                  "description": "The potential rel attribute of the link."
+                                },
+                                "bodyPosition": {
+                                  "type": "integer",
+                                  "description": "The position in the body text."
+                                },
+                                "fragment": {
+                                  "type": "string",
+                                  "description": "The potential URL fragment."
+                                },
+                                "target": {
+                                  "type": "string",
+                                  "description": "The potential target attribute of the link."
+                                },
+                                "path": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "description": "The tags in which the link is found."
+                                },
+                                "position": {
+                                  "type": "string",
+                                  "description": "The relative position (top, middle, bottom)."
+                                }
+                              },
+                              "description": "An object containing information about each occurrence of the link on the page."
+                            },
+                            "description": "A list of objects containing information about each occurrence of the link on the page."
+                          }
+                        },
+                        "description": "An object containing information extracted during the SEO audit for a specific external link."
+                      },
+                      "description": "A list of objects containing information extracted during the SEO audit for each external link."
+                    },
+                    "specialLinks": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "type": "string",
+                              "description": "The text of the link."
+                            },
+                            "bodyPosition": {
+                              "type": "integer",
+                              "description": "The position of the link in the body text."
+                            },
+                            "position": {
+                              "type": "string",
+                              "description": "The relative position of the link (top, middle, bottom)."
+                            }
+                          },
+                          "description": "An object containing information about each occurrence of the link on the page."
+                        },
+                        "description": "An object containing information extracted during the SEO audit for a specific special link."
+                      },
+                      "description": "A list of objects containing information extracted during the SEO audit for each type of special links."
+                    },
+                    "images": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "alt": {
+                              "type": "string",
+                              "description": "The alternative text of the image.",
+                              "nullable": "true"
+                            },
+                            "title": {
+                              "type": "string",
+                              "description": "The title of the image.",
+                              "nullable": "true"
+                            }
+                          },
+                          "description": "An object containing information about each occurrence of the image on the page."
+                        },
+                        "description": "An object containing information extracted during the SEO audit for a specific image."
+                      },
+                      "description": "A list of objects containing information extracted during the SEO audit for each image."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://seo.quick-url.com"
+    }
+  ]
+}

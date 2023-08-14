@@ -1,0 +1,186 @@
+openapi: 3.0.1
+info:
+  title: GoWithGuide
+  description: Book a private customizable tour with a local guide.
+  version: "v1"
+servers:
+  - url: https://gowithguide.com
+paths:
+  /api/openai/search:
+    post:
+      operationId: getToursAndGuides
+      summary: Get the list of guides or tours or both.
+      requestBody:
+        required: true
+        description: Request body parameters
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchTourGuidesRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchTourGuidesResponse"
+components:
+  schemas:
+    SearchTourGuidesRequest:
+      type: object
+      properties:
+        country:
+          type: string
+          description: Name of the country to search for tours and guides.
+        city:
+          type: string
+          description: Name of the city to search for tours and guides.
+        destination:
+          type: string
+          description: Name of a specific place or location (outside of the city and country) to search for tours and guides.
+        type:
+          type: array
+          items:
+            type: string
+            enum:
+              - tours
+              - guides
+          description: Accepts an array of strings with possible values 'tours', 'guides', or both (even if user does not specify anything in the query).
+        category:
+          type: string
+          enum:
+            - art-culture-historical
+            - food-drink
+            - kids-family-friendly
+            - nightlife
+            - day-trip
+            - highlights
+            - nature-outdoor
+            - shopping
+            - shore-excursion
+            - unique-experience
+            - off-the-beaten-path
+          description: Keywords related to the travel experience that user wants to get.
+        duration:
+          type: string
+          enum:
+            - LESS_3_HOURS
+            - HALF_DAY
+            - FULL_DAY
+            - MULTIPLE_DAYS
+          description: Duration of the tour.
+        language:
+          type: string
+          description: Preferred language for the user in ISO 639-1 format. For Chinese Simplified use zh-CN and for Chinese Traditional use zh-TW.
+        date:
+          type: string
+          description: User arrival date to the location for the commencement of the tour.
+          format: date
+        numberOfPeople:
+          type: integer
+          description: The total number of people accompanying the guide.
+        adults:
+          type: integer
+          description: The total number of adults accompanying the guide.
+        children:
+          type: integer
+          description: The total number of children accompanying the guide.
+        infants:
+          type: integer
+          description: The total number of infants in the family accompanying the guide on the trip.
+        numberOfDays:
+          type: integer
+          description: The total number of days of the trip.
+        rawMessage:
+          type: string
+          description: The entire message from the user in the query and it is mandatory to send this.
+      required:
+        - rawMessage
+        - type
+    SearchTourGuidesResponse:
+      type: object
+      properties:
+        guides:
+          type: object
+          properties:
+            viewMore:
+              type: string
+              description: It is mandatory to show this view more option to the user. This will give option to show more results.
+            comments:
+              type: array
+              items: 
+                type: string
+              description: An array of comments related to guides, please include explicitly.
+            results:
+              type: array
+              items:
+                $ref: "#/components/schemas/Guide"
+          description: The list of guides.
+          required:
+            - viewMore
+        tours:
+          type: object
+          properties:
+            viewMore:
+              type: string
+              description: It is mandatory to show this view more option to the user. This will give option to show more results.
+            comments:
+              type: array
+              items: 
+                type: string
+              description: An array of comments related to tours, please include explicitly.
+            results:
+              type: array
+              items:
+                $ref: "#/components/schemas/Tour"
+          required:
+            - viewMore
+          description: The list of tours.
+    Guide:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the guide.
+        title:
+          type: string
+          description: The title of the guide.
+        url:
+          type: string
+          description: The URL of the guide's details or profile.
+        abstract:
+          type: string
+          description: A short abstract or description of the guide.
+        image:
+          type: string
+          description: The URL of the guide's image.
+        comments:
+          type: array
+          items: 
+            type: string
+          description: An array of comments describing what filters were removed to find this tour, please include explicitly.
+      nullable: true
+    Tour:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the tour.
+        title:
+          type: string
+          description: The title of the tour.
+        url:
+          type: string
+          description: The URL of the tour's details or profile.
+        abstract:
+          type: string
+          description: A short abstract or description of the tour.
+        image:
+          type: string
+          description: The URL of the tour's image.
+        comments:
+          type: array
+          items: 
+            type: string
+          description: An array of comments telling what filters were removed to find this guide, please include explicitly.
+      nullable: true

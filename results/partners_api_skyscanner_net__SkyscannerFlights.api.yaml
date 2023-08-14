@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  title: Skyscanner
+  description: Searches for the cheapest flights from a given origin and destination on a given outbound and return date.
+  version: 'v1'
+servers:
+  - url: https://partners.api.skyscanner.net
+paths:
+  /getPrices:
+    post:
+      operationId: getPrices
+      summary: Returns the lowest prices travellers are able to travel from a given origin and destination, with a url to book the requested itinerary which should be returned to the user for the best experience.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                origin:
+                  description: "The IATA code of the origin travellers want to travel from."
+                  type: string
+                  required: true
+                destination:
+                  description: "The IATA code of the destination travellers want to travel to."
+                  type: string
+                  required: true
+                departure_date:
+                  description: "The departure date in yyyy-mm-dd format that travellers want to travel from."
+                  type: string
+                  required: true
+                return_date:
+                  description: "Optional return date in yyyy-mm-dd format. If not specified, the search will be for a one way flight."
+                  type: string
+      responses:
+        "200":
+          description: The flight information for the requested journey, and a link to book the flight on success, or an informative error message on failure.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    description: The flight information for the requested journey, and a link to book the flight on success, or an informative error message on failure.

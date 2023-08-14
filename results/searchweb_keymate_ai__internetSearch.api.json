@@ -1,0 +1,523 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Keymate.AI Web Search API",
+    "description": "A Flask app that uses the Google Custom Search API to search the web.",
+    "version": "1.0.1"
+  },
+  "paths": {
+    "/search": {
+      "get": {
+        "operationId": "searchAndBrowse",
+        "summary": "Search Google and fetch HTML content and PDF summary content from the links at the same time in one go.",
+        "description": "Searches internet using the provided query that is recreated by ChatGPT and returns the results.Retry the request by multiplying percentile field by 2 and multiplying numofpages by 2 if status 504 or 500 or ResponseTooLarge occurs.Cite link field.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "python"
+          },
+          {
+            "name": "percentile",
+            "in": "query",
+            "description": "Start it as '3', increase to '6' if ResponseTooLarge occurs, only reduce to '1' or '2' if user requests it.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "3"
+          },
+          {
+            "name": "numofpages",
+            "in": "query",
+            "description": "Start it as '3'. Retry the request by increasing only this one if 'Error fetching content' occurs. Should be between 1 and 10.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "3"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string",
+                            "description": "The title of the search result"
+                          },
+                          "link": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "The URL of the search result"
+                          },
+                          "summary": {
+                            "type": "string",
+                            "description": "A summary of the HTML content of the search result (available for the first five results)"
+                          },
+                          "full_content": {
+                            "type": "string",
+                            "description": "The entire HTML content of the search result (available for the first three results)"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "results": [
+                      {
+                        "title": "Welcome to Python.org",
+                        "link": "https://www.python.org/",
+                        "summary": "The official home of the Python Programming Language...",
+                        "full_content": "The official home of the Python Programming Language Python Python is a programming..."
+                      },
+                      {
+                        "title": "Python (programming language) - Wikipedia",
+                        "link": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+                        "summary": "Python is an interpreted, high-level, general-purpose programming language...",
+                        "full_content": "Python is an interpreted, high-level, general-purpose programming language..."
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  },
+                  "example": {
+                    "error": "No query provided"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error fetching search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  },
+                  "example": {
+                    "error": "Error fetching search results"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ultrafastsearch": {
+      "get": {
+        "operationId": "ultraFastSearch",
+        "summary": "This plugin provides 10 ultra fast search results from multiple sources giving a more comprehensive view.",
+        "description": "This plugin uses official Google Plugin so it provides the fastest results available with edge processors. Use this endpoint first to give ultra fast quick and accurate responses,  the results are structured with clear summaries, making it easier for the user to quickly grasp the information.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "URL of the website.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "url"
+            },
+            "example": "https://keymate.ai"
+          },
+          {
+            "name": "percentile",
+            "in": "query",
+            "description": "Set it as '100'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "100"
+          },
+          {
+            "name": "numofpages",
+            "in": "query",
+            "description": "Set it as '10'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string",
+                            "description": "The title of the search result"
+                          },
+                          "link": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "The URL of the search result"
+                          },
+                          "summary": {
+                            "type": "string",
+                            "description": "A summary of the HTML content of the search result (available for the first five results)"
+                          },
+                          "full_content": {
+                            "type": "string",
+                            "description": "The entire HTML content of the search result (available for the first three results)"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "results": [
+                      {
+                        "title": "Welcome to Python.org",
+                        "link": "https://www.python.org/",
+                        "summary": "The official home of the Python Programming Language...",
+                        "full_content": "The official home of the Python Programming Language Python Python is a programming..."
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  },
+                  "example": {
+                    "error": "No query provided"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error fetching search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  },
+                  "example": {
+                    "error": "Error fetching search results"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/browse": {
+      "get": {
+        "operationId": "browseByUrl",
+        "summary": "The plugin enables user to conduct web browsing by extracting the text content of a specified URL. It will generate title and content.",
+        "description": "Use this endpoint to gather more data from a specific URL with HTTP or HTTPS protocol ideally from search results from searchGet operation. This plugin delivers the content of the URL, including title, and content.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "URL of the website.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "url"
+            },
+            "example": "https://keymate.ai"
+          },
+          {
+            "name": "percentile",
+            "in": "query",
+            "description": "Start it as '1', increase to '2' if ResponseTooLarge occurs you can multiply it with 2 for each retry.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "numofpages",
+            "in": "query",
+            "description": "Set it as '1'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string",
+                            "description": "The title of the search result"
+                          },
+                          "link": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "The URL of the search result"
+                          },
+                          "summary": {
+                            "type": "string",
+                            "description": "A summary of the HTML content of the search result (available for the first five results)"
+                          },
+                          "full_content": {
+                            "type": "string",
+                            "description": "The entire HTML content of the search result (available for the first three results)"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "results": [
+                      {
+                        "title": "Welcome to Python.org",
+                        "link": "https://www.python.org/",
+                        "summary": "The official home of the Python Programming Language...",
+                        "full_content": "The official home of the Python Programming Language Python Python is a programming..."
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  },
+                  "example": {
+                    "error": "No query provided"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error fetching search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  },
+                  "example": {
+                    "error": "Error fetching search results"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upsert": {
+      "get": {
+        "operationId": "upsertToUsersKnowledgeBase",
+        "summary": "Your long term memory. It upserts embeddings into the user's personal Pinecone index.",
+        "description": "Use this to insert your last response to user to remember the context in following conversations. text-embedding-ada-002 is used to embed your last response to the user. query path can be used later to remember the context.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Data text to be embedded to personal Pinecone index",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "https://keymate.ai"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "description": "The result of the operation"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": "success"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/query": {
+      "get": {
+        "operationId": "queryUsersKnowledgeBase",
+        "summary": "Queries the user's Pinecone index. Use this before anything else to understand your user's usage history.",
+        "description": "It brings you data previously inserted by other chatgpt sessions to user's pinecone db. Use this operation first to understand user's intent, context and profile before anything else.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "The context you are searching from user's personal knowledge base history.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "https://keymate.ai"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "matches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "User's unique id with timestamp the data was inserted to long term memory."
+                          },
+                          "metadata": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string",
+                                "description": "Your nearest neighbour response to the user related to your query"
+                              }
+                            }
+                          },
+                          "score": {
+                            "type": "number",
+                            "description": "How close was the results to your query"
+                          },
+                          "sparseValues": {
+                            "type": "object"
+                          },
+                          "values": {
+                            "type": "array"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "matches": [
+                      {
+                        "id": "mem_id_123_932",
+                        "metadata": {
+                          "text": "Why did the world enter a global depression in 1929 ?"
+                        },
+                        "score": 0.917971551,
+                        "sparseValues": {},
+                        "values": []
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://searchweb.keymate.ai"
+    }
+  ]
+}

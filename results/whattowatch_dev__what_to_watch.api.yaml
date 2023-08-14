@@ -1,0 +1,510 @@
+openapi: 3.1.0
+info:
+  title: What To Watch API
+  description: API for searching, getting details, recommendations, and streaming information for TV shows and movies.
+  version: 1.0.0
+servers:
+  - url: "https://whattowatch.dev"
+paths:
+  /shows/details/{show_name}:
+    get:
+      summary: Show Details
+      operationId: getShowDetailsByName
+      parameters:
+        - name: show_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShowDetails"
+
+  /shows/search/{show_name}:
+    get:
+      summary: Search Shows
+      operationId: searchShowsByName
+      parameters:
+        - name: show_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShowResults"
+
+  /shows/recommendations/{show_name}:
+    get:
+      summary: Get Recommendations for a Show
+      operationId: getShowRecommendationsByName
+      parameters:
+        - name: show_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShowResults"
+
+  /shows/streaming/{country}/{show_name}:
+    get:
+      summary: Get streaming info for a show
+      operationId: getShowStreamingInfoByCountryAndName
+      parameters:
+        - name: country
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: show_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StreamingResults"
+
+  /movies/search/{movie_name}:
+    get:
+      summary: Search for a movie
+      operationId: searchMoviesByName
+      parameters:
+        - name: movie_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieResults"
+
+  /movies/recommendations/{movie_name}:
+    get:
+      summary: Get Recommendations for a movie
+      operationId: getMovieRecommendationsByName
+      parameters:
+        - name: movie_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieResults"
+
+  /movies/streaming/{country}/{movie_name}:
+    get:
+      summary: Movie Streaming
+      operationId: getMovieStreamingInfoByCountryAndName
+      parameters:
+        - name: country
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: movie_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StreamingResults"
+
+  /movies/upcoming:
+    get:
+      summary: Get upcoming movies
+      operationId: getUpcomingMovies
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieResults"
+
+  /movies/top:
+    get:
+      summary: Get top movies
+      operationId: getTopMovies
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieResults"
+
+  /movies/popular:
+    get:
+      summary: Get popular movies
+      operationId: getPopularMovies
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieResults"
+
+  /movies/now_playing:
+    get:
+      summary: Get movies that are currently playing
+      operationId: getNowPlayingMovies
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieResults"
+
+components:
+  schemas:
+    ShowResults:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/ShowResult"
+    ShowResult:
+      type: object
+      properties:
+        adult:
+          type: boolean
+        backdrop_path:
+          type: string
+        first_air_date:
+          type: string
+        genre_ids:
+          type: array
+          items:
+            type: integer
+        id:
+          type: integer
+        name:
+          type: string
+        origin_country:
+          type: array
+          items:
+            type: string
+        original_language:
+          type: string
+        original_name:
+          type: string
+        overview:
+          type: string
+        popularity:
+          type: number
+        poster_path:
+          type: string
+        vote_average:
+          type: number
+        vote_count:
+          type: integer
+    ShowDetails:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            adult:
+              type: boolean
+            backdrop_path:
+              type: string
+            created_by:
+              type: array
+              items:
+                $ref: "#/components/schemas/CreatedBy"
+            episode_run_time:
+              type: array
+              items:
+                type: integer
+            first_air_date:
+              type: string
+            genres:
+              type: array
+              items:
+                $ref: "#/components/schemas/Genre"
+            homepage:
+              type: string
+            id:
+              type: integer
+            in_production:
+              type: boolean
+            languages:
+              type: array
+              items:
+                type: string
+            last_air_date:
+              type: string
+            last_episode_to_air:
+              $ref: "#/components/schemas/Episode"
+            name:
+              type: string
+            networks:
+              type: array
+              items:
+                $ref: "#/components/schemas/Network"
+            next_episode_to_air:
+              nullable: true
+            number_of_episodes:
+              type: integer
+            number_of_seasons:
+              type: integer
+            origin_country:
+              type: array
+              items:
+                type: string
+            original_language:
+              type: string
+            original_name:
+              type: string
+            overview:
+              type: string
+            popularity:
+              type: number
+            poster_path:
+              type: string
+            production_companies:
+              type: array
+              items:
+                $ref: "#/components/schemas/ProductionCompany"
+            production_countries:
+              type: array
+              items:
+                $ref: "#/components/schemas/Country"
+            seasons:
+              type: array
+              items:
+                $ref: "#/components/schemas/Season"
+            spoken_languages:
+              type: array
+              items:
+                $ref: "#/components/schemas/Language"
+            status:
+              type: string
+            tagline:
+              type: string
+            type:
+              type: string
+            vote_average:
+              type: number
+            vote_count:
+              type: integer
+
+    CreatedBy:
+      type: object
+      properties:
+        credit_id:
+          type: string
+        gender:
+          type: integer
+        id:
+          type: integer
+        name:
+          type: string
+        profile_path:
+          type: string
+
+    Genre:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    Episode:
+      type: object
+      properties:
+        air_date:
+          type: string
+        episode_number:
+          type: integer
+        id:
+          type: integer
+        name:
+          type: string
+        overview:
+          type: string
+        production_code:
+          type: string
+        season_number:
+          type: integer
+        show_id:
+          type: integer
+        still_path:
+          type: string
+        vote_average:
+          type: number
+        vote_count:
+          type: integer
+
+    Network:
+      type: object
+      properties:
+        id:
+          type: integer
+        logo_path:
+          type: string
+        name:
+          type: string
+        origin_country:
+          type: string
+
+    ProductionCompany:
+      type: object
+      properties:
+        id:
+          type: integer
+        logo_path:
+          type: string
+        name:
+          type: string
+        origin_country:
+          type: string
+
+    Country:
+      type: object
+      properties:
+        iso_3166_1:
+          type: string
+        name:
+          type: string
+
+    Season:
+      type: object
+      properties:
+        air_date:
+          type: string
+        episode_count:
+          type: integer
+        id:
+          type: integer
+        name:
+          type: string
+        overview:
+          type: string
+        poster_path:
+          type: string
+        season_number:
+          type: integer
+
+    Language:
+      type: object
+      properties:
+        english_name:
+          type: string
+        iso_639_1:
+          type: string
+        name:
+          type: string
+
+    StreamingResults:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/StreamingResult"
+
+    StreamingResult:
+      type: object
+      properties:
+        id:
+          type: integer
+        poster:
+          type: string
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/StreamingService"
+        title:
+          type: string
+
+    StreamingService:
+      type: object
+      properties:
+        monetization_type:
+          type: string
+        provider_id:
+          type: integer
+        service_name:
+          type: string
+        standard_url:
+          type: string
+
+    MovieResults:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/MovieResult"
+
+    MovieResult:
+      type: object
+      properties:
+        adult:
+          type: boolean
+        backdrop_path:
+          type: string
+        genre_ids:
+          type: array
+          items:
+            type: integer
+        id:
+          type: integer
+        original_language:
+          type: string
+        original_title:
+          type: string
+        overview:
+          type: string
+        popularity:
+          type: number
+        poster_path:
+          type: string
+        release_date:
+          type: string
+        title:
+          type: string
+        video:
+          type: boolean
+        vote_average:
+          type: number
+        vote_count:
+          type: integer

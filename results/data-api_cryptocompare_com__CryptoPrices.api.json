@@ -1,0 +1,3545 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "CCData.io Market, Index, Reference Data, News and Overview Metrics API for the Cryptocurrency Industry",
+    "description": "# CCData.io is the world's leading digital asset data company, providing services that cater to corporate, government and retail clients. \n\n### Our main reference index is widely recognized as a reliable benchmark, and we have been authorized by the Financial Conduct Authority (FCA) in the United Kingdom to operate as [a benchmark administrator](https://register.fca.org.uk/s/firm?id=0014G00002ZchX7QAJ). \n        \nIn addition to catering to corporate, government, and retail clients, we offer a range of services including comprehensive market data for cryptocurrency exchanges in both the centralized and decentralized finance sectors, as well as individual asset data on custodians, supported platforms, and privacy solutions. \n        \nOur offerings include price, volume, trade, and orderbook updates, as well as historical OHLCV data.\n\nYou can browse the menu on the left in order to discover all the endpoints available. There is also a menu just above this to discover all the sections available. \n\n### Some of the endpoints in our API require a registered account. Please make sure to create an account and create an API Key.",
+    "termsOfService": "https://www.cryptocompare.com/terms-conditions/",
+    "contact": {
+      "name": "API Support",
+      "url": "https://cryptocompare.zendesk.com/hc/en-gb/requests/new",
+      "email": "data@cryptocompare.com"
+    },
+    "license": {
+      "name": "CCData.io API License Agreement",
+      "url": "https://www.cryptocompare.com/api-licence-agreement/"
+    },
+    "version": "2.1.14622"
+  },
+  "servers": [
+    {
+      "url": "https://data-api.cryptocompare.com",
+      "description": "Production API load balancer URL."
+    }
+  ],
+  "paths": {
+    "/index/cc/v1/latest/tick": {
+      "get": {
+        "summary": "Instrument Latest Tick",
+        "description": "This endpoint retrieves the most recent index values and other index data for specified index instrument(s) on a selected market. Also delivers the current index value, along with OHLC (open, high, low, close) metrics aggregated across diverse time intervals.",
+        "x-extended-description-with-markdown": "",
+        "tags": [
+          "Reference Rates"
+        ],
+        "operationId": "index_cc_v1_latest_tick",
+        "x-section": "Reference Rates",
+        "x-roles-required": [],
+        "x-cache-length-seconds": 10,
+        "x-visible-in-ai": true,
+        "x-endpoint-group-id": "index_cc_v1_latest_tick",
+        "x-endpoint-group-name": "Instrument Latest Tick",
+        "parameters": [
+          {
+            "name": "market",
+            "in": "query",
+            "description": "The index family to obtain data from. The default value is ccix, our 24-hour volume-weighted average with time penalty and outlier adjustment index.",
+            "required": true,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 30
+            },
+            "example": "ccix"
+          },
+          {
+            "name": "instruments",
+            "in": "query",
+            "description": "A comma separated array of mapped and/or unmapped instruments to retrieve for a specific market (you can use either the instrument XXBTZUSD or mapped instrument (base - quote) BTC-USD on kraken as an example). We return the mapped version of the values by default.",
+            "required": true,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 25,
+              "items": {
+                "type": "string"
+              }
+            },
+            "example": [
+              "BTC-USD",
+              "ETH-USD"
+            ]
+          },
+          {
+            "name": "groups",
+            "in": "query",
+            "description": "When requesting tick data you can filter by specific groups of interest. To do so just pass the groups of interest into the URL as a comma separated list. If left empty it will get all data that your account is allowed to access.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "array",
+              "default": [],
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ID",
+                  "VALUE",
+                  "LAST_UPDATE",
+                  "CURRENT_HOUR",
+                  "CURRENT_DAY",
+                  "CURRENT_WEEK",
+                  "CURRENT_MONTH",
+                  "CURRENT_YEAR",
+                  "MOVING_24_HOUR",
+                  "MOVING_7_DAY",
+                  "MOVING_30_DAY",
+                  "MOVING_90_DAY",
+                  "MOVING_180_DAY",
+                  "MOVING_365_DAY",
+                  "LIFETIME"
+                ]
+              }
+            },
+            "example": []
+          },
+          {
+            "name": "apply_mapping",
+            "in": "query",
+            "description": "Determines if provided instrument values are converted according to internal mappings. When true, values are translated (e.g., coinbase 'USDT-USDC' becomes 'USDC-USDT' and we invert the values); when false, original values are used.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "example": true
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Success response from the API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/INDEX_CC_CALCULATED_WITH_VOLUME_INSTRUMENT_MARKET_DATA_RESPONSE"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The 400 error occurs when some of the data sent is malformed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The 401 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The 403 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The 404 error can either be returned when some/all of parameters sent are not found within our system. This could be beacuse parameters like market, instrument, news source, symbol, asset_id etc. are invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The 405 error occurs the user tries to use a http method (GET,POST,PUT etc) that is not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The 429 error occurs when you go over the API Key limit. Rate limits are eforced on a second (resets every second), minute (resers every minute), hour (resets every hour), day (resets every day) and month (resets every month) granularity. You can upgrade your account and access higher rate limits.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The 500 error occurs our API is up but does not know how to / can't handle the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The 502 error occurs when our API is not running. This error is returned by our proxy / load balancer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The 503 error occurs when there is an issue with one of our data sources and we can't even return a partial answer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/index/cc/v1/historical/days": {
+      "get": {
+        "summary": "Historical OHLCV+ Day",
+        "description": "Get detailed index candlestick information at one-day intervals, encompassing open, high, low, and close values. This data enables a comprehensive understanding of the index's performance over time, allowing for in-depth analysis and decision-making.",
+        "x-extended-description-with-markdown": "",
+        "tags": [
+          "Reference Rates"
+        ],
+        "operationId": "index_cc_v1_historical_days",
+        "x-section": "Reference Rates",
+        "x-roles-required": [],
+        "x-cache-length-seconds": 300,
+        "x-visible-in-ai": true,
+        "x-endpoint-group-id": "index_cc_v1_historical_days",
+        "x-endpoint-group-name": "Historical OHLCV+ Day",
+        "parameters": [
+          {
+            "name": "market",
+            "in": "query",
+            "description": "The index family to obtain data from. The default value is ccix, our 24-hour volume-weighted average with time penalty and outlier adjustment index.",
+            "required": true,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 30
+            },
+            "example": "ccix"
+          },
+          {
+            "name": "instrument",
+            "in": "query",
+            "description": "A mapped and/or unmapped instrument to retrieve for a specific market (you can use either the instrument XXBTZUSD or mapped instrument (base - quote) BTC-USD on kraken as an example). We return the mapped version of the values by default.",
+            "required": true,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "example": "BTC-USD"
+          },
+          {
+            "name": "groups",
+            "in": "query",
+            "description": "When requesting historical entries you can filter by specific groups of interest. To do so just pass the groups of interest into the URL as a comma separated list. If left empty it will get all data that your account is allowed to access.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "array",
+              "default": [],
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ID",
+                  "OHLC",
+                  "OHLC_MESSAGE",
+                  "MESSAGE",
+                  "VOLUME"
+                ]
+              }
+            },
+            "example": []
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of data points to return",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer",
+              "default": 30,
+              "minimum": 1,
+              "maximum": 5000
+            },
+            "example": 30
+          },
+          {
+            "name": "to_ts",
+            "in": "query",
+            "description": "Returns historical data before this unix timestamp. If you want to get all the available historical data, you can use limit=2000 and keep going back in time using the to_ts param. You can then keep requesting batches using: &limit=2000&to_ts={the earliest unix timestamp received}",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "aggregate",
+            "in": "query",
+            "description": "The number of points to aggregate for each returned value. E.g. passing 5 on a minute histo data endpoint will return data at 5 minute intervals. You are still limited to a maximum of 2000 minute points so the maximum you can get is 400 5 minutes interval entries",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1,
+              "maximum": 30
+            },
+            "example": 1
+          },
+          {
+            "name": "fill",
+            "in": "query",
+            "description": "Boolean value, if set to false or 0 we will not return data points for periods with no trading activity.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "example": true
+          },
+          {
+            "name": "apply_mapping",
+            "in": "query",
+            "description": "Determines if provided instrument values are converted according to internal mappings. When true, values are translated (e.g., coinbase 'USDT-USDC' becomes 'USDC-USDT' and we invert the values); when false, original values are used.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "example": true
+          },
+          {
+            "name": "response_format",
+            "in": "query",
+            "description": "The format of the data response in uppercase. It can be one of the following: JSON,CSV",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "default": "JSON",
+              "enum": [
+                "JSON",
+                "CSV"
+              ]
+            },
+            "example": "JSON"
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Success response from the API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/INDEX_CC_CALCULATED_WITH_VOLUME_INSTRUMENT_HISTO_DATA_RESPONSE"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The 400 error occurs when some of the data sent is malformed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The 401 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The 403 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The 404 error can either be returned when some/all of parameters sent are not found within our system. This could be beacuse parameters like market, instrument, news source, symbol, asset_id etc. are invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The 405 error occurs the user tries to use a http method (GET,POST,PUT etc) that is not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The 429 error occurs when you go over the API Key limit. Rate limits are eforced on a second (resets every second), minute (resers every minute), hour (resets every hour), day (resets every day) and month (resets every month) granularity. You can upgrade your account and access higher rate limits.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The 500 error occurs our API is up but does not know how to / can't handle the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The 502 error occurs when our API is not running. This error is returned by our proxy / load balancer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The 503 error occurs when there is an issue with one of our data sources and we can't even return a partial answer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/index/cc/v1/historical/hours": {
+      "get": {
+        "summary": "Historical OHLCV+ Hour",
+        "description": "Get detailed index candlestick information at one-hour intervals, encompassing open, high, low, and close values. This data enables a comprehensive understanding of the index's performance over time, allowing for in-depth analysis and decision-making.",
+        "x-extended-description-with-markdown": "",
+        "tags": [
+          "Reference Rates"
+        ],
+        "operationId": "index_cc_v1_historical_hours",
+        "x-section": "Reference Rates",
+        "x-roles-required": [],
+        "x-cache-length-seconds": 300,
+        "x-visible-in-ai": true,
+        "x-endpoint-group-id": "index_cc_v1_historical_hours",
+        "x-endpoint-group-name": "Historical OHLCV+ Hour",
+        "parameters": [
+          {
+            "name": "market",
+            "in": "query",
+            "description": "The index family to obtain data from. The default value is ccix, our 24-hour volume-weighted average with time penalty and outlier adjustment index.",
+            "required": true,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 30
+            },
+            "example": "ccix"
+          },
+          {
+            "name": "instrument",
+            "in": "query",
+            "description": "A mapped and/or unmapped instrument to retrieve for a specific market (you can use either the instrument XXBTZUSD or mapped instrument (base - quote) BTC-USD on kraken as an example). We return the mapped version of the values by default.",
+            "required": true,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "example": "BTC-USD"
+          },
+          {
+            "name": "groups",
+            "in": "query",
+            "description": "When requesting historical entries you can filter by specific groups of interest. To do so just pass the groups of interest into the URL as a comma separated list. If left empty it will get all data that your account is allowed to access.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "array",
+              "default": [],
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ID",
+                  "OHLC",
+                  "OHLC_MESSAGE",
+                  "MESSAGE",
+                  "VOLUME"
+                ]
+              }
+            },
+            "example": []
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of data points to return",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer",
+              "default": 30,
+              "minimum": 1,
+              "maximum": 2000
+            },
+            "example": 30
+          },
+          {
+            "name": "to_ts",
+            "in": "query",
+            "description": "Returns historical data before this unix timestamp. If you want to get all the available historical data, you can use limit=2000 and keep going back in time using the to_ts param. You can then keep requesting batches using: &limit=2000&to_ts={the earliest unix timestamp received}",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "aggregate",
+            "in": "query",
+            "description": "The number of points to aggregate for each returned value. E.g. passing 5 on a minute histo data endpoint will return data at 5 minute intervals. You are still limited to a maximum of 2000 minute points so the maximum you can get is 400 5 minutes interval entries",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1,
+              "maximum": 30
+            },
+            "example": 1
+          },
+          {
+            "name": "fill",
+            "in": "query",
+            "description": "Boolean value, if set to false or 0 we will not return data points for periods with no trading activity.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "example": true
+          },
+          {
+            "name": "apply_mapping",
+            "in": "query",
+            "description": "Determines if provided instrument values are converted according to internal mappings. When true, values are translated (e.g., coinbase 'USDT-USDC' becomes 'USDC-USDT' and we invert the values); when false, original values are used.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "example": true
+          },
+          {
+            "name": "response_format",
+            "in": "query",
+            "description": "The format of the data response in uppercase. It can be one of the following: JSON,CSV",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "default": "JSON",
+              "enum": [
+                "JSON",
+                "CSV"
+              ]
+            },
+            "example": "JSON"
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Success response from the API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/INDEX_CC_CALCULATED_WITH_VOLUME_INSTRUMENT_HISTO_DATA_RESPONSE"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The 400 error occurs when some of the data sent is malformed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The 401 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The 403 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The 404 error can either be returned when some/all of parameters sent are not found within our system. This could be beacuse parameters like market, instrument, news source, symbol, asset_id etc. are invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The 405 error occurs the user tries to use a http method (GET,POST,PUT etc) that is not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The 429 error occurs when you go over the API Key limit. Rate limits are eforced on a second (resets every second), minute (resers every minute), hour (resets every hour), day (resets every day) and month (resets every month) granularity. You can upgrade your account and access higher rate limits.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The 500 error occurs our API is up but does not know how to / can't handle the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The 502 error occurs when our API is not running. This error is returned by our proxy / load balancer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The 503 error occurs when there is an issue with one of our data sources and we can't even return a partial answer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/index/cc/v1/historical/minutes": {
+      "get": {
+        "summary": "Historical OHLCV+ Minute",
+        "description": "Get detailed index candlestick information at one-minute intervals, encompassing open, high, low, and close values. This data enables a comprehensive understanding of the index's performance over time, allowing for in-depth analysis and decision-making.",
+        "x-extended-description-with-markdown": "",
+        "tags": [
+          "Reference Rates"
+        ],
+        "operationId": "index_cc_v1_historical_minutes",
+        "x-section": "Reference Rates",
+        "x-roles-required": [],
+        "x-cache-length-seconds": 60,
+        "x-visible-in-ai": true,
+        "x-endpoint-group-id": "index_cc_v1_historical_minutes",
+        "x-endpoint-group-name": "Historical OHLCV+ Minute",
+        "parameters": [
+          {
+            "name": "market",
+            "in": "query",
+            "description": "The index family to obtain data from. The default value is ccix, our 24-hour volume-weighted average with time penalty and outlier adjustment index.",
+            "required": true,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 30
+            },
+            "example": "ccix"
+          },
+          {
+            "name": "instrument",
+            "in": "query",
+            "description": "A mapped and/or unmapped instrument to retrieve for a specific market (you can use either the instrument XXBTZUSD or mapped instrument (base - quote) BTC-USD on kraken as an example). We return the mapped version of the values by default.",
+            "required": true,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "example": "BTC-USD"
+          },
+          {
+            "name": "groups",
+            "in": "query",
+            "description": "When requesting historical entries you can filter by specific groups of interest. To do so just pass the groups of interest into the URL as a comma separated list. If left empty it will get all data that your account is allowed to access.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "array",
+              "default": [],
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ID",
+                  "OHLC",
+                  "OHLC_MESSAGE",
+                  "MESSAGE",
+                  "VOLUME"
+                ]
+              }
+            },
+            "example": []
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of data points to return",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer",
+              "default": 30,
+              "minimum": 1,
+              "maximum": 2000
+            },
+            "example": 30
+          },
+          {
+            "name": "to_ts",
+            "in": "query",
+            "description": "Returns historical data before this unix timestamp. If you want to get all the available historical data, you can use limit=2000 and keep going back in time using the to_ts param. You can then keep requesting batches using: &limit=2000&to_ts={the earliest unix timestamp received}",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "aggregate",
+            "in": "query",
+            "description": "The number of points to aggregate for each returned value. E.g. passing 5 on a minute histo data endpoint will return data at 5 minute intervals. You are still limited to a maximum of 2000 minute points so the maximum you can get is 400 5 minutes interval entries",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1,
+              "maximum": 30
+            },
+            "example": 1
+          },
+          {
+            "name": "fill",
+            "in": "query",
+            "description": "Boolean value, if set to false or 0 we will not return data points for periods with no trading activity.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "example": true
+          },
+          {
+            "name": "apply_mapping",
+            "in": "query",
+            "description": "Determines if provided instrument values are converted according to internal mappings. When true, values are translated (e.g., coinbase 'USDT-USDC' becomes 'USDC-USDT' and we invert the values); when false, original values are used.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "example": true
+          },
+          {
+            "name": "response_format",
+            "in": "query",
+            "description": "The format of the data response in uppercase. It can be one of the following: JSON,CSV",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "default": "JSON",
+              "enum": [
+                "JSON",
+                "CSV"
+              ]
+            },
+            "example": "JSON"
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Success response from the API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/INDEX_CC_CALCULATED_WITH_VOLUME_INSTRUMENT_HISTO_DATA_RESPONSE"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The 400 error occurs when some of the data sent is malformed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The 401 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The 403 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The 404 error can either be returned when some/all of parameters sent are not found within our system. This could be beacuse parameters like market, instrument, news source, symbol, asset_id etc. are invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The 405 error occurs the user tries to use a http method (GET,POST,PUT etc) that is not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The 429 error occurs when you go over the API Key limit. Rate limits are eforced on a second (resets every second), minute (resers every minute), hour (resets every hour), day (resets every day) and month (resets every month) granularity. You can upgrade your account and access higher rate limits.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The 500 error occurs our API is up but does not know how to / can't handle the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The 502 error occurs when our API is not running. This error is returned by our proxy / load balancer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The 503 error occurs when there is an issue with one of our data sources and we can't even return a partial answer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/v1/article/list": {
+      "get": {
+        "summary": "Article: List",
+        "description": "Get latest news articles in the crypto industry from all sources.",
+        "tags": [
+          "News"
+        ],
+        "operationId": "news_v1_article_list",
+        "x-section": "News",
+        "x-roles-required": [],
+        "x-cache-length-seconds": 0,
+        "x-visible-in-ai": true,
+        "x-endpoint-group-id": "news_v1_article_list",
+        "x-endpoint-group-name": "Article: List",
+        "parameters": [
+          {
+            "name": "source_ids",
+            "in": "query",
+            "description": "Get articles from specific sources; either by their ids or keys",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "array",
+              "default": [
+                ""
+              ],
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "The preferred language - English (EN), Portuguese (PT), Espanol (ES), Turkish (TR)",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "default": "EN",
+              "enum": [
+                "EN",
+                "ES",
+                "PT",
+                "TR",
+                ""
+              ],
+              "minLength": 1
+            }
+          },
+          {
+            "name": "categories",
+            "in": "query",
+            "description": "News article categories to return",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "array",
+              "default": [
+                ""
+              ],
+              "maxItems": 200,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "1INCH",
+                  "AAVE",
+                  "ADA",
+                  "ALGO",
+                  "ALTCOIN",
+                  "ASIA",
+                  "ATOM",
+                  "AVAX",
+                  "AXS",
+                  "BAL",
+                  "BAT",
+                  "BCH",
+                  "BLOCKCHAIN",
+                  "BTC",
+                  "BUSINESS",
+                  "COMMODITY",
+                  "COMP",
+                  "CRV",
+                  "DASH",
+                  "DOGE",
+                  "DOT",
+                  "ENJ",
+                  "ETC",
+                  "ETH",
+                  "EXCHANGE",
+                  "FIAT",
+                  "FIL",
+                  "FTM",
+                  "ICO",
+                  "KNC",
+                  "LINK",
+                  "LRC",
+                  "LTC",
+                  "LUNA",
+                  "LUNC",
+                  "MANA",
+                  "MARKET",
+                  "MATIC",
+                  "MINING",
+                  "MKR",
+                  "REGULATION",
+                  "REN",
+                  "SAND",
+                  "SHIB",
+                  "SNX",
+                  "SOL",
+                  "SPONSORED",
+                  "SUSHI",
+                  "TECHNOLOGY",
+                  "TRADING",
+                  "TRX",
+                  "UMA",
+                  "UNI",
+                  "USDT",
+                  "WALLET",
+                  "XLM",
+                  "XMR",
+                  "XRP",
+                  "XTZ",
+                  "YFI",
+                  "ZEC",
+                  "ZRX",
+                  ""
+                ]
+              }
+            }
+          },
+          {
+            "name": "exclude_categories",
+            "in": "query",
+            "description": "News article categories to exclude from results",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "array",
+              "default": [
+                ""
+              ],
+              "maxItems": 200,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "1INCH",
+                  "AAVE",
+                  "ADA",
+                  "ALGO",
+                  "ALTCOIN",
+                  "ASIA",
+                  "ATOM",
+                  "AVAX",
+                  "AXS",
+                  "BAL",
+                  "BAT",
+                  "BCH",
+                  "BLOCKCHAIN",
+                  "BTC",
+                  "BUSINESS",
+                  "COMMODITY",
+                  "COMP",
+                  "CRV",
+                  "DASH",
+                  "DOGE",
+                  "DOT",
+                  "ENJ",
+                  "ETC",
+                  "ETH",
+                  "EXCHANGE",
+                  "FIAT",
+                  "FIL",
+                  "FTM",
+                  "ICO",
+                  "KNC",
+                  "LINK",
+                  "LRC",
+                  "LTC",
+                  "LUNA",
+                  "LUNC",
+                  "MANA",
+                  "MARKET",
+                  "MATIC",
+                  "MINING",
+                  "MKR",
+                  "REGULATION",
+                  "REN",
+                  "SAND",
+                  "SHIB",
+                  "SNX",
+                  "SOL",
+                  "SPONSORED",
+                  "SUSHI",
+                  "TECHNOLOGY",
+                  "TRADING",
+                  "TRX",
+                  "UMA",
+                  "UNI",
+                  "USDT",
+                  "WALLET",
+                  "XLM",
+                  "XMR",
+                  "XRP",
+                  "XTZ",
+                  "YFI",
+                  "ZEC",
+                  "ZRX",
+                  ""
+                ]
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of total news articles to return",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100
+            },
+            "example": 10
+          },
+          {
+            "name": "to_ts",
+            "in": "query",
+            "description": "Articles published on or before this timestamp",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "integer",
+              "default": -1
+            }
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Success response from the API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NEWS_ARTICLES_RESPONSE"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The 400 error occurs when some of the data sent is malformed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The 401 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The 403 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The 404 error can either be returned when some/all of parameters sent are not found within our system. This could be beacuse parameters like market, instrument, news source, symbol, asset_id etc. are invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The 405 error occurs the user tries to use a http method (GET,POST,PUT etc) that is not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The 429 error occurs when you go over the API Key limit. Rate limits are eforced on a second (resets every second), minute (resers every minute), hour (resets every hour), day (resets every day) and month (resets every month) granularity. You can upgrade your account and access higher rate limits.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The 500 error occurs our API is up but does not know how to / can't handle the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The 502 error occurs when our API is not running. This error is returned by our proxy / load balancer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The 503 error occurs when there is an issue with one of our data sources and we can't even return a partial answer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/asset/v1/data/by/symbol": {
+      "get": {
+        "summary": "Metadata By Symbol",
+        "description": "Get overall asset info for a specific asset by symbol.",
+        "tags": [
+          "Asset"
+        ],
+        "operationId": "asset_v1_data_by_symbol",
+        "x-section": "Asset",
+        "x-roles-required": [],
+        "x-cache-length-seconds": 300,
+        "x-visible-in-ai": true,
+        "x-endpoint-group-id": "asset_v1_data",
+        "x-endpoint-group-name": "Metadata",
+        "parameters": [
+          {
+            "name": "asset_symbol",
+            "in": "query",
+            "description": "The unique symbol of the cryptocurrency asset for which you wish to retrieve information. This should be a string that accurately represents the asset's common ticker symbol.",
+            "required": true,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "example": "BTC"
+          },
+          {
+            "name": "groups",
+            "in": "query",
+            "description": "When requesting asset data you can filter by specific groups of interest",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "array",
+              "default": [],
+              "minItems": 0,
+              "maxItems": 2000,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Success response from the API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ASSET_METADATA_RESPONSE"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The 400 error occurs when some of the data sent is malformed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The 401 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The 403 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The 404 error can either be returned when some/all of parameters sent are not found within our system. This could be beacuse parameters like market, instrument, news source, symbol, asset_id etc. are invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The 405 error occurs the user tries to use a http method (GET,POST,PUT etc) that is not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The 429 error occurs when you go over the API Key limit. Rate limits are eforced on a second (resets every second), minute (resers every minute), hour (resets every hour), day (resets every day) and month (resets every month) granularity. You can upgrade your account and access higher rate limits.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The 500 error occurs our API is up but does not know how to / can't handle the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The 502 error occurs when our API is not running. This error is returned by our proxy / load balancer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The 503 error occurs when there is an issue with one of our data sources and we can't even return a partial answer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/onchain/v1/block/2/last": {
+      "get": {
+        "summary": "ETH: Full Latest Block",
+        "description": "Detailed information about the latest Ethereum block in our processed format. Make sure to use the groups param to get access to all the data. Useful for developers, researchers, or users who require access to the most granular and easy to understand data available for a given block. The url struct",
+        "tags": [
+          "On-Chain"
+        ],
+        "operationId": "onchain_v1_block_2_last",
+        "x-section": "On-Chain",
+        "x-roles-required": [],
+        "x-cache-length-seconds": 5,
+        "x-visible-in-ai": true,
+        "x-endpoint-group-id": "onchain_v1_block_2_last",
+        "x-endpoint-group-name": "ETH: Latest Block",
+        "parameters": [
+          {
+            "name": "groups",
+            "in": "query",
+            "description": "When requesting processed block data you can filter by specific groups of interest. To do so just pass the groups of interest into the URL as a comma separated list. If left empty it will get all data that your account is allowed to access.",
+            "required": false,
+            "explode": false,
+            "style": "form",
+            "deprecated": false,
+            "schema": {
+              "type": "array",
+              "default": [
+                "ID",
+                "METADATA"
+              ],
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ID",
+                  "METADATA",
+                  "TRANSACTIONS",
+                  "ORPHAN_TRACES",
+                  "UNCLES",
+                  "WITHDRAWALS"
+                ]
+              }
+            },
+            "example": [
+              "ID"
+            ]
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Success response from the API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ETH_FULL_BLOCK_RESPONSE"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The 400 error occurs when some of the data sent is malformed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The 401 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The 403 error occurs when you don't use a valid API Key on an endpoint that requires authentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The 404 error can either be returned when some/all of parameters sent are not found within our system. This could be beacuse parameters like market, instrument, news source, symbol, asset_id etc. are invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The 405 error occurs the user tries to use a http method (GET,POST,PUT etc) that is not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The 429 error occurs when you go over the API Key limit. Rate limits are eforced on a second (resets every second), minute (resers every minute), hour (resets every hour), day (resets every day) and month (resets every month) granularity. You can upgrade your account and access higher rate limits.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The 500 error occurs our API is up but does not know how to / can't handle the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The 502 error occurs when our API is not running. This error is returned by our proxy / load balancer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The 503 error occurs when there is an issue with one of our data sources and we can't even return a partial answer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ERROR"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GENERIC_RESPONSE": {
+        "type": "object",
+        "x-visible-in-ai": true,
+        "properties": {
+          "Data": {
+            "type": "object",
+            "properties": {
+              "NO_DATA": {
+                "type": "string",
+                "description": "The endpoint does not have a response defined",
+                "example": "Please add a ResponseObject on the endpoint!"
+              }
+            }
+          },
+          "Err": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "ERROR": {
+        "type": "object",
+        "x-visible-in-ai": true,
+        "properties": {
+          "Data": {
+            "type": "object",
+            "properties": {}
+          },
+          "Err": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "integer",
+                "description": "A public facing error type. If you want to treat a specific error use the type.",
+                "format": "int32",
+                "example": 1
+              },
+              "message": {
+                "type": "string",
+                "description": "A message describing the error",
+                "example": "Not found: market parameter. Value test_market_does_not_exist not integrated yet. We list all markets in lowercase and transform the parameter sent, make sure you check the https://data-api.cryptocompare.com/spot/v1/markets endpoint for a list of all the supported TRADE_SPOT markets"
+              },
+              "other_info": {
+                "type": "object",
+                "properties": {
+                  "param": {
+                    "type": "string",
+                    "description": "The parameter that is resposible for the error",
+                    "example": "market"
+                  },
+                  "values": {
+                    "type": "array",
+                    "description": "The values resposible for the error",
+                    "example": [
+                      "test_market_does_not_exist"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "INDEX_CC_CALCULATED_WITH_VOLUME_INSTRUMENT_MARKET_DATA": {
+        "type": "object",
+        "x-visible-in-ai": true,
+        "properties": {
+          "TYPE": {
+            "type": "string",
+            "description": "Type of the message."
+          },
+          "MARKET": {
+            "type": "string",
+            "description": "The index family you have requested (name of the index family e.g. ccix)"
+          },
+          "INSTRUMENT": {
+            "type": "string",
+            "description": "The unmapped instrument ID"
+          },
+          "CCSEQ": {
+            "type": "number",
+            "description": "Our internal sequence number for this tick update, this is unique per market / exchange and trading pair / instrument. It will always be increasing by 1 for each new tick update we send."
+          },
+          "VALUE": {
+            "type": "number",
+            "description": "The latest value (price) of the index."
+          },
+          "VALUE_FLAG": {
+            "type": "string",
+            "description": "The flag indicating if the value has increased, decreased, or not changed"
+          },
+          "VALUE_LAST_UPDATE_TS": {
+            "type": "number",
+            "description": "The timestamp in seconds as reported by the market / exchange or the received timestamp if the market / exchange does not provide one of the last update that had an impact on the value."
+          },
+          "VALUE_LAST_UPDATE_NS": {
+            "type": "number",
+            "description": "The Nanoseconds part of the timestamp when the last update was reported by the market / exchange / calculation server."
+          },
+          "LAST_UPDATE_QUANTITY": {
+            "type": "number",
+            "description": "The quantity of the latest update in the from symbol (base / coin)"
+          },
+          "LAST_UPDATE_QUOTE_QUANTITY": {
+            "type": "number",
+            "description": "The quote quantity of the latest update in the to symbol (quote / coin)"
+          },
+          "LAST_UPDATE_CCSEQ": {
+            "type": "number",
+            "description": "The CCSEQ of the last message update"
+          },
+          "CURRENT_HOUR_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from the start of the current hour until now. Represented in the base asset."
+          },
+          "CURRENT_HOUR_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from the start of the current hour until now. Represented in the quote asset."
+          },
+          "CURRENT_HOUR_OPEN": {
+            "type": "number",
+            "description": "The open value for the current hour, this is based on the closest update before the start of the current hour."
+          },
+          "CURRENT_HOUR_HIGH": {
+            "type": "number",
+            "description": "The highest value between the open and the highest update value in the current hour. The same as open when there no update in the time period."
+          },
+          "CURRENT_HOUR_LOW": {
+            "type": "number",
+            "description": "The lowest value between the open and the lowest update value in the current hour. The same as open when there no update in the time period."
+          },
+          "CURRENT_HOUR_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total updates since the start of the current hour."
+          },
+          "CURRENT_HOUR_CHANGE": {
+            "type": "number",
+            "description": "The value change from the CURRENT_HOUR. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "CURRENT_HOUR_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the CURRENT_HOUR. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "CURRENT_DAY_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from the start of the current day (00:00:00 GMT/UTC) until now. Represented in the base asset."
+          },
+          "CURRENT_DAY_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from the start of the current day (00:00:00 GMT/UTC) until now. Represented in the quote asset."
+          },
+          "CURRENT_DAY_OPEN": {
+            "type": "number",
+            "description": "The open value for the current day, this is based on the closest update before the start of the current day (00:00:00 GMT/UTC)."
+          },
+          "CURRENT_DAY_HIGH": {
+            "type": "number",
+            "description": "The highest value between the open and the highest update value in the current day (00:00:00 GMT/UTC). The same as open when there no updates in the time period."
+          },
+          "CURRENT_DAY_LOW": {
+            "type": "number",
+            "description": "The lowest value between the open and the lowest update value in the current day (00:00:00 GMT/UTC). The same as open when there no updates in the time period."
+          },
+          "CURRENT_DAY_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total updates since the start of the current day (00:00:00 GMT/UTC)."
+          },
+          "CURRENT_DAY_CHANGE": {
+            "type": "number",
+            "description": "The value change from the CURRENT_DAY. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "CURRENT_DAY_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the CURRENT_DAY. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "CURRENT_WEEK_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from Monday (00:00:00 GMT/UTC) to the beginning (00:00:00 GMT/UTC) of the current day of the week. If today is Monday, this value will be 0. Represented in the base asset."
+          },
+          "CURRENT_WEEK_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from Monday (00:00:00 GMT/UTC) to the beginning (00:00:00 GMT/UTC) of the current day of the week. If today is Monday, this value will be 0. Represented in the quote asset."
+          },
+          "CURRENT_WEEK_OPEN": {
+            "type": "number",
+            "description": "The value of the closest update to Monday (00:00:00 GMT/UTC) of this week. This would be, in a highly liquid market, the last update that happened on the previous Sunday at (23:59:59 999 GMT/UTC). This will always be supplied and there is no need to do any calculation to get the full weekly value."
+          },
+          "CURRENT_WEEK_HIGH": {
+            "type": "number",
+            "description": "The highest value between the CURRENT_WEEK_OPEN and the highest update value of the week excluding the current day (Monday - 00:00:00 GMT/UTC to the beginning - 00:00:00 GMT/UTC of the current day of the week). If today is Monday, this value will be CURRENT_WEEK_OPEN."
+          },
+          "CURRENT_WEEK_LOW": {
+            "type": "number",
+            "description": "The lowest value between the CURRENT_WEEK_OPEN and the lowest update value of the week excluding the current day (Monday - 00:00:00 GMT/UTC to the beginning - 00:00:00 GMT/UTC of the current day of the week). If today is Monday, this value will be CURRENT_WEEK_OPEN."
+          },
+          "CURRENT_WEEK_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total count of updates between Monday (00:00:00 GMT/UTC) and the beginning (00:00:00 GMT/UTC) of the current day of the week. If today is Monday, this value will be 0."
+          },
+          "CURRENT_WEEK_CHANGE": {
+            "type": "number",
+            "description": "The value change from the CURRENT_WEEK. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "CURRENT_WEEK_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the CURRENT_WEEK. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "CURRENT_MONTH_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from the 1st of the month (xxxx:xx:01 00:00:00 GMT/UTC) to the beginning (00:00:00 GMT/UTC) of the current day of the month. If today is the first of the month, this value will be 0. Represented in the base asset."
+          },
+          "CURRENT_MONTH_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from the 1st of the month (xxxx:xx:01 00:00:00 GMT/UTC) to the beginning (00:00:00 GMT/UTC) of the current day of the month. If today is the first of the month, this value will be 0. Represented in the quote asset."
+          },
+          "CURRENT_MONTH_OPEN": {
+            "type": "number",
+            "description": "The value of the closest update to the 1st day (00:00:00 GMT/UTC) of this month. This would be, in a highly liquid market, the last update that happened on the previous month at (23:59:59 999 GMT/UTC). This will always be supplied and there is no need to do any calculation to get the full monthly value."
+          },
+          "CURRENT_MONTH_HIGH": {
+            "type": "number",
+            "description": "The highest value between the CURRENT_MONTH_OPEN and the highest update value of the month excluding the current day (1st of the month - 00:00:00 GMT/UTC to the beginning - 00:00:00 GMT/UTC of the current day of the month). If today is the 1st of the month, this value will be CURRENT_MONTH_OPEN."
+          },
+          "CURRENT_MONTH_LOW": {
+            "type": "number",
+            "description": "The lowest value between the CURRENT_MONTH_OPEN and the lowest update value of the month excluding the current day (1st of the month - 00:00:00 GMT/UTC to the beginning - 00:00:00 GMT/UTC of the current day of the month). If today is the 1st of the month, this value will be CURRENT_MONTH_OPEN."
+          },
+          "CURRENT_MONTH_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total count of trades between 1st of the month (xxxx:xx:01 00:00:00 GMT/UTC) and the beginning (00:00:00 GMT/UTC) of the current day of the month. If today is 1st of the month, this value will be 0."
+          },
+          "CURRENT_MONTH_CHANGE": {
+            "type": "number",
+            "description": "The value change from the CURRENT_MONTH. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "CURRENT_MONTH_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the CURRENT_MONTH. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "CURRENT_YEAR_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from the 1st of January (xxxx:01:01 00:00:00 GMT/UTC) to the beginning (00:00:00 GMT/UTC) of the current day of the year. If today is the first of January, this value will be 0. Represented in the base asset."
+          },
+          "CURRENT_YEAR_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from the 1st of January (xxxx:01:01 00:00:00 GMT/UTC) to the beginning (00:00:00 GMT/UTC) of the current day of the year. If today is the first of January, this value will be 0. Represented in the quote asset."
+          },
+          "CURRENT_YEAR_OPEN": {
+            "type": "number",
+            "description": "The value of the closest trade to the 1st of January (00:00:00 GMT/UTC) of this year. This would be, in a highly liquid market, the last update that happened on on the 31st of December of the previous year (23:59:59 999 GMT/UTC). This will always be supplied and there is no need to do any calculation to get the full yearly value."
+          },
+          "CURRENT_YEAR_HIGH": {
+            "type": "number",
+            "description": "The highest value between the CURRENT_YEAR_OPEN and the highest update value of the year excluding the current day (1st of January - 00:00:00 GMT/UTC to the beginning - 00:00:00 GMT/UTC of the current day of the year). If today is the 1st of January, this value will be CURRENT_YEAR_OPEN."
+          },
+          "CURRENT_YEAR_LOW": {
+            "type": "number",
+            "description": "The lowest value between the CURRENT_YEAR_OPEN and the lowest update value of the year excluding the current day (1st of January - 00:00:00 GMT/UTC to the beginning - 00:00:00 GMT/UTC of the current day of the year). If today is the 1st of January, this value will be CURRENT_YEAR_OPEN."
+          },
+          "CURRENT_YEAR_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total count of updates between 1st of January (xxxx:01:01 00:00:00 GMT/UTC) and the beginning (00:00:00 GMT/UTC) of the current day of the year. If today is 1st of January, this value will be 0."
+          },
+          "CURRENT_YEAR_CHANGE": {
+            "type": "number",
+            "description": "The value change from the CURRENT_YEAR. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "CURRENT_YEAR_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the CURRENT_YEAR. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "MOVING_24_HOUR_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from 24 hours ago up to the beginning of the current hour (23 hours in total). Represented in the base asset."
+          },
+          "MOVING_24_HOUR_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from 24 hours ago up to the beginning of the current hour (23 hours in total). Represented in the quote asset."
+          },
+          "MOVING_24_HOUR_OPEN": {
+            "type": "number",
+            "description": "The value of the closest update to the period start date (23 hours + current hour ago). This will always be supplied and there is no need to do any calculation to get the full 24 hour value."
+          },
+          "MOVING_24_HOUR_HIGH": {
+            "type": "number",
+            "description": "The highest value between the MOVING_24_HOUR_OPEN and the highest update value of the period - from 24 hours ago up to the beginning of the current hour (23 hours in total)."
+          },
+          "MOVING_24_HOUR_LOW": {
+            "type": "number",
+            "description": "The lowest value between the MOVING_24_HOUR_OPEN and the lowest update value of the period - from 24 hours ago up to the beginning of the current hour (23 hours in total)."
+          },
+          "MOVING_24_HOUR_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total count of updates between 24 hours ago and the beginning (xx:00:00) of the current hour (23 hours in total)."
+          },
+          "MOVING_24_HOUR_CHANGE": {
+            "type": "number",
+            "description": "The value change from the MOVING_24_HOUR. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "MOVING_24_HOUR_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the MOVING_24_HOUR. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "MOVING_7_DAY_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from 7 days ago up to the beginning of the current day (6 days in total). Represented in the base asset."
+          },
+          "MOVING_7_DAY_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from 7 days ago up to the beginning of the current day (6 days in total). Represented in the quote asset."
+          },
+          "MOVING_7_DAY_OPEN": {
+            "type": "number",
+            "description": "The value of the closest update to the period start date (6 days + current day - 00:00:00 GMT/UTC to now).  This will always be supplied and there is no need to do any calculation to get the full 7 day value."
+          },
+          "MOVING_7_DAY_HIGH": {
+            "type": "number",
+            "description": "The highest value between the MOVING_7_DAY_OPEN and the highest update value of the period - from 7 days ago up to the beginning of the current day (6 days in total)."
+          },
+          "MOVING_7_DAY_LOW": {
+            "type": "number",
+            "description": "The lowest value between the MOVING_7_DAY_OPEN and the lowest update value of the period - from 7 days ago up to the beginning of the current day (6 days in total)."
+          },
+          "MOVING_7_DAY_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total count of updates between 7 days ago and the beginning (00:00:00 GMT/UTC) of the current day (6 days in total)."
+          },
+          "MOVING_7_DAY_CHANGE": {
+            "type": "number",
+            "description": "The value change from the MOVING_7_DAY. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "MOVING_7_DAY_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the MOVING_7_DAY. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "MOVING_30_DAY_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from 30 days ago up to the beginning of the current day (29 days in total). Represented in the base asset."
+          },
+          "MOVING_30_DAY_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from 30 days ago up to the beginning of the current day (29 days in total). Represented in the quote asset."
+          },
+          "MOVING_30_DAY_OPEN": {
+            "type": "number",
+            "description": "The value of the closest update to the period start date (29 days + current day - 00:00:00 GMT/UTC to now).  This will always be supplied and there is no need to do any calculation to get the full 30 day value."
+          },
+          "MOVING_30_DAY_HIGH": {
+            "type": "number",
+            "description": "The highest value between the MOVING_30_DAY_OPEN and the highest update value of the period - from 30 days ago up to the beginning of the current day (29 days in total)."
+          },
+          "MOVING_30_DAY_LOW": {
+            "type": "number",
+            "description": "The lowest value between the MOVING_30_DAY_OPEN and the lowest update value of the period - from 30 days ago up to the beginning of the current day (29 days in total)."
+          },
+          "MOVING_30_DAY_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total count of updates between 30 days ago and the beginning (00:00:00 GMT/UTC) of the current day (29 days in total)."
+          },
+          "MOVING_30_DAY_CHANGE": {
+            "type": "number",
+            "description": "The value change from the MOVING_30_DAY. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "MOVING_30_DAY_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the MOVING_30_DAY. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "MOVING_90_DAY_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from 90 days ago up to the beginning of the current day (89 days in total). Represented in the base asset."
+          },
+          "MOVING_90_DAY_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from 90 days ago up to the beginning of the current day (89 days in total). Represented in the quote asset."
+          },
+          "MOVING_90_DAY_OPEN": {
+            "type": "number",
+            "description": "The value of the closest update to the period start date (89 days + current day - 00:00:00 GMT/UTC to now).  This will always be supplied and there is no need to do any calculation to get the full 90 day value."
+          },
+          "MOVING_90_DAY_HIGH": {
+            "type": "number",
+            "description": "The highest value between the MOVING_90_DAY_OPEN and the highest update value of the period - from 90 days ago up to the beginning of the current day (89 days in total)."
+          },
+          "MOVING_90_DAY_LOW": {
+            "type": "number",
+            "description": "The lowest value between the MOVING_90_DAY_OPEN and the lowest update value of the period - from 90 days ago up to the beginning of the current day (89 days in total)."
+          },
+          "MOVING_90_DAY_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total count of updates between 90 days ago and the beginning (00:00:00 GMT/UTC) of the current day (89 days in total). To get the total 90 day value add CURRENT_DAY_TOTAL_INDEX_UPDATES to this value."
+          },
+          "MOVING_90_DAY_CHANGE": {
+            "type": "number",
+            "description": "The value change from the MOVING_90_DAY. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "MOVING_90_DAY_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the MOVING_90_DAY. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "MOVING_180_DAY_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from 180 days ago up to the beginning of the current day (179 days in total). Represented in the base asset."
+          },
+          "MOVING_180_DAY_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from 180 days ago up to the beginning of the current day (179 days in total). Represented in the quote asset."
+          },
+          "MOVING_180_DAY_OPEN": {
+            "type": "number",
+            "description": "The value of the closest update to the period start date (179 days + current day - 00:00:00 GMT/UTC to now).  This will always be supplied and there is no need to do any calculation to get the full 180 day value."
+          },
+          "MOVING_180_DAY_HIGH": {
+            "type": "number",
+            "description": "The highest value between the MOVING_180_DAY_OPEN and the highest update value of the period - from 180 days ago up to the beginning of the current day (179 days in total)."
+          },
+          "MOVING_180_DAY_LOW": {
+            "type": "number",
+            "description": "The lowest value between the MOVING_180_DAY_OPEN and the lowest update value of the period - from 180 days ago up to the beginning of the current day (179 days in total)."
+          },
+          "MOVING_180_DAY_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total count of updates between 180 days ago and the beginning (00:00:00 GMT/UTC) of the current day (179 days in total)."
+          },
+          "MOVING_180_DAY_CHANGE": {
+            "type": "number",
+            "description": "The value change from the MOVING_180_DAY. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "MOVING_180_DAY_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the MOVING_180_DAY. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "MOVING_365_DAY_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities from 365 days ago up to the beginning of the current day (364 days in total). Represented in the base asset."
+          },
+          "MOVING_365_DAY_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities from 365 days ago up to the beginning of the current day (364 days in total). Represented in the quote asset."
+          },
+          "MOVING_365_DAY_OPEN": {
+            "type": "number",
+            "description": "The value of the closest update to the period start date (364 days + current day - 00:00:00 GMT/UTC to now).  This will always be supplied and there is no need to do any calculation to get the full 365 day value."
+          },
+          "MOVING_365_DAY_HIGH": {
+            "type": "number",
+            "description": "The highest value between the MOVING_365_DAY_OPEN and the highest update value of the period - from 365 days ago up to the beginning of the current day (364 days in total)."
+          },
+          "MOVING_365_DAY_LOW": {
+            "type": "number",
+            "description": "The lowest value between the MOVING_365_DAY_OPEN and the lowest update value of the period - from 365 days ago up to the beginning of the current day (364 days in total)."
+          },
+          "MOVING_365_DAY_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total count of updates between 365 days ago and the beginning (00:00:00 GMT/UTC) of the current day (364 days in total)."
+          },
+          "MOVING_365_DAY_CHANGE": {
+            "type": "number",
+            "description": "The value change from the MOVING_365_DAY. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "MOVING_365_DAY_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the MOVING_365_DAY. If there were no updates in the time period, the percentage change will be 0."
+          },
+          "LIFETIME_FIRST_UPDATE_TS": {
+            "type": "number",
+            "description": "The timestamp of the first update we have ever seen on the instrument"
+          },
+          "LIFETIME_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quantities of all the trades of this instrument. Represented in the base asset."
+          },
+          "LIFETIME_QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The sum of all update quote quantities of all the trades of this instrument. Represented in the quote asset."
+          },
+          "LIFETIME_OPEN": {
+            "type": "number",
+            "description": "The value of the first update of the instrument."
+          },
+          "LIFETIME_HIGH": {
+            "type": "number",
+            "description": "The value of the highest update ever executed on this instrument."
+          },
+          "LIFETIME_HIGH_TS": {
+            "type": "number",
+            "description": "The the timestamp of the highest update ever executed on this instrument."
+          },
+          "LIFETIME_LOW": {
+            "type": "number",
+            "description": "The value of the lowest update ever executed on this instrument."
+          },
+          "LIFETIME_LOW_TS": {
+            "type": "number",
+            "description": "The timestamp of the lowest update ever executed on this instrument."
+          },
+          "LIFETIME_TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total count of all updates that have ever been executed on this instrument."
+          },
+          "LIFETIME_CHANGE": {
+            "type": "number",
+            "description": "The value change from the LIFETIME. If there were no updates in the time period, the value change will be 0. Given in the quote asset."
+          },
+          "LIFETIME_CHANGE_PERCENTAGE": {
+            "type": "number",
+            "description": "The percentage change from the LIFETIME. If there were no updates in the time period, the percentage change will be 0."
+          }
+        }
+      },
+      "INDEX_CC_CALCULATED_WITH_VOLUME_INSTRUMENT_HISTO_DATA": {
+        "type": "object",
+        "x-visible-in-ai": true,
+        "properties": {
+          "UNIT": {
+            "type": "string",
+            "description": "The unit of the historical period update: MINUTE for minute, HOUR for hour and DAY for day."
+          },
+          "TIMESTAMP": {
+            "type": "number",
+            "description": "The timestamp in seconds of the histo period, for minute it would be every minute at the beginning of the minute, for hour it would be start of the hour and for daily it is 00:00 GMT/UTC"
+          },
+          "TYPE": {
+            "type": "string",
+            "description": "Type of the message."
+          },
+          "MARKET": {
+            "type": "string",
+            "description": "The index family - a group of indices sharing common characteristics like methodology, type of securities, geographical region, sector, or company size. It's a crucial categorization in data analysis, aiding in performance comparison of different indices and understanding broader market trends.",
+            "example": "ccix"
+          },
+          "INSTRUMENT": {
+            "type": "string",
+            "description": "The specific financial asset pair that an index is tracking in unmapped format. In most cases this is a combiation of the base and quote assets of the pair.",
+            "example": "BTC-USD"
+          },
+          "OPEN": {
+            "type": "number",
+            "description": "The initial value (price) of an index at market opening on a trading period. It's a significant data point used to understand the initial market sentiment, calculate various technical indicators, and for visual representation in charts to identify trends or patterns over time."
+          },
+          "HIGH": {
+            "type": "number",
+            "description": "The maximum value an index (price) reaches during a specific trading period. It's a significant data point used to understand the index's potential and volatility, calculate the range of daily movement, and for visual representation in charts to identify trends or patterns over time."
+          },
+          "LOW": {
+            "type": "number",
+            "description": "The minimum value (price) an index reaches during a specific trading period. It's a vital data point used to understand the index's volatility and risk, calculate the range of daily movement, and for visual representation in charts to identify trends or patterns over time."
+          },
+          "CLOSE": {
+            "type": "number",
+            "description": "The last value (price) of an index at the end of a trading period. It's a critical data point used for performance comparison, calculations like daily return or volatility, and for visual representation in charts to identify trends or patterns over time."
+          },
+          "FIRST_MESSAGE_TIMESTAMP": {
+            "type": "number",
+            "description": "The timestamp in seconds of the initial index update in the time period (only available when we have at least one index update in the time period)."
+          },
+          "LAST_MESSAGE_TIMESTAMP": {
+            "type": "number",
+            "description": "The timestamp in seconds of the last index update in the time period (only available when we have at least one index update in the time period)."
+          },
+          "FIRST_MESSAGE_VALUE": {
+            "type": "number",
+            "description": "The open value (price) based on the inital index update in the time period (only available when we have at least one index update in the time period)."
+          },
+          "HIGH_MESSAGE_VALUE": {
+            "type": "number",
+            "description": "The maximum value an index (price) based on all the index updates in the time period (only available when we have at least one index update in the time period)."
+          },
+          "HIGH_MESSAGE_TIMESTAMP": {
+            "type": "number",
+            "description": "The timestamp in seconds of the maximum value an index (price) based on all the index updates in the time period (only available when we have at least one index update in the time period)."
+          },
+          "LOW_MESSAGE_VALUE": {
+            "type": "number",
+            "description": "The minimum value an index (price) based on all the index updates in the time period (only available when we have at least one index update in the time period)."
+          },
+          "LOW_MESSAGE_TIMESTAMP": {
+            "type": "number",
+            "description": "The timestamp in seconds of the the minimum value an index (price) based on all the index updates in the time period (only available when we have at least one index update in the time period)."
+          },
+          "LAST_MESSAGE_VALUE": {
+            "type": "number",
+            "description": "The last value (price) of an index based on the last index update in the time period (only available when we have at least one index update in the time period)."
+          },
+          "VOLUME": {
+            "type": "number",
+            "description": "The total number of base asset parts traded for the index instrument in the time period. It's a critical metric that provides insights into market liquidity and activity level. High volumes indicate high investor interest and liquidity, while low volumes suggest the opposite."
+          },
+          "QUOTE_VOLUME": {
+            "type": "number",
+            "description": "The total number of quote (counter) asset parts traded for the index instrument in the time period. This offers insight into market activity and liquidity and is used widely in numerical analysis and data visualization."
+          },
+          "TOTAL_INDEX_UPDATES": {
+            "type": "number",
+            "description": "The total number of message updates seen in this time period (0 when there no messages in the time period)."
+          }
+        }
+      },
+      "NEWS_ARTICLES": {
+        "type": "object",
+        "x-visible-in-ai": true,
+        "properties": {
+          "ID": {
+            "type": "integer",
+            "description": "The unique identifier for the article entry"
+          },
+          "GUID": {
+            "type": "string",
+            "description": "The Global Unique Identifier (GUID) of the article. A GUID is a unique reference number used as an identifier in computer systems. The \"Article guid\" is unique for every article and serves as its distinct identifier."
+          },
+          "PUBLISHED_ON": {
+            "type": "number",
+            "description": "The unix timestamp when the article was first published. This information is useful for understanding the timeline of the content, sorting articles by date, or determining the recency of the information."
+          },
+          "IMAGE_URL": {
+            "type": "string",
+            "description": "The URL, or web address, of the article's associated or featured image. This URL can be used to retrieve the image for display, providing a visual context for the article content. The URL points directly to the location where the image file is stored online."
+          },
+          "TITLE": {
+            "type": "string",
+            "description": "The heading or title of a specific article. It's a text string that gives a concise description of the article's content."
+          },
+          "URL": {
+            "type": "string",
+            "description": "The web address that directs to the specific content or article on a source website. It's a unique URL used for directly linking to the article or for fetching additional data from the article page."
+          },
+          "SOURCE_ID": {
+            "type": "integer",
+            "description": "The unique identifier for the source of the article or content. The \"SOURCE_ID\" allows for easy tracking and categorization of articles based on their origin, facilitating analysis by source, or fetching additional content from the same source. ",
+            "example": 41
+          },
+          "BODY": {
+            "type": "string",
+            "description": "The main textual content of the article. It includes the substance of the article but it it generally very limited since sources want clients to visit their website. This is where the primary information of the article is found."
+          },
+          "KEYWORDS": {
+            "type": "string",
+            "description": "A list of words or phrases that are relevant to the content of the article. These keywords are given by the source and serve as a summary of the main themes, topics, or subjects covered in the article."
+          },
+          "LANG": {
+            "type": "string",
+            "description": "The article Preferred language - English (EN), Portuguese (PT), Espanol (ES), Turkish (TR)",
+            "default": "EN",
+            "example": "EN"
+          },
+          "UPVOTES": {
+            "type": "integer",
+            "description": "The number of upvotes this article has.",
+            "example": 10
+          },
+          "DOWNVOTES": {
+            "type": "integer",
+            "description": "The number of downvotes this article has.",
+            "example": 3
+          },
+          "SCORE": {
+            "type": "integer",
+            "description": "The score of this article.",
+            "example": 7
+          },
+          "SENTIMENT": {
+            "type": "string",
+            "description": "The sentiment polarity of this article. We compute this using ChatGPT.",
+            "default": "",
+            "example": "POSITIVE"
+          },
+          "STATUS": {
+            "type": "string",
+            "description": "The status for the Article. Allowed values: ACTIVE, DELETED",
+            "default": "ACTIVE",
+            "example": "ACTIVE"
+          },
+          "CREATED_ON": {
+            "type": "number",
+            "description": "Article internal creation unix ts in our system",
+            "example": 1681990528
+          },
+          "CREATED_BY": {
+            "type": "integer",
+            "description": "Internal user id of the user who created the article"
+          },
+          "CREATED_BY_USERNAME": {
+            "type": "string",
+            "description": "Internal username of the user who created the article at the time of the article creation (the user might have changed their username but not their user id)"
+          },
+          "UPDATED_ON": {
+            "type": "number",
+            "description": "Article internal last updated unix ts in our system",
+            "example": 1681990528
+          },
+          "UPDATED_BY": {
+            "type": "integer",
+            "description": "Internal user id of the user who last updated the article"
+          },
+          "UPDATED_BY_USERNAME": {
+            "type": "string",
+            "description": "Internal username of the user who last updated the internal information of the article at the time of the article update (the user might have changed their username but not their user id)"
+          },
+          "SOURCE_DATA": {
+            "type": "object",
+            "description": "The news source data of this article.",
+            "properties": {
+              "ID": {
+                "type": "integer",
+                "description": "The unique identifier for the news source entry"
+              },
+              "SOURCE_KEY": {
+                "type": "string",
+                "description": "The unique key for a news source"
+              },
+              "NAME": {
+                "type": "string",
+                "description": "The name of the news source"
+              },
+              "IMAGE_URL": {
+                "type": "string",
+                "description": "The image url for the article source"
+              },
+              "URL": {
+                "type": "string",
+                "description": "The URL of the news source.",
+                "example": "https://example.com"
+              },
+              "LANG": {
+                "type": "string",
+                "description": "The Article Source Preferred language - English (EN), Portuguese (PT), Espanol (ES), Turkish (TR)",
+                "example": "EN"
+              },
+              "TYPE": {
+                "type": "string",
+                "description": "RSS, API, TWITTER",
+                "example": "RSS"
+              },
+              "SORT_ORDER": {
+                "type": "integer",
+                "description": "Internal sort order of the source to define the field overwrites"
+              },
+              "CALL_TIMEOUT": {
+                "type": "integer",
+                "description": "The milliseconds before a network call timeout for a news source",
+                "example": 60000
+              },
+              "SKIP_ARTICLE_IMAGE": {
+                "type": "boolean",
+                "description": "Skip uploading images from this news source articles. Defaults to news source cover image."
+              },
+              "STATUS": {
+                "type": "string",
+                "description": "The status for the Article Source entry. Allowed values: ACTIVE, INACTIVE",
+                "example": "ACTIVE"
+              },
+              "LAST_UPDATED_TS": {
+                "type": "number",
+                "description": "The last script update timestamp for this article source.",
+                "example": 1681990528
+              },
+              "LAST_ARTICLE_PUBLISHED_AT": {
+                "type": "number",
+                "description": "The timestamp for when the last article was published.",
+                "example": 1681990528
+              },
+              "LAST_CALL": {
+                "type": "number",
+                "description": "The last call timestamp for this source.",
+                "example": 1681990528
+              },
+              "LAST_CALL_SUCCESS": {
+                "type": "number",
+                "description": "The timestamp for when the last call was successful.",
+                "example": 1681990528
+              },
+              "CREATED_ON": {
+                "type": "number",
+                "description": "Article Source internal creation unix ts in our system",
+                "example": 1681990528
+              },
+              "CREATED_BY": {
+                "type": "integer",
+                "description": "Internal user id of the user who created the news source"
+              },
+              "CREATED_BY_USERNAME": {
+                "type": "string",
+                "description": "Internal username of the user who created the news source at the time of the news source creation (the user might have changed their username but not their user id)"
+              },
+              "UPDATED_ON": {
+                "type": "number",
+                "description": "Article Source internal last updated unix ts in our system",
+                "example": 1681990528
+              },
+              "UPDATED_BY": {
+                "type": "integer",
+                "description": "Internal user id of the user who last updated the news source"
+              },
+              "UPDATED_BY_USERNAME": {
+                "type": "string",
+                "description": "Internal username of the user who last updated the internal information of the news source at the time of the news source update (the user might have changed their username but not their user id)"
+              }
+            }
+          },
+          "CATEGORY_DATA": {
+            "type": "array",
+            "description": "An array of categories this article belongs to.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "CATEGORY": {
+                  "type": "string",
+                  "description": "",
+                  "example": "BTC"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ETH_FULL_BLOCK": {
+        "type": "object",
+        "x-visible-in-ai": true,
+        "properties": {
+          "TYPE": {
+            "type": "string",
+            "description": "Type of the message.",
+            "example": "1025"
+          },
+          "ASSET_ID": {
+            "type": "integer",
+            "description": "The unique identifier for the asset the field is associated to.",
+            "example": 2
+          },
+          "SYMBOL": {
+            "type": "string",
+            "description": "Internal mapped symbol for a specific asset",
+            "example": "ETH"
+          },
+          "PROVIDER_KEY": {
+            "type": "string",
+            "description": "Internal mapped Blockchain provider key for a specific asset",
+            "example": "cc_nethermind"
+          },
+          "CHAIN_ID": {
+            "type": "integer",
+            "description": "This is the Id of the blockchain",
+            "example": 1
+          },
+          "IS_PART_OF_REORG": {
+            "type": "boolean",
+            "description": "Is this block part of a reorg? this would happen when we get block reorgs due to a longer chain being published by some of the miners.",
+            "example": false
+          },
+          "NUMBER": {
+            "type": "integer",
+            "description": "The current block number",
+            "example": 2
+          },
+          "TIMESTAMP": {
+            "type": "number",
+            "description": "The current block timestamp",
+            "example": 1230940800
+          },
+          "RECEIVED_TIMESTAMP": {
+            "type": "number",
+            "description": "The current block received timestamp",
+            "example": 1672531200
+          },
+          "METADATA": {
+            "type": "object",
+            "description": "The current block full metadata",
+            "properties": {},
+            "example": {}
+          },
+          "TRANSACTIONS": {
+            "type": "array",
+            "description": "The current block transactions",
+            "items": {
+              "type": "object",
+              "properties": {
+                "TYPE": {
+                  "type": "string",
+                  "description": "Type of the message.",
+                  "example": "1022"
+                },
+                "HASH": {
+                  "type": "string",
+                  "description": "Block Transaction internal mapped hash",
+                  "example": "0xf"
+                },
+                "TRANSACTION_TYPE": {
+                  "type": "integer",
+                  "description": "The EIP-2718 type of this transaction envelope",
+                  "example": 0
+                },
+                "NONCE": {
+                  "type": "integer",
+                  "description": "The number of transactions made by the sender prior to this one encoded as hexadecimal",
+                  "example": 1
+                },
+                "INDEX": {
+                  "type": "integer",
+                  "description": "Block Transaction internal mapped transaction index",
+                  "example": 1
+                },
+                "FROM_ADDRESS": {
+                  "type": "string",
+                  "description": "The address of the sender",
+                  "example": "0xf"
+                },
+                "TO_ADDRESS": {
+                  "type": "string",
+                  "description": "The address of the receiver. Null when its a contract creation transaction",
+                  "example": "0xf"
+                },
+                "VALUE": {
+                  "type": "integer",
+                  "description": "Block Transaction internal mapped value",
+                  "example": 100
+                },
+                "GAS": {
+                  "type": "integer",
+                  "description": "Block Transaction internal mapped gas",
+                  "example": 100
+                },
+                "GAS_PRICE": {
+                  "type": "integer",
+                  "description": "Block Transaction internal mapped gas price",
+                  "example": 100
+                },
+                "INPUT": {
+                  "type": "string",
+                  "description": "Block Transaction internal mapped input contains the data sent along with the transaction",
+                  "example": "0xf"
+                },
+                "RECEIPT_CUMULATIVE_GAS_USED": {
+                  "type": "integer",
+                  "description": "The total gas used up to when this transaction was executed in the block",
+                  "example": 100
+                },
+                "RECEIPT_GAS_USED": {
+                  "type": "integer",
+                  "description": "Block Transaction internal mapped receipt gas used",
+                  "example": 100
+                },
+                "RECEIPT_CONTRACT_ADDRESS": {
+                  "type": "string",
+                  "description": "This is the address created when a contract is deployed. The *TO* field should be null in this case",
+                  "example": "0xf"
+                },
+                "RECEIPT_ROOT": {
+                  "type": "string",
+                  "description": "Only transactions included in blocks before the Byzantium Hard Fork have this field, as it was replaced by the *STATUS* field.",
+                  "example": "0xf"
+                },
+                "RECEIPT_STATUS": {
+                  "type": "integer",
+                  "description": "The status of a transaction is 1 if successful or 0 if it was reverted. Only transactions included in blocks post-Byzantium Hard Fork have this field",
+                  "example": "1"
+                },
+                "MAX_FEE_PER_GAS": {
+                  "type": "integer",
+                  "description": "Block Transaction internal mapped max fee per gas",
+                  "example": 100
+                },
+                "MAX_PRIORITY_FEE_PER_GAS": {
+                  "type": "integer",
+                  "description": "Block Transaction internal mapped max priority fee per gas",
+                  "example": 100
+                },
+                "RECEIPT_EFFECTIVE_GAS_PRICE": {
+                  "type": "integer",
+                  "description": "The total base charge plus tip paid for each unit of gas",
+                  "example": 100
+                },
+                "ACCESS_LIST": {
+                  "type": "array",
+                  "description": "This causes a transaction to warm (i.e. pre-cache) another addresses state and the specified storage keys, Available on EIP-2930 transactions",
+                  "example": [
+                    {
+                      "ADDRESS": "0xf",
+                      "STORAGE_KEYS": []
+                    }
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "ECDSA_V": {
+                  "type": "integer",
+                  "description": "This is part of ECDSA (Elliptic Curve Digital Signature Algorithm) signature. This value helps to recover which public key was used to sign the transaction. Calculated as (CHAIN_ID * 2 + 35) or (CHAIN_ID * 2 + 36)",
+                  "example": 1
+                },
+                "ECDSA_R": {
+                  "type": "string",
+                  "description": "This is part of ECDSA (Elliptic Curve Digital Signature Algorithm) signature. It is derived from the private key and the data to be signed",
+                  "example": "0xf"
+                },
+                "ECDSA_S": {
+                  "type": "string",
+                  "description": "This is part of ECDSA (Elliptic Curve Digital Signature Algorithm) signature. It is derived from the private key and the data to be signed",
+                  "example": "0xf"
+                }
+              }
+            },
+            "example": []
+          },
+          "ORPHAN_TRACES": {
+            "type": "array",
+            "description": "Block traces not linked to a transaction",
+            "items": {
+              "type": "string"
+            },
+            "example": []
+          },
+          "UNCLES": {
+            "type": "array",
+            "description": "The current block uncles",
+            "items": {
+              "type": "object",
+              "properties": {
+                "TYPE": {
+                  "type": "string",
+                  "description": "Type of the message.",
+                  "example": "1027"
+                }
+              }
+            },
+            "example": []
+          },
+          "WITHDRAWALS": {
+            "type": "array",
+            "description": "The current block withdrawals",
+            "items": {
+              "type": "object",
+              "properties": {
+                "TYPE": {
+                  "type": "string",
+                  "description": "Type of the message.",
+                  "example": "1028"
+                },
+                "INDEX": {
+                  "type": "integer",
+                  "description": "Internal mapped Block Withdrawal index",
+                  "example": 1
+                },
+                "VALIDATOR_INDEX": {
+                  "type": "integer",
+                  "description": "Internal mapped Block Withdrawal validator index",
+                  "example": 1
+                },
+                "ADDRESS": {
+                  "type": "string",
+                  "description": "Internal mapped Block Withdrawal address",
+                  "example": "0xf"
+                },
+                "AMOUNT": {
+                  "type": "integer",
+                  "description": "Total Block Withdrawal amount",
+                  "example": 10
+                },
+                "UNIT": {
+                  "type": "string",
+                  "description": "Total Block Withdrawal amount unit",
+                  "example": "GWEI"
+                }
+              }
+            },
+            "example": [
+              {
+                "TYPE": 1028,
+                "INDEX": 1,
+                "VALIDATOR_INDEX": 2,
+                "ADDRESS": "0xf",
+                "AMOUNT": 10
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "x-id": "IndexCC",
+      "name": "Reference Rates",
+      "x-icon": "calculator",
+      "description": "Reference rates endpoints for the CryptoCompare cryptocurrency indices provide access to real-time and historical data for a specific cryptocurrency index or group of indices. These endpoints can be used to retrieve information such as the current value, high and low values, and volume of a cryptocurrency index, as well as historical data such as the open, high, low, close, and volume values for a specific time period. This information can be useful for a variety of purposes, including tracking the performance of a cryptocurrency index over time, analyzing market trends, and conducting technical analysis. Cryptocurrency indices are often used as benchmarks to measure the performance of a particular cryptocurrency or group of cryptocurrencies, and reference rates endpoints can provide valuable data for these purposes.",
+      "x-endpoint-groups": [
+        {
+          "x-id": "index_cc_v1_latest_tick",
+          "x-name": "Instrument Latest Tick",
+          "paths": [
+            "/index/cc/v1/latest/tick"
+          ]
+        },
+        {
+          "x-id": "index_cc_v1_historical_days",
+          "x-name": "Historical OHLCV+ Day",
+          "paths": [
+            "/index/cc/v1/historical/days"
+          ]
+        },
+        {
+          "x-id": "index_cc_v1_historical_hours",
+          "x-name": "Historical OHLCV+ Hour",
+          "paths": [
+            "/index/cc/v1/historical/hours"
+          ]
+        },
+        {
+          "x-id": "index_cc_v1_historical_minutes",
+          "x-name": "Historical OHLCV+ Minute",
+          "paths": [
+            "/index/cc/v1/historical/minutes"
+          ]
+        },
+        {
+          "x-id": "index_cc_v1_historical_messages",
+          "x-name": "Historical Messages By Timestamp",
+          "paths": [
+            "/index/cc/v1/historical/messages"
+          ]
+        },
+        {
+          "x-id": "index_cc_v1_historical_messages_hour",
+          "x-name": "Historical Messages by Hour",
+          "paths": [
+            "/index/cc/v1/historical/messages/hour"
+          ]
+        },
+        {
+          "x-id": "index_cc_v1_latest_instrument_metadata",
+          "x-name": "Instrument Metadata",
+          "paths": [
+            "/index/cc/v1/latest/instrument/metadata"
+          ]
+        },
+        {
+          "x-id": "index_cc_v1_markets",
+          "x-name": "Markets",
+          "paths": [
+            "/index/cc/v1/markets"
+          ]
+        },
+        {
+          "x-id": "index_cc_v1_markets_instruments",
+          "x-name": "Markets + Instruments",
+          "paths": [
+            "/index/cc/v1/markets/instruments"
+          ]
+        },
+        {
+          "x-id": "index_cc_v1_markets_instruments_unmapped",
+          "x-name": "Markets + Instruments Unmapped",
+          "paths": [
+            "/index/cc/v1/markets/instruments/unmapped"
+          ]
+        }
+      ]
+    },
+    {
+      "x-id": "Spot",
+      "name": "Spot",
+      "x-icon": "btc",
+      "description": "Spot endpoints for the cryptocurrency market provide access to real-time and historical data for the prices of specific cryptocurrencies or groups of cryptocurrencies. These endpoints can be used to retrieve information such as the current spot price of a cryptocurrency, as well as historical data such as the open, high, low, close, and volume values for a specific time period. This information can be useful for a variety of purposes, including tracking the performance of specific cryptocurrencies over time, analyzing market trends, and conducting technical analysis. Spot endpoints can provide valuable data for anyone interested in the current and past prices of cryptocurrencies, as well as anyone looking to buy or sell cryptocurrencies.",
+      "x-endpoint-groups": [
+        {
+          "x-id": "spot_v1_latest_tick",
+          "x-name": "Instrument Latest Tick",
+          "paths": [
+            "/spot/v1/latest/tick"
+          ]
+        },
+        {
+          "x-id": "spot_v1_one_sec_interval_tick",
+          "x-name": "Instrument Latest One Second Interval Tick",
+          "paths": [
+            "/spot/v1/interval/tick"
+          ]
+        },
+        {
+          "x-id": "spot_v1_historical_days",
+          "x-name": "Historical OHLCV+ Day",
+          "paths": [
+            "/spot/v1/historical/days"
+          ]
+        },
+        {
+          "x-id": "spot_v1_historical_hours",
+          "x-name": "Historical OHLCV+ Hour",
+          "paths": [
+            "/spot/v1/historical/hours"
+          ]
+        },
+        {
+          "x-id": "spot_v1_historical_minutes",
+          "x-name": "Historical OHLCV+ Minute",
+          "paths": [
+            "/spot/v1/historical/minutes"
+          ]
+        },
+        {
+          "x-id": "spot_v1_historical_trades",
+          "x-name": "Historical Trades By Timestamp",
+          "paths": [
+            "/spot/v1/historical/trades"
+          ]
+        },
+        {
+          "x-id": "spot_v1_historical_trades_hour",
+          "x-name": "Historical Trades By Hour",
+          "paths": [
+            "/spot/v1/historical/trades/hour"
+          ]
+        },
+        {
+          "x-id": "spot_v1_historical_orderbook_l2_snapshot_minute",
+          "x-name": "Historical Order Book L2 Snapshot By Minute",
+          "paths": [
+            "/spot/v1/historical/orderbook/l2/snapshot/minute"
+          ]
+        },
+        {
+          "x-id": "spot_v1_latest_instrument_metadata",
+          "x-name": "Instrument Metadata",
+          "paths": [
+            "/spot/v1/latest/instrument/metadata"
+          ]
+        },
+        {
+          "x-id": "spot_v1_markets",
+          "x-name": "Markets",
+          "paths": [
+            "/spot/v1/markets"
+          ]
+        },
+        {
+          "x-id": "spot_v1_markets_instruments",
+          "x-name": "Markets + Instruments",
+          "paths": [
+            "/spot/v1/markets/instruments"
+          ]
+        },
+        {
+          "x-id": "spot_v1_markets_instruments_unmapped",
+          "x-name": "Markets + Instruments Unmapped",
+          "paths": [
+            "/spot/v1/markets/instruments/unmapped"
+          ]
+        }
+      ]
+    },
+    {
+      "x-id": "Futures",
+      "name": "Futures",
+      "x-icon": "balance-scale",
+      "description": "Futures endpoints provide access to real-time and historical data for the prices of futures contracts for specific cryptocurrencies or groups of cryptocurrencies. These endpoints can be used to retrieve information such as the current price of a futures contract, as well as historical data such as the open, high, low, close, and volume values for a specific time period. Futures contracts are financial instruments that allow users to buy or sell an asset at a predetermined price at a future date, and the prices of these contracts can be influenced by a variety of factors including market demand, supply, and external events. Futures endpoints can provide valuable data for anyone interested in the current and past prices of futures contracts for cryptocurrencies, as well as anyone looking to buy or sell futures contracts.",
+      "x-endpoint-groups": [
+        {
+          "x-id": "futures_v1_latest_tick",
+          "x-name": "Instrument Latest Tick",
+          "paths": [
+            "/futures/v1/latest/tick"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_days",
+          "x-name": "Historical OHLCV+ Day",
+          "paths": [
+            "/futures/v1/historical/days"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_hours",
+          "x-name": "Historical OHLCV+ Hour",
+          "paths": [
+            "/futures/v1/historical/hours"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_minutes",
+          "x-name": "Historical OHLCV+ Minute",
+          "paths": [
+            "/futures/v1/historical/minutes"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_trades",
+          "x-name": "Historical Trades By Timestamp",
+          "paths": [
+            "/futures/v1/historical/trades"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_trades_hour",
+          "x-name": "Historical Trades by Hour",
+          "paths": [
+            "/futures/v1/historical/trades/hour"
+          ]
+        },
+        {
+          "x-id": "futures_v1_latest_open_interest_tick",
+          "x-name": "Open Interest Latest Tick",
+          "paths": [
+            "/futures/v1/latest/open-interest/tick"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_open_interest_days",
+          "x-name": "Open Interest Historical OHLCV+ Day",
+          "paths": [
+            "/futures/v1/historical/open-interest/days"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_open_interest_hours",
+          "x-name": "Open Interest Historical OHLCV+ Hour",
+          "paths": [
+            "/futures/v1/historical/open-interest/hours"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_open_interest_minutes",
+          "x-name": "Open Interest Historical OHLCV+ Minute",
+          "paths": [
+            "/futures/v1/historical/open-interest/minutes"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_open_interest_messages",
+          "x-name": "Open Interest Historical Messages by Timestamp",
+          "paths": [
+            "/futures/v1/historical/open-interest-messages"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_open_interest_messages_hour",
+          "x-name": "Open Interest Historical Messages by Hour",
+          "paths": [
+            "/futures/v1/historical/open-interest-messages/hour"
+          ]
+        },
+        {
+          "x-id": "futures_v1_latest_funding_rate_tick",
+          "x-name": "Funding Rate Latest Tick",
+          "paths": [
+            "/futures/v1/latest/funding-rate/tick"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_funding_rate_days",
+          "x-name": "Funding Rate Historical OHLCV+ Day",
+          "paths": [
+            "/futures/v1/historical/funding-rate/days"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_funding_rate_hours",
+          "x-name": "Funding Rate Historical OHLCV+ Hour",
+          "paths": [
+            "/futures/v1/historical/funding-rate/hours"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_funding_rate_minutes",
+          "x-name": "Funding Rate Historical OHLCV+ Minute",
+          "paths": [
+            "/futures/v1/historical/funding-rate/minutes"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_funding_rate_messages_hour",
+          "x-name": "Funding Rate Historical Messages by Hour",
+          "paths": [
+            "/futures/v1/historical/funding-rate-messages/hour"
+          ]
+        },
+        {
+          "x-id": "futures_v1_historical_funding_rate_messages",
+          "x-name": "Funding Rate Historical Messages by Timestamp",
+          "paths": [
+            "/futures/v1/historical/funding-rate-messages"
+          ]
+        },
+        {
+          "x-id": "futures_v1_latest_instrument_metadata",
+          "x-name": "Instrument Metadata",
+          "paths": [
+            "/futures/v1/latest/instrument/metadata"
+          ]
+        },
+        {
+          "x-id": "futures_v1_markets",
+          "x-name": "Markets",
+          "paths": [
+            "/futures/v1/markets"
+          ]
+        },
+        {
+          "x-id": "futures_v1_markets_instruments",
+          "x-name": "Markets + Instruments",
+          "paths": [
+            "/futures/v1/markets/instruments"
+          ]
+        },
+        {
+          "x-id": "futures_v1_markets_instruments_unmapped",
+          "x-name": "Markets + Instruments Unmapped",
+          "paths": [
+            "/futures/v1/markets/instruments/unmapped"
+          ]
+        }
+      ]
+    },
+    {
+      "x-id": "Options",
+      "name": "Options",
+      "x-icon": "exchange",
+      "description": "Options endpoints provide access to real-time and historical data for the prices of options contracts for specific cryptocurrencies or groups of cryptocurrencies. These endpoints can be used to retrieve information such as the current price of an options contract, as well as historical data such as the open, high, low, close, and volume values for a specific time period. Options contracts are financial instruments that allow users to buy or sell an asset at a predetermined price at a future date, and the prices of these contracts can be influenced by a variety of factors including market demand, supply, and external events. Options endpoints can provide valuable data for anyone interested in the current and past prices of options contracts for cryptocurrencies, as well as anyone looking to buy or sell options contracts.",
+      "x-endpoint-groups": [
+        {
+          "x-id": "options_v1_latest_tick",
+          "x-name": "Instrument Latest Tick",
+          "paths": [
+            "/options/v1/latest/tick"
+          ]
+        },
+        {
+          "x-id": "options_v1_historical_days",
+          "x-name": "Historical OHLCV+ Day",
+          "paths": [
+            "/options/v1/historical/days"
+          ]
+        },
+        {
+          "x-id": "options_v1_historical_hours",
+          "x-name": "Historical OHLCV+ Hour",
+          "paths": [
+            "/options/v1/historical/hours"
+          ]
+        },
+        {
+          "x-id": "options_v1_historical_minutes",
+          "x-name": "Historical OHLCV+ Minute",
+          "paths": [
+            "/options/v1/historical/minutes"
+          ]
+        },
+        {
+          "x-id": "options_v1_historical_trades",
+          "x-name": "Historical Trades By Timestamp",
+          "paths": [
+            "/options/v1/historical/trades"
+          ]
+        },
+        {
+          "x-id": "options_v1_historical_trades_hour",
+          "x-name": "Historical Trades by Hour",
+          "paths": [
+            "/options/v1/historical/trades/hour"
+          ]
+        },
+        {
+          "x-id": "options_v1_latest_open_interest_tick",
+          "x-name": "Open Interest Latest Tick",
+          "paths": [
+            "/options/v1/latest/open-interest/tick"
+          ]
+        },
+        {
+          "x-id": "options_v1_historical_open_interest_days",
+          "x-name": "Open Interest Historical OHLCV+ Day",
+          "paths": [
+            "/options/v1/historical/open-interest/days"
+          ]
+        },
+        {
+          "x-id": "options_v1_historical_open_interest_hours",
+          "x-name": "Open Interest Historical OHLCV+ Hour",
+          "paths": [
+            "/options/v1/historical/open-interest/hours"
+          ]
+        },
+        {
+          "x-id": "options_v1_historical_open_interest_minutes",
+          "x-name": "Open Interest Historical OHLCV+ Minute",
+          "paths": [
+            "/options/v1/historical/open-interest/minutes"
+          ]
+        },
+        {
+          "x-id": "options_v1_historical_open_interest_messages",
+          "x-name": "Open Interest Historical Messages by Timestamp",
+          "paths": [
+            "/options/v1/historical/open-interest-messages"
+          ]
+        },
+        {
+          "x-id": "options_v1_historical_open_interest_messages_hour",
+          "x-name": "Open Interest Historical Messages by Hour",
+          "paths": [
+            "/options/v1/historical/open-interest-messages/hour"
+          ]
+        },
+        {
+          "x-id": "options_v1_latest_instrument_metadata",
+          "x-name": "Instrument Metadata",
+          "paths": [
+            "/options/v1/latest/instrument/metadata"
+          ]
+        },
+        {
+          "x-id": "options_v1_markets",
+          "x-name": "Markets",
+          "paths": [
+            "/options/v1/markets"
+          ]
+        },
+        {
+          "x-id": "options_v1_markets_instruments",
+          "x-name": "Markets + Instruments",
+          "paths": [
+            "/options/v1/markets/instruments"
+          ]
+        },
+        {
+          "x-id": "options_v1_markets_instruments_unmapped",
+          "x-name": "Markets + Instruments Unmapped",
+          "paths": [
+            "/options/v1/markets/instruments/unmapped"
+          ]
+        }
+      ]
+    },
+    {
+      "x-id": "FuturesIndices",
+      "name": "Futures Indices",
+      "x-icon": "balance-scale",
+      "description": "Futures indices endpoints provide data and information related to futures indexes. This section allows users to access various futures index data such as underlying values, number of messages, ohlcv and individual updates. Users can also retrieve historical data for specific periods and make comparisons between different futures indexes. Additionally, this section may also provide tools for analyzing and interpreting the data, such as charts and graphs. Overall, the futures indices endpoints are a comprehensive resource for anyone interested in tracking and analyzing the performance of futures indexes.",
+      "x-endpoint-groups": [
+        {
+          "x-id": "index_v1_latest_tick",
+          "x-name": "Instrument Latest Tick",
+          "paths": [
+            "/index/v1/latest/tick"
+          ]
+        },
+        {
+          "x-id": "index_v1_historical_days",
+          "x-name": "Historical OHLCV+ Day",
+          "paths": [
+            "/index/v1/historical/days"
+          ]
+        },
+        {
+          "x-id": "index_v1_historical_hours",
+          "x-name": "Historical OHLCV+ Hour",
+          "paths": [
+            "/index/v1/historical/hours"
+          ]
+        },
+        {
+          "x-id": "index_v1_historical_minutes",
+          "x-name": "Historical OHLCV+ Minute",
+          "paths": [
+            "/index/v1/historical/minutes"
+          ]
+        },
+        {
+          "x-id": "index_v1_historical_messages",
+          "x-name": "Historical Messages by Timestamp",
+          "paths": [
+            "/index/v1/historical/messages"
+          ]
+        },
+        {
+          "x-id": "index_v1_historical_messages_hour",
+          "x-name": "Historical Messages by Hour",
+          "paths": [
+            "/index/v1/historical/messages/hour"
+          ]
+        },
+        {
+          "x-id": "index_v1_latest_instrument_metadata",
+          "x-name": "Instrument Metadata",
+          "paths": [
+            "/index/v1/latest/instrument/metadata"
+          ]
+        },
+        {
+          "x-id": "index_v1_markets",
+          "x-name": "Markets",
+          "paths": [
+            "/index/v1/markets"
+          ]
+        },
+        {
+          "x-id": "index_v1_markets_instruments",
+          "x-name": "Markets + Instruments",
+          "paths": [
+            "/index/v1/markets/instruments"
+          ]
+        },
+        {
+          "x-id": "index_v1_markets_instruments_unmapped",
+          "x-name": "Markets + Instruments Unmapped",
+          "paths": [
+            "/index/v1/markets/instruments/unmapped"
+          ]
+        }
+      ]
+    },
+    {
+      "x-id": "OnChain",
+      "name": "On-Chain",
+      "x-icon": "link",
+      "description": "On-Chain endpoints provide access to on-chain (full blocks, addresses, transactions, logs, etc.) and supply data about specific assets, such as cryptocurrencies or other digital assets. These endpoints can be used to retrieve information about the token and blockchain assets, including their identifier, symbol, name, description, and other metadata. On-Chain endpoints may also provide information about the supported blockhain platforms of the asset and other chain specific information like current and historical supply metrics and last block infromation. This information can be useful for anyone interested in learning more about specific tokens or blockchains and their characteristics.",
+      "x-endpoint-groups": [
+        {
+          "x-id": "onchain_v1_block_2",
+          "x-name": "ETH: Full Block",
+          "paths": [
+            "/onchain/v1/block/2",
+            "/onchain/v1/block/2/raw"
+          ]
+        },
+        {
+          "x-id": "onchain_v1_block_2_last",
+          "x-name": "ETH: Latest Block",
+          "paths": [
+            "/onchain/v1/block/2/last",
+            "/onchain/v1/block/2/raw/last"
+          ]
+        },
+        {
+          "x-id": "onchain_v1_summary_by_chain",
+          "x-name": "Asset: Summary By Chain",
+          "paths": [
+            "/onchain/v1/summary/by/chain"
+          ]
+        },
+        {
+          "x-id": "onchain_v1_data_by_address",
+          "x-name": "Asset: By Smart Contract Address",
+          "paths": [
+            "/onchain/v1/data/by/address"
+          ]
+        },
+        {
+          "x-id": "onchain_v1_historical_supply_days",
+          "x-name": "Historical: Supply Day",
+          "paths": [
+            "/onchain/v1/historical/supply/days/by/symbol",
+            "/onchain/v1/historical/supply/days/by/id"
+          ]
+        }
+      ]
+    },
+    {
+      "x-id": "Asset",
+      "name": "Asset",
+      "x-icon": "sitemap",
+      "description": "Asset endpoints provide access to data about specific assets, such as cryptocurrencies or other digital assets. These endpoints can be used to retrieve information about the asset, including its identifier, symbol, name, description, and other metadata. Asset endpoints may also provide information about the asset's type, such as whether it is a blockchain asset or a token, as well as information about the supported blockhain platforms of the asset. This information can be useful for anyone interested in learning more about specific assets and their characteristics.",
+      "x-endpoint-groups": [
+        {
+          "x-id": "asset_v1_data",
+          "x-name": "Metadata",
+          "paths": [
+            "/asset/v1/data/by/symbol",
+            "/asset/v1/data/by/id"
+          ]
+        },
+        {
+          "x-id": "asset_v1_top_list",
+          "x-name": "Top List",
+          "paths": [
+            "/asset/v1/top/list"
+          ]
+        },
+        {
+          "x-id": "asset_v1_summary_list",
+          "x-name": "Summary List",
+          "paths": [
+            "/asset/v1/summary/list"
+          ]
+        },
+        {
+          "x-id": "asset_v1_events",
+          "x-name": "Events",
+          "paths": [
+            "/asset/v1/events/by/id",
+            "/asset/v1/events/by/symbol"
+          ]
+        },
+        {
+          "x-id": "asset_v1_code_repository_days",
+          "x-name": "Code Repository Daily Metrics",
+          "paths": [
+            "/asset/v1/code/repository/days/by/id",
+            "/asset/v1/code/repository/days/by/symbol"
+          ]
+        },
+        {
+          "x-id": "asset_v1_discord_by_symbol_days",
+          "x-name": "Historical Discord Metrics Day",
+          "paths": [
+            "/asset/v1/discord/days/by/id",
+            "/asset/v1/discord/days/by/symbol"
+          ]
+        },
+        {
+          "x-id": "asset_v1_reddit_days",
+          "x-name": "Historical Reddit Metrics Day",
+          "paths": [
+            "/asset/v1/reddit/days/by/id",
+            "/asset/v1/reddit/days/by/symbol"
+          ]
+        },
+        {
+          "x-id": "asset_v1_telegram_days",
+          "x-name": "Historical Telegram Metrics Day",
+          "paths": [
+            "/asset/v1/telegram/days/by/id",
+            "/asset/v1/telegram/days/by/symbol"
+          ]
+        },
+        {
+          "x-id": "asset_v1_twitter_days",
+          "x-name": "Historical Twitter Metrics Day",
+          "paths": [
+            "/asset/v1/twitter/days/by/id",
+            "/asset/v1/twitter/days/by/symbol"
+          ]
+        }
+      ]
+    },
+    {
+      "x-id": "News",
+      "name": "News",
+      "x-icon": "newspaper-o",
+      "description": "A set of endpoints that provide aggregated news for the cryptocurrency industry offer access to articles and other content related to the cryptocurrency industry. These endpoints can be used to retrieve news articles about various topics within the cryptocurrency industry, including new developments, trends, and events. The news articles may be organized into categories, such as market analysis, regulation, or technology, to help users easily find articles on specific topics of interest. These endpoints can provide valuable information for anyone interested in staying up to date with the latest news and developments in the cryptocurrency industry.",
+      "x-endpoint-groups": [
+        {
+          "x-id": "news_v1_source_list",
+          "x-name": "Source: List",
+          "paths": [
+            "/news/v1/source/list"
+          ]
+        },
+        {
+          "x-id": "news_v1_category_list",
+          "x-name": "Category: List",
+          "paths": [
+            "/news/v1/category/list"
+          ]
+        },
+        {
+          "x-id": "news_v1_article_list",
+          "x-name": "Article: List",
+          "paths": [
+            "/news/v1/article/list"
+          ]
+        },
+        {
+          "x-id": "news_v1_article_get",
+          "x-name": "Article: Get",
+          "paths": [
+            "/news/v1/article/get"
+          ]
+        }
+      ]
+    },
+    {
+      "x-id": "Overview",
+      "name": "Overview",
+      "x-icon": "table",
+      "description": "A set of endpoints that provide aggregated metrics data about the overall health of the cryptocurrency industry offer access to a range of data points that can be used to measure the performance and vitality of the cryptocurrency market. These endpoints can be used to retrieve information such as the total market capitalization of all cryptocurrencies, the total volume of trades, the number of active cryptocurrencies, and other metrics that can be used to gauge the overall health of the industry. This information can be useful for anyone interested in understanding the current state of the cryptocurrency market and tracking its development over time.",
+      "x-endpoint-groups": [
+        {
+          "x-id": "overview_v1_latest_marketcap_all_tick",
+          "x-name": "Overview MarketCap Tick",
+          "paths": [
+            "/overview/v1/latest/marketcap/all/tick"
+          ]
+        },
+        {
+          "x-id": "overview_v1_historical_marketcap_all_assets_days",
+          "x-name": "Overview Historical MarketCap Days",
+          "paths": [
+            "/overview/v1/historical/marketcap/all/assets/days"
+          ]
+        },
+        {
+          "x-id": "overview_v1_historical_marketcap_all_assets_hours",
+          "x-name": "Overview Historical MarketCap Hours",
+          "paths": [
+            "/overview/v1/historical/marketcap/all/assets/hours"
+          ]
+        },
+        {
+          "x-id": "overview_v1_latest_marketcap_ftw_tick",
+          "x-name": "Overview FTW Universe MarketCap Tick",
+          "paths": [
+            "/overview/v1/latest/marketcap/ftw/tick"
+          ]
+        },
+        {
+          "x-id": "overview_v1_historical_marketcap_ftw_assets_days",
+          "x-name": "Overview Historical FTW Universe MarketCap Days",
+          "paths": [
+            "/overview/v1/historical/marketcap/ftw/assets/days"
+          ]
+        },
+        {
+          "x-id": "overview_v1_historical_marketcap_ftw_assets_hours",
+          "x-name": "Overview Historical FTW Universe MarketCap Hours",
+          "paths": [
+            "/overview/v1/historical/marketcap/ftw/assets/hours"
+          ]
+        }
+      ]
+    },
+    {
+      "x-id": "Utilities",
+      "name": "Utilities",
+      "x-icon": "wrench",
+      "description": "A set of endpoints that provide auxiliary or support functions for the main API. These endpoints provide metadata, specifications, and utility services that help users and developers interact with the API more efficiently and effectively. They do not represent the core functionality of the API but are crucial for facilitating its usage.",
+      "x-endpoint-groups": [
+        {
+          "x-id": "admin_v1_rate_limit",
+          "x-name": "Rate Limit Verification",
+          "paths": [
+            "/admin/v1/rate/limit"
+          ]
+        },
+        {
+          "x-id": "info_v1_version",
+          "x-name": "Version",
+          "paths": [
+            "/info/v1/version"
+          ]
+        },
+        {
+          "x-id": "info_v1_openapi",
+          "x-name": "OpenAPI Spec",
+          "paths": [
+            "/info/v1/openapi"
+          ]
+        }
+      ]
+    }
+  ]
+}

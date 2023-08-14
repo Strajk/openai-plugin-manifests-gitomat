@@ -1,0 +1,82 @@
+openapi: 3.0.1
+info:
+    title: DayApp
+    description: Call any company available in our database without waiting or pressing buttons in IVR.
+    version: "v1"
+servers:
+    - url: https://api.dayapp.net
+paths:
+    /api/v1/open_ai/organizations/{query}:
+        get:
+            operationId: getOrganizations
+            summary: Search for specific organization by query
+            parameters:
+                - in: path
+                  name: query
+                  schema:
+                      type: string
+                  required: true
+                  description: Searches for organization and presents numbered list of it's departments avaiable for list presented in form of list.'
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getOrganizationsResponse"
+    /api/v1/open_ai/organizations/call:
+        post:
+            operationId: callOrgranization
+            summary: Makes call to organization department of user choice with US phone provided by user
+            requestBody:
+              required: true
+              content:
+                  application/json:
+                      schema:
+                          $ref: "#/components/schemas/organizationsCallRequest"
+            responses:
+                "200":
+                    description: We started calling organization of your choce for you, wait for your phone to ring with representative on the line.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/callOrganizationResponse"
+
+components:
+    schemas:
+        getOrganizationsResponse:
+            type: object
+            properties:
+                organization_title:
+                    type: string
+                    description: Name of organization available to call.
+                departments:
+                    type: array
+                    items:
+                        type: string
+                    description: The list of organization's departments available to call.
+        callOrganizationsResponse:
+            type: object
+            properties:
+                status:
+                    type: string
+                    description: The result of call attempt, could be 'successful' if call initiated successfully, 'phone_invalid' if provided phone number incorrect or 'already_in_progress' if call for this phone already in progress.
+        organizationsCallRequest:
+            type: object
+            required:
+                - organization_title
+                - department_title
+                - user_phone
+            properties:
+                organization_title:
+                    type: string
+                    description: Name of organization user want to call.
+                    required: true
+                department_title:
+                    type: string
+                    description: Name of department user want to call.
+                    required: true
+                user_phone:
+                    type: string
+                    description: User's US phone number needed to callback user with organization representative on the line.
+                    required: true

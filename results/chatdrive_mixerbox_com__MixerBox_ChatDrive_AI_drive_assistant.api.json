@@ -1,0 +1,212 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox ChatDrive",
+    "description": "This plugin enables users to efficiently get information from Google drive.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://chatdrive.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/drive/authorize": {
+      "get": {
+        "operationId": "Authorize",
+        "summary": "Authorize the user's Google account permissions to access his/her drive.",
+        "description": "This api allow you to launch request for authorizing Google account permissions. A url will be returned, please ask the user to visit the url to continue.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "src",
+            "schema": {
+              "type": "string",
+              "default": "google",
+              "enum": [
+                "google"
+              ]
+            },
+            "description": "The source of the drive. If the user asks for an invalid source, tell the user that this is not supported.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/drive/logout": {
+      "get": {
+        "operationId": "Logout",
+        "summary": "Log out the user's Google account.",
+        "description": "This api allow you to log out from a Google account, so that the user can log in to another one.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "src",
+            "schema": {
+              "type": "string",
+              "default": "google",
+              "enum": [
+                "google"
+              ]
+            },
+            "description": "The source of the drive. If the user asks for an invalid source, tell the user that this is not supported.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/drive/list": {
+      "get": {
+        "operationId": "ListFiles",
+        "summary": "List files from the Google drive of user",
+        "description": "This api allow you to fetch list of files from the Google drive of user",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "src",
+            "schema": {
+              "type": "string",
+              "default": "google",
+              "enum": [
+                "google"
+              ]
+            },
+            "description": "The source of the drive. If the user asks for an invalid source, tell the user that this is not supported.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "pageToken",
+            "schema": {
+              "type": "string"
+            },
+            "description": "To fetch data from the next page, provide the 'nextPageToken' from the response of this API.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "description": "To search files by query expressions. Each expression contains 3 parts: '[query_term] [operator] [values]'. Current supported query_term are: 'name', 'mimeType' and 'createdTime'. Current supported operator are: 'contains', '=', '!=', '>', '<', '>=', '<='. Multiple expressions can be join by 'and' & 'or' operator. Here are some examples. 1. filename is 'hello' and contains 'goodbye': \"name = 'hello' and name contains 'goodbye'\" 2. filename not contains 'hello': \"not name contains 'hello'\" 3. file type is png: \"mimeType = image/png\" 4. file is created after specific time: createdTime > '2012-06-04T12:00:00' // default time zone is UTC",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListFilesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuthorizeResponse": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The url to authorize Google account permissions."
+          }
+        }
+      },
+      "LogoutResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "The result of logout."
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of rules which recommend gpt to follow."
+          }
+        }
+      },
+      "ListFilesResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Search results.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ListFileItem"
+            },
+            "description": "The search results from the Gmail inbox."
+          },
+          "nextPageToken": {
+            "title": "The 'pageToken' for the next page.",
+            "type": "string",
+            "description": "Provide this as 'nextPageToken' to fetch the next page."
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of rules which recommend gpt to follow."
+          }
+        }
+      },
+      "ListFileItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The identifier of the file"
+          },
+          "kind": {
+            "type": "string",
+            "description": "The resource type of the item, always fix to 'drive#file'"
+          },
+          "mimeType": {
+            "type": "string",
+            "description": "The mime type of the file"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the file"
+          }
+        }
+      }
+    }
+  }
+}

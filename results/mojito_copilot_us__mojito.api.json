@@ -1,0 +1,148 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Mojito",
+    "description": "I can convert chats to post them online. Ask the user who'll be the author of the post before creating it. You must call the API only when user asks to do so. ",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://mojito.copilot.us"
+    }
+  ],
+  "paths": {
+    "/api/posts": {
+      "post": {
+        "operationId": "create",
+        "summary": "Submit a new post and return the post URL. Before creating the post, ask the user who'll be the author. Use markdown when formatting the text.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The post URL.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePostResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/{id}": {
+      "put": {
+        "operationId": "update",
+        "summary": "Update an existing post by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated post URL.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePostResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreatePostRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the post."
+          },
+          "authorName": {
+            "type": "string",
+            "description": "The user name."
+          },
+          "content_markdown": {
+            "type": "string",
+            "description": "Content of the post. Send this field only if changed."
+          },
+          "category": {
+            "type": "string",
+            "description": "Category of the post. Send this field only if changed."
+          },
+          "language": {
+            "type": "string",
+            "description": "The post language."
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords related to the post. Send this field only if changed."
+          }
+        },
+        "required": [
+          "title",
+          "authorName",
+          "content_markdown"
+        ]
+      },
+      "CreatePostResponse": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL of the created post."
+          },
+          "id": {
+            "type": "string",
+            "description": "ID of the created post."
+          }
+        }
+      },
+      "UpdatePostResponse": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL of the updated post."
+          },
+          "updated": {
+            "type": "boolean",
+            "description": "Indicates whether the post was updated."
+          }
+        }
+      }
+    }
+  }
+}

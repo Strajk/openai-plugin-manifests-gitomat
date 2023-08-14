@@ -1,0 +1,171 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Remembotron",
+    "description": "Save things for later. Tasks, lists, and research when asked.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://www.remembotron.com/"
+    }
+  ],
+  "paths": {
+    "/api/v1/documents": {
+      "get": {
+        "operationId": "listSavedItems",
+        "summary": "Find and list remembered items",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query_match",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "UUID of document"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/document_list"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "saveItem",
+        "summary": "Create or update a new record to remember something",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/document_params"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{id}": {
+      "delete": {
+        "operationId": "forgetExistingItem",
+        "summary": "Remove a record",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "uuid"
+            },
+            "required": true,
+            "description": "UUID of document"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "document_params": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "data": {
+            "description": "This can be any valid JSON."
+          }
+        }
+      },
+      "document": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "uuid",
+            "description": "A unique identifier for the item."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the item."
+          },
+          "message": {
+            "type": "string",
+            "description": "A prompt for the bot to pass a message onto the user"
+          },
+          "description": {
+            "type": "string",
+            "description": "A brief description of the item."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "reading_list, todo_list, chat_history, personal_info, etc"
+          },
+          "data": {
+            "description": "The data associated with the item. This can be any valid JSON."
+          },
+          "link": {
+            "type": "string",
+            "description": "URL to view the item"
+          },
+          "created_at": {
+            "type": "date-time"
+          }
+        },
+        "required": [
+          "title",
+          "tags",
+          "data"
+        ]
+      },
+      "document_list": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "A prompt for the bot to pass a message onto the user",
+            "optional": true
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/document"
+            }
+          }
+        }
+      }
+    }
+  }
+}

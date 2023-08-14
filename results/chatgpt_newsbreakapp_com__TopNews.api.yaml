@@ -1,0 +1,450 @@
+openapi: 3.1.0
+info:
+  title: NewsBreak
+  description: Learn about the most popular local or national news and find local businesses and events in the United States.
+  version: v1
+
+servers:
+  - url: https://chatgpt.newsbreakapp.com
+
+paths:
+  /get_top_national:
+    post:
+      operationId: getTopNational
+      summary: Get the titles and text of national news articles in America.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                num:
+                  type: string
+                  required: true
+                  description: The number of articles to get. Between 1 and 5 inclusive. If unspecified, default to 5.
+                category:
+                  $ref: '#/components/schemas/Category'
+                  description: The news category of articles to get.
+                keywords:
+                  description: The main keywords about the news topic, each paired with their closest direct synonyms.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      keyword:
+                        type: string
+                      synonyms:
+                        type: array
+                        items:
+                          type: string
+                allow_repeat:
+                  description: False if user indicates they want more information or information that is different from the articles already retrieved.
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleResponse'
+  /get_top_local:
+      post:
+        operationId: getTopLocal
+        summary: Get the titles and text of local news articles given the city in America. 
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  city_and_state:
+                    type: string
+                    description: |
+                      The city and state name, separated by a comma and without spaces in the format "city_name,state_name" such as "santa_fe,new_mexico". 
+                      Washington, D.C should be formatted as "washington,district_of_columbia".
+                  num:
+                    type: string
+                    required: true
+                    description: The number of articles to get. Between 1 and 5 inclusive. If unspecified, default to 5.
+                  category:
+                    $ref: '#/components/schemas/Category'
+                    description: The news category of articles to get. 
+                  keywords:
+                    description: The main keywords about the news topic, each paired with their closest direct synonyms.
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        keyword:
+                          type: string
+                        synonyms:
+                          type: array
+                          items:
+                            type: string
+                  allow_repeat:
+                    description: False if user indicates they want more information or information that is different from the articles already retrieved.
+                    type: boolean
+        responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleResponse' 
+  /query_news:
+    post:
+      operationId: queryNews
+      summary: Answer questions relevant to news articles.
+      description: |
+        Use relevant information from contexts to concisely answer query in paragraph form, citing links to the articles used in parentheses 
+        within the response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              required:
+                - query
+                - keywords
+              properties:
+                query:
+                  description: The question to answer.
+                  type: string
+                keywords:
+                  description: The main keywords about the news topic, each paired with their closest direct synonyms.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      keyword:
+                        type: string
+                      synonyms:
+                        type: array
+                        items:
+                          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleResponse' 
+  /query_local_news:
+    post:
+      operationId: queryLocalNews
+      summary: Answer questions relevant to local news, given the city and state.
+      description: |
+        Use relevant information from contexts to concisely answer query in paragraph form, citing links to the articles used in parentheses 
+        within the response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              required:
+                - query
+                - keywords
+                - city_and_state
+              properties:
+                query:
+                  description: The question to answer.
+                  type: string
+                keywords:
+                  description: |
+                    The main keywords of the question, each paired with their closest direct synonyms.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      keyword:
+                        type: string
+                      synonyms:
+                        type: array
+                        items:
+                          type: string
+                city_and_state:
+                  description: |
+                    The city and state name, separated by a comma and without spaces in the format "city_name,state_name", such as "santa_fe,new_mexico". 
+                    Washington, D.C should be formatted as "washington,district_of_columbia".
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleResponse' 
+  /get_local_restaurants:
+    get:
+      operationId: getLocalRestaurants
+      summary: Get names and descriptions for top local restaurants given the city in America.
+      description: |
+        For each response in responses, first display its name hyperlinked to its url. Then list its description, address, phone number,
+        and hours in that order. Display the hours as a bulleted list. Display responses as a numbered list.
+      parameters:
+        - name: city_and_state
+          in: query
+          description: |
+            The city and state name, separated by a comma and without spaces in the format "city_name,state_name" such as "santa_fe,new_mexico". 
+            Washington, D.C should be formatted as "washington,district_of_columbia".
+          schema:
+            type: string
+        - name: num
+          in: query
+          required: true
+          description: The number of restaurants to get. Between 1 and 5, inclusive. If unspecified, default to 5.
+          schema:
+            type: string
+        - name: restaurant_name
+          in: query
+          description: Specific restaurant names to get, such as "In-N-Out Burger".
+          schema:
+            type: array
+            items:
+              type: string
+        - name: cuisine_type
+          in: query
+          description: |
+            The types of foods and cuisines the restaurants should serve. Should be capitalized if referring to a cultural or regional cuisine 
+            (ex. French, Mediterranean, New American), but lowercase otherwise (ex. vegetarian, healthy). Should cover a broad range of dishes 
+            and not refer to one specific food item.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: dish
+          in: query
+          description: Specific food items and dishes the restaurants should serve. Should be more specific than cuisine_type.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: allow_repeat
+          in: query
+          description: |
+            Should be false if user indicates they want more information or information that is different from the restaurants already retrieved.
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessResponse' 
+  /get_local_stores:
+    get:
+      operationId: getLocalStores
+      summary: Get names and descriptions of top local stores given the city in America.
+      description: |
+        For each response in responses, first display its name hyperlinked to its url. Then list its description, address, phone number,
+        and hours in that order. Display the hours as a bulleted list. Display responses as a numbered list.
+      parameters:
+        - name: city_and_state
+          in: query
+          description: |
+            The city and state name, separated by a comma and without spaces in the format "city_name,state_name" such as "santa_fe,new_mexico". 
+            Washington, D.C should be formatted as "washington,district_of_columbia".
+          schema:
+            type: string
+        - name: num
+          in: query
+          required: true
+          description: The number of stores to get. Between 1 and 5, inclusive. If unspecified, default to 5.
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: |
+            The type of stores to get. This can include both items sold at the store (ex. "Art Supplies", "Christmas Trees"), the category of 
+            store (ex. "Drugstores", "Discount"), or a specific store name (ex. "Safeway")
+          schema:
+            type: array
+            items:
+              type: string
+        - name: allow_repeat
+          in: query
+          description: |
+            Should be false if user indicates they want more information or information that is different from the stores already retrieved.
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessResponse' 
+  /get_local_services:
+    get:
+      operationId: getLocalServices
+      summary: Get names and descriptions of top local services given the city in America.
+      description: |
+        For each response in responses, first display its name hyperlinked to its url. Then list its description, address, phone number,
+        and hours in that order. Display the hours as a bulleted list. Display responses as a numbered list.
+      parameters:
+        - name: city_and_state
+          in: query
+          description: |
+            The city and state name, separated by a comma and without spaces in the format "city_name,state_name" such as "santa_fe,new_mexico". 
+            Washington, D.C should be formatted as "washington,district_of_columbia".
+          schema:
+            type: string
+        - name: num
+          in: query
+          required: true
+          description: The number of services to get. Between 1 and 5, inclusive. If unspecified, default to 5.
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: |
+            The type of services to get (ex. "Photographers", "Trainers").
+          schema:
+            type: array
+            items:
+              type: string
+        - name: allow_repeat
+          in: query
+          description: |
+            Should be false if user indicates they want more information or information that is different from the services already retrieved.
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessResponse' 
+  /get_local_events:
+    get:
+      operationId: getLocalEvents
+      summary: Get names and descriptions of top local events given the city in America.
+      description: |
+        For each response in responses, first display its name hyperlinked to its url. Then list its description, address, phone number,
+        and hours in that order. Display the hours as a bulleted list. Display responses as a numbered list.
+      parameters:
+        - name: city_and_state
+          in: query
+          description: |
+            The city and state name, separated by a comma and without spaces in the format "city_name,state_name" such as "santa_fe,new_mexico". 
+            Washington, D.C should be formatted as "washington,district_of_columbia".
+          schema:
+            type: string
+        - name: num
+          in: query
+          required: true
+          description: The number of events to get. Between 1 and 5, inclusive. If unspecified, default to 5.
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: |
+            The type of events to get. This can include category of event ("party", "conference"), activities at the event ("gaming", "dating"), 
+            or other relevant descriptors of the event ("fitness", "TV").
+          schema:
+            type: array
+            items:
+              type: string
+        - name: allow_repeat
+          in: query
+          description: |
+            Should be false if user indicates they want more information or information that is different from the events already retrieved.
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the event.
+                    text:
+                      type: string
+                      description: The description of the event.
+                    url:
+                      type: string
+                      description: The event URL.
+                    address:
+                      type: string
+                      description: The address of the event.
+                    start_time:
+                      type: string
+                      description: The start time of the event.
+                    end_time:
+                      type: string
+                      description: The end time of the event.
+
+components:
+  schemas:
+    Category:
+      type: string
+      enum:
+        - "ArtsEntertainment"
+        - "BusinessEconomy"
+        - "ClimateEnvironment"
+        - "CrimePublicsafety"
+        - "EventsNotice"
+        - "Health"
+        - "Education"
+        - "Jobs"
+        - "Lifestyle"
+        - "Obituary"
+        - "PoliticsGovernment"
+        - "Science"
+        - "Society"
+        - "Sports"
+        - "TechnologyElectronics"
+        - "TransportationTraffic"
+        - "Vehicles"
+        - "World"
+    ArticleResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+            description: The title of the news article.
+          text:
+            type: string
+            description: The text of the news article.
+          url:
+            type: string
+            description: The URL of the news article. 
+    BusinessResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: The name of the business.
+          text:
+            type: string
+            description: The description of the business.
+          url:
+            type: string
+            description: The URL to the business's website or Yelp website.
+          phone:
+            type: string
+            description: The business's phone number.
+          address:
+            type: string
+            description: The business's address.
+          hours:
+            type: object
+            description: The open hours of the business.
+            additionalProperties:
+              type: string

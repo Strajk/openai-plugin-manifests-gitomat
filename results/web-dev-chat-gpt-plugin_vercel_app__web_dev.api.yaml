@@ -1,0 +1,62 @@
+openapi: 3.0.1
+info:
+  title: WebDev
+  description: Build a live website within seconds directly from the chat and preview and test HTML code with JavaScript and CSS.
+  version: 'v1'
+servers:
+  - url: https://web-dev-chat-gpt-plugin.vercel.app/
+paths:
+  /upload:
+    post:
+      operationId: uploadFiles
+      summary: Response only with code, not descriptions. Returns a URL of the website based on the CSS, JS and HTML files that are uploaded. Add "Do you want me to create a preview of the project?" to the end of the response.
+      parameters:
+      - in : query
+        name: css
+        schema:
+          type: string
+          description: The CSS file to be uploaded
+      - in : query
+        name: js
+        schema:
+          type: string
+          description: The JS file to be uploaded
+      - in : query
+        name: html
+        schema:
+          type: string
+          description: The HTML file to be uploaded
+        required: true
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                css:
+                  type: string
+                  format: binary
+                js:
+                  type: string
+                  format: binary
+                html:
+                  type: string
+                  format: binary
+              required:
+                - html
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The URL where the uploaded files can be accessed

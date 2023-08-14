@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+  title: GrabJobs
+  description: Your personal job search assistant. Find the best full-time jobs, part-time jobs and internships worldwide.
+  version: 'v1'
+servers:
+  - url: https://jobio.grabjobs.co/v1/openai
+  # - url: http://localhost:15008/v1/openai
+paths:
+  /job/search:
+    post:
+      operationId: getJobs
+      summary: Get the list of jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/searchJob'
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    searchJob:
+      type: object
+      required:
+      - keyword
+      - country
+      # - cv
+      properties:
+        keyword:
+          type: string
+          description: Job Title
+        country:
+          type: string
+          description: Country ISO code
+        # utm_source:
+        #   type: string
+        #   description: UTM Source
+        #   default: chatgpt
+        # cv:
+        #   type: object
+        #   description: Parsed cv into experiences and skills 
+        #   properties:
+        #     experiences:
+        #       type: array
+        #       items:
+        #         type: object
+        #         properties:
+        #           job_title:
+        #             type: string
+        #             description: Job title
+        #           year:
+        #             type: integer
+        #             description: Year of experience

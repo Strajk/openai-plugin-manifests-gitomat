@@ -1,0 +1,118 @@
+openapi: 3.0.1
+info:
+  title: Doordash AIChat plugin
+  description: plugin for nearby restaurant/grocery stores given input address
+  version: 'v1'
+servers:
+  - url: https://aichat.doordash.com/v1
+paths:
+  /nearbystores:
+    get:
+      operationId: getNearbyStores
+      summary: Get list of nearby stores
+      parameters:
+        - in: query
+          name: address
+          schema:
+            type: string
+          description: address for showing nearby stores
+          required: true
+        - in: query
+          name: store_info
+          schema:
+            type: string
+            # pattern: ^[a-z]+$
+            required: false
+          description: filter results by store menu items/cuisine, eg asian, pizza etc.
+        - in: query
+          name: store_type
+          schema:
+            type: string
+          required: false
+          description: filter results by store types, eg restaurant, grocery, convenience etc, default to restaurant
+        - in: query
+          name: fulfillment_mode
+          schema:
+            type: string
+          description: filter results by fulfillment mode, eg delivery, pickup, please ask user if not clear from original request before sending requests.
+        - in: query
+          name: dashpass_enabled
+          schema:
+            type: boolean
+          required: false
+          description: filter results by dashpass eligibility, true for support, false for not support.
+        - in: query
+          name: price_range_upper
+          schema:
+            $ref: '#/components/schemas/priceRange'
+          required: false
+          description: filter results by price range not greater than it
+        - in: query
+          name: rating_range_upper
+          schema:
+            type: number
+            format: float
+            minimum: 0.0
+            maximum: 5.0
+          required: false
+          description: filter results that have a rating no more than it
+        - in: query
+          name: rating_range_lower
+          schema:
+            type: number
+            format: float
+            minimum: 0.0
+            maximum: 5.0
+          required: false
+          description: filter results that have a rating no less than it, low
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getNearbyStores'
+components:
+  schemas:
+    StoreListing:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+        dashpass:
+          type: boolean
+        priceRange:
+          $ref: '#/components/schemas/priceRange'
+        rating:
+          type: string
+          description: store rating out of 5.0
+        deliveryEta:
+          type: integer
+          description: estimated delivery time in seconds
+        pickupEta:
+          type: integer
+          description: estimated pickup time in seconds
+    getNearbyStores:
+      type: object
+      description: "The list of nearby restaurant/grocery stores"
+      properties:
+        stores:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoreListing'
+    priceRange:
+      type: integer
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+      description: price range of the store, 1 for $, 2 for $$, 3 for $$$, 4 for $$$$

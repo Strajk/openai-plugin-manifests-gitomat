@@ -1,0 +1,138 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Shownotes",
+    "description": "Extract podcast transcript.",
+    "version": "v1"
+  },
+  "paths": {
+    "/captions-shownotes.php": {
+      "get": {
+        "description": "Search shownotes.io with show and return transcript.",
+        "operationId": "AudioController_findTranscript",
+        "parameters": [
+          {
+            "name": "show",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The show name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object of the transcript",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranscriptSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search-youtube.php": {
+      "get": {
+        "description": "Search YouTube for podcasts matchng show, returns array of 3 videos.",
+        "operationId": "SearchController_findVideos",
+        "parameters": [
+          {
+            "name": "show",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The show name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object with an array of 3 video ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListVideo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/captions-youtube.php": {
+      "get": {
+        "description": "Extract transcript of YouTube video using videoid. Only use the transcript returned when making a summary or if questions are asked about the transcript. Do not embellish in any way.",
+        "operationId": "CaptionController_findTranscript",
+        "parameters": [
+          {
+            "name": "videoid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The 11-character Youtube videoid."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object of the transcript in 2 parts, chunk1 and chunk2",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranscriptSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TranscriptSchema": {
+        "type": "object",
+        "properties": {
+          "transcript": {
+            "type": "object",
+            "properties": {
+              "chunk1": {
+                "type": "string",
+                "description": "First chunk of transcript"
+              },
+              "chunk2": {
+                "type": "string",
+                "description": "Next chunk of transcript"
+              }
+            }
+          }
+        }
+      },
+      "VideoItem": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "videoid": {
+            "type": "string"
+          }
+        }
+      },
+      "ListVideo": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/VideoItem"
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://plugins.shownotes.io"
+    }
+  ]
+}

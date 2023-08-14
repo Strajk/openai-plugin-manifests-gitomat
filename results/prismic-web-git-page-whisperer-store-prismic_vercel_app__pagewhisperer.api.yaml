@@ -1,0 +1,220 @@
+openapi: 3.0.1
+info:
+  title: Page Whisperer
+  description: Generate content for your web page.
+  version: 1.0.0
+components:
+  schemas:
+    PageWhispererSection:
+      type: object
+      required:
+        - goal
+        - content_summary
+      properties:
+        goal:
+          type: string
+          description: Goal of the section.
+        content_summary:
+          type: string
+          description: >-
+            The intended action to trigger (e.g., Sign up, Check pricing, Access
+            documentation, Continue reading, Link to other website pages). This
+            action should align with the section's goal.
+paths:
+  /api/whisperer-plugin/generate-page:
+    post:
+      summary: Generate a web page using Prismic.
+      description: >-
+        Generate a web page from an outline using Prismic. Confirm with the user
+        before generating the page.
+      operationId: GenerateWebPage
+      requestBody:
+        description: Information needed to generate the web page.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - repository_id
+                - custom_type_id
+                - custom_type_section
+                - outline
+                - objective
+                - audience
+                - metrics
+              properties:
+                repository_id:
+                  type: string
+                  description: >-
+                    Prismic's repository id to use to create the page. The user
+                    must have access to it. Confirm with the user the
+                    repository_id to use.
+                custom_type_id:
+                  type: string
+                  description: >-
+                    Custom type id to use to create the page. The custom type id
+                    must exist in the repository. Confirm with the user the
+                    custom_type_id to use.
+                custom_type_section:
+                  type: string
+                  description: >-
+                    Name of the section inside the custom type to create the
+                    page. The section must exist within the custom type. Confirm
+                    with the user the custom_type_section to use
+                outline:
+                  type: array
+                  description: >-
+                    The page structure (outline). Doesn't have any connection to
+                    the custom_type_section.
+                  items:
+                    $ref: '#/components/schemas/PageWhispererSection'
+                objective:
+                  type: string
+                  description: Objective of the web page.
+                audience:
+                  type: string
+                  description: Audience of the web page.
+                metrics:
+                  type: string
+                  description: Metrics to impact (e.g. number of signups).
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - url
+                properties:
+                  url:
+                    type: string
+                    description: URL pointing to the generated web page.
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+  /api/whisperer-plugin/list-custom-type-sections:
+    get:
+      summary: List the sections of a custom type.
+      description: List all the sections of a custom type.
+      operationId: ListCustomTypeSections
+      parameters:
+        - in: query
+          name: repository_id
+          required: true
+          schema:
+            type: string
+          description: >-
+            Prismic's repository id to use to create the page. The user must
+            have access to it.
+        - in: query
+          name: customtype_id
+          required: true
+          schema:
+            type: string
+          description: >-
+            Prismic's custom type id. The custom type must belong to the
+            repository.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/whisperer-plugin/list-custom-types:
+    get:
+      summary: List the custom types of a repository.
+      description: List all the custom types of the repository.
+      operationId: ListCustomTypes
+      parameters:
+        - in: query
+          name: repository_id
+          required: true
+          schema:
+            type: string
+          description: >-
+            Prismic's repository id to use to create the page. The user must
+            have access to it.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - id
+                    - label
+                  properties:
+                    id:
+                      type: string
+                      description: Unique identifier of the custom type.
+                    label:
+                      type: string
+                      description: Label of the custom type
+  /api/whisperer-plugin/list-repositories:
+    get:
+      summary: List all Prismic repositories the user has access to.
+      description: >-
+        The endpoint should be utilized to retrieve all the repositories the
+        user has access to.
+      operationId: ListRepositories
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - id
+                    - label
+                  properties:
+                    id:
+                      type: string
+                      description: Unique identifier of the repository.
+                    label:
+                      type: string
+                      description: Display name of the repository.
+

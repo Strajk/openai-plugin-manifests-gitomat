@@ -1,0 +1,54 @@
+openapi: 3.0.1
+info:
+  title: API_documentation_Bot
+  description: >-
+    API Bot provides information about aws , google , azure , microsoft , render
+    , flowise , langchain , ai services, cognition, sage , deepgram , neural
+    space , clarifai , zapier , pinecone , chroma , cohere , hugging face ,
+    pathfix , nla , machine learning , and APIs curl request bubble , langflow ,
+    vercel , flutterflow 
+  version: v1
+servers:
+  - url: https://apidocumentationbot-openai.langdock.com
+paths:
+  /api/1.1/wf/ask-ai-query:
+    post:
+      operationId: Ask a Question to API Bot
+      summary: this asks a question to API Bot
+      parameters:
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: What was my last message?
+      responses:
+        '200':
+          description: Success
+      requestBody:
+        description: This is the User Query
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: This is the User Query
+              properties:
+                query:
+                  type: string
+                  description: This is the User Query
+                  default: 'How can I use zapier nla with flowise '
+                api_key:
+                  type: string
+                  description: This is the api key
+                  default: rOXw6IG3xwkXa5E8r9H6me6vwVmQz1
+                id:
+                  type: string
+                  description: this is the app id
+                  default: 1684279261069x283284764215738370
+              required:
+                - query
+                - api_key
+                - id
+components:
+  schemas: {}

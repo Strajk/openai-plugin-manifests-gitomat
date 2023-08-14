@@ -1,0 +1,376 @@
+components:
+  schemas:
+    ActivityResponse:
+      properties:
+        activity_date_time:
+          description: The date and time when the activity was logged
+          format: date-time
+          type: string
+        activity_message:
+          description: The message logged by the integration, describing the user
+            activity
+          type: string
+        activity_type:
+          description: The type of activity
+          type: string
+        integration_type:
+          description: The type of integration related to the activity (example GitHub)
+          type: string
+        user_full_name:
+          description: The user involved in this activity
+          type: string
+      type: object
+    ActivitySummaryResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/ActivityResponse'
+          type: array
+      type: object
+    BuildingBlockItem:
+      properties:
+        connections:
+          description: The description of possible connections of this block with
+            other blocks or systems.
+          type: string
+        description:
+          description: The description of what this building block or feature does.
+          type: string
+        name:
+          description: The name of the building block or feature of DailyBot.
+          type: string
+      type: object
+    BuildingBlocksResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/BuildingBlockItem'
+          type: array
+      type: object
+    CheckinItemResponse:
+      properties:
+        checkin_uuid:
+          description: The UUID of the Check-in or Stand-up
+          type: string
+        name:
+          description: The name of the check-in or stand-up
+          type: string
+        questions:
+          description: The questions that the check-in responses will include. The
+            questions are separated by ";-;"
+          type: string
+      type: object
+    CheckinResponseObject:
+      properties:
+        checkin_name:
+          description: The Name of the check-in.
+          type: string
+        checkin_uuid:
+          description: The UUID of the check-in.
+          type: string
+        is_response_by_me:
+          description: Defines whether this response was provided by user making this
+            request.
+          type: boolean
+        response_content:
+          description: The content of the response.
+          type: string
+        response_date_time:
+          description: The date and time when the response was provided.
+          format: date-time
+          type: string
+        user_full_name:
+          description: The user who provided the response.
+          type: string
+      type: object
+    CheckinResponsesResponse:
+      properties:
+        count:
+          description: The total number of objects available
+          type: integer
+        next:
+          description: A URL to the next page of results, if there is one
+          nullable: true
+          type: string
+        previous:
+          description: A URL to the previous page of results, if there is one
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/CheckinResponseObject'
+          type: array
+      type: object
+    CheckinSelectionResponse:
+      properties:
+        count:
+          description: The total number of objects available
+          type: integer
+        next:
+          description: A URL to the next page of results, if there is one
+          nullable: true
+          type: string
+        previous:
+          description: A URL to the previous page of results, if there is one
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/CheckinItemResponse'
+          type: array
+      type: object
+    FormResponse:
+      properties:
+        count:
+          description: The total number of objects available
+          type: integer
+        next:
+          description: A URL to the next page of results, if there is one
+          nullable: true
+          type: string
+        previous:
+          description: A URL to the previous page of results, if there is one
+          nullable: true
+          type: string
+        results:
+          description: The actual list of form responses results
+          items:
+            $ref: '#/components/schemas/FormResponseItem'
+          type: array
+      type: object
+    FormResponseItem:
+      properties:
+        form_uuid:
+          description: The UUID of the Form (knowledge base form, or survey form)
+          type: string
+        name:
+          description: The name of the form
+          type: string
+        questions:
+          description: The questions that this form includes. The questions are separated
+            by ";-;"
+          type: string
+        shortcut:
+          description: Optional. The shortcut command used in DailyBot to refer to
+            this form
+          type: string
+      type: object
+    FormResponseRetrievalItem:
+      properties:
+        form_uuid:
+          description: The UUID of the form.
+          type: string
+        is_response_by_me:
+          description: Defines whether the response item is provided by the user making
+            this request.
+          type: boolean
+        response_content:
+          description: The content of this form response.
+          type: string
+        response_date_time:
+          description: The date and time when the response was provided.
+          format: date-time
+          type: string
+        user_full_name:
+          description: The user who provided the response.
+          type: string
+      type: object
+    FormResponseRetrievalResponse:
+      properties:
+        count:
+          description: The total number of objects in the queryset
+          type: integer
+        next:
+          description: A URL to the next page of results, if there is one
+          nullable: true
+          type: string
+        previous:
+          description: A URL to the previous page of results, if there is one
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/FormResponseRetrievalItem'
+          type: array
+      type: object
+info:
+  description: A plugin that allows the user to interact with DailyBot.
+  title: DailyBot
+  version: v1
+openapi: 3.0.2
+paths:
+  /chat-plugin/activity-summary/:
+    get:
+      operationId: getActivitySummary
+      parameters:
+      - description: The name of a user to filter results, or empty to get all recent
+          activities of all users
+        in: query
+        name: query_user_name
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivitySummaryResponse'
+          description: OK
+      summary: Gets the most recent 24 activities related to external tools integrated
+        with DailyBot. Use query_user_name to filter for specific person, like providing
+        a user_full_name. No filter gives activities for all users. Combine this with
+        getCheckinSummary to get better context.
+  /chat-plugin/building-blocks/:
+    get:
+      operationId: getBuildingBlocks
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildingBlocksResponse'
+          description: OK
+      summary: Gets a list of all possible building blocks of DailyBot to create workflows,
+        use cases, and automation for business processes with the chat enabled interface.
+        This is informational, so use the building blocks to guide the user on how
+        to use DailyBot and apply AI + in-chat automation in the business.
+  /chat-plugin/checkin-responses/:
+    get:
+      operationId: getCheckinResponses
+      parameters:
+      - description: The check-in UUID to get responses for
+        in: query
+        name: checkin_uuid
+        required: true
+        schema:
+          type: string
+      - description: The user_full_name of a user to filter results for them, or empty
+          to get all responses
+        in: query
+        name: query_user_name
+        required: false
+        schema:
+          type: string
+      - description: The number of responses to retrieve (max 200)
+        in: query
+        name: limit
+        schema:
+          default: 50
+          type: integer
+      - description: The offset used to paginate results
+        in: query
+        name: offset
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckinResponsesResponse'
+          description: OK
+      summary: Gets the responses for a given check-in. Each response may include
+        info about team progress, blockers or activity of users. Be aware of the response_date_time
+        when computing results because the time window of events is relevant for your
+        analysis and insights you provide.
+  /chat-plugin/checkin-selection/:
+    get:
+      operationId: getCheckinSelection
+      parameters:
+      - description: The number of check-ins to retrieve (max 200)
+        in: query
+        name: limit
+        schema:
+          default: 50
+          type: integer
+      - description: The offset used to paginate results
+        in: query
+        name: offset
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckinSelectionResponse'
+          description: OK
+      summary: Gets a list of available team check-ins or daily stand-ups available
+        for the request User. You should select a checki-n with the UUID to then query
+        the getCheckinResponses API for additional information.
+  /chat-plugin/form-responses/:
+    get:
+      operationId: formResponseRetrieval
+      parameters:
+      - description: The form_uuid to get responses for
+        in: query
+        name: form_uuid
+        required: true
+        schema:
+          type: string
+      - description: The search query to filter responses
+        in: query
+        name: search_query
+        required: false
+        schema:
+          type: string
+      - description: The number of responses to retrieve (max 200)
+        in: query
+        name: limit
+        schema:
+          default: 50
+          type: integer
+      - description: The offset used to paginate results
+        in: query
+        name: offset
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormResponseRetrievalResponse'
+          description: OK
+      summary: Gets a list of responses for a given Form. ChatGPT should keep the
+        context of the form to always provide the form_uuid here, in addition to search
+        query (optional). It will limit to 250 most recent responses.
+  /chat-plugin/form-selection/:
+    get:
+      operationId: formSelection
+      parameters:
+      - description: The search query to filter forms by name
+        in: query
+        name: search_query
+        required: false
+        schema:
+          type: string
+      - description: The number of forms to retrieve (max 200)
+        in: query
+        name: limit
+        schema:
+          default: 50
+          type: integer
+      - description: The offset used to paginate results
+        in: query
+        name: offset
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormResponse'
+          description: OK
+      summary: Gets a list of Forms (knowledge forms, surveys, record tables) filtered
+        by the search query. Forms can be used to analyze the form responses data
+        via ChatGPT conversations. You want to get the list of Forms at the beginning
+        of Chat interactions so you know what Forms are available.
+servers:
+- url: https://api.dailybot.com/

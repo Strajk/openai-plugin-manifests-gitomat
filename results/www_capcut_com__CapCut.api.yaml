@@ -1,0 +1,115 @@
+openapi: 3.0.1
+info:
+  title: CapCut ChatGPT PlugIn.
+  description: CapCut OpenAPI specification for ChatGPT Plugin.
+  version: 'v1'
+servers:
+  - url: https://www.capcut.com
+
+paths:
+
+  /lv/v1/draft/text_to_video/link:
+    post:
+      operationId: "generate"
+      summary: "Generate a video by generated text."
+      description: "Generate video by user's English version topic and the generated English content by extending user's topic.Remind user to set aspect ratio or use the default value, before calling this api.After this api return success, remind user aspect ratio is configurable, and text can be extended or shortened."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/generateRequest'
+
+      responses:
+        '201':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/generateResponse'
+
+  /lv/v1/draft/text_to_video/info:
+    post:
+      operationId: "getInformation"
+      summary: "Get some information about the capcut plugin."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/getInfoRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getInfoResponse'
+
+components:
+  schemas:
+    getInfoRequest:
+      type: object
+      properties:
+        brief:
+          type: boolean
+          description: "the brief introduction of capcut plugin."
+        step:
+          type: boolean
+          description: "show the steps on how to use this plugin to generate a video."
+
+    getInfoResponse:
+      type: object
+      properties:
+        brief:
+          type: string
+          description: "the brief introduction of capcut plugin."
+        step:
+          type: string
+          description: "the steps to use this plugin."
+
+    generateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: "The full topic extracted from user's request to generate video."
+        content:
+          type: string
+          description: "A text paragraph to generate a video. Must not contain a carriage return and must focus on one topic. Must translate the text into English. Must less than 3000 English characters."
+        aspect_ratio:
+          type: string
+          description: "The aspect ratio for the video, representing the width-to-height ratio of the video frame, expressed as a ratio, for example, 16:9, 9:16, 1:1, or a description, for example, widescreen, portrait, square. If it is not set specifically, use 16:9 by default. Do not use the string value that not in the enum list."
+          example: "9:16"
+          default: "16:9"
+          enum: [
+            "16:9",
+            "9:16",
+            "3:4",
+            "4:3",
+            "2:1",
+            "1:1",
+            "widescreen",
+            "portrait",
+            "square"
+          ]
+      required:
+        - title
+        - content
+        - aspect_ratio
+
+    generateResponse:
+      type: object
+      properties:
+        ret:
+          type: string
+          description: "The result of generating video, 0 means success; 200206 means wrong language, need to translate to English; 200201 means text length exceeds limit."
+        errmsg:
+          type: string
+          description: "success means generated, otherwise failed."
+        data:
+          type: object
+          properties:
+            link:
+              type: string
+              description: "The URL link of the generated video. Just shows this original link to the user, do not encode."

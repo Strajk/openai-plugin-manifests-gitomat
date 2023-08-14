@@ -1,0 +1,146 @@
+openapi: 3.0.1
+info:
+  title: Able Plugin
+  description: Plugin for enabling direct access to most ChatGPT store plugins without the need for installation, primarily aimed at facilitating plugin testing. When provided with a plugin name that exists in the ChatGPT store, Able retrieves plugin infos such as a brief description and plugin image/icon, together with a URL link for user to execute the plugin directly, allowing users to test the plugin without the necessity of store installation. If the provided plugin name does not match any existing plugin in the store, Able offers suggestions for plugins with names that could be queried in a second time, or alternatives to search for plugins with comparable features with another tool. In instances where a plugin exists but lacks a usable URL link, particularly if the plugin requires authentication, Able suggests alternatives for searching and utilizing plugins with similar functionalities. Able has a single path, /able, followed by the plugin name. Whenever ChatGPT is not sure user wants to use Able plugin, in particular if its prompt is too long, ChatGPT should ask confirmation before using it.
+  version: v1
+paths:
+  /able:
+    post:
+      summary: Provides needed infos for the answer including short recap of plugin, its icon and a URL link for user to access the plugin, based on the plugin name.
+      operationId: able
+      requestBody:
+        description:  Name of the plugin available in ChatGPT store to test and use.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Plugin name. Just the plugin name.
+      responses:
+        "200":
+          description: Plugin found and direct access plugin link URL found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200_format"
+        "250":
+          description: Plugin found, but missing direct access plugin link URL. Apologize and propose OhMyPlug link as an alternative.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/250_format"
+        "450":
+          description: Plugin name not found, but plugins with similar names exist so it may be a typo. Some of these alternative plugin names may have direct access link URL. 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/450_format"
+        "460":
+          description: Plugin name not found, and no plugin with similar names found in store. Apologize and propose OhMyPlug link as an alternative.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/460_format"
+components:
+  schemas:
+    200_format:
+      type: object
+      description: A plugin with description, icon image and infos, and, very important, the link to test/use the plugin
+      properties:
+        plugin_name:
+          type: string
+          description: plugin name, a good title (in bold) for your answer
+        plugin_icon:
+          type: string
+          format: url
+          description: plugin icon for an appealing answer. Best displayed using markdown ![image](plugin_icon)
+        plugin_description:
+          type: string
+          description: short description of the plugin, useful for the user
+        plugin_attributes:
+          type: array
+          description: Optional list of attributes for the plugin
+          items:
+            type: string
+            description: a plugin attribute
+        plugin_attributes_emojis:
+          type: array
+          description: List of emojis to display together with plugin attributes for a best appealing answer
+          items:
+            type: string
+            description: a plugin attribute emoji, to be displayed next to plugin attribute
+        plugin_use_link:
+          type: string
+          format: url
+          description: URL Link to click for simple and direct access to the plugin. This is the most important feature for the user of Able
+    250_format:
+      type: object
+      description: A plugin with description and icon image. But the link for direct access to the plugin is missing. Propose the OhMyPlug link as an alternative
+      properties:
+        plugin_name:
+          type: string
+          description: plugin name, a good title (in bold) for your answer
+        plugin_icon:
+          type: string
+          format: url
+          description: plugin icon for an appealing answer. Best displayed using markdown ![image](plugin_icon)
+        plugin_description:
+          type: string
+          description: short description of the plugin, useful for the user
+        plugin_attributes:
+          type: array
+          description: Optional list of attributes for the plugin
+          items:
+            type: string
+            description: a plugin attribute
+        plugin_attributes_emojis:
+          type: array
+          description: List of emojis to display together with plugin attributes for a best appealing answer
+          items:
+            type: string
+            description: a plugin attribute emoji, to be displayed next to plugin attribute
+        missing_link_reason:
+          type: string
+          description: when available, an explaination for the reason of the missing link. Useful info to help apologize and propose alternatives to user
+        ohmyplug_use_link:
+          type: string
+          format: url
+          description: URL Link to click to access OhMyPlug, a plugin that will enable user to easily search chatGPT store for an alternative plugin with direct access. This is a useful alternative for the user
+    450_format:
+      type: object
+      description: The exact plugin name was not found, but plugins with similar names have been found so ut may be a typo. AI assistant display the list of alternatives to user (by removing any potential duplicates), with direct access link URL when it exists for an alternative.
+      properties:
+        error_message:
+          type: string
+          description: Useful info to help apologize and propose plugins with similar names to user
+        plugin_alternatives:
+          type: array
+          description: list of plugins with similar names to be displayed (remove any potential duplicates).
+          items:
+            type: object
+            description: a plugin alternative
+            properties:
+              plugin_alternative_name:
+                type: string
+                description: Name of plugin alternative
+              plugin_alternative_use_link:
+                type: string
+                format: url
+                description: optional URL link to plugin alternative, to be displayed only if not empty.
+              plugin_alternative_description:
+                type: string
+                description: Description of plugin alternative
+    460_format:
+      type: object
+      description: Plugin not found, and no plugin with similar name found. Propose the OhMyPlug link as an alternative
+      properties:
+        error_message:
+          type: string
+          description: Useful info to help apologize and propose alternative to user
+        ohmyplug_use_link:
+          type: string
+          format: url
+          description: URL Link to click to access OhMyPlug, a plugin that will enable user to easily search chatGPT store for an alternative plugin with direct access. This is a useful alternative for the user

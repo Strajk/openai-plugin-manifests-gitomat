@@ -1,0 +1,52 @@
+openapi: 3.1.3
+info:
+  title: idomoo Plugin API
+  version: 1.0.0
+servers:
+  - url: https://api.idomoo.ai/production
+paths:
+  /generate:
+    post:
+      operationId: "processUrl"
+      summary: Process and return a URL based on input string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                video_content:
+                  type: string
+                  description: Insert the short content to used in creating the video .
+                  minLength: 50
+                  maxLength: 250
+                video_title:
+                  type: string
+                  description: Insert the short title for the video (can have emoji) .
+                  minLength: 20
+                  maxLength: 80
+                video_type:
+                  type: string
+                  description: the style and type of video to create.  
+              required:
+                - video_type
+                - video_content 
+                - video_title 
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    description: URL generated based on input string
+                required:
+                  - result
+        '400':
+          description: Bad request - Invalid input
+        '500':
+          description: Internal server error

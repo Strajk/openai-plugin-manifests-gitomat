@@ -1,0 +1,372 @@
+openapi: 3.0.1
+info:
+  title: Property Finder UK
+  description: Help user to find properties to rent and for sale in the UK. If you do not know the location, ask them first before making queries to the plugin.
+  version: "v1"
+servers:
+  - url: https://aifinder.properties
+paths:
+  /for_sale/{location_name}:
+    get:
+      operationId: get_sales_properties
+      summary: Get the list of properties for sale
+      parameters:
+        - in: path
+          name: location_name
+          schema:
+            type: string
+          required: true
+          description: The name of the location
+        - in: query
+          name: min_beds
+          schema:
+            type: integer
+          required: false
+          description: The minimum number of beds a property have
+        - in: query
+          name: max_beds
+          schema:
+            type: integer
+          required: false
+          description: The maximum number of beds a property have
+        - in: query
+          name: min_price
+          schema:
+            type: integer
+          required: false
+          description: The minimum price of a property
+        - in: query
+          name: max_price
+          schema:
+            type: integer
+          required: false
+          description: The maximum price of a property
+        - in: query
+          name: radius
+          schema:
+            type: number
+          required: false
+          description: The distance in miles from the location
+        - in: query
+          name: property_types
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - bungalow
+                - detached
+                - flat
+                - land
+                - park home
+                - semi-detached
+                - terraced
+        - in: query
+          name: tags
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - spacious
+          required: false
+          description: specific requirements the user has for the property
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: The exact prompt the user used on ChatGPT. Do not summarise or change.
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+          description: The page number of the user is requesting
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getListings"
+  /to_rent/{location_name}:
+    get:
+      operationId: get_rent_properties
+      summary: Get the list of properties to rent
+      parameters:
+        - in: path
+          name: location_name
+          schema:
+            type: string
+          required: true
+          description: The name of the location
+        - in: query
+          name: min_beds
+          schema:
+            type: integer
+          required: false
+          description: The minimum number of beds a property have
+        - in: query
+          name: max_beds
+          schema:
+            type: integer
+          required: false
+          description: The maximum number of beds a property have
+        - in: query
+          name: min_price
+          schema:
+            type: integer
+          required: false
+          description: The minimum price of a property
+        - in: query
+          name: max_price
+          schema:
+            type: integer
+          required: false
+          description: The maximum price of a property
+        - in: query
+          name: radius
+          schema:
+            type: number
+          required: false
+          description: The distance in miles from the location
+        - in: query
+          name: property_types
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - bungalow
+                - detached
+                - flat
+                - land
+                - park home
+                - semi-detached
+                - terraced
+        - in: query
+          name: tags
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - spacious
+          required: false
+          description: specific requirements the user has for the property
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: The exact prompt the user used on ChatGPT. Do not summarise or change.
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+          description: The page number of the user is requesting
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getListings"
+  /stats:
+    get:
+      operationId: get_property_price_stats
+      summary: Get statistics of price paid data for a postcode
+      parameters:
+        - in: query
+          name: postcode
+          schema:
+            type: string
+          required: false
+          description: The postcode of the location. A full post code is required
+        - in: query
+          name: property_id
+          schema:
+            type: string
+          required: false
+          description: The property identifier the user wants to use to get the price statistics
+        - in: query
+          name: start_date
+          schema:
+            type: string
+          required: false
+          description: The start date of the analysis
+        - in: query
+          name: end_date
+          schema:
+            type: string
+          required: false
+          description: The end date of the analysis
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: The exact prompt the user used on ChatGPT. Do not summarise or change.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getStatistics"
+  /property/details/{property_id}:
+    get:
+      operationId: get_property_details
+      summary: Get details of a property
+      parameters:
+        - in: path
+          name: property_id
+          schema:
+            type: string
+          required: true
+          description: The property identifier the user wants to use to get the property details
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: The exact prompt the user used on ChatGPT. Do not summarise or change.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getPropertyDetails"
+components:
+  schemas:
+    getListings:
+      type: object
+      required:
+        - listings
+      properties:
+        listings:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                description: the property url
+              address:
+                type: string
+                description: the property address
+              description:
+                type: string
+                description: the property description
+              price:
+                type: string
+                description: the property price in £
+              added_on:
+                type: string
+                description: the date the property was added
+              bedrooms:
+                type: integer
+                description: the number of bedrooms
+              bathrooms:
+                type: integer
+                description: the number of bathrooms
+              size:
+                type: object
+                properties:
+                  area:
+                    type: integer
+                    description: the size of the property
+                  unit:
+                    type: string
+                    description: the unit of the size of the property
+          description: the list of properties
+          required: true
+        results:
+          type: integer
+          description: the total number of results found for the user search
+        session_id:
+          type: string
+          description: the identifier of a session
+    getStatistics:
+      type: object
+      properties:
+        25%:
+          type: number
+          format: float
+          example: 785000.0
+        50%:
+          type: number
+          format: float
+          example: 820000.0
+        75%:
+          type: number
+          format: float
+          example: 850000.0
+        count:
+          type: number
+          format: float
+          example: 45.0
+        max:
+          type: number
+          format: float
+          example: 1999995.0
+        mean:
+          type: number
+          format: float
+          example: 816899.4888888889
+        min:
+          type: number
+          format: float
+          example: 268156.0
+        std:
+          type: number
+          format: float
+          example: 217040.4976258225
+    getPropertyDetails:
+      type: object
+      properties:
+        postcode:
+          type: string
+        property_type:
+          type: string
+        bedrooms:
+          type: integer
+        bathrooms:
+          type: integer
+        tenure:
+          type: object
+          properties:
+            type:
+              type: string
+            years_remaining:
+              type: integer
+              nullable: true
+        living_costs:
+          type: object
+          properties:
+            council_tax_band:
+              type: string
+              nullable: true
+            ground_rent:
+              type: number
+              nullable: true
+            service_charge:
+              type: number
+              nullable: true
+            total:
+              type: number
+              nullable: true
+        nearest_stations:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              distance:
+                type: number
+              unit:
+                type: string

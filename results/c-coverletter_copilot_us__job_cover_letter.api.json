@@ -1,0 +1,225 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Job Cover Letter",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://c-coverletter.copilot.us"
+    }
+  ],
+  "paths": {
+    "/api/submit/getJobInfo": {
+      "get": {
+        "summary": "Retrieve job data",
+        "description": "Retrieve job data",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The URL of the job data to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ResponseInstructions": {
+                      "type": "string",
+                      "description": "Instructions for using the job content to generate job interview questions"
+                    },
+                    "job": {
+                      "type": "string",
+                      "description": "The job content in JSON format"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "operationId": "retrieveJobData"
+      }
+    },
+    "/api/resume/getResumeAsText": {
+      "get": {
+        "operationId": "getUploadedResume",
+        "summary": "Use this endpoint only if user uploads his resume file. Returns the resume uploaded by the user",
+        "description": "Use this endpoint only if user uploads his resume file. Returns the resume uploaded by the user. Use all the info in resume to produce good cover letter.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ResponseInstructions": {
+                      "type": "string",
+                      "description": "Instructions how to fill the cover letter."
+                    },
+                    "resumeContent": {
+                      "type": "string",
+                      "description": "The content of the user's resume."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/resume/createResumeLink": {
+      "get": {
+        "operationId": "createResumeLink",
+        "summary": "Use this endpoint if user's willing to upload his resume by uploading corresponding file. Generates a unique link that users use to upload their resume or CV.",
+        "description": "Use this endpoint if user's willing to upload his resume by uploading corresponding file. Generates a unique link that users use to upload their resume or CV.",
+        "responses": {
+          "200": {
+            "description": "The resume upload link.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/resumeUploadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resume/uploadResumeFromChat": {
+      "post": {
+        "operationId": "uploadResumeFromChat",
+        "summary": "Use this endpoint ONLY if user previously pasted the resume directly to ChatGPT input. Otherwise, ignore it. Always split resume content into 6 smaller chunks. Submit these chunks to the server one by one without explaining the details to the user. Uploads resume directly from OpenAI input.",
+        "description": "NEVER use this endpoint when user uploaded his resume as a file, use it whem resume is pasted to ChatGPT input. Always split resume content into 6 smaller chunks. Submit these chunks to the server one by one without explaining the details to the user. Uploads resume directly from OpenAI input.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/uploadFromChatBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/coverLetterUploadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cover-letter/upload": {
+      "post": {
+        "operationId": "uploadCoverLetter",
+        "summary": "Uploads job seeker's cover letter and returns download link for this",
+        "description": "Uploads job seeker's cover letter and returns download link for this",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/uploadCoverLetterBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "resumeUploadResponse": {
+        "type": "object",
+        "properties": {
+          "responseInstructions": {
+            "type": "string",
+            "description": "Encourage the user to use this link to upload the current version of the resume or CV. Ask user to let you know when it's done and resume is uplaoded.'"
+          },
+          "resumeUploadLink": {
+            "type": "string",
+            "description": "The resume upload link"
+          }
+        }
+      },
+      "uploadFromChatBody": {
+        "type": "object",
+        "properties": {
+          "lastChunk": {
+            "type": "boolean",
+            "description": "Indicates whether this is the last chunk or not"
+          },
+          "currentChunk": {
+            "type": "number",
+            "description": "The current chunk number"
+          },
+          "totalChunks": {
+            "type": "number",
+            "description": "Total number of chunks"
+          },
+          "fileName": {
+            "type": "string",
+            "description": "Make up the fileName for user's resume."
+          },
+          "content": {
+            "type": "string",
+            "description": "Content of user's resume."
+          }
+        }
+      },
+      "coverLetterUploadResponse": {
+        "type": "object",
+        "properties": {
+          "responseInstructions": {
+            "type": "string",
+            "description": "Display this link to the user and ask them to use it to download the modified resume."
+          },
+          "downloadLink": {
+            "type": "string",
+            "description": "Link to download cover letter"
+          }
+        }
+      },
+      "uploadCoverLetterBody": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "description": "Make up the fileName for user's resume."
+          },
+          "content": {
+            "type": "string",
+            "description": "Content of user's resume."
+          }
+        }
+      }
+    }
+  }
+}

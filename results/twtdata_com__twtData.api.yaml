@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: twtData
+  description: A tool that allows users to retrieve real time data on any public twitter account. This data includes, public metrics like followers and following, their bio, profile image, verified status and type, pinned tweet data like date, text and public metrics and more.
+  version: 'v1'
+servers:
+  - url: "https://www.twtdata.com"
+paths:
+  /get-username-stats/{username}:
+    get:
+      operationId: getStats
+      summary: Get twitter account stats
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: The username of the twitter account.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getStats'
+
+components:
+  schemas:
+    stats:
+      type: object
+      properties:
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string
+        account_found:
+          type: boolean
+        pinned_tweet_data:
+          type: object
+          properties:
+            created_at:
+              type: string
+            text:
+              type: string
+            public_metrics:
+              type: object
+              properties:
+                retweet_count:
+                  type: integer
+                reply_count:
+                  type: integer
+                like_count:
+                  type: integer
+                quote_count:
+                  type: integer
+                impression_count:
+                  type: integer
+        description:
+          type: string
+        verified:
+          type: boolean
+        verified_type:
+          type: string
+        created_at:
+          type: string
+        profile_image_url:
+          type: string
+        name:
+          type: string
+        link_to_free_sample_report:
+          type: string
+        link_to_purchase_full_report:
+          type: string
+        followers_count:
+          type: integer
+        following_count:
+          type: integer
+        tweet_count:
+          type: integer
+        listed_count:
+          type: integer
+      required:
+        - account_found
+      description: Twitter account stats.

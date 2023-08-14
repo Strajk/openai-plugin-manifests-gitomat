@@ -1,0 +1,8 @@
+{
+  "errors": [
+    {
+      "message": "Authorization token is required to access this resource"
+    }
+  ],
+  "requestid": "9df51b19-dbea-428a-94f5-e40da2716b2f"
+}

@@ -1,0 +1,36 @@
+openapi: 3.0.1
+info:
+  title: Accurate PDF
+  description: Accurate, interactive conversations with PDFs of any length, with verified quotes and page citations. Powered by Avian.io. If user hasn't uploaded their PDF file, they can upload it here at https://www.docdroid.net/
+  version: "v1.0"
+servers:
+  - url: https://pdf-plugin.avian.io
+paths:
+  /upload_pdf_and_query/:
+    post:
+      operationId: upload_pdf_and_query
+      summary: Upload PDF and turn users question into a semantic query string. MAKE SURE TO PROVIDE PAGE CITATIONS AND QUOTES FROM THE RESPONSE IN YOUR ANSWER. QUOTE THE SNIPPETS. If user asks a lot of questions, query this endpoint multiple times. IF NO QUERY SPECIFIED BY USER, ASK FOR A 'GENERAL SUMMARY'.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query_string:
+                  type: string
+                full_pdf_url:
+                  type: string
+              required:
+                - query_string
+                - full_pdf_url
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                description: Returns top 5 text snippets with highest similarity score. MAKE SURE TO PROVIDE PAGE CITATIONS AND QUOTES FROM THE RESPONSE IN YOUR ANSWER. QUOTE THE PAPER. USE ACTUAL QUOTES. If user hasn't uploaded their PDF file, they can upload it here at https://www.docdroid.net/

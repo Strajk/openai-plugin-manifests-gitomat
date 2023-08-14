@@ -1,0 +1,409 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CheckTheChain",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/{chainId}/explorer": {
+      "get": {
+        "operationId": "getExplorerURL",
+        "summary": "Generate a URL for a blockchain explorer (Dora) based on the chain ID, type, and identifier.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the blockchain network (e.g., 'ethereum')."
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "transaction",
+                "wallet",
+                "block"
+              ]
+            },
+            "required": true,
+            "description": "The type of the identifier (transaction hash, wallet address, or block number)."
+          },
+          {
+            "in": "query",
+            "name": "identifier",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The identifier (transaction hash, wallet address, or block number)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the generated explorer URL.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid chain ID, type, or identifier.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datasets/{datasetId}/tables/{tableId}/schema": {
+      "get": {
+        "operationId": "getTableSchema",
+        "summary": "Retrieve the schema of a given table in a given dataset. Find dataset and table first.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "datasetId",
+            "schema": {
+              "$ref": "#/components/schemas/DatasetId"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "tableId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the table"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the schema of the table",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, missing or invalid datasetId or tableId parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datasets/{datasetId}/tables": {
+      "get": {
+        "operationId": "getTables",
+        "summary": "Retrieve list of tables in a dataset.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "datasetId",
+            "schema": {
+              "$ref": "#/components/schemas/DatasetId"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the list of tables",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tables": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid dataset ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datasets": {
+      "get": {
+        "operationId": "getDatasets",
+        "summary": "Retrieve list of datasets",
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the list of available datasets e.g. ethereum",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "datasets": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/query": {
+      "post": {
+        "operationId": "postQuery",
+        "summary": "Execute a SQL query against the Google Big Query dataset",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "Executes a SQL query against blockchain datasets. The query should specify the dataset name, and table name clearly e.g. 'ethereum.dex_pools'. To ensure efficient and cost-effective queries, the AI model should: - Use WHERE, LIMIT, and TOP clauses to restrict the amount of data returned. - Specify the exact columns needed instead of using SELECT *. - Use functions like APPROX_COUNT_DISTINCT instead of COUNT DISTINCT. - Minimize the use of JOIN operations."
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the query results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid SQL query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resolve": {
+      "get": {
+        "operationId": "resolveEthAddressOrEns",
+        "summary": "Translate between Ethereum addresses and ENS names.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "input",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Ethereum address or ENS name to resolve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the resolved address or ENS name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "InternalServerError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "DatasetId": {
+        "type": "string",
+        "description": "The identifier for dataset e.g polygon"
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,72 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Perfect Chirp",
+    "description": "A plugin that turns your idea into banger tweets in less than 30 seconds.",
+    "version": "v1"
+  },
+  "paths": {
+    "/generate_content": {
+      "post": {
+        "operationId": "createTweet",
+        "summary": "Turn the idea into ten tweets",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TweetPrompt"
+              },
+              "example": {
+                "text": "Write a tweet about why dogs are better than cats"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneratedContent"
+                },
+                "example": {
+                  "content": {
+                    "text": "Your task is to create ten pieces of content based on the source idea/material..."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TweetPrompt": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The idea to be turned into ten tweets."
+          }
+        }
+      },
+      "GeneratedContent": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "The task prompt for creating the tweets."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

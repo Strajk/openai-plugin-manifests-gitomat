@@ -1,0 +1,55 @@
+openapi: 3.0.1
+info:
+  title: Quizizz
+  description: Takes questions or keywords and returns a link to a quiz in Quizizz.
+  version: 'v1'
+servers:
+  - url: https://crosstok.ingrouper.com
+paths:
+  /generateQuiz:
+    post:
+      operationId: generateQuiz
+      description: Generate a quiz out of MCQs and return a quiz link.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quiz'
+      responses:
+        "200":
+          description: URL to the generated quiz.
+components:
+  schemas:
+    Quiz:
+      type: object
+      description: A quiz with questions.
+      properties:
+        t:
+          type: string
+          description: Title of the quiz based on the topic the questions are about.
+          minimum: 4
+          maximum: 64
+        qs:
+          type: array
+          description: A list of questions.
+          minItems: 1
+          maxItems: 15
+          items:
+            type: object
+            description: A multiple choice question.
+            properties:
+              q:
+                type: string
+                description: Question text
+              a:
+                type: array
+                description: List of answer choices.
+                items:
+                      type: string
+                      description: Answer text
+                minItems: 2
+                maxItems: 5
+              i:
+                type: integer
+                description: Index of the answer.

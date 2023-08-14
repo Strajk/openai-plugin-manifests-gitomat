@@ -1,0 +1,63 @@
+openapi: 3.0.1
+info:
+  title: Mifuzi Domain AI
+  description: Discover domain names from your chat messages and check their availability or fetch their WHOIS information.
+  version: 'v1'
+servers:
+  - url: https://mifuzi.com
+paths:
+  /domains-check:
+    post:
+      operationId: checkDomains
+      summary: Check the availability of all given domains.
+      description: Extract keywords based on the ideas or information mentioned by the users, and combine them into English words, then append with different extensions(include .com, .net, .org, .info, .aero, .cat, .travel, .xxx) to form a list of domain names, and then query the status.
+      parameters:
+        - name: domains
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+            description: The list of domains to check.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkDomainsAndWhoisResponse'
+  /domains-whois:
+    post:
+      operationId: whoisDomains
+      summary: Fetch the whois information of all given domains.
+      description: Extract the domain names(include .com, .net, .org, .info, .biz, .name, .pro, .mobi, .me, .cc, .io, .cn, .in, .im, etc.) mentioned by the users, and then query the whois information.
+      parameters:
+        - name: domains
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+            description: The list of domains to check.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkDomainsAndWhoisResponse'
+components:
+  schemas:
+    checkDomainsAndWhoisResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The message indicating the status of the request.
+        results:
+          type: object
+          additionalProperties:
+            type: string
+          description: The mapping where the key is the domain name and the value is the corresponding query result.

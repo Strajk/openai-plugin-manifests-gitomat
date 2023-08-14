@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: Currency Converter Plugin
+  description: A plugin that allows users to convert currencies using the CoinGecko API.
+  version: 'v1'
+servers:
+  - url: https://currency-convert-chatgpt-plugin.vercel.app
+paths:
+  /convert:
+    get:
+      summary: Convert currencies
+      operationId: convertCurrencies
+      parameters:
+        - name: from_currency
+          in: query
+          required: true
+          description: The currency to convert from.
+          schema:
+            type: string
+        - name: to_currency
+          in: query
+          required: true
+          description: The currency to convert to.
+          schema:
+            type: string
+        - name: amount
+          in: query
+          required: true
+          description: The amount to convert.
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: number
+components:
+  schemas: {}

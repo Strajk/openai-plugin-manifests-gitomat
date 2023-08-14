@@ -1,0 +1,55 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Scrapee - Website scraper",
+    "description": "Allows the user to scrape the text content of any website.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://scrapee-website-scraper-plugin-for.onrender.com"
+    }
+  ],
+  "paths": {
+    "/scrape": {
+      "post": {
+        "operationId": "scrapeWebsite",
+        "summary": "Scrape the text content of a website",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "The URL of the website to scrape."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "string",
+                      "description": "The scraped content of the website."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

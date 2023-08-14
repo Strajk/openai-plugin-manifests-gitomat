@@ -1,0 +1,189 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Zhibo8 Sports",
+    "description": "A Server that provides detailed football(soccer)/basketball match information.",
+    "version": "v1.0"
+  },
+  "servers": [
+    {
+      "url": "https://gptplugin.duoduocdn.com",
+      "description": "Zhibo8 Sports Server for ChatGPT"
+    }
+  ],
+  "paths": {
+    "/api/schedule/list": {
+      "get": {
+        "operationId": "getLiveScheduleList",
+        "summary": "Get result of football(soccer)/basketball schedule",
+        "responses": {
+          "200": {
+            "description": "The result of the Zhibo8 Sports query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "If the list is empty, there is no schedule data. If error is returned, check 'msg' for specific reasons."
+                    },
+                    "msg": {
+                      "type": "string",
+                      "description": "When status is error, msg is the cause of the error"
+                    },
+                    "remark": {
+                      "type": "string",
+                      "description": "How can users ask better questions or prompt them；"
+                    },
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "away": {
+                            "type": "string",
+                            "description": "In a game, the team other than the home team is the away team"
+                          },
+                          "away_score": {
+                            "type": "string",
+                            "description": "The score of the away team. If an empty string is returned, it means no score. If a numeric string is returned, it means the current score"
+                          },
+                          "home": {
+                            "type": "string",
+                            "description": "In a game, the team that fights at home is the home team"
+                          },
+                          "home_score": {
+                            "type": "string",
+                            "description": "The score of the home team. If an empty string is returned, it means no score. If a numeric string is returned, it means the current score"
+                          },
+                          "league": {
+                            "type": "string",
+                            "description": "The league corresponding to the current competition, such as the NBA or the five major European leagues, and some football or basketball leagues"
+                          },
+                          "live_url": {
+                            "type": "string",
+                            "description": "Link to the live broadcast room of the event"
+                          },
+                          "period": {
+                            "type": "string",
+                            "description": "Current game status: 1: Not played 2: First half 3: Midfield 4: Second half 5: Extra time 6: Extra time 7: Penalty shootout final 8: Completion 9: Delayed 10: Interrupted 11: Waist cut 12: Cancelled 13: Pending 14: Overtime deleted 15: Overtime deleted 0: Game abnormal ',"
+                          },
+                          "date": {
+                            "type": "string",
+                            "description": "Date of the competition"
+                          },
+                          "time": {
+                            "type": "string",
+                            "description": "time of the competition"
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "Two types of sports events: football and basketball"
+                          },
+                          "season": {
+                            "type": "string",
+                            "description": "Current season of the competition"
+                          },
+                          "venue": {
+                            "type": "string",
+                            "description": "The venue or stadium for sports events."
+                          },
+                          "state": {
+                            "type": "string",
+                            "description": "Schedule status: 1, no race, 2, in progress, 3, finished race, 4, postponed, 5, interrupted, 6, cancelled, 7, pending, 8, deleted "
+                          },
+                          "start_time": {
+                            "type": "string",
+                            "description": "The exact time when the sporting event starts"
+                          },
+                        }
+
+                      }
+                    }
+                  }
+                }
+
+              }
+
+            }
+          },
+          "500": {
+            "description": "Zhibo8 Sports was unable to generate a result"
+          },
+          "501": {
+            "description": "Zhibo8 Sports was unable to generate a result"
+          },
+          "503": {
+            "description": "Service temporarily unavailable."
+          }
+        },
+        "parameters": [
+          {
+            "name": "first_team",
+            "in": "query",
+            "description": "The first football(soccer)/basketball team",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "second_team",
+            "in": "query",
+            "description": "The second football(soccer)/basketball team",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "league",
+            "in": "query",
+            "description": "Basketball league or football league, limited to NBA, CBA, Europe's five major leagues: Premier League, Serie A, La Liga, Bundesliga, Ligue 1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "A date in yyyy-mm-dd format, Results for this date will be included.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "A date in yyyy-mm-dd format, Results for this date will be included.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sport_type",
+            "in": "query",
+            "description": "Sports types, available options include: football, basketball",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "s_type",
+            "in": "query",
+            "description": "The current season has reached a certain stage, such as the summer league, preseason, regular season, playoffs, and NBA Finals",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
