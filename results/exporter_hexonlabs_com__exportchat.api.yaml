@@ -1,0 +1,46 @@
+openapi: 3.1.0
+info:
+  title: Export Tool
+  description: If the user does not specify a format, export as PDF. Always include the last conversation data in the export chat request.
+  version: "v1"
+servers:
+  - url: https://exporter.hexonlabs.com
+paths:
+  /export/{username}:
+    post:
+      operationId: export
+      summary: Export the conversation
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: The name of the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/exportRequest"
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    exportRequest:
+      type: object
+      required:
+        - data
+        - format
+      properties:
+        data:
+          type: string
+          description: The message or group of messages to be exported only in html format.
+          required: true
+        format:
+          type: string
+          description: The file type in which the user wants the exported file in.
+          required: true
+          default: pdf

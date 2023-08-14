@@ -1,0 +1,110 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "scrapingbee",
+    "version": "v1",
+    "description": "Search Google for finding general information and urls. Or scrape websites for the most real-time specific information."
+  },
+  "servers": [
+    {
+      "url": "https://plugin.scrapingbee.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/function/scrapeWebsiteText": {
+      "post": {
+        "summary": "Scrape any website url and retreive the text",
+        "operationId": "scrapeWebsiteText",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "Do you know the URL for sure? If not, first Google to get a valid URL"
+                  }
+                },
+                "required": [
+                  "url"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Standard response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/function/scrapeGooglePlugin": {
+      "post": {
+        "summary": "Simple Google scraping",
+        "operationId": "scrapeGooglePlugin",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Standard response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StandardResponse": {
+        "type": "object",
+        "required": [
+          "isSuccessful"
+        ],
+        "properties": {
+          "isSuccessful": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "priceCredit": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

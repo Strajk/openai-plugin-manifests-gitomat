@@ -1,0 +1,81 @@
+openapi: 3.0.1
+info:
+  title: School Supply List
+  description: Allows the user to find school supply list for k12 schools in United States.
+  version: "v1"
+servers:
+  - url: https://www.schoolsupplylist.org
+  # - url: http://localhost:8000
+paths:
+  /api/school/?school_name={school_name}&city={city}&state={state}&zipcode={zipcode}:
+    get:
+      operationId: getSchoolSupplyList
+      summary: Get the school supply lists for user's input school.
+      parameters:
+        - in: path
+          name: school_name
+          schema:
+            type: string
+          required: true
+          description: The school name, for which the user wants to find the school supply list.
+        - in: path
+          name: city
+          schema:
+            type: string
+          required: true
+          description: The city where the school should be located.
+        - in: path
+          name: state
+          schema:
+            type: string
+          required: true
+          description: The state where the school should be located (convert it to 2 letters).
+        - in: path
+          name: zipcode
+          schema:
+            type: string
+          required: true
+          description: The zipcode where the school should be located (only use 6 digits format).
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getSchoolSupplyListResponse"
+  /api/list_details/{list_slug}:
+    get:
+      operationId: getSupplyListDetails
+      summary: After the school supply lists from a school were returned, when the user asking for details for a particular list, it will return the items of that school supply list based on the url.
+      parameters:
+        - in: path
+          name: list_slug
+          schema:
+            type: string
+          required: true
+          description: The slug of the list.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getSupplyListDetailsResponse"
+components:
+  schemas:
+    getSchoolSupplyListResponse:
+      type: object
+      properties:
+        supplylist:
+          type: array
+          items:
+            type: string
+          description: The list of school supply list.
+    getSupplyListDetailsResponse:
+      type: object
+      properties:
+        supplydetails:
+          type: array
+          items:
+            type: string
+          description: The list of items in the school supply list.

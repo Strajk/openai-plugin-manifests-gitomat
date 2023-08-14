@@ -1,0 +1,42 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Mobitrix",
+    "version": "v1.0"
+  },
+  "servers": [
+    {
+      "url": "https://ad-fe.mobitrix.com"
+    }
+  ],
+  "paths": {
+    "/deviceinfo/pluginsearch": {
+      "get": {
+        "operationId": "aiToolsSearch",
+        "summary": "Search API",
+        "parameters": [
+          {
+            "name": "searchstr",
+            "in": "query",
+            "description": "Search query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details about the mobile device.",
+            "content": {
+              "text/plain": {}
+            }
+          },
+          "400": {
+            "description": "The request is missing the 'searchstr' parameter"
+          }
+        }
+      }
+    }
+  }
+}

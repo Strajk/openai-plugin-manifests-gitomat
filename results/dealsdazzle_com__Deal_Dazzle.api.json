@@ -16,6 +16,36 @@
     }
   ],
   "paths": {
+    "/bizLog/report": {
+      "post": {
+        "tags": [
+          "biz-log-controller"
+        ],
+        "operationId": "report",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommissionReportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/user/updateUserImage": {
       "post": {
         "tags": [
@@ -861,11 +891,21 @@
   },
   "components": {
     "schemas": {
-      "UpdateUserImageRequest": {
+      "CommissionReportRequest": {
         "type": "object",
         "properties": {
-          "base64": {
+          "tag": {
             "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "user_hash": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },
@@ -887,6 +927,14 @@
           },
           "data": {
             "type": "boolean"
+          }
+        }
+      },
+      "UpdateUserImageRequest": {
+        "type": "object",
+        "properties": {
+          "base64": {
+            "type": "string"
           }
         }
       },
