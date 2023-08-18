@@ -1,0 +1,39 @@
+{
+  "id": "plugin-b6f5e326-a961-42e2-bdb8-24fc1e125a6d",
+  "domain": "bfinchat.chengdoujiang.cn",
+  "namespace": "AFinChat",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "AFinChat",
+    "name_for_human": "AFinChat",
+    "description_for_model": "Get information and analyze A-share stocks, like news, quotes, financial statement, but search for information only from China.",
+    "description_for_human": "Get information and analyze A-share stocks, but search for information only from China.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://5815f3bf2ec6b290e0d9024be89af021.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "f35b7495c3da45c581f0d9c6d8d72813"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://bfinchat.chengdoujiang.cn/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://afinchat.chengdoujiang.cn/logo.png",
+    "contact_email": "m.linearalgebra@gmail.com",
+    "legal_info_url": "https://afinchat.chengdoujiang.cn/legal-info"
+  },
+  "oauth_client_id": "96a2c4ed08384a207f7130a423b91786",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-18T13:37:35.910Z"
+}

@@ -96,11 +96,11 @@
             "in": "query"
           },
           {
-            "description": "The language of city names in the response and also language of kiwi.com website to which booking_link leads. If this can't be determined based on the prompt use 'en'",
+            "description": "The language of city names in the response and also language of kiwi.com website to which search_link leads. If this can't be determined based on the prompt use 'en'",
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The language of city names in the response and also language of kiwi.com website to which booking_link leads. If this can't be determined based on the prompt use 'en'",
+              "description": "The language of city names in the response and also language of kiwi.com website to which search_link leads. If this can't be determined based on the prompt use 'en'",
               "enum": [
                 "ae",
                 "ag",
