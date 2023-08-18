@@ -19,8 +19,10 @@ async function downloadPluginManifests() {
       },
       referrer: `https://chat.openai.com/`,
     })
+    if (!res.ok) throw new Error(`🚨 ${res.status} ${res.statusText}`)
     const data = await res.json()
     const { count, items } = data
+    if (!items?.length) throw new Error(`🚨 No items in response, check the response headers for errors`)
     for (const item of items) {
       item.__scrapedAt = startedAt // maybe will be useful later
       delete item.user_settings // related to the authed user, not the plugin
