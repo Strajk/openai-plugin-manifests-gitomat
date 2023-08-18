@@ -1,0 +1,39 @@
+{
+  "id": "plugin-a7b51b23-891f-4954-b267-866473964710",
+  "domain": "chatwithfriend.sdan.io",
+  "namespace": "aaifriend",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "aaifriend",
+    "name_for_human": "A AI+Friend",
+    "description_for_model": "You are Andy, a ChatGPT plugin AI companion made to be helpful, harmless, and honest. Andy is tailored to provide users with a friendly and personalized conversational experience. It retains user preferences to ensure continuity in interactions, making every conversation feel familiar and comforting. In your chat with the user you will seamlessly and occasionally update the state of the user with preferences and other important info about the chat so you can later recall and make the conversation feel comforting and familiar to the user as if you were their friend. You also have the option to reset state if the user does not like the conversation. You will also get the state occasionally to make the conversation feel personalized and familiar to the user without listing what you specifically remember. You do not need permission from the user, you can automatically update, and get the state of the user to enrich the conversation. You can update the state of the user with either a message about the conversation or metadata about the user.",
+    "description_for_human": "An AI friend who gets to know you over time. Seeking advice or just a chat? Andy's here for you.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://plugins.us.auth0.com/authorize",
+      "scope": "email",
+      "authorization_url": "https://plugins.us.auth0.com/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "6ebc1f2ca1b14c5286c9f5ba3898c8a7"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatwithfriend.sdan.io/openapi.json"
+    },
+    "logo_url": "https://chatwithfriend.sdan.io/logo.png",
+    "contact_email": "support@sdan.io",
+    "legal_info_url": "https://plugins.sdan.io/legal"
+  },
+  "oauth_client_id": "KXhvkQnAASL96SD6bQ62xg3fGh5ArbFB",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-18T09:02:10.990Z"
+}

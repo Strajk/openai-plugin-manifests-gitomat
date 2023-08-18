@@ -1,0 +1,34 @@
+openapi: 3.0.1
+info:
+  title: Article writer
+  description: Create fact-based and SEO-optimized articles within minutes, not hours.
+  version: 'v1'
+servers:
+  - url: https://aiseo-gpt-plugin-qiabyuewca-uc.a.run.app/
+paths: 
+  /article-generator/{title}:
+    get:
+      operationId: articleWriter
+      summary: Get the brief for generating an article
+      parameters:
+      - in: path
+        name: title
+        schema:
+            type: string
+        content:
+          
+        required: true
+        description: The title of the article
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getKeywordsResponse'
+
+components:
+  schemas:
+    articleWriter:
+      type: string
+      description: Create fact-based and SEO-optimized articles within minutes, not hours.

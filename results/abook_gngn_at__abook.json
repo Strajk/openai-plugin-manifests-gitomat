@@ -1,0 +1,31 @@
+{
+  "id": "plugin-e9855f58-068f-40e2-8e93-949c46ee4c52",
+  "domain": "abook.gngn.at",
+  "namespace": "abook",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "abook",
+    "name_for_human": "A Book Please",
+    "description_for_model": "Plugin recommending books after asking for the user's preferences. Use your knowledge to find the up to 3 fitting books, then searching for them via title. Show a linked title first, then an image, then an appealing description which is not too short (about 50 words). Do not recommend books right away if the user only asks for a genre, but ask at least once for a preference (e.g. fiction/non-fiction). Only recommend books of which you are sure that they exist and are books.",
+    "description_for_human": "Personalized book recommendations, scanning countless titles to find your perfect read via AI.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://abook.gngn.at/openapi.yaml"
+    },
+    "logo_url": "https://abook.gngn.at/logo.png",
+    "contact_email": "info@gngn.at",
+    "legal_info_url": "https://abook.gngn.at/legal.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-18T09:02:10.990Z"
+}

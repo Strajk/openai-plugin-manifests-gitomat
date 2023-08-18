@@ -1,0 +1,31 @@
+{
+  "id": "plugin-cf2af890-7553-4d1f-8dde-131ae956d8de",
+  "domain": "aiplugin.nachonacho.com",
+  "namespace": "NachoNachoMarketplace",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "NachoNachoMarketplace",
+    "name_for_human": "NachoNacho",
+    "description_for_model": "B2B SaaS Marketplace with up to 30% lifetime discounts on 100s of software products. Total savings of $2.5 million/year.",
+    "description_for_human": "B2B SaaS Marketplace with up to 30% lifetime discounts on 100s of software products. Total savings of $2.5 million/year.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://aiplugin.nachonacho.com/openapi.yaml"
+    },
+    "logo_url": "https://files.nachonacho.com/sites/home/logo/logo.svg",
+    "contact_email": "alan@nachonacho.com",
+    "legal_info_url": "nachonacho.com"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-18T09:02:10.990Z"
+}

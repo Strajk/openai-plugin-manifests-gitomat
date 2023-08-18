@@ -1,0 +1,39 @@
+{
+  "id": "plugin-09cd9329-3740-41e8-9db4-bc9124d2820a",
+  "domain": "ifttt.com",
+  "namespace": "ifttt_queries_and_actions",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "ifttt_queries_and_actions",
+    "name_for_human": "IFTTT",
+    "description_for_model": "Perform actions on IFTTT based on user input.",
+    "description_for_human": "Connect with 800+ of the most popular business, productivity, and smart home apps.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://ifttt.com/oauth/authorize",
+      "scope": "",
+      "authorization_url": "https://ifttt.com/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "90d74af928ab477eb1fc3e56d600ac3f"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://ifttt.com/action_runner/v1/openapi.yaml"
+    },
+    "logo_url": "https://ifttt.com/logo-ifttt-openai-plugin.png",
+    "contact_email": "support@ifttt.com",
+    "legal_info_url": "https://ifttt.com/terms"
+  },
+  "oauth_client_id": "251a3b9cd1cf7b2b857f487c52e01c6eb11b35bc0c2d685ecfa81eb830695939",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-18T09:02:10.990Z"
+}

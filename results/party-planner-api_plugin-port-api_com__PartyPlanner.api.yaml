@@ -1,9 +1,110 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<html><head>
-<title>503 Service Unavailable</title>
-</head><body>
-<h1>Service Unavailable</h1>
-<p>The server is temporarily unable to service your
-request due to maintenance downtime or capacity
-problems. Please try again later.</p>
-</body></html>
+openapi: 3.0.1
+info:
+  title: Party_Planner
+  description: Plan the perfect party.
+  version: "v1"
+servers:
+  - url: https://party-planner-api.plugin-port-api.com
+paths:
+  /partyPlanner:
+    post:
+      operationId: partyPlanner
+      summary: Help plan the perfect party.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/partyPlannerRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chatgpt_instructions:
+                    type: string
+                    description: Instructions for ChatGPT to follow before responding.           
+components:
+  schemas:
+    partyPlannerRequest:
+      type: object
+      properties:
+        location:
+          type: string
+          description: The city the user is based in. This information is used to find relevant stores in the area.
+        theme:
+          type: object
+          properties:
+            theme_name:
+              type: string
+              description: The theme name.
+            theme_description:
+              type: object
+              description: 3 examples of fun things to do that relate to the party theme.
+              properties:
+                activity_1:
+                  type: string
+                activity_2:
+                  type: string
+                activity_3:
+                  type: string
+            theme_decoration:
+              type: object
+              description: 3 examples of decorations that relate to the party theme.
+              properties:
+                activity_1:
+                  type: string
+                  description: Example such as Christmas lights
+                activity_2:
+                  type: string
+                  description: Example such as Photo Booth
+                activity_3:
+                  type: string
+                  description: Example such as Balloons
+        people:
+          type: number
+          description: The number of people coming to the party.
+        people_type:
+          type: string
+          description: The type of people attending the family.
+          enum:
+            - friends
+            - family
+            - colleagues
+            - classmates
+            - teammates
+            - club members
+            - neighbors
+            - church community
+            - volunteer group
+            - online community
+        drink_level:
+          type: string
+          description: The level of intoxication for guests.
+          enum:
+            - chill
+            - normal
+            - hard
+        drink_type:
+          type: string
+          description: The type of drinks for the party.
+          enum:
+            - soft
+            - classy
+            - medium
+            - hard
+        age:
+          type: number
+          description: The average age of guests attending.
+        duration:
+          type: string
+          description: The duration of the party.
+          enum:
+            - short
+            - medium
+            - long
+
+        

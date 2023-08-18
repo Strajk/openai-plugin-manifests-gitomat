@@ -1,0 +1,39 @@
+{
+  "id": "plugin-9ede1896-d0f7-4365-b1c9-976928048b04",
+  "domain": "moviesdetective.com",
+  "namespace": "moviesdetective",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "moviesdetective",
+    "name_for_human": "Movies Detective",
+    "description_for_model": "Plugin for storing any user's feedback about movies and retrieving all the feedback users gave about movies in the past.",
+    "description_for_human": "Persisting movie preferences and giving recommendations. You can add movie descriptions or ask to get all of them.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://moviesdetective.com/oauth",
+      "scope": "",
+      "authorization_url": "https://moviesdetective.com/auth/oauth_exchange",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "ed9bec8e58bf40db992edded5e05d656"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://moviesdetective.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://moviesdetective.com/logo.png",
+    "contact_email": "viacheslav@kovalevskyi.com",
+    "legal_info_url": "https://moviesdetective.com/legal"
+  },
+  "oauth_client_id": "movies_detective",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-18T09:02:10.990Z"
+}

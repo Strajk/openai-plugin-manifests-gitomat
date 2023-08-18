@@ -1,0 +1,31 @@
+{
+  "id": "plugin-59ec396f-8ee0-40b6-9be3-3aa7ceaf7938",
+  "domain": "weatherplugin.net",
+  "namespace": "weather",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "weather",
+    "name_for_human": "Weather",
+    "description_for_model": "Get the weather forecast for a US city or zip code.",
+    "description_for_human": "Get the weather forecast for a US city or zip code. Visit https://weatherplugin.net for more details.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://weatherplugin.net/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://weatherplugin.net/images/logo.png",
+    "contact_email": "chatgpt.weather.plugin@gmail.com",
+    "legal_info_url": "https://weatherplugin.net/legal.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-18T09:02:10.990Z"
+}

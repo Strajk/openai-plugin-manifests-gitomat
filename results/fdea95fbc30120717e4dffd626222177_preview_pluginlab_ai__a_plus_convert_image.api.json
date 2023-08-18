@@ -1,0 +1,72 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "A+ Convert Image",
+    "version": "1.0.0",
+    "description": "API for converting an image to another image format"
+  },
+  "paths": {
+    "/convert-image": {
+      "get": {
+        "summary": "Convert an image to another image format. Don't just give me the link, rather render the image by writing it in Markdown without backticks and without using a code block.",
+        "operationId": "ConvertImageFormat",
+        "description": "Convert an image to another image format. Don't just give me the link, rather render the image by writing it in Markdown without backticks and without using a code block.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "The URL of the source image",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "The expected output format (e.g., 'png', 'jpeg', 'gif')",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "png",
+                "jpeg",
+                "gif",
+                "bmp",
+                "webp"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved link",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "converted_image_link"
+                  ],
+                  "properties": {
+                    "converted_image_link": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "Link to the converted image"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://fdea95fbc30120717e4dffd626222177.preview.pluginlab.ai"
+    }
+  ]
+}

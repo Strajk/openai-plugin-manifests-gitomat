@@ -1,0 +1,143 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "InterviewQuestions",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://c-interview-questions-copilot-us.azurewebsites.net"
+    }
+  ],
+  "paths": {
+    "/api/questions/createResumeLink": {
+      "get": {
+        "operationId": "createResumeLink",
+        "summary": "Generates a unique link that users use to resume or CV.",
+        "responses": {
+          "200": {
+            "description": "The resume upload link.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/resumeUploadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/questions/getUploadedResumeAsText": {
+      "get": {
+        "operationId": "getUploadedResume",
+        "summary": "Returns the resume uploaded by the user",
+        "responses": {
+          "200": {
+            "description": "The uploaded resume.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/job/get": {
+      "get": {
+        "summary": "Retrieve job data",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The URL of the job data to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ResponseInstructions": {
+                      "type": "string",
+                      "description": "Instructions for using the job content to generate job interview questions"
+                    },
+                    "job": {
+                      "type": "string",
+                      "description": "The job content in JSON format"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "operationId": "retrieveJobData"
+      }
+    },
+    "/api/questions/upload": {
+      "post": {
+        "operationId": "uploadQuestions",
+        "summary": "Uploads questions and returns download link for this",
+        "description": "Uploads questions and returns download link for this",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/uploadQuestionsBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "resumeUploadResponse": {
+        "type": "object",
+        "properties": {
+          "responseInstructions": {
+            "type": "string",
+            "description": "Ask the user if he wants to use this link to upload a resume or CV. Ask user to let you know when it's done and resume is uplaoded.'"
+          },
+          "resumeUploadLink": {
+            "type": "string",
+            "description": "The resume upload link"
+          }
+        }
+      },
+      "uploadQuestionsBody": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "description": "Make up the fileName for interview questions."
+          },
+          "content": {
+            "type": "string",
+            "description": "Content of interview questions."
+          }
+        }
+      }
+    }
+  }
+}

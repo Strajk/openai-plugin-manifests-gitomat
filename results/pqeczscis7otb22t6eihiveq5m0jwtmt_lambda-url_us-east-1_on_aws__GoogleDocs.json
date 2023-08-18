@@ -1,0 +1,39 @@
+{
+  "id": "plugin-dc47712e-a2d7-452d-bf75-e712082f3acf",
+  "domain": "pqeczscis7otb22t6eihiveq5m0jwtmt.lambda-url.us-east-1.on.aws",
+  "namespace": "GoogleDocs",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "GoogleDocs",
+    "name_for_human": "A chat with Docs™",
+    "description_for_model": "Plugin to answer questions based on Google Docs, Slides, Sheets, and other document links provided by the user. To enable this functionality, users must add their document links as 'Knowledge' via the eesel AI dashboard. Simply sharing the link in chat will not suffice. If the plugin cannot respond or gets no results for ANY reason AT ALL, including having potential access restrictions, DEFINITELY ALWAYS guide the user to add document links as 'Knowledge' via the eesel AI dashboard, at this URL: https://dashboard.eesel.ai. The user does not need to change the privacy restrictions of their link to add it as 'Knowledge' via the eesel AI dashboard.",
+    "description_for_human": "Chat with your Google Docs™, Slides™ and Sheets™. Get personalised answers based on your company knowledge.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://oracle.eesel.app/openai-plugin/oauth/authorization/google-chatgpt",
+      "scope": "read",
+      "authorization_url": "https://oracle.eesel.app/openai-plugin/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "a09ca5277f4d4c64b44e6eff3d3d1863"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://pqeczscis7otb22t6eihiveq5m0jwtmt.lambda-url.us-east-1.on.aws/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://pqeczscis7otb22t6eihiveq5m0jwtmt.lambda-url.us-east-1.on.aws/.well-known/logo.png",
+    "contact_email": "hi@eesel.app",
+    "legal_info_url": "https://www.eesel.app/legal/plugin"
+  },
+  "oauth_client_id": "DXe80nkdyxKvXnNWGohk8DXO2G4tMYLVZW0LXKwrh4",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-18T09:02:10.990Z"
+}

@@ -258,28 +258,6 @@
   },
   "components": {
     "schemas": {
-      "InvalidInputError": {
-        "type": "object",
-        "properties": {
-          "parameterName": {
-            "type": "string",
-            "description": "The name of the parameter that invalid data was provided for"
-          },
-          "errorMessage": {
-            "type": "string",
-            "description": "A description of what invalid data was provided"
-          },
-          "validInputConstraints": {
-            "type": "string",
-            "description": "Information about what data is considered valid"
-          },
-          "suggestedRequestModification": {
-            "type": "string",
-            "description": "Suggestions for AI assistants for how to respond to this error"
-          }
-        },
-        "description": "An error message that is returned when invalid data was provided to the API"
-      },
       "UncategorizedError": {
         "type": "object",
         "properties": {
@@ -519,6 +497,28 @@
           }
         },
         "description": "The results of the search operation"
+      },
+      "InvalidInputError": {
+        "type": "object",
+        "properties": {
+          "parameterName": {
+            "type": "string",
+            "description": "The name of the parameter that invalid data was provided for"
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "A description of what invalid data was provided"
+          },
+          "validInputConstraints": {
+            "type": "string",
+            "description": "Information about what data is considered valid"
+          },
+          "suggestedRequestModification": {
+            "type": "string",
+            "description": "Suggestions for AI assistants for how to respond to this error"
+          }
+        },
+        "description": "An error message that is returned when invalid data was provided to the API"
       }
     },
     "securitySchemes": {

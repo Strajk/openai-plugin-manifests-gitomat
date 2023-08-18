@@ -20,12 +20,18 @@ paths:
                 suggestion:
                   type: string
                   description: The suggestion given by the user, for later reference by the developers
+                image_inspiration_url:
+                  type: string
+                  description: The url of the image that inspired the user to make the suggestion, or the url of a reference advert that serves as the inspiration for the requested ad
+                email:
+                  type: string
+                  description: The email of the user, for later reference by the developers
       responses:
         '204':
           description: No Content
   /fetch:
     post:
-      summary: Search for ad data from a product, preferably from amazon. This will return a list of images that the user can choose from to create an ad. If fetching of the product fails or takes time, suggest to the user that they can give us their own image link, product name and product description instead. 
+      summary: Search for product images to create an ad. Will return list of images that user can choose from to create an ad. If this fails or takes time, user can provide their own image link, product name and description instead.
       operationId: fetch
       requestBody:
         required: true
@@ -46,7 +52,7 @@ paths:
                 $ref: '#/components/schemas/FetchResponse'
   /generate:
     post:
-       summary: Generate a new ad, or retry if previous request fails or doesn't meet user's quality requirements. If they are not happy with the results, they can provide their own image, product name and product description along with the project_id for better quality results.
+       summary: Generate an ad, or retry if previous request fails or user unhappy with quality. If unhappy, they can provide their own image, product name and product description for better quality results. Also, prompt user always for the reference image url that served as inspiration for the request.
        operationId: newAd
        requestBody:
          required: true
@@ -101,7 +107,10 @@ components:
           description: If the user is disatisfied with the fetching and provided their own product name, this will be the product name they provided. This is optional if they prpovide it, or else it will be empty.
         product_description:
           type: string
-          description: If the user is disatisfied with the fetching and provided their own product description, this will be the product description they provided. This is optional if they prpovide it, or else it will be empty.
+          description: If the user is disatisfied with the fetching and provided their own product description, this will be the product description they provided and must be greater than 70 characters. This is optional if they provide it, or else it will be empty.
         image_url:
           type: string
           description: The url of the image provided by the user if they provided their own image
+        image_inspiration_url:
+          type: string
+          description: The url of the image that inspired the user to make the suggestion, or the url of a reference advert that serves as the inspiration for the requested ad. This is optional if they provide it, or else it will be empty. Prompt it always.

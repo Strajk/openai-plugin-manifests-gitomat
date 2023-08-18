@@ -9,7 +9,7 @@ paths:
   /similarity_search/vg_articles:
     post:
       summary: Query
-      description: Accepts a search query string. Break down complex questions into sub-questions. Refine results by criteria, e.g. time / source, don't do this often.
+      description: Pass the user question in full. Break down several questions into sub-questions. Refine results by criteria, e.g. time / source, don't do this often.
       operationId: query_query_post
       requestBody:
         content:

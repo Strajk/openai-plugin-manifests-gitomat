@@ -1,1 +1,72 @@
-The deployment could not be reached
+openapi: 3.0.1
+info:
+    title: Webpage Summarizer
+    description: This program allows the user to enter a URL and have the contents (a webpage or PDF file) understood and remembered for future use by the bot which, by default, will return a summary of the article.
+    version: v1
+servers:
+    - url: https://web-sum.replit.app/
+paths:
+  /summarize/{url}:
+    get:
+      operationId: getHtml
+      summary: Get the text summary of a webpage.
+      parameters:
+      - in: path
+        name: url
+        schema:
+          type: string
+        required: true
+        description: The URL of the webpage.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getHtmlResponse"
+        default:
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+  /legal:
+    get:
+      summary: Get the legal information.
+      responses:
+        "200":
+          description: The HTML content of the legal information page.
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /legal:
+    get:
+      summary: Get the legal information page.
+      operationId: getLegalInfo
+      responses:
+        "200":
+          description: The HTML content of the legal page.
+          content:
+            text/html:
+              schema:
+                type: string
+                
+components:
+  schemas:
+    getHtmlResponse:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The HTML content of the webpage.
+    errorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error occurred, aborting URL search.
+        message:
+          type: string
+          description: Error occurred, aborting summarization.

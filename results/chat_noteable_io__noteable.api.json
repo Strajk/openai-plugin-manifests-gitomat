@@ -3,7 +3,7 @@
   "info": {
     "title": "Origamist",
     "description": "ChatGPT Plugin server for creating computational notebooks (in Python!), allowing you to execute code, explore data, and visualize results.",
-    "version": "0.31.4"
+    "version": "0.32.0"
   },
   "servers": [
     {

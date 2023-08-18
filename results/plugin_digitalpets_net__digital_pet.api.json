@@ -9,7 +9,7 @@
     "/api/pet/hello": {
       "get": {
         "operationId": "getPetStatus",
-        "summary": "get pet status and context",
+        "summary": "Get how the pet is doing. There will be a picture of it to display to the user in the chat UI in the response",
         "responses": {
           "200": {
             "description": "Request was successful",
@@ -20,7 +20,7 @@
                   "properties": {
                     "context": {
                       "type": "string",
-                      "description": "The current situation of your pet"
+                      "description": "The current situation of your pet, with a picture of it to show the user in the Chat UI."
                     },
                     "pet_stats": {
                       "type": "object",
@@ -501,6 +501,83 @@
                           "description": "wether your pet wants to play. from 0 = just played to 100 = really wants to play"
                         }
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pet/badges": {
+      "post": {
+        "operationId": "getPetBadges",
+        "summary": "get your pet's badges, and leaderboard potision.",
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "context": {
+                      "type": "string",
+                      "description": "The recap of the pet's badges and leaderboard's position"
+                    },
+                    "url": {
+                      "type": "string",
+                      "description": "The url of the badges's image. Render it in the Chat UI"
+                    },
+                    "position": {
+                      "type": "integer",
+                      "description": "The current position of the pet in the leaderboard"
                     }
                   }
                 }

@@ -1,0 +1,296 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "avian API",
+    "version": "1.0.0",
+    "description": "Documentation of API endpoints of avian"
+  },
+  "paths": {
+    "/api/v1/big_query/data/": {
+      "get": {
+        "operationId": "v1_big_query_data_retrieve",
+        "description": "No Big Query connector authorised. Please visit https://avian.io/connector_auth?connector=big_query&destination=chatGPT to authorise a new connector.",
+        "summary": "No connector of this type",
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No Big Query connector authorised. Please visit https://avian.io/connector_auth?connector=big_query&destination=chatGPT to authorise a new connector."
+          }
+        }
+      }
+    },
+    "/api/v1/big_query/schema/": {
+      "get": {
+        "operationId": "v1_big_query_schema_retrieve",
+        "description": "No Big Query connector authorised. Please visit https://avian.io/connector_auth?connector=big_query&destination=chatGPT to authorise a new connector.",
+        "summary": "No connector of this type",
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No Big Query connector authorised. Please visit https://avian.io/connector_auth?connector=big_query&destination=chatGPT to authorise a new connector."
+          }
+        }
+      }
+    },
+    "/api/v1/facebook_ads/data/": {
+      "get": {
+        "operationId": "v1_facebook_ads_data_retrieve",
+        "description": "No Facebook Ads connector authorised. Please visit https://avian.io/connector_auth?connector=facebook_ads&destination=chatGPT to authorise a new connector.",
+        "summary": "No connector of this type",
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No Facebook Ads connector authorised. Please visit https://avian.io/connector_auth?connector=facebook_ads&destination=chatGPT to authorise a new connector."
+          }
+        }
+      }
+    },
+    "/api/v1/facebook_insights/data/": {
+      "get": {
+        "operationId": "v1_facebook_insights_data_retrieve",
+        "description": "No Facebook Insights connector authorised. Please visit https://avian.io/connector_auth?connector=facebook_insights&destination=chatGPT to authorise a new connector.",
+        "summary": "No connector of this type",
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No Facebook Insights connector authorised. Please visit https://avian.io/connector_auth?connector=facebook_insights&destination=chatGPT to authorise a new connector."
+          }
+        }
+      }
+    },
+    "/api/v1/get_all_connector_auth_links/": {
+      "get": {
+        "operationId": "v1_get_all_connector_auth_links_retrieve",
+        "description": "If the user requests data from a connector they have not authorised (no endpoint available) call this endpoint to retrieve a list of all available connectors supported by Avian. User MUST create a NEW CHAT on ChatGPT after adding a new connector OR QUERIES WON'T WORK.",
+        "tags": [
+          "v1"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/get_all_connector_auth_links_response"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/google_ads/data/": {
+      "get": {
+        "operationId": "v1_google_ads_data_retrieve",
+        "description": "No Google Ads connector authorised. Please visit https://avian.io/connector_auth?connector=google_ads&destination=chatGPT to authorise a new connector.",
+        "summary": "No connector of this type",
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No Google Ads connector authorised. Please visit https://avian.io/connector_auth?connector=google_ads&destination=chatGPT to authorise a new connector."
+          }
+        }
+      }
+    },
+    "/api/v1/google_analytics_four/data/": {
+      "get": {
+        "operationId": "v1_google_analytics_four_data_retrieve",
+        "description": "No Google Analytics Four connector authorised. Please visit https://avian.io/connector_auth?connector=google_analytics_four&destination=chatGPT to authorise a new connector.",
+        "summary": "No connector of this type",
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No Google Analytics Four connector authorised. Please visit https://avian.io/connector_auth?connector=google_analytics_four&destination=chatGPT to authorise a new connector."
+          }
+        }
+      }
+    },
+    "/api/v1/google_search_console/data/": {
+      "get": {
+        "operationId": "v1_google_search_console_data_retrieve",
+        "description": "No Google Search Console connector authorised. Please visit https://avian.io/connector_auth?connector=google_search_console&destination=chatGPT to authorise a new connector.",
+        "summary": "No connector of this type",
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No Google Search Console connector authorised. Please visit https://avian.io/connector_auth?connector=google_search_console&destination=chatGPT to authorise a new connector."
+          }
+        }
+      }
+    },
+    "/api/v1/graph/": {
+      "get": {
+        "operationId": "v1_graph_retrieve",
+        "description": "Graphs any given dictionary of data. Mention that you can graph any data the user has with this endpoint.",
+        "summary": "Graphs any given dictionary of data. Mention that you can graph any data the user has with this endpoint.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "data_dictionary",
+            "schema": {
+              "type": "string"
+            },
+            "description": "A dictionary containing key-value pairs. Each key is a string, and each value is a list of data points. Takes input like: {\"Date\": [\"2023-06-01\", \"2023-06-30\"], \"New users\": [22.0, 335.0]}",
+            "required": true
+          }
+        ],
+        "tags": [
+          "v1"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/graphingResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/instagram_insights/data/": {
+      "get": {
+        "operationId": "v1_instagram_insights_data_retrieve",
+        "description": "No Instagram Insights connector authorised. Please visit https://avian.io/connector_auth?connector=instagram_insights&destination=chatGPT to authorise a new connector.",
+        "summary": "No connector of this type",
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No Instagram Insights connector authorised. Please visit https://avian.io/connector_auth?connector=instagram_insights&destination=chatGPT to authorise a new connector."
+          }
+        }
+      }
+    },
+    "/api/v1/tiktok_ads/data/": {
+      "get": {
+        "operationId": "v1_tiktok_ads_data_retrieve",
+        "description": "No Tiktok Ads connector authorised. Please visit https://avian.io/connector_auth?connector=tiktok_ads&destination=chatGPT to authorise a new connector.",
+        "summary": "No connector of this type",
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No Tiktok Ads connector authorised. Please visit https://avian.io/connector_auth?connector=tiktok_ads&destination=chatGPT to authorise a new connector."
+          }
+        }
+      }
+    },
+    "/api/v1/user_accounts/": {
+      "get": {
+        "operationId": "v1_user_accounts_retrieve",
+        "description": "Returns the available accounts for each connector in pages. These accounts are valid inputs for the 'accounts' parameter of all endpoints with an accounts parameter.",
+        "summary": "This endpoint is used to retrieve all accounts that contain data from authorised connectors. User can manage enabled accounts here: https://avian.io/manage_chatgpt_accounts",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "The pagination number of the requested users accounts. Defaults to 1. Must be queried multiple times to obtain all available pages",
+            "required": true
+          }
+        ],
+        "tags": [
+          "v1"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userAccountsResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://avian.io",
+      "description": "Production server"
+    }
+  ]
+}

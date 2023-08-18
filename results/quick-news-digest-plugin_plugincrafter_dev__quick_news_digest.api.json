@@ -37,7 +37,7 @@
           {
             "name": "keywords",
             "in": "query",
-            "description": "Keywords or phrases to search for. Up to 60 keywords can be specified.",
+            "description": "Keywords or phrases to search for. Up to 15 keywords can be specified.",
             "required": false,
             "schema": {
               "type": "array",
@@ -277,16 +277,13 @@
                   "properties": {
                     "articles": {
                       "type": "array",
+                      "description": "List of articles to display to the user",
                       "items": {
                         "type": "object",
                         "properties": {
                           "title": {
                             "type": "string",
                             "description": "Title of the article"
-                          },
-                          "body": {
-                            "type": "string",
-                            "description": "Body of the article"
                           },
                           "source": {
                             "type": "string",

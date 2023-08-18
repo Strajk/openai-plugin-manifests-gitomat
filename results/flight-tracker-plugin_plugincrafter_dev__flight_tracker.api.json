@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Flight Tracker",
-    "description": "Access real-time flight statuses and dive into extensive historical flight data instantly.",
+    "description": "API for retrieving flight details based on user-defined parameters.",
     "version": "v1"
   },
   "paths": {
@@ -194,257 +194,53 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "pagination": {
-                      "type": "object",
-                      "properties": {
-                        "limit": {
-                          "type": "integer",
-                          "description": "Returns the specified or default limit of results per pagination page."
-                        },
-                        "offset": {
-                          "type": "integer",
-                          "description": "Returns the specified or default pagination offset."
-                        },
-                        "count": {
-                          "type": "integer",
-                          "description": "Returns the number of results found on the current pagination page."
-                        },
-                        "total": {
-                          "type": "integer",
-                          "description": "Returns the total number of results found for your API request."
-                        }
-                      }
-                    },
-                    "data": {
+                    "flights": {
                       "type": "array",
+                      "description": "List of flight objects to display to the user.",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "flight_date": {
-                            "type": "string",
-                            "format": "date",
-                            "description": "Returns the date of the flight."
-                          },
-                          "flight_status": {
-                            "type": "string",
-                            "description": "Returns the flight status."
-                          },
-                          "departure": {
-                            "type": "object",
-                            "properties": {
-                              "airport": {
-                                "type": "string",
-                                "description": "Returns the name of the departure airport."
-                              },
-                              "timezone": {
-                                "type": "string",
-                                "description": "Returns the departure timezone."
-                              },
-                              "iata": {
-                                "type": "string",
-                                "description": "Returns the IATA code of the departure location/airport."
-                              },
-                              "icao": {
-                                "type": "string",
-                                "description": "Returns the ICAO code of the departure location/airport."
-                              },
-                              "terminal": {
-                                "type": "string",
-                                "description": "Returns the departure terminal."
-                              },
-                              "gate": {
-                                "type": "string",
-                                "description": "Returns the departure gate."
-                              },
-                              "delay": {
-                                "type": "integer",
-                                "description": "Returns the delay in departure in minutes."
-                              },
-                              "scheduled": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the scheduled departure date and time."
-                              },
-                              "estimated": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the estimated departure date and time."
-                              },
-                              "actual": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the actual departure date and time."
-                              },
-                              "estimated_runway": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the estimated runway date and time in the departure location/airport."
-                              },
-                              "actual_runway": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the actual runway date and time in the departure location/airport."
-                              }
-                            }
-                          },
-                          "arrival": {
-                            "type": "object",
-                            "properties": {
-                              "airport": {
-                                "type": "string",
-                                "description": "Returns the name of the arrival airport."
-                              },
-                              "timezone": {
-                                "type": "string",
-                                "description": "Returns the arrival timezone. Example America/Los_Angeles"
-                              },
-                              "iata": {
-                                "type": "string",
-                                "description": "Returns the IATA code of the arrival location/airport."
-                              },
-                              "icao": {
-                                "type": "string",
-                                "description": "Returns the ICAO code of the arrival location/airport."
-                              },
-                              "terminal": {
-                                "type": "string",
-                                "description": "Returns the arrival terminal."
-                              },
-                              "gate": {
-                                "type": "string",
-                                "description": "Returns the arrival gate."
-                              },
-                              "baggage": {
-                                "type": "string",
-                                "description": "Returns the baggage claim gate at the arrival airport."
-                              },
-                              "delay": {
-                                "type": "integer",
-                                "description": "Returns the delay in arrival in minutes."
-                              },
-                              "scheduled": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the scheduled arrival date and time."
-                              },
-                              "estimated": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the estimated arrival date and time."
-                              },
-                              "actual": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the actual arrival date and time."
-                              },
-                              "estimated_runway": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the estimated runway date and time in the arrival location/airport."
-                              },
-                              "actual_runway": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the actual runway date and time in the arrival location/airport."
-                              }
-                            }
-                          },
                           "airline": {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string",
-                                "description": "Returns the name of the airline."
-                              },
-                              "iata": {
-                                "type": "string",
-                                "description": "Returns the IATA code of the airline."
-                              },
-                              "icao": {
-                                "type": "string",
-                                "description": "Returns the ICAO code of the airline."
-                              }
-                            }
+                            "type": "string",
+                            "description": "Returns the airline name."
                           },
                           "flight": {
-                            "type": "object",
-                            "properties": {
-                              "number": {
-                                "type": "string",
-                                "description": "Returns the flight number."
-                              },
-                              "iata": {
-                                "type": "string",
-                                "description": "Returns the IATA number of the flight."
-                              },
-                              "icao": {
-                                "type": "string",
-                                "description": "Returns the ICAO number of the flight."
-                              },
-                              "codeshared": {
-                                "type": "object",
-                                "description": "Returns details about other flights and airlines participating in a codeshare agreement associated with the current flight."
-                              }
-                            }
+                            "type": "string",
+                            "description": "Returns the flight number."
                           },
-                          "live": {
-                            "type": "object",
-                            "properties": {
-                              "updated": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Returns the exact date and time the live data was collected."
-                              },
-                              "latitude": {
-                                "type": "number",
-                                "description": "Returns the latitude coordinate associated with the aircraft location."
-                              },
-                              "longitude": {
-                                "type": "number",
-                                "description": "Returns the longitude coordinate associated with the aircraft location."
-                              },
-                              "altitude": {
-                                "type": "number",
-                                "description": "Returns the altitude of the aircraft."
-                              },
-                              "direction": {
-                                "type": "number",
-                                "description": "Returns the direction of the aircraft."
-                              },
-                              "speed_horizontal": {
-                                "type": "number",
-                                "description": "Returns the horizontal speed of the aircraft."
-                              },
-                              "speed_vertical": {
-                                "type": "number",
-                                "description": "Returns the vertical speed of the aircraft."
-                              },
-                              "is_ground": {
-                                "type": "boolean",
-                                "description": "Returns true or false depending on the aircraft's ground status."
-                              },
-                              "aircraft": {
-                                "type": "object",
-                                "properties": {
-                                  "registration": {
-                                    "type": "string",
-                                    "description": "Returns the registration number of the aircraft."
-                                  },
-                                  "iata": {
-                                    "type": "string",
-                                    "description": "Returns the IATA code of the aircraft."
-                                  },
-                                  "icao": {
-                                    "type": "string",
-                                    "description": "Returns the ICAO code of the aircraft."
-                                  },
-                                  "icao24": {
-                                    "type": "string",
-                                    "description": "Returns the ICAO24 code of the aircraft."
-                                  }
-                                }
-                              }
-                            }
+                          "origin": {
+                            "type": "string",
+                            "description": "Returns the departure airport name."
+                          },
+                          "to": {
+                            "type": "string",
+                            "description": "Returns the arrival airport name."
+                          },
+                          "departure_date": {
+                            "type": "string",
+                            "format": "date",
+                            "description": "Returns the departure date in the format YYYY-MM-DD."
+                          },
+                          "departure_time": {
+                            "type": "string",
+                            "description": "Returns the departure time."
+                          },
+                          "departure_terminal_gate": {
+                            "type": "string",
+                            "description": "Returns the departure terminal and gate."
+                          },
+                          "arrival_date": {
+                            "type": "string",
+                            "format": "date",
+                            "description": "Returns the arrival date in the format YYYY-MM-DD."
+                          },
+                          "arrival_time": {
+                            "type": "string",
+                            "description": "Returns the arrival time."
+                          },
+                          "arrival_terminal_gate": {
+                            "type": "string",
+                            "description": "Returns the arrival terminal and gate."
                           }
                         }
                       }

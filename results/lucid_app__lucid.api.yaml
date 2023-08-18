@@ -5,9 +5,9 @@ info:
   description: An API that allows for diagram creation from a description in Mermaid format.
   version: 'v1'
 servers:
-  - url: https://lucid.app
+  - url: https://mlai.lucid.app
 paths:
-  /ai/createDiagram:
+  /createDiagram:
     post:
       operationId: createDiagram
       summary: Create a new diagram

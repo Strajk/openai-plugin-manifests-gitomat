@@ -1,0 +1,183 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Meal Planner API",
+    "description": "API that generates a meal plan with three meals per day (breakfast, lunch, and dinner) based on user preferences and filters.",
+    "version": "v1"
+  },
+  "paths": {
+    "/meals": {
+      "get": {
+        "operationId": "getMeals",
+        "summary": "Get a meal plan for a day or a week based on user preferences and filters.",
+        "parameters": [
+          {
+            "name": "time_frame",
+            "in": "query",
+            "description": "Time frame for meals. Available values: day, week",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "target_calories",
+            "in": "query",
+            "description": "The caloric target for one day. The meal plan generator will try to get as close as possible to that goal.",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "diet",
+            "in": "query",
+            "description": "A diet that the meal plan has to adhere to. Available values: gluten free, ketogenic, vegetarian, lacto-vegetarian, ovo-vegetarian, vegan, pescetarian, paleo, primal, low fodmap, whole30",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exclude",
+            "in": "query",
+            "description": "A list of allergens or ingredients that must be excluded. Example: shellfish",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/DailyMealsResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/WeeklyMealsResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DailyMealsResponse": {
+        "type": "object",
+        "properties": {
+          "meals": {
+            "$ref": "#/components/schemas/DailyMeals"
+          },
+          "assistant_hint": {
+            "type": "string"
+          }
+        }
+      },
+      "WeeklyMealsResponse": {
+        "type": "object",
+        "properties": {
+          "week": {
+            "$ref": "#/components/schemas/WeeklyMeals"
+          },
+          "assistant_hint": {
+            "type": "string"
+          }
+        }
+      },
+      "DailyMeals": {
+        "type": "object",
+        "properties": {
+          "meals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Meal"
+            }
+          },
+          "nutrients": {
+            "$ref": "#/components/schemas/Nutrients"
+          }
+        }
+      },
+      "WeeklyMeals": {
+        "type": "object",
+        "properties": {
+          "week": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "meals": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Meal"
+                  }
+                },
+                "nutrients": {
+                  "$ref": "#/components/schemas/Nutrients"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Meal": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "imageType": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "readyInMinutes": {
+            "type": "integer"
+          },
+          "servings": {
+            "type": "integer"
+          },
+          "sourceUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "Nutrients": {
+        "type": "object",
+        "properties": {
+          "calories": {
+            "type": "number"
+          },
+          "protein": {
+            "type": "number"
+          },
+          "fat": {
+            "type": "number"
+          },
+          "carbohydrates": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://meal-planner-plugin.plugincrafter.dev"
+    }
+  ]
+}

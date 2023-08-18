@@ -1,0 +1,397 @@
+openapi: 3.0.0
+info:
+  title: IFTTT AI action executor
+  version: 1.0.0
+paths:
+  /action_runner/v1/me:
+    get:
+      operationId: getUserInfo
+      description: Get information about the current user, such as their username and email address.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getUserInfoResponse'
+  /action_runner/v1/services:
+    get:
+      operationId: getServices
+      description: Get a list of active services the user has connected.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getServicesResponse'
+  /action_runner/v1/services/search:
+    get:
+      operationId: searchServices
+      description: Search for a connected service by name.
+      parameters:
+        - in: query
+          name: term
+          schema:
+            type: string
+          description: The term to search for.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchResponse'
+        "400":
+          description: Search failed. Check the error message for more details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchErrorResponse'
+        "404":
+          description: No result found. Try a different search term.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchErrorResponse'
+  /action_runner/v1/services/actions:
+    get:
+      operationId: getActions
+      description: Get a list of available actions for a specific service.
+      parameters:
+        - in: query
+          name: module_name
+          schema:
+            type: string
+          description: The module_name of the service to fetch actions for
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getActionsResponse'
+  /action_runner/v1/actions/run:
+    post:
+      operationId: runAction
+      description: Run an action with the provided fields. Always check for the relevant action fields before running.
+      requestBody:
+        description:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/runActionRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/runActionResponse'
+  /action_runner/v1/services/queries:
+    get:
+      operationId: getQueries
+      description: Get a list of available queries for a service.
+      parameters:
+        - in: query
+          name: service_module_name
+          schema:
+            type: string
+          description: The module_name of the service to fetch queries for
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getQueriesResponse'
+  /action_runner/v1/queries/run:
+    post:
+      operationId: runQuery
+      description: Run a query with the provided fields. Always check for the relevant query fields before running.
+      requestBody:
+        description:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/runQueryRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/runQueryResponse'
+components:
+  schemas:
+    getUserInfoResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The username of the current user.
+        email:
+          type: string
+          description: The email address of the current user.
+    getServicesResponse:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            type: object
+            properties:
+              module_name:
+                type: string
+                description: The system name of the service.
+              name:
+                type: string
+                description: The user-friendly name of the service.
+              description:
+                type: string
+                description: A description of the service.
+              category:
+                type: string
+                description: The category the service belongs to.
+              actions:
+                type: array
+                description: The actions that can be run for the service.
+                items:
+                  $ref: '#/components/schemas/step'
+              queries:
+                type: array
+                description: The queries that can be run for the service.
+                items:
+                  $ref: '#/components/schemas/step'
+          description: The list of connected services.
+    getActionsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/detailedAction'
+    searchErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: string
+          description: The error message.
+    searchResponse:
+      type: object
+      properties:
+        module_name:
+          type: string
+          description: The system name of the service.
+        name:
+          type: string
+          description: The user-friendly name of the service.
+        description:
+          type: string
+          description: A description of the service.
+        category:
+          type: string
+          description: The category the service belongs to.
+        actions:
+          type: array
+          description: The actions that can be run for the service.
+          items:
+            $ref: '#/components/schemas/detailedAction'
+        queries:
+          type: array
+          description: The queries that can be run for the service.
+          items:
+            $ref: '#/components/schemas/detailedQuery'
+    step:
+      type: object
+      properties:
+        module_name:
+          type: string
+          description: The module name of the action.
+        name:
+          type: string
+          description: The user-friendly name of the action.
+        description:
+          type: string
+          description: A description of the action.
+    detailedAction:
+      type: object
+      properties:
+        module_name:
+          type: string
+          description: The system name of the action.
+        name:
+          type: string
+          description: The user-friendly name of the action.
+        description:
+          type: string
+          description: A description of the action.
+        fields:
+          type: array
+          description: The fields that can be given to the action as input.
+          items:
+            $ref: '#/components/schemas/stepField'
+    detailedQuery:
+      type: object
+      properties:
+        module_name:
+          type: string
+          description: The system name of the query.
+        name:
+          type: string
+          description: The user-friendly name of the query.
+        description:
+          type: string
+          description: A description of the query.
+        fields:
+          type: array
+          description: The fields that can be given to the query as input.
+          items:
+            $ref: '#/components/schemas/stepField'
+        ingredients:
+          description: The ingredients provided by the query as output.
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the ingredient.
+              example:
+                type: string
+                description: An example value for the ingredient.
+              type:
+                type: string
+                description: The type of the ingredient (such as URL or text).
+    stepField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the field.
+        label:
+          type: string
+          description: A human-readable name for the field.
+        helper_text:
+          type: string
+          description: Extra information about the field, such as example text.
+        field_type:
+          type: string
+          description: The type of the field. One of SELECT, TEXT or CHECKBOX.
+        example:
+          oneOf:
+            - type: string
+            - type: object
+          description: An example value that can be provided for the field.
+        required:
+          type: boolean
+          description: Whether or not the field is required when running the action.
+        options:
+          type: array
+          description: Options for the field. For SELECT field_types only.
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+                description: Human-readable label for the option.
+              value:
+                type: string
+                description: Corresponding value for the option. Supply this field when running.
+    stepFieldValue:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the field.
+        value:
+          type: string
+          description:
+            The value of the field. "true" or "false" for CHECKBOX fields.
+            LOCATION fields should be a JSON string with the keys "lat" and "lng".
+    runActionRequest:
+      type: object
+      required:
+        - service_module_name
+        - action_module_name
+        - fields
+      properties:
+        service_module_name:
+          type: string
+          description: The module name of the service the action belongs to.
+        action_module_name:
+          type: string
+          description: The module name of the action in the service to run
+        fields:
+          type: array
+          description: The fields to give the action as input.
+          items:
+            $ref: '#/components/schemas/stepFieldValue'
+    runActionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether or not the action ran successfully.
+        errors:
+          type: string
+          description: A human-readable error to show the user if there was an issue.
+    getQueriesResponse:
+      type: object
+      properties:
+        queries:
+          type: array
+          description: The list of queries.
+          items:
+            $ref: '#/components/schemas/detailedQuery'
+    runQueryRequest:
+      type: object
+      required:
+        - service_module_name
+        - query_module_name
+        - fields
+      properties:
+        service_module_name:
+          type: string
+          description: The module name of the service the query belongs to.
+        query_module_name:
+          type: string
+          description: The module name of the query in the service to run
+        fields:
+          type: array
+          description: The fields to give the query as input.
+          items:
+            $ref: '#/components/schemas/stepFieldValue'
+    ingredient_set:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: The name of the ingredient.
+          value:
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  $ref: '#/components/schemas/ingredient_set'
+            description: The value of the ingredient.
+      example:
+        name: "events"
+        value:
+          - name: "event_name"
+            value: "My Event"
+          - name: "attendees"
+            value:
+              - name: "email"
+                value: "johndoe@gmail.com"
+              - name: "email"
+                value: "janedoe@gmail.com"
+    runQueryResponse:
+      type: object
+      properties:
+        errors:
+          type: string
+          description: A human-readable error to show the user if there was an issue.
+        ingredients:
+          $ref: '#/components/schemas/ingredient_set'

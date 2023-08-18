@@ -240,7 +240,6 @@
                   }
                 },
                 "required": [
-                  "etherscan_api_key",
                   "ethereum_address"
                 ]
               }
@@ -364,9 +363,21 @@
                     "uuid": {
                       "type": "string"
                     },
+                    "total_lines": {
+                      "type": "integer",
+                      "description": "The total number of lines of code in the latest revisiion of the source code for this playground's main.js."
+                    },
                     "source": {
+                      "type": "array",
+                      "description": "This is the current state of your code inside main.js, including line numbers. ATTENTION LLM: It is recommended you summarize with bullet-points the entire code base citing line ranges. For instnace; \"Lines 1-15: Basic canvas setup\"...",
+                      "items": {
+                        "type": "string",
+                        "description": "Each item represents a line of code in main.js of the p5js codebase, with the line number (1-based) and a \"|\" character appended to the ront of each."
+                      }
+                    },
+                    "name": {
                       "type": "string",
-                      "description": "The current snapshot of the codebase for this project."
+                      "description": "The name of the playground."
                     },
                     "url": {
                       "type": "string",
@@ -387,8 +398,8 @@
           "game",
           "app"
         ],
-        "summary": "Edit an existing p5js playground. And index.html file will load a main.js script along with the <head><script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js\"></script></head>. This endpoint only accesses main.js",
-        "description": "Edit an existing playground's main.js code with the specified UUID and name by applying a series of actions to modify the p5js code in the main.js file.",
+        "summary": "Edit the primary 'main.js' client-side JavaScript of an existing p5js playground. A static index.html file will load a canvas.html iframe which will include <head><script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js\"></script></head>, and the main.js script edited herein.",
+        "description": "Edit an existing playground's main.js code by applying a list of actions to modify the p5js code in the main.js file. Use of inline comments to contextualize written code is encouraged. Debug output and errors will be logged to a logfile accessable at endpoint 'log_playground.'",
         "operationId": "edit_playground",
         "requestBody": {
           "content": {
@@ -402,21 +413,21 @@
                   },
                   "name": {
                     "type": "string",
-                    "description": "The name of the playground."
+                    "description": "The name of the playground to be edited."
                   },
                   "actions": {
                     "type": "array",
-                    "description": "A list of actions instructions and new code to perform on the playground's codebase, such as insertion, replacement, or deletion. Actions are processed sequentially in the order they appear in the array. 'insert' will insert the specified code at the given line number, which shifts all pre-existing lines downward by however many new lines are added (indicated by '\\n'); 'replace' will replace the specified line number range of pre-existing code with the given code, shifting pre-existing lines up or down depending on the difference in line numbers between the new and old code; 'delete' will remove the specified lines of code from playground's existing main.js, shifting upward all subsequent lines left.",
+                    "description": "A list of actions, line numbers, and new code snippets to apply on the playground's codebase, such as insertions, replacements, or deletions. Actions are processed simultaneously, and do not impact each other within a single set of actions.",
                     "items": {
                       "type": "object",
                       "properties": {
                         "action": {
                           "type": "string",
-                          "description": "The intended action (e.g., 'insert', 'replace', 'delete'). Actions are processed sequentially in the order they appear. So muliple inserts in a row are allowed, but **remember** that line numbers will change after each insert. As an autoregressive LLM, use each new token generation as an opportunity to consider prior line number changes."
+                          "description": "The intended action (e.g., 'insert', 'replace', 'delete'). Actions are processed simultaneously, having no relative relation to each other within a single set of actions."
                         },
                         "line": {
                           "type": "integer",
-                          "description": "(1-based) The line number for which to insert a block of code. You can insert as many lines of code as you want by escaping the newline character with '\\n'. Do not write any empty lines of code."
+                          "description": "(1-based) The line number for which to insert a block (or single line) of code."
                         },
                         "start_line": {
                           "type": "integer",
@@ -425,11 +436,14 @@
                         },
                         "end_line": {
                           "type": "integer",
-                          "description": "(1-based) The ending line number REQUIRED for replace and delete actions. This is the ending line of the existing code to replace or delete. It is not the last line of the code being submitted."
+                          "description": "(1-based) The ending line number REQUIRED for replace and delete actions. This is the ending line of the existing code to replace or delete. It is not the last line of the code being transformed."
                         },
                         "code": {
-                          "type": "string",
-                          "description": "(1-based) The code to insert or use as a replacement (for insert and replace actions). Code should not contain empty lines, and '\\n' should be used to indicate the end of the current line. To include a literal '\\n' in the code, escape it as '\\\n'."
+                          "type": "array",
+                          "description": "An array representation of the code to insert or use as a replacement (for insert and replace actions). Each item in the array represents a single line of code in sequential order.",
+                          "items": {
+                            "type": "string"
+                          }
                         }
                       }
                     }
@@ -447,28 +461,39 @@
         },
         "responses": {
           "200": {
-            "description": "The playground was successfully edited",
+            "description": "The playground edit attempt was processed, the results of which are returned in the response. It is recommended each successful source code update be summarized by reviewing **FULL** latet code source, citing line ranges.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "success": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "description": "Indicates whether the playground edit attempt was successful and changes to the file system / code base can be anticipated."
                     },
                     "uuid": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The UUID of the playground."
                     },
                     "url": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "This is the URL of this playground's preview page."
                     },
                     "instructions": {
                       "type": "string",
                       "description": "Important context for the LLM that will benefit the user experience."
                     },
+                    "total_lines": {
+                      "type": "integer",
+                      "description": "The total number of lines of code in the latest revisiion of the source code for this playground's main.js."
+                    },
                     "source": {
-                      "type": "object",
-                      "description": "This is the current state of your code inside main.js, including line numbers."
+                      "type": "array",
+                      "description": "This is the current state of your code inside main.js, including line numbers. ATTENTION LLM: It is recommended you summarize with bullet-points the entire code base citing line ranges. For instnace; \"Lines 1-15: Basic canvas setup\"...",
+                      "items": {
+                        "type": "string",
+                        "description": "Each item represents a line of code (1-based) in main.js of the p5js codebase, with the line number and a \"|\" character appended to the ront of each."
+                      }
                     },
                     "alert": {
                       "type": "string",
@@ -490,14 +515,14 @@
         }
       }
     },
-    "log_playground": {
+    "/log_playground": {
       "post": {
         "tags": [
           "playground",
           "game",
           "log",
-          "app",
-          "build"
+          "debug",
+          "logfile"
         ],
         "summary": "This endpoint provides access to the user's output and error logs for a given playground.",
         "description": "Maintaining alignment with the mission to create a user-friendly and accessible interface, this endpoint provides access to the user's output and error logs for a given playground. This endpoint is intended to be used by the LLM to provide context for the user's code.",
@@ -538,7 +563,7 @@
         },
         "responses": {
           "200": {
-            "description": "The playground was successfully logged",
+            "description": "The playground's log was successfully queried, and a log line entered to indicate the LLM / AI Assistant last checked the log.",
             "content": {
               "application/json": {
                 "schema": {
@@ -546,7 +571,7 @@
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "description": "Indicates whether the playground was successfully logged."
+                      "description": "Indicates whether the playground was successfully logged and checked."
                     },
                     "uuid": {
                       "type": "string",
@@ -557,8 +582,20 @@
                       "description": "The name of the playground."
                     },
                     "content": {
-                      "type": "object",
-                      "description": "The contents of the log file for this playground in chronological order."
+                      "type": "array",
+                      "description": "The contents of the log file for this playground in chronological order.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each line represents a line of the logfile.log which contains errors, info, and output log lines based on the user's client-side preview interactions."
+                      }
+                    },
+                    "alert": {
+                      "type": "string",
+                      "description": "This alert is an IMPORTANT system message, meant to convey important nuance or information that should be observed and retained in memory until fulfilled."
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "This error is a system message, meant to convey important context as to why success was not achieved."
                     }
                   }
                 }

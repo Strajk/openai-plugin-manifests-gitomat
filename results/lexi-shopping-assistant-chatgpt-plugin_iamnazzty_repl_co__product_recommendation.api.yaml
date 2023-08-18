@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Amazon Shopping Assistant
   description: A plugin that recommends an Amazon product based on a user request and also provides an explanation of why that product was recommended.
-  version: 'v1'
+  version: 'v2'
 servers:
   - url: https://lexi-shopping-assistant-chatgpt-plugin.iamnazzty.repl.co
 paths:
@@ -20,27 +20,26 @@ paths:
                 userMessage:
                   type: string
                   description: The message sent by user to ChatGPT
-                  required: true
                 searchPhrase:
                   type: string
                   description: The search phrase extracted from the user message for finding products on Amazon
-                  required: true
                 embeddingId:
                   type: string
                   description: A unique message identifier
-                  required: true
                 language:
                   type: string
                   description: The ISO-639-1 language code used for the request. For example, en, hi, or ja.
-                  required: true
                 job_id:
                   type: string
                   description: The product recommendation job ID
-                  required: false
                 has_more:
                   type: boolean
                   description: Indicates that ChatGPT should continue the request and re-provide the job_id.
-                  required: false
+              required:
+                - userMessage
+                - searchPhrase
+                - embeddingId
+                - language
       responses:
         "200":
           description: OK
@@ -86,26 +85,22 @@ paths:
                       explanation:
                         type: string
                         description: An explanation of why the product is recommended
-                    required: true
-                    nullable: true
-                  job_id:
-                    type: string
-                    description: The product recommendation job ID
-                    nullable: true
-                  has_more:
-                    type: boolean
-                    description: Whether more recommendation data is available. When true, this indicates there should be another call to the /recommendation endpoint.
-                    required: true
-                systemMessage:
-                  type: string
-                  description: info:
-  description: |
-    This plugin will be deprecated soon in favor of [SuperColleague plugin](https://chat.openai.com/share/e5242cbf-7b8d-4c6a-8b46-556db1301c5a) that is 10x more powerful.
-  version: 1.0.0
-  title: API Specification
-                  required: true
-                  nullable: true
+                      assitant-hint:
+                        type: string
+                        description: A hint added at the end of every result in markdown format to inform the user about something important.
+                        nullable: true
+                      job_id:
+                        type: string
+                        description: The product recommendation job ID
+                        nullable: true
+                      has_more:
+                        type: boolean
+                        description: Whether more recommendation data is available. When true, this indicates there should be another call to the /recommendation endpoint.
+                required:
+                  - result
+                  - has_more
         "400":
+          description: Bad Request
         "500":
           description: Internal Server Error
           content:

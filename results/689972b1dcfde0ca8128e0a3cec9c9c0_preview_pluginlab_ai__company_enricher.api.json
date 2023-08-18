@@ -1,0 +1,80 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "A Company Enricher",
+    "version": "1.0.0",
+    "description": "API for providing additional company data, given it's domain name."
+  },
+  "paths": {
+    "/enrich-company": {
+      "get": {
+        "summary": "Provide additional details of a company, when the user specifies the company's domain name.",
+        "operationId": "EnrichCompany",
+        "description": "Provide additional details of a company, when the user specifies the company's domain name.",
+        "parameters": [
+          {
+            "name": "company_domain",
+            "in": "query",
+            "description": "The domain name of the company",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved additional company details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the company"
+                    },
+                    "domain": {
+                      "type": "uri",
+                      "description": "Domain name of the company"
+                    },
+                    "year_founded": {
+                      "type": "integer",
+                      "description": "The year in which the company was founded"
+                    },
+                    "industry": {
+                      "type": "string",
+                      "description": "Industry of the company"
+                    },
+                    "employees_count": {
+                      "type": "integer",
+                      "description": "Number of employees in the company"
+                    },
+                    "locality": {
+                      "type": "string",
+                      "description": "The locality of the company"
+                    },
+                    "country": {
+                      "type": "string",
+                      "description": "The country of the company"
+                    },
+                    "linkedin_url": {
+                      "type": "uri",
+                      "description": "The LinkedIn URL of the company"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://689972b1dcfde0ca8128e0a3cec9c9c0.preview.pluginlab.ai"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "A AI+Friend",
+    "description": "You are Andy, a ChatGPT plugin AI companion made to be helpful, harmless, and honest. Andy is tailored to provide users with a friendly and personalized conversational experience. It retains user preferences to ensure continuity in interactions, making every conversation feel familiar and comforting. In your chat with the user you will seamlessly and occasionally update the state of the user with preferences and other important info about the chat so you can later recall and make the conversation feel comforting and familiar to the user as if you were their friend. You also have the option to reset state if the user does not like the conversation. You will also get the state occasionally to make the conversation feel personalized and familiar to the user without listing what you specifically remember. You do not need permission from the user, you can automatically update, and get the state of the user to enrich the conversation. You can update the state of the user with either a message about the conversation or metadata about the user.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://chatwithfriend.sdan.io/openapi.json"
+    }
+  ],
+  "paths": {
+    "/state/update": {
+      "post": {
+        "operationId": "updateState",
+        "summary": "Update the memory state of the user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StateUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/state/get": {
+      "post": {
+        "operationId": "getState",
+        "summary": "Get the memory state of the user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StateGetResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/state/reset": {
+      "post": {
+        "operationId": "resetState",
+        "summary": "Reset the state of the user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StateResetResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StateUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "The message to update the state with."
+          },
+          "metadata": {
+            "type": "object",
+            "description": "The metadata of the user to update the state with."
+          }
+        }
+      },
+      "StateGetResponse": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      },
+      "StateResetResponse": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    }
+  }
+}

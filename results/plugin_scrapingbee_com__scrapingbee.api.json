@@ -12,10 +12,10 @@
     }
   ],
   "paths": {
-    "/function/scrapeWebsiteText": {
+    "/function/scrapeWebsiteTextPlugin": {
       "post": {
         "summary": "Scrape any website url and retreive the text",
-        "operationId": "scrapeWebsiteText",
+        "operationId": "scrapeWebsiteTextPlugin",
         "requestBody": {
           "required": true,
           "content": {

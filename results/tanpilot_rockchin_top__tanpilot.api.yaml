@@ -1,0 +1,56 @@
+openapi: 3.0.1
+info:
+  title: Tan Pilot
+  description: Provides optimized web access ability..
+  version: 'v1'
+servers:
+  - url: https://tanpilot.rockchin.top
+paths:
+  /access_web:
+    get:
+      operationId: accessWeb
+      summary: Visit a link.
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            description: The web page's URL to visit and retrieve content from.
+          description: The web page's URL to visit and retrieve content from.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/visitWebResponse'
+components:
+  schemas:
+    visitWebResponse:
+      type: object
+      properties:
+        status_code:
+          type: integer
+          description: The status code of the response.
+        keywords:
+          type: string
+          description: The keywords of the web page.
+        og_title:
+          type: string
+          description: The title of the web page.
+        og_description:
+          type: string
+          description: The description of the web page.
+        og_type:
+          type: string
+          description: The type of the web page.
+        og_site_name:
+          type: string
+          description: The site name of the web page.
+        author:
+          type: string
+          description: The author of the web page.
+        content:
+          type: string
+          description: The content of the web page to be summarized.

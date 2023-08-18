@@ -27,7 +27,15 @@
                 "vega",
                 "vegalite",
                 "mermaid",
-                "plantuml"
+                "plantuml",
+                "d2",
+                "nomnoml",
+                "blockdiag",
+                "seqdiag",
+                "actdiag",
+                "nwdiag",
+                "rackdiag",
+                "packetdiag"
               ]
             },
             "description": "",

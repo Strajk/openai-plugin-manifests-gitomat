@@ -185,6 +185,17 @@ paths:
                 $ref: '#/components/schemas/instructionResponse'
           description: OK
       summary: Show how to write to Decentralized Web Nodes (DWN).
+  /help/jargon:
+    get:
+      operationId: helpJargon
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instructionResponse'
+          description: OK
+      summary: Explanations of PFI, KYC, payin and payout
   /help/protocol:
     get:
       operationId: helpProtocol
@@ -279,6 +290,51 @@ paths:
                 $ref: '#/components/schemas/instructionResponse'
           description: OK
       summary: Explains what SSI is, as a concept
+  /help/ssi_credential_status:
+    get:
+      operationId: helpSsi_credential_status
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instructionResponse'
+          description: OK
+      summary: Info on revocation of Verifiable Credentials including privacy preserving
+        status lists
+  /help/ssi_did_ion:
+    get:
+      operationId: helpSsi_did_ion
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instructionResponse'
+          description: OK
+      summary: How to use SSI Service to create a DID with did:ion method
+  /help/ssi_did_key:
+    get:
+      operationId: helpSsi_did_key
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instructionResponse'
+          description: OK
+      summary: How to use SSI Service to create a DID with did:key method
+  /help/ssi_did_web:
+    get:
+      operationId: helpSsi_did_web
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instructionResponse'
+          description: OK
+      summary: 'How To: Create a did:web with the ssi-service'
   /help/ssi_sdk:
     get:
       operationId: helpSsi_sdk
@@ -317,6 +373,17 @@ paths:
                 $ref: '#/components/schemas/instructionResponse'
           description: OK
       summary: Explains how to run the ssi-service from source code
+  /help/ssi_signed_unsigned_schema:
+    get:
+      operationId: helpSsi_signed_unsigned_schema
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instructionResponse'
+          description: OK
+      summary: Explains the difference between a signed and unsigned credential schema
   /help/ssi_vc_issuance:
     get:
       operationId: helpSsi_vc_issuance
@@ -329,6 +396,39 @@ paths:
           description: OK
       summary: Explains how to use the ssi-service issue verifiable certificates (VC
         issuance), with a simple example app issuing and also validating credentials
+  /help/ssi_vc_schema:
+    get:
+      operationId: helpSsi_vc_schema
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instructionResponse'
+          description: OK
+      summary: How to create a credential schema with SSI Service
+  /help/ssi_verify_credential:
+    get:
+      operationId: helpSsi_verify_credential
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instructionResponse'
+          description: OK
+      summary: How to verify a credential from an issuer with SSI Service
+  /help/ssi_verify_presentation:
+    get:
+      operationId: helpSsi_verify_presentation
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instructionResponse'
+          description: OK
+      summary: How to verify a presentation with SSI Service
   /help/store:
     get:
       operationId: helpStore

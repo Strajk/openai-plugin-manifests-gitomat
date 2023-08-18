@@ -1,12 +1,11 @@
-openapi: 3.0.1
+openapi: 3.0.2
 info:
   title: RPAMAKER
   description: Allows the user to deploy and run robotframework scripts in RPAMAKER.
-  version: 'v1'
+  version: "v1"
 servers:
   - url: https://api.rpamaker.com
 paths:
-
   /rpamaker_context/:
     # get:
     #   operationId: rpamakerContext
@@ -26,7 +25,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/contextRequest'
+              $ref: "#/components/schemas/contextRequest"
       responses:
         "200":
           description: OK
@@ -34,7 +33,6 @@ paths:
             application/json:
               schema:
                 type: string
-
 
   /marketplace/:
     # get:
@@ -55,7 +53,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/contextRequest'
+              $ref: "#/components/schemas/contextRequest"
       responses:
         "200":
           description: OK
@@ -85,7 +83,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/contextRequest'
+              $ref: "#/components/schemas/contextRequest"
       responses:
         "200":
           description: OK
@@ -94,8 +92,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Company'
-
+                  $ref: "#/components/schemas/Company"
 
   /processes/{company_id}:
     # get:
@@ -124,21 +121,20 @@ paths:
           schema:
             type: string
           required: true
-          description: The ID of the company
+          description: The ID of the company. You must ask what is the ID of the company to use.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/contextRequest'
+              $ref: "#/components/schemas/contextRequest"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProcessResponse'
-
+                $ref: "#/components/schemas/ProcessResponse"
 
   /robots/{company_id}:
     # get:
@@ -173,15 +169,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/contextRequest'
+              $ref: "#/components/schemas/contextRequest"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RobotResponse'
-
+                $ref: "#/components/schemas/RobotResponse"
 
   /workspaces/{company_id}:
     # get:
@@ -216,16 +211,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/contextRequest'
+              $ref: "#/components/schemas/contextRequest"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkspaceResponse'
-
-
+                $ref: "#/components/schemas/WorkspaceResponse"
 
   /script_run/:
     post:
@@ -236,7 +229,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/runRobotframeworkScriptRequest'
+              $ref: "#/components/schemas/runRobotframeworkScriptRequest"
       responses:
         "200":
           description: OK
@@ -245,9 +238,6 @@ paths:
               schema:
                 type: string
                 description: XML formated script with the result of running a robotframework script.
-
-
-
 
   /process_run_wait_response/:
     post:
@@ -258,7 +248,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProcessRunRequest'
+              $ref: "#/components/schemas/ProcessRunRequest"
       responses:
         "200":
           description: OK
@@ -266,7 +256,7 @@ paths:
             text/plain:
               schema:
                 type: string
-                description: XML formated script with the result of running a robotframework script.
+                description: XML formated script with the result of running a robotframework script. After you analyze the response.
 
   /process_run/:
     post:
@@ -277,14 +267,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProcessRunRequest'
+              $ref: "#/components/schemas/ProcessRunRequest"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProcessRunResponse'
+                $ref: "#/components/schemas/ProcessRunResponse"
 
   /process_get_last_log/:
     post:
@@ -295,7 +285,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProcessRunRequest'
+              $ref: "#/components/schemas/ProcessRunRequest"
       responses:
         "200":
           description: OK
@@ -314,7 +304,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProcessFileRequest'
+              $ref: "#/components/schemas/ProcessFileRequest"
       responses:
         "200":
           description: OK
@@ -322,7 +312,7 @@ paths:
             text/plain:
               schema:
                 type: string
-                description: A ROBOTFRAMEWORK script
+                description: A ROBOTFRAMEWORK script.
 
   /process_get_requirements/:
     post:
@@ -333,7 +323,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProcessFileRequest'
+              $ref: "#/components/schemas/ProcessFileRequest"
       responses:
         "200":
           description: OK
@@ -352,7 +342,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/requirementsTxtRequest'
+              $ref: "#/components/schemas/requirementsTxtRequest"
       responses:
         "200":
           description: OK
@@ -361,7 +351,6 @@ paths:
               schema:
                 type: string
                 description: Log about the upload process
-
 
   /upload_script_file/:
     post:
@@ -372,7 +361,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/uploadScriptRequest'
+              $ref: "#/components/schemas/uploadScriptRequest"
       responses:
         "200":
           description: OK
@@ -382,9 +371,51 @@ paths:
                 type: string
                 description: Log about the upload process
 
+  /extract_id_xpath/:
+    post:
+      operationId: extractIDxpath
+      summary: Gets a list of possible ids and then looks up an xpath by id. It needs a URL for web scpraper to return all possible id's where you can then try searching xpath by id. It's provide the list ID of the element for you want to extract ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/xpathIDRequest"
+      responses:
+        "200":
+          description: List of possible ids for looks up an xpath by id. After that you can try searching xpath by id.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/xpathIDResponse"
 
 components:
   schemas:
+    xpathIDRequest:
+      type: object
+      required:
+        - context
+        - prompt
+        - url
+      properties:
+        context:
+          type: string
+          description: The ChatGPT system context
+        prompt:
+          type: string
+          description: The prompt that the user entrered
+        url:
+          type: string
+          description: A url web site scpraper and extract a list ID of the element
+
+    xpathIDResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/string_object"
+
+    string_object:
+      type: string
+
     DeployResponse:
       type: object
       properties:
@@ -404,7 +435,6 @@ components:
         robot:
           type: integer
           description: The robot ID
-    
 
     contextRequest:
       type: object
@@ -418,7 +448,6 @@ components:
         prompt:
           type: string
           description: The prompt that the user entrered
-
 
     runRobotframeworkScriptRequest:
       type: object
@@ -495,7 +524,6 @@ components:
           type: integer
           description: The step number. If is not provided it will take the first step
 
-
     Company:
       type: object
       properties:
@@ -514,9 +542,9 @@ components:
         enable:
           type: boolean
         token_id:
-          type: ['string', 'null']
+          type: ["string", "null"]
         stripe_client_id:
-          type: ['string', 'null']
+          type: ["string", "null"]
         plan:
           type: integer
         group:
@@ -532,14 +560,14 @@ components:
         count:
           type: integer
         next:
-          type: ['string', 'null']
+          type: ["string", "null"]
         previous:
-          type: ['string', 'null']
+          type: ["string", "null"]
         results:
           type: array
           items:
-            $ref: '#/components/schemas/Process'
-    
+            $ref: "#/components/schemas/Process"
+
     Process:
       type: object
       properties:
@@ -556,8 +584,8 @@ components:
     RobotResponse:
       type: array
       items:
-        $ref: '#/components/schemas/Robot'
-    
+        $ref: "#/components/schemas/Robot"
+
     Robot:
       type: object
       properties:
@@ -576,19 +604,19 @@ components:
         branch_name:
           type: string
         zip_url:
-          type: ['string', 'null']
+          type: ["string", "null"]
         python_code:
-          type: ['string', 'null']
+          type: ["string", "null"]
         console_code:
-          type: ['string', 'null']
+          type: ["string", "null"]
         empresa:
           type: integer
 
     WorkspaceResponse:
       type: array
       items:
-        $ref: '#/components/schemas/Workspace'
-    
+        $ref: "#/components/schemas/Workspace"
+
     Workspace:
       type: object
       properties:
@@ -609,7 +637,6 @@ components:
         token_id:
           type: string
 
-
     ProcessFileRequest:
       type: object
       required:
@@ -621,10 +648,9 @@ components:
         config:
           type: array
           items:
-            $ref: '#/components/schemas/ProcessRunConfig'
+            $ref: "#/components/schemas/ProcessRunConfig"
         path:
           type: string
-
 
     ProcessRunRequest:
       type: object
@@ -637,7 +663,7 @@ components:
         config:
           type: array
           items:
-            $ref: '#/components/schemas/ProcessRunConfig'
+            $ref: "#/components/schemas/ProcessRunConfig"
 
     ProcessRunConfig:
       type: object

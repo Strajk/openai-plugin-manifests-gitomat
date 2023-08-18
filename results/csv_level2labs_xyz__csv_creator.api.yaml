@@ -1,10 +1,76 @@
-
-<html><head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8">
-<title>500 Server Error</title>
-</head>
-<body text=#000000 bgcolor=#ffffff>
-<h1>Error: Server Error</h1>
-<h2>The server encountered an error and could not complete your request.<p>Please try again in 30 seconds.</h2>
-<h2></h2>
-</body></html>
+components:
+  schemas:
+    CsvRequest:
+      properties:
+        delimiter:
+          default: ','
+          title: Delimiter
+          type: string
+        text:
+          default: ''
+          title: Text
+          type: string
+      title: CsvRequest
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+info:
+  description: A plugin that allows the user to create a CSV file using ChatGPT.
+  title: Create CSV Plugin
+  version: v1
+openapi: 3.0.2
+paths:
+  /create_csv_v2:
+    post:
+      operationId: create_csv_v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CsvRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                title: Response Create Csv V2 Create Csv V2 Post
+                type: string
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Csv V2
+servers:
+- url: https://csv.level2labs.xyz

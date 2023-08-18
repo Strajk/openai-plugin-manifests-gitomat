@@ -1,0 +1,298 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Codecademy ChatGPT Plugin API",
+    "description": "Discover relevant courses, articles, and coding documentation for requested topics",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://www.codecademy.com/api/chatgpt-plugin"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "An error message"
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "ArticleResult": {
+        "type": "object",
+        "description": "A Codecademy article, tutorial, or instructions written by an expert on how to do a technical task.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the article"
+          },
+          "description": {
+            "type": "string",
+            "description": "A brief description of the article"
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL to access the article"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "url"
+        ]
+      },
+      "CatalogResult": {
+        "type": "object",
+        "description": "A Codecademy product that provides an in-depth and hands-on experience to learn a subject.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the Codecademy catalog content item"
+          },
+          "description": {
+            "type": "string",
+            "description": "A brief description of the catalog content item"
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL to access the catalog content item"
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "Beginner",
+              "Intermediate",
+              "Advanced",
+              "Unknown"
+            ],
+            "description": "The target experience level of the learner for this content."
+          },
+          "isFree": {
+            "type": "boolean",
+            "description": "Whether this content is available for free or requires a paid subscription."
+          },
+          "grantsCertificate": {
+            "type": "boolean",
+            "description": "Whether completing this content will earn a certificate that can be used to showcase to potential employers if the learner is looking for a job in this subject area."
+          }
+        }
+      },
+      "DocResult": {
+        "type": "object",
+        "description": "A Codecademy doc entry that contains currated technical knowledge on a topic, concept, or term.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the doc"
+          },
+          "description": {
+            "type": "string",
+            "description": "A brief description of the doc"
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL to access the doc"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "url"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/search/catalog": {
+      "get": {
+        "summary": "Search Codecademy catalog content offerings",
+        "tags": [
+          "Search"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string",
+              "required": true,
+              "description": "A search keyword, phrase, or multiple keywords"
+            }
+          },
+          {
+            "in": "query",
+            "name": "difficulty",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Beginner",
+                "Intermediate",
+                "Advanced"
+              ],
+              "required": false,
+              "description": "How difficult the course should be."
+            }
+          },
+          {
+            "in": "query",
+            "name": "isFree",
+            "schema": {
+              "type": "boolean",
+              "required": false,
+              "description": "Whether the course should be free."
+            }
+          },
+          {
+            "in": "query",
+            "name": "grantsCertificate",
+            "schema": {
+              "type": "boolean",
+              "required": false,
+              "description": "Whether the course should include a certificate."
+            }
+          }
+        ],
+        "operationId": "searchCatalog",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "description": "A list of Codecademy catalog content offerings that match the provided query string",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CatalogResult"
+                      }
+                    },
+                    "plugin_feedback_survey": {
+                      "type": "string",
+                      "description": "A link to a survey where users can give feedback on the plugin."
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "plugin_feedback_survey"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/literature": {
+      "get": {
+        "summary": "Search Codecademy written resources",
+        "tags": [
+          "Search"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string",
+              "required": true,
+              "description": "A search keyword, phrase, or multiple keywords"
+            }
+          }
+        ],
+        "operationId": "searchLiterature",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "description": "Lists of Codecademy articles and docs that match the provided query string",
+                      "type": "object",
+                      "properties": {
+                        "articles": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ArticleResult"
+                          }
+                        },
+                        "docs": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/DocResult"
+                          }
+                        }
+                      },
+                      "required": [
+                        "articles",
+                        "docs"
+                      ]
+                    },
+                    "plugin_feedback_survey": {
+                      "type": "string",
+                      "description": "A link to a survey where users can give feedback on the plugin."
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "plugin_feedback_survey"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

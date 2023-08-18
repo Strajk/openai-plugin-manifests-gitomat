@@ -11,44 +11,6 @@
     }
   ],
   "paths": {
-    "/gpt/get_events": {
-      "post": {
-        "operationId": "get_events",
-        "summary": "Define Events",
-        "description": "to get information about events (datasets) such as event name, fields, and metrics information when pre-defined KPIs are not available.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/get_events"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "failed operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/gpt/get_games": {
       "post": {
         "operationId": "get_games",
@@ -87,16 +49,16 @@
         }
       }
     },
-    "/gpt/get_kpis": {
+    "/gpt/get_metrics": {
       "post": {
-        "operationId": "get_kpis",
-        "summary": "Define KPIs",
-        "description": "to access pre-defined charts (aka. KPIs) inside dashboards.",
+        "operationId": "get_metrics",
+        "summary": "Define metrics",
+        "description": "to access pre-defined charts (aka. KPIs) inside dashboards or to get information about events (datasets) such as event name, fields, and metrics information",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/get_kpis"
+                "$ref": "#/components/schemas/get_metrics"
               }
             }
           }
@@ -356,31 +318,6 @@
   },
   "components": {
     "schemas": {
-      "get_events": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Event name to search for "
-          },
-          "gameId": {
-            "type": "string",
-            "description": "Id of the game"
-          },
-          "showSample": {
-            "type": "integer",
-            "description": "If requires a list of sample event definitions, find the number of event definition samples needed (if not specified take 5)."
-          },
-          "listAllRecords": {
-            "type": "boolean",
-            "description": "If the event name is not specified and all of the available event definitions wants to be listed, provide 'true', if not provide 'false'.",
-            "default": false
-          }
-        },
-        "required": [
-          "name"
-        ]
-      },
       "get_games": {
         "type": "object",
         "properties": {
@@ -402,14 +339,21 @@
             "description": "If the game name is not specified and all of the available games wants to be listed, provide 'true', if not provide 'false'.",
             "default": false
           }
-        }
+        },
+        "required": [
+          "name"
+        ]
       },
-      "get_kpis": {
+      "get_metrics": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string",
-            "description": "KPI name to search for"
+          "metricNames": {
+            "type": "array",
+            "description": "List of detected metric names for obtaining relevant information",
+            "items": {
+              "type": "string",
+              "description": "Metric name mentioned to search for"
+            }
           },
           "gameId": {
             "type": "string",
@@ -418,16 +362,33 @@
           },
           "showSample": {
             "type": "integer",
-            "description": "If requires a list of sample kpis, find the number of KPI samples needed (if not specified take 5)"
+            "description": "If the user requires to see some sample metrics as a list, find the number of metric samples needed, if not specifically given the number of metrics although sample metrics is required, take 5. If the aim is not listing some sample metrics, do not return anything in here "
           },
           "listAllRecords": {
             "type": "boolean",
-            "description": "If the KPI name is not specified and all of the available KPIs wants to be listed, provide 'true', if not provide 'false'.",
+            "description": "If the metric name is not specified and all of the available metrics wants to be listed, provide 'true', if not provide 'false'.",
             "default": false
+          },
+          "metricTypeforListing": {
+            "type": "array",
+            "description": "This is just for showSample and listAllRecords cases. This variable should have a value only when showSample and listAllRecords have a value.",
+            "items": {
+              "type": "string",
+              "description": "If the user expressed that detected metric is a 'KPI' explicitly, then set to 'KPI'. If the user stated that detected metric is a 'table', 'database' or 'event definition' then set to 'event definition'",
+              "enum": [
+                "event definition",
+                "KPI"
+              ]
+            }
+          },
+          "pageNum": {
+            "type": "integer",
+            "description": "Page number to navigate through results when more than 3 metrics detected by metrics module. Increase this number by 1 to view the next page of results. The default page number is 1.",
+            "default": 1
           }
         },
         "required": [
-          "name"
+          "metricNames"
         ]
       },
       "about_us": {

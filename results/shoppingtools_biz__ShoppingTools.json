@@ -6,9 +6,9 @@
   "manifest": {
     "schema_version": "v1",
     "name_for_model": "ShoppingTools",
-    "name_for_human": "Shopping tools",
-    "description_for_model": "ShoppingTools let you search for products to buy in AliExpress and eBay.",
-    "description_for_human": "Shopping tools let you search for products to buy in AliExpress and eBay.",
+    "name_for_human": "A shopping tools",
+    "description_for_model": "Search for products on eBay & AliExpress, find eBay events & coupons. Get prompt examples.",
+    "description_for_human": "Search for products on eBay & AliExpress, find eBay events & coupons. Get prompt examples.",
     "auth": {
       "type": "none"
     },
@@ -27,5 +27,5 @@
       "title": "New"
     }
   ],
-  "__scrapedAt": "2023-08-14T15:46:37.112Z"
+  "__scrapedAt": "2023-08-18T09:02:10.990Z"
 }

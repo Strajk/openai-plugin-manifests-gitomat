@@ -2,14 +2,14 @@
   "openapi": "3.0.0",
   "info": {
     "title": "A Mail Please API",
-    "description": "API for sending part of full history of conversations by email to yourself",
-    "version": "1.1.0"
+    "description": "API for sending part of full chatGPT conversations by email to yourself",
+    "version": "1.0.0"
   },
   "paths": {
     "/send-specific-content-email": {
       "post": {
         "summary": "Send an email with a specific content requested by the user",
-        "description": "Send an email with a specific content requested by the user, not the entire conversation. Send as email body and not as attachment. Preferably in html format and sans-serif fonts. If a table is present then style it with elegan thin borders.",
+        "description": "Send an email with a specific content requested by the user, not the entire conversation. Use html format and sans-serif fonts. If a table is present, apply simple but modern style with rounded corners.",
         "operationId": "sendSpecificContentEmail",
         "requestBody": {
           "content": {
@@ -31,11 +31,7 @@
                   },
                   "html": {
                     "type": "string",
-                    "description": "Email body in HTML format"
-                  },
-                  "text": {
-                    "type": "string",
-                    "description": "Email body in raw text format"
+                    "description": "Email body in HTML format. If this field must be broken in multiple line then the \n new line character must be used."
                   }
                 },
                 "required": [
@@ -64,6 +60,79 @@
                         "failed"
                       ],
                       "description": "The status of sending the email via Resend API"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/send-email-later": {
+      "post": {
+        "summary": "Send an email to yourself, after a delay of X seconds.",
+        "description": "Send an email later, delayed by X amount of seconds. Use html format and sans-serif fonts. If a table is present, apply simple but modern style with rounded corners.",
+        "operationId": "sendEmailLater",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_input_category": {
+                    "type": "string",
+                    "description": "A category of the what the user wants to send by email"
+                  },
+                  "user_input_summary": {
+                    "type": "string",
+                    "description": "A short summary of what the user wants to send by email"
+                  },
+                  "delayDescription": {
+                    "type": "string",
+                    "description": "The delay to wait until the email is sent, expressed in text. Example: 'in 1h', 'wait 3h', etc."
+                  },
+                  "delayInDuration": {
+                    "type": "integer",
+                    "description": "The delay to wait until the email is sent, expressed in seconds. Example of 1h delay: 3600"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Email subject text"
+                  },
+                  "html": {
+                    "type": "string",
+                    "description": "Email body in HTML format"
+                  }
+                },
+                "required": [
+                  "user_input_category",
+                  "user_input_summary",
+                  "delayDescription",
+                  "delayInDuration",
+                  "subject",
+                  "html"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Email sending status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success",
+                        "failed"
+                      ],
+                      "description": "The status of registaring the delay job for sending the email"
                     }
                   }
                 }

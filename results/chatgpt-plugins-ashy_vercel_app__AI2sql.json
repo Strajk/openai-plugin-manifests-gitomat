@@ -1,0 +1,39 @@
+{
+  "id": "plugin-a773118b-879d-4f55-a221-0b8fc67df6a0",
+  "domain": "chatgpt-plugins-ashy.vercel.app",
+  "namespace": "AI2sql",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "AI2sql",
+    "name_for_human": "AI2sql",
+    "description_for_model": "Converts a natural language text into an SQL query.",
+    "description_for_human": "Converts a natural language text into an SQL query.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://chatgpt-plugins-ashy.vercel.app/oauth",
+      "scope": "",
+      "authorization_url": "https://chatgpt-plugins-ashy.vercel.app/auth/oauth_exchange",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "1e8e7a96ff3d4ead9df51424b0d1eefa"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgpt-plugins-ashy.vercel.app/openapi.yaml"
+    },
+    "logo_url": "https://chatgpt-plugins-ashy.vercel.app/logo.png",
+    "contact_email": "support@ai2sql.io",
+    "legal_info_url": "https://ai2sql.io/"
+  },
+  "oauth_client_id": "123abc456def789ghi",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-18T09:02:10.990Z"
+}

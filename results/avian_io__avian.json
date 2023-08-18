@@ -1,0 +1,39 @@
+{
+  "id": "plugin-a4d168da-6b92-43e0-9c97-083632f8b461",
+  "domain": "avian.io",
+  "namespace": "avian",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "avian",
+    "name_for_human": "A\tvian",
+    "description_for_model": "This plugin connects to Avian.io, which allows users to get data from Facebook Ads, Facebook Page Insights, Google Ads, Google Analytics, Instagram and TikTok ads. You now has access to all the aformentioned APIs. You can make API requests to our endpoints and help the user connect to their data, whether it be Google Analytics, Facebook Ads etc. If a user hasn't authenticated their plugin, they will need to do so. They will also need to authenticate their accounts, for example Facebook Ads.The plugin can also graph data for the user.",
+    "description_for_human": "Analyze & visualize data from 20+ platforms, including Google Analytics and Facebook Ads with Avian",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://avian.io/o/authorize/",
+      "scope": "read write",
+      "authorization_url": "https://avian.io/o/token/",
+      "authorization_content_type": "application/x-www-form-urlencoded",
+      "verification_tokens": {
+        "openai": "5d713b54a027451c8d70daf050210b19"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://avian.io/openapi.yaml/"
+    },
+    "logo_url": "https://avian.io/static/images/logomark_square.png",
+    "contact_email": "support@avian.io",
+    "legal_info_url": "https://avian.io/terms/"
+  },
+  "oauth_client_id": "R7EDGG7cV4JbstpzqI5RkYr2KpeOKIN4ZcWW5eds",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-18T09:02:10.990Z"
+}

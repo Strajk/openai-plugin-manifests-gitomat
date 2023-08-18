@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+  title: Movies Detective Plugin
+  description: Plugin for storing any user's feedback about movies and retrieving all the feedback users gave about movies in the past.
+  version: "v1"
+servers:
+  - url: https://moviesdetective.com
+paths:
+  /movie/:
+    post:
+      operationId: addMovie
+      summary: Add a movie to the user's feedback list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addMovieRequest"
+      responses:
+        "201":
+          description: Movie added successfully
+  /movies/:
+    get:
+      operationId: getMovies
+      summary: Get the list of movies feedback for a user
+      responses:
+        "200":
+          description: List of movies feedback
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getMoviesResponse"
+components:
+  schemas:
+    getMoviesResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: The title of the movie.
+          description:
+            type: string
+            description: The description of the movie.
+    addMovieRequest:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+          description: The title of the movie.
+        description:
+          type: string
+          description: The description of the movie.

@@ -1,0 +1,125 @@
+openapi: 3.0.1
+info:
+  title: Weather service for the United States.
+  description: A service that allows the user to lookup the weather within the United States. Both the current weather and forecast for the next few days is returned. The data comes from NOAA, the National Oceanographic and Atmospheric Agency, an agency of the US Federal Government.
+  version: "v1"
+servers:
+  - url: https://api.weatherplugin.net
+paths:
+  /weather/{location}:
+    get:
+      operationId: weather
+      summary: Get the current weather and forecast for the next few days.
+      parameters:
+        - in: path
+          name: location
+          schema:
+            type: string
+          required: true
+          description: A zipcode; an city name (official name, not a colloquial name); a city name, state name; or a city name, 2 letter state name abbreviation.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/weatherResponse"
+        "404":
+          description: City or zipcode not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/locationNotFoundResponse"
+
+components:
+  schemas:
+    weatherResponse:
+      type: object
+      properties:
+        typical_weather_for_current_month:
+          type: object
+          description: The typical weather for the current month. If the forecast periods are empty, use this data.
+          properties:
+            average_daily_high_temperature:
+              description: Average daily high temperature in Farhenheit for the current month.
+              type: float
+            average_daily_low_temperature:
+              description: Average daily low temperature in Farhenheit for the current month.
+              type: float
+            average_daily_precipitation:
+              description: Typical chances of rain in the current month.
+        forecast_periods:
+          type: array
+          items:
+            type: object
+            properties:
+              number:
+                description: The number of the forecast period.
+                type: integer
+                format: int32
+              name:
+                description: The name of the forecast period, such as tonight or Tuesday.
+                type: string
+              startTime:
+                type: string
+                format: date-time
+              endTime:
+                type: string
+                format: date-time
+              isDaytime:
+                type: boolean
+              temperature:
+                type: integer
+                format: int32
+              temperatureUnit:
+                description: F for Farhenheit, C for Celsius.
+                type: string
+              temperatureTrend:
+                type: string
+                format: nullable
+              probabilityOfPrecipitation:
+                type: object
+                properties:
+                  unitCode:
+                    description: usually wmoUnit:percent, meaning percentage.
+                    type: string
+                  value:
+                    description: The probability of precipitation.
+                    type: integer
+                    format: int32
+              dewpoint:
+                type: object
+                properties:
+                  unitCode:
+                    type: string
+                  value:
+                    type: integer
+                    format: int32
+              relativeHumidity:
+                type: object
+                properties:
+                  unitCode:
+                    type: string
+                  value:
+                    type: integer
+                    format: int32
+              windSpeed:
+                type: string
+              windDirection:
+                type: string
+              icon:
+                description: A URL to an icon representing the weather.
+                type: string
+              shortForecast:
+                description: An abbreviated description of the forecast during the period.
+                type: string
+              detailedForecast:
+                description: A longer description of the forecast during the period.
+                type: string
+            description: A forecast for a period of time.
+
+    locationNotFoundResponse:
+      type: object
+      properties:
+        message:
+          type: string
