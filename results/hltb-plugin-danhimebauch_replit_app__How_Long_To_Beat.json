@@ -1,0 +1,31 @@
+{
+  "id": "plugin-c3a03932-0a19-4317-a265-97cfe3ec2122",
+  "domain": "hltb-plugin-danhimebauch.replit.app",
+  "namespace": "How_Long_To_Beat",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "How_Long_To_Beat",
+    "name_for_human": "How Long To Beat",
+    "description_for_model": "For searching how many hours it takes to beat a videogame.",
+    "description_for_human": "Find out how long it takes to beat any game!",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://hltb-plugin-danhimebauch.replit.app/openapi.yaml"
+    },
+    "logo_url": "https://hltb-plugin-danhimebauch.replit.app/logo.png",
+    "contact_email": "danielhimebauch@gmail.com",
+    "legal_info_url": "https://github.com/xXJSONDeruloXx/HLTB-Plugin/tree/main"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-19T13:37:37.733Z"
+}

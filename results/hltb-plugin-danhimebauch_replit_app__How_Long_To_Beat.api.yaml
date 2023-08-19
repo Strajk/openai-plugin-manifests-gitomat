@@ -1,0 +1,49 @@
+openapi: 3.0.1
+info:
+  title: Game Info Plugin
+  description: This plugin provides information about video games using the HowLongToBeat API.
+  version: "1.0"
+servers:
+  - url: https://hltb-plugin-danhimebauch.replit.app
+paths:
+  /game_info/{game_name}:
+    post:
+      summary: Get information about a game.
+      operationId: getGameInfo
+      parameters:
+        - in: path
+          name: game_name
+          required: true
+          schema:
+            type: string
+          description: The name of the game to get information about.
+      responses:
+        '200':
+          description: Information about the game.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the game.
+                  main_story_hours:
+                    type: number
+                    description: The average number of hours to complete the main story.
+                  main_extra_hours:
+                    type: number
+                    description: The average number of hours to complete the main story plus some extra content.
+                  completionist_hours:
+                    type: number
+                    description: The average number of hours to fully complete the game.
+        '400':
+          description: No results found for the specified game.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message.

@@ -49,10 +49,11 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "the chart type. available types are line chart, bar chart, and pie chart",
+                        "description": "the chart type. available types are line chart, bar chart, radar chart, and pie chart",
                         "enum": [
                           "line",
                           "bar",
+                          "radar",
                           "pie"
                         ]
                       },

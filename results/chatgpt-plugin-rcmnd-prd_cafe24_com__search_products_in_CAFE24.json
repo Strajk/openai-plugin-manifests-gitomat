@@ -1,0 +1,36 @@
+{
+  "id": "plugin-7f351f77-009e-49c8-9226-3b6ab627261c",
+  "domain": "chatgpt-plugin-rcmnd-prd.cafe24.com",
+  "namespace": "search_products_in_CAFE24",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "search_products_in_CAFE24",
+    "name_for_human": "K-Fashion",
+    "description_for_model": "You can find the products user want in the CAFE24 store.",
+    "description_for_human": "You can search for the product you need among the products sold by the stores in CAFE24.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "463dcd3a6f804d9a872d2f692037f114"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://chatgpt-plugin-rcmnd-prd.cafe24.com/openapi.yaml"
+    },
+    "logo_url": "https://chatgpt-plugin-rcmnd-prd.cafe24.com/logo.png",
+    "contact_email": "jychoi03@cafe24corp.com",
+    "legal_info_url": "https://developers.cafe24.com/dcollection/front/dcollectionapi/guide/operation"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-19T13:37:37.733Z"
+}

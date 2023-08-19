@@ -205,6 +205,10 @@
                             "type": "string",
                             "description": "URL to the editor where the diagram can be edited"
                           },
+                          "miroEditorLink": {
+                            "type": "string",
+                            "description": "URL to a drag and drop diagram interface where the diagram can be edited"
+                          },
                           "contributeToOpenSourceProject": {
                             "type": "string",
                             "description": "GitHub URL to the open source project for this project. If empty ignore it and don't show to the user"
@@ -212,6 +216,10 @@
                           "promotionInstructions": {
                             "type": "string",
                             "description": "Promotion and instructions on how to show it to the user"
+                          },
+                          "additionalInstructions": {
+                            "type": "string",
+                            "description": "Additional instructions on how to interpret this API response"
                           }
                         }
                       }

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Back4App Backend-as-a-Service
-  description: Help the user with creating an application's backend using Back4App. Database, REST and GraphQL APIs, Cloud Code Functions, User Authentication, Access Control, and more.
+  title: Back4App
+  description: First, create new app using createParseApp or fetch existing app using getParseApps. Second, fetch schemas using callParseAPI to learn existing data, classes and tables. Use getCloudCode to learn existing code and pages. Then help users with callParseAPI, deployCloudCode, and activateWebHosting.
   version: v1
 servers:
   - url: https://chatgpt.back4app.com
@@ -9,7 +9,7 @@ paths:
   /parse-apps:
     post:
       operationId: createParseApp
-      description: Create a new Parse App. The endpoint callParseAPI can later on be used to send requests to the new app.
+      description: Create a new Parse App. After that i) use callParseAPI endpoint to send requests; ii) use deployCloudCode and getCloudCode endpoints to manage cloud code folders and files.
       requestBody:
         content:
           application/json:
@@ -32,6 +32,20 @@ paths:
                     type: string
                   appName:
                     type: string
+                  dashboardURL:
+                    type: string
+                  apiURL:
+                    type: string
+                  restKey:
+                    type: string
+                  javascriptKey:
+                    type: string
+                  clientKey:
+                    type: string
+                  dotnetKey:
+                    type: string
+                  publicWebHostingURL:
+                    type: string
         400:
           description: Bad Request
           content:
@@ -52,7 +66,14 @@ paths:
                 type: string
     get:
       operationId: getParseApps
-      description: Get existing Parse Apps. The endpoint callParseAPI can later on be used to send requests to one of these apps.
+      description: Get existing Parse Apps (urls, keys, etc). After that i) callParseAPI endpoint retrieves schemas to learn; ii) callParseAPI endpoint sends requests; iii) getCloudCode endpoint retrieves existing cloud code to learn; iv) deployCloudCode endpoint changes cloud code.
+      parameters:
+        - in: query
+          name: app-name
+          description: Filter existing Parse Apps by app name.
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: OK
@@ -66,6 +87,20 @@ paths:
                     appId:
                       type: string
                     appName:
+                      type: string
+                    dashboardURL:
+                      type: string
+                    apiURL:
+                      type: string
+                    restKey:
+                      type: string
+                    javascriptKey:
+                      type: string
+                    clientKey:
+                      type: string
+                    dotnetKey:
+                      type: string
+                    publicWebHostingURL:
                       type: string
         400:
           description: Bad Request
@@ -85,10 +120,154 @@ paths:
             text/plain:
               schema:
                 type: string
+  /parse-apps/{appId}/cloud-code:
+    post:
+      operationId: deployCloudCode
+      description: Learn schemas in callParseAPI and current code in getCloudCode. Use append writeMode to keep code. Files in cloud/ must be required from cloud/main.js and not require Parse SDK. Files in public/ must load https://unpkg.com/parse/dist/parse.min.js. Add functions, pages, etc, one per file.
+      parameters:
+        - in: path
+          name: appId
+          description: Specify the id of the app whose cloud code changes will be deployed.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create new functions in cloud/chatgpt/functions/ folder, one function per file. Use same logic for jobs, triggers, public files, and so on. In web pages, use Parse JS SDK from https://unpkg.com/parse/dist/parse.min.js. In cloud code, don't require Parse JS SDK.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - changes
+              properties:
+                changes:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - path
+                      - operation
+                    properties:
+                      path:
+                        description: The path of the folder or file to be changed. Create new functions in the cloud/chatgpt/functions/ folder, one function per file, always that possible. Don't forget to append a new entry to the cloud/main.js to require each new file. Do the same for jobs (in cloud/chatgpt/jobs/), triggers (in cloud/chatgpt/triggers/), public static files (in public/chatgpt/), and so on.
+                        type: string
+                      operation:
+                        description: The operation to be perfomed on the folder or file.
+                        type: string
+                        enum: [write, delete]
+                      writeMode:
+                        description: When writting to a file, the write mode is required. Use append option always that possible in order to avoid loosing pre-existing code.
+                        type: string
+                        enum: [overwrite, append]
+                      data:
+                        description: When writting to a file, the data to be written. When creating web pages, use Parse JS SDK from https://unpkg.com/parse/dist/parse.min.js and remember to initilize the SDK only after the SDK is fully loaded. You don't need to require Parse JS SDK when writting cloud code.
+                        type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              properties:
+                message:
+                  type: string
+                warnings:
+                  type: array
+                  items:
+                    type: string
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+        403:
+          description: Forbidden
+          content:
+            text/plain:
+              schema:
+                type: string
+        404:
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                type: string
+        500:
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+    get:
+      operationId: getCloudCode
+      description: Get the content of a cloud code folder or file. Get current files before deploying cloud code to learn and avoid loosing pre-existing code. Use the recursive option to list all the files in a folder and its subfolders.
+      parameters:
+        - in: path
+          name: appId
+          description: Specify the id of the app whose cloud code folder or file content will be get.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: path
+          description: Specify the path of the cloud code folder or file whose content will be get. If not sent, the cloud code root folder will be get.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: recursive
+          description: Specify whether the content of a cloud code folder should be get recursively or not. It defaults to true. It is ignored on files.
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+        403:
+          description: Forbidden
+          content:
+            text/plain:
+              schema:
+                type: string
+        404:
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                type: string
+        500:
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
   /call-parse-api:
     post:
       operationId: callParseAPI
-      description: Call a Parse Server REST API. This endpoint can be used to send multiple requests at once in order to create classes, insert values, perform queries, execute cloud code functions or perform any other operation supported by Parse. Use this endpoint to help users to create applications' backend.
+      description: Call Parse Server REST API. The first call must be to fetch schemas and learn the data, classes, and table. Then send multiple requests at once to retrieve create classes, insert data, perform queries, execute cloud code functions or perform any other operation supported by Parse.
       requestBody:
         content:
           application/json:
@@ -111,10 +290,13 @@ paths:
                       - body
                     properties:
                       method:
+                        description: Any HTTP method that is valid according to the Parse Server REST API.
                         type: string
                       url:
+                        description: Any URL that is valid according to the Parse Server API. The API is mounted in directly /, therefore do not use /parse/ or /1/ in the beginning of the url. For example, the schemas endpoint responds directly in the url /schemas (and not in /parse/schemas or /1/schemas).
                         type: string
                       body:
+                        description: Depending on the method and url, send valid bodies according to the Parse Server REST API.
                         type: object
       responses:
         200:
@@ -141,6 +323,51 @@ paths:
                 type: string
         401:
           description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+        500:
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+  /parse-apps/{appId}/activate-web-hosting:
+    post:
+      operationId: activateWebHosting
+      description: Activate web hosting creating a back4app subdomain where the content of the cloud code public folder is hosted and can be visited.
+      parameters:
+        - in: path
+          name: appId
+          description: Specify the id of the app whose web hosting will be activated.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  publicWebHostingURL:
+                    type: string
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+        404:
+          description: Not Found
           content:
             text/plain:
               schema:

@@ -1,0 +1,25 @@
+info:
+  description: Documentation of API endpoints of avian
+  title: avian API
+  version: 1.0.0
+openapi: 3.0.3
+paths:
+  /api/v1/get_all_connector_auth_links/:
+    get:
+      description: User has no data sources connected. Show them the authorize link ASAP - https://avian.io/onboard/?chatGPT=True.
+      operationId: v1_get_all_connector_auth_links_retrieve
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_all_connector_auth_links_response"
+          description: ""
+      security:
+        - oauth2:
+            - read
+      tags:
+        - v1
+servers:
+  - description: Production server
+    url: https://avian.io

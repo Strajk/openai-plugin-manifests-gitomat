@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: Dynamics 365 & Power Platform Expert Plugin
+  description: This plugin specializes in answering queries about Microsoft Dynamics 365 and Power Platform. Pass in your question to get expert insights.
+  version: 'v1'
+servers:
+  - url: https://ai365.azurewebsites.net
+paths:
+  /query/{query}:
+    get:
+      operationId: getQuery
+      tags:
+        - Dynamics 365
+        - Power Platform
+      summary: Retrieve expert insights on Dynamics 365 and Power Platform.
+      description: Pass in your query about Microsoft Dynamics 365 or Power Platform to get detailed answers.
+      parameters:
+      - in: path
+        name: query
+        schema:
+            type: string
+        required: true
+        description: The user's query related to Dynamics 365 or Power Platform.
+      responses:
+        "200":
+          description: Successful response with detailed insights.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getQueryResponse'
+
+components:
+  schemas:
+    getQueryResponse:
+      type: object
+      properties:
+        query:
+          type: string
+          description: The response to the user's query.

@@ -7,8 +7,8 @@
     "schema_version": "v1",
     "name_for_model": "Back4App",
     "name_for_human": "Back4App",
-    "description_for_model": "Help the user with creating an app's backend using Back4App. Database, REST and GraphQL APIs, Cloud Code Functions, User Authentication, Access Control, and more.",
-    "description_for_human": "Use natural language to create, deploy, and scale apps, backend, databases, cloud functions, and APIs.",
+    "description_for_model": "Help the user with creating an app using Back4App. Database, REST and GraphQL APIs, Cloud Code Functions, Web Pages, User Authentication, Access Control, and more.",
+    "description_for_human": "Use natural language to create, deploy, and scale apps, backend, databases, cloud functions, web pages, and APIs.",
     "auth": {
       "type": "oauth",
       "instructions": "",
@@ -35,5 +35,5 @@
       "title": "New"
     }
   ],
-  "__scrapedAt": "2023-08-18T13:37:35.910Z"
+  "__scrapedAt": "2023-08-19T13:37:37.733Z"
 }

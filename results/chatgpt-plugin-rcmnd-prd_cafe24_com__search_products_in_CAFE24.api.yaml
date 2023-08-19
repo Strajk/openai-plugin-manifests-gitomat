@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: K-Fashion Recommendation product For cafe24
+  description: Search
+  version: 'v1'
+servers:
+  - url: https://chatgpt-plugin-rcmnd-prd.cafe24.com
+paths:
+  /search/product:
+    get:
+      operationId: getProducts
+      summary: Retrieve a list of products
+      parameters:
+        - in: query
+          name: prompt
+          required: true
+          schema:
+            type: string
+          description: Prompt for what you're looking for. You should indicate the keywords for the products you are looking for in as much detail as possible.
+        - in: query
+          name: user_input
+          required: true
+          schema:
+            type: string
+          description: you must set original prompt from user as entered.
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    getProductsResponse:
+      type: object
+      properties:
+        product:
+          type: array
+          items:
+            type: string
+          description: The list of products.
