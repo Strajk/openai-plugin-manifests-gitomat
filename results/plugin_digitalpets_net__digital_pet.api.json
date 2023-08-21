@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "A Digital Pet",
-    "description": "A virtual pet simulation game. Use the pet stats and the context received to develop fun and interactive stories, while staying in lane with the possibilities offered by the game. Try to keep the answer size under 200 words.",
+    "description": "A virtual pet simulation game. Use the pet stats and the context received to develop fun and interactive stories, while staying in lane with the possibilities offered by the game. Try to keep the answer size under 200 words. It's possible that the user already has a pet, so if he tries to interact you don't have to offer him to adopt before.",
     "version": "v1"
   },
   "paths": {

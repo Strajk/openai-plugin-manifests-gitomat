@@ -15,14 +15,14 @@
     "version": "v1"
   },
   "paths": {
-    "/Edit/GetMonitorIPsWithFilter": {
+    "/Edit/GetMonitorIPsWithFilterDefault": {
       "post": {
         "tags": [
           "Edit"
         ],
         "summary": "Get a filtered list of Hosts configuration (MonitorIPs : array of MonitorIP).",
         "description": "Add monitorIPQuery to filter the results.\r\nSample post data: {   \"monitorIPQuery\" : {\"addUserEmail\" : \"test@test.com\", \"address\" : \"host.com\"}  }",
-        "operationId": "GetMonitorIPsWithFilter",
+        "operationId": "GetMonitorIPsWithFilterDefault",
         "requestBody": {
           "content": {
             "application/json": {
@@ -76,14 +76,14 @@
         }
       }
     },
-    "/Edit/AddHostGPT": {
+    "/Edit/AddHostGPTDefault": {
       "post": {
         "tags": [
           "Edit"
         ],
         "summary": "Ask the user for an email address before adding a host. To Add a new host; Address, EndPointType, AddUserEmail are required fields.",
         "description": "add a host example {\"address\": \"https://example.com\",\"endPointType\": \"http\", \"addUserEmail\" : \"email@example.com\"}",
-        "operationId": "AddHostGPT",
+        "operationId": "AddHostGPTDefault",
         "requestBody": {
           "content": {
             "application/json": {
@@ -137,14 +137,14 @@
         }
       }
     },
-    "/Edit/EditHostGPT": {
+    "/Edit/EditHostGPTDefault": {
       "post": {
         "tags": [
           "Edit"
         ],
-        "summary": "Edit a new host. Required fields MonitorIP.ID and EditAuthKey. Other supplied fields will be updated.",
-        "description": "Edit a host {\"monitorIP\": {\"iD\" : 1234 , \"endPointType\": \"http\"},\"isEdit\": true, \"editAuthKey\" : \"AESEncryptedString\"}\r\nWarn the user if they do not provide an email address : The host will be deleted after a few days.",
-        "operationId": "EditHostGPT",
+        "summary": "Edit a host. Required fields MonitorIP.ID and EditAuthKey. Other supplied fields will be updated.",
+        "description": "Edit a host {\"monitorIP\": {\"iD\" : 1234 , \"endPointType\": \"http\"},\"isEdit\": true, \"editAuthKey\" : \"AESEncryptedString\"}\r\nWarn the user if they do not provide a valid email address : The host will be deleted after a few days.",
+        "operationId": "EditHostGPTDefault",
         "requestBody": {
           "content": {
             "application/json": {
@@ -317,7 +317,7 @@
           "Monitor"
         ],
         "summary": "Get a List of summary monitoring data (MonitorPingInfos : array of MonitorPingInfo) with a given DataSetId.",
-        "description": "Include monitorPingInfoQuery to filter the results on IsUp, EndPointType or AddUserEmail etc.\r\nSample post data: { \"dataSetId\": 1 , \"monitorPingInfoQuery\" : {\"pageNumber\" : 2, \"pageSize\" :150, \"addUserEmail\" : \"user@test.com\"}  }",
+        "description": "Include monitorPingInfoQuery to filter the results on EndPointType or AddUserEmail etc.\r\nSample post data: { \"dataSetId\": 1 , \"monitorPingInfoQuery\" : {\"pageNumber\" : 2, \"pageSize\" :150, \"addUserEmail\" : \"user@test.com\"}  }",
         "operationId": "GetMonitorPingInfosByDataSetIDDefault",
         "requestBody": {
           "content": {
@@ -563,7 +563,7 @@
         "properties": {
           "editAuthKey": {
             "type": "string",
-            "description": "This is a string that is used to authenticate the Edit action. This key is returned when adding a host for the first time (IsEdit=false). It should be stored and sent with subsequent edit requests.",
+            "description": "This is a string that is used to authenticate the Edit action for non authorised users. This key is returned when adding a host for the first time (IsEdit=false). It should be stored and sent with subsequent edit requests.",
             "nullable": true
           },
           "monitorIP": {
@@ -709,9 +709,9 @@
             "format": "int32",
             "nullable": true
           },
-          "page": {
+          "pageNumber": {
             "type": "integer",
-            "description": "Paginate the data when the data returned is large or can not all be displayed to the. Use the Page to return a page of data. \r\n///",
+            "description": "Paginate the data when the data returned is large or can not all be displayed to the. Use the PageNumber to return a page of data. \r\n///",
             "format": "int32",
             "nullable": true
           },
@@ -961,9 +961,9 @@
             "format": "int32",
             "nullable": true
           },
-          "page": {
+          "pageNumber": {
             "type": "integer",
-            "description": "Paginate the data when the data returned is large or can not all be displayed to the. Use the Page to return a page of data. \r\n///",
+            "description": "Paginate the data when the data returned is large or can not all be displayed to the. Use the PageNumber to return a page of data. \r\n///",
             "format": "int32",
             "nullable": true
           },

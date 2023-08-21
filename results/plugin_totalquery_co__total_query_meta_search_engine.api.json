@@ -182,7 +182,7 @@
             "required": false,
             "in": "query",
             "description": "Language of the search results. Should be inferred from the user's prompt.",
-            "example": [
+            "examples": [
               "english",
               "french",
               "spanish"
@@ -387,6 +387,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "The specified language or engines are not in the list of available options."
           }
         }
       }

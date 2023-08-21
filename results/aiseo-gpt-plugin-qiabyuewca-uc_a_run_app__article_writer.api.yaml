@@ -31,4 +31,4 @@ components:
   schemas:
     articleWriter:
       type: string
-      description: Create fact-based and SEO-optimized articles within minutes, not hours.
+      description: An SEO brief which will prompt chatgpt to generate an SEO optimized article or a warnning message that you run out of credits which should be displayed to the user.

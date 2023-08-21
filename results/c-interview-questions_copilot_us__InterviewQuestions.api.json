@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://c-interview-questions-copilot-us.azurewebsites.net"
+      "url": "https://c-interview-questions.copilot.us"
     }
   ],
   "paths": {

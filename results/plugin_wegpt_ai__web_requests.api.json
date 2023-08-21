@@ -18,7 +18,7 @@
                 "properties": {
                   "url": {
                     "type": "string",
-                    "description": "(Required) The URL to scrape or perform a Google search if 'is_search' is set to true. When is_search is set to true, the 'url' parameter will be treated as a search query for Google."
+                    "description": "(Required) The URL to scrape or perform a web search when 'is_search' is set to true. When is_search is set to true, the 'url' parameter will be treated as a search query and not an http address. Thus, if you have a search engine URL in the 'url' parameter, you would *NOT* set is_search to true. You would just scrape the URL like any oher page on the web."
                   },
                   "token": {
                     "type": "string",
@@ -36,7 +36,7 @@
                   },
                   "is_search": {
                     "type": "boolean",
-                    "description": "(Optional) Indicates whether the request is a search query. If set to true, the 'url' parameter will be treated as a search query for Google.",
+                    "description": "(Optional) Indicates whether the request is a search query. If set to true, the 'url' parameter will be treated as a string of search terms.",
                     "default": false
                   },
                   "num_results_to_scrape": {
@@ -196,6 +196,64 @@
                     "error": {
                       "type": "string",
                       "description": "A string that contains an error message, if any errors occurred while making the API call. If no errors occurred, this field will be null or omitted."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generate_image": {
+      "post": {
+        "summary": "Generates an image from the provided prompt. Every Web Requests user gets one free image per day, and it will be delivered in 1024x1024 pixels.",
+        "operationId": "generate_image",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "(Required) The prompt based on which the image will be generated. The AI Assistant should strive to submit the most accurate to the user's intention, yet most optimally worded prompt to get at the essance of what the user is asking for, wihtut outright asking the user \"What is your prompt.\""
+                  }
+                },
+                "required": [
+                  "prompt"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Image generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Indicates whether the image generation was successful."
+                    },
+                    "alert": {
+                      "type": "string",
+                      "description": "This alert is an IMPORTANT system message, meant to convey important nuance or information that should be observed and retained in memory until fulfilled."
+                    },
+                    "image_url": {
+                      "type": "string",
+                      "description": "URL of the generated image. This URL should be rendered with markdown standards such that it is displayed in the user's chat."
+                    },
+                    "instructions": {
+                      "type": "string",
+                      "description": "Instructions for rendering the image."
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "An error message, if any. Possible error messages include 'Invalid headers', 'Invalid JSON input', 'No prompt provided', 'Image generation limit reached for today', and 'An error occurred while executing the request: {error_message}'."
                     }
                   }
                 }
@@ -447,12 +505,38 @@
                         }
                       }
                     }
+                  },
+                  "pro_mode": {
+                    "type": "boolean",
+                    "description": "Flag to indicate if this request to edit_playground is intended for elevated Web Request Pro treatment. A backend AI Assistant will act as a second engineer to help facillitate this request (REQUIRED for all parameters labeled Pro Mode).",
+                    "default": false
+                  },
+                  "change_id": {
+                    "type": "string",
+                    "description": "(Pro Mode) The change ID for which you are collaborating on with Web Requests Pro -- this will be generated for you, and should be provided with each subsequent 'pro_mode' request you send until committed."
+                  },
+                  "changelog": {
+                    "type": "string",
+                    "description": "(Pro Mode) The context or explanation for the actions being submitted. It is a good idea to add some context into what it is you are building here."
+                  },
+                  "add_reply": {
+                    "type": "string",
+                    "description": "(Pro Mode) An additional reply to add context for Web Requests Pro's AI Assistant to consider while working on this playground.."
+                  },
+                  "preview_commit": {
+                    "type": "boolean",
+                    "description": "(Pro Mode) Flag to indicate if the changes that Web Requests Pro suggested should be staged for preview (Requires 'change_id').",
+                    "default": false
+                  },
+                  "commit": {
+                    "type": "boolean",
+                    "description": "(Pro Mode) Flag to indicate if the preview commit should be written to disk (requires 'change_id'). This parameter will not work if you have yet to preview a commit.",
+                    "default": false
                   }
                 },
                 "required": [
                   "uuid",
-                  "name",
-                  "actions"
+                  "name"
                 ]
               }
             }
@@ -492,7 +576,7 @@
                       "description": "This is the current state of your code inside main.js, including line numbers. ATTENTION LLM: It is recommended you summarize with bullet-points the entire code base citing line ranges. For instnace; \"Lines 1-15: Basic canvas setup\"...",
                       "items": {
                         "type": "string",
-                        "description": "Each item represents a line of code (1-based) in main.js of the p5js codebase, with the line number and a \"|\" character appended to the ront of each."
+                        "description": "Each item represents a line of code (1-based) in main.js of the p5js codebase, with the line number and a \"|\" character appended to the front of each."
                       }
                     },
                     "alert": {
@@ -506,6 +590,26 @@
                     "check_logs": {
                       "type": "string",
                       "description": "This will provide critical context into when and how to check the user's logs from their local environment where the project code is executing."
+                    },
+                    "change_id": {
+                      "type": "string",
+                      "description": "(Pro Mode) The change ID when the playground is in pro mode and changes are being iterated on or are being staged."
+                    },
+                    "pro_mode": {
+                      "type": "boolean",
+                      "description": "(Pro Mode) Flag to indicate if the playground response is from Web Requests Pro. Required for all properties with (Pro Mode) in their descriptions. In Pro Mode, Web Requests will do most of the heavy lifting, correct your code, and write the final commit for you."
+                    },
+                    "staged_commit": {
+                      "type": "array",
+                      "description": "(Pro Mode) This is the staged code prepared to replace main.js, including line numbers. If satisfied with the code, send a 'commit' request to this endpoint with the requisite parameters. *There is no need to write this code back during the commit process.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each item represents a line of code (1-based) for the main.js p5js codebase."
+                      }
+                    },
+                    "analysis": {
+                      "type": "string",
+                      "description": "(Pro Mode) The analysis from the Web Requests Pro coding assistant, powered by AI with direct access to the code base of this playground! You do not need to make adjustments baed on this analysis. Merely indicate if you agree with the analysis by requesting to preview the commit."
                     }
                   }
                 }

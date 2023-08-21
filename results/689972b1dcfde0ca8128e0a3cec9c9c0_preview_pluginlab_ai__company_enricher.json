@@ -7,8 +7,8 @@
     "schema_version": "v1",
     "name_for_model": "company_enricher",
     "name_for_human": "A Company Enricher",
-    "description_for_model": "This plugin gives additional company information such as year founded, industry, employee count, locality and LinkedIn URL, given a company's domain name.",
-    "description_for_human": "Get company information by providing the domain name.",
+    "description_for_model": "This plugin gives additional company information such as year founded, industry, employee count, locality and LinkedIn URL, given a company's domain name. Useful for sales teams.",
+    "description_for_human": "Get company information by providing the domain name. Useful for sales teams.",
     "auth": {
       "type": "oauth",
       "instructions": "",
@@ -17,7 +17,7 @@
       "authorization_url": "https://auth.pluginlab.ai/oauth/token",
       "authorization_content_type": "application/json",
       "verification_tokens": {
-        "openai": "95a484c0a1de42a2978be4a3d50a3831"
+        "openai": "cb6ee3f9d98d42f79b4a0304328e1375"
       }
     },
     "api": {
@@ -35,5 +35,5 @@
       "title": "New"
     }
   ],
-  "__scrapedAt": "2023-08-18T13:37:35.910Z"
+  "__scrapedAt": "2023-08-21T13:37:47.711Z"
 }

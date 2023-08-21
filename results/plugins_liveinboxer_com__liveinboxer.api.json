@@ -35,6 +35,36 @@
           }
         }
       }
+    },
+    "/liveinboxer2.php": {
+      "get": {
+        "operationId": "liveinboxer",
+        "summary": "Get the latest email by brand",
+        "description": "With sender as input, this endpoint returns the latest email by the sender. Details include subject line, the email in markdown format and an image of the email.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sender",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Brand name or Email Sender"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object of the email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Email"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -57,5 +87,10 @@
         }
       }
     }
-  }
+  },
+  "servers": [
+    {
+      "url": "https://plugins.liveinboxer.com"
+    }
+  ]
 }

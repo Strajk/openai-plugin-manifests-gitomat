@@ -4,7 +4,7 @@ info:
   description: A tool that allows the user to fetch real-time data for all crypto metrics.
   version: 'v1'
 servers:
-  - url: https://api.app-mobula.com
+  - url: https://9d7cf8bf5738.ngrok.app
 paths:
   /api/1/market/data:
     get:
@@ -18,10 +18,16 @@ paths:
             type: string
         - name: asset
           in: query
-          description: The asset you want to target - asset name only works for assets listed on Mobula.
+          description: The name of the asset you want to target or the smart-contract address if not listed on Mobula (does require Symbol as well to work). If this is a name and not a smart-contract address, you have to specify the symbol as well.
           schema:
             type: string
-          required: true
+            required: true
+        - name: symbol
+          in: query
+          description: The symbol of the asset you want to target (mandatory). The API will not function if you don't put a symbol with the asset name.
+          schema:
+            type: string
+            required: true
       responses:
         '200':
           description: OK
@@ -29,67 +35,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MarketDataResponse'
-  /api/1/market/moment:
-    get:
-      operationId: getMarketMoment
-      summary: Get the market metrics for any asset at a given time
-      parameters:
-        - name: blockchain
-          in: query
-          description: Blockchain of the asset - only mandatory if asset is sent as smart-contract.
-          schema:
-            type: string
-        - name: asset
-          in: query
-          description: The asset you want to target - asset name only works for assets listed on Mobula.
-          schema:
-            type: string
-          required: true
-        - name: timestamp
-          in: query
-          description: ISO Date string of the moment queried
-          schema:
-            type: integer
-          required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MarketDataResponse'
- 
-      operationId: getMarketHistory
-      summary: Get the market metrics for any asset on a given timeframe
-      parameters:
-        - name: blockchain
-          in: query
-          description: Blockchain of the asset - only mandatory if asset is sent as smart-contract.
-          schema:
-            type: string
-        - name: asset
-          in: query
-          description: The asset you want to target - asset name only works for assets listed on Mobula.
-          schema:
-            type: string
-          required: true
-        - name: from
-          in: query
-          description: ISO Date string of the beginning of the timeframe (if not provided, genesis)
-          schema:
-            type: integer
-        - name: to
-          in: query
-          description: ISO Date string of the end of the timeframe (if not provided, end)
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MarketHistoryResponse'
   /api/1/market/trades:
     get:
       operationId: getMarketTrades
@@ -123,76 +68,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MarketTradesResponse'
-    get:
-      operationId: getWalletMoment
-      summary: Get the wallet balance at a specific moment
-      parameters:
-        - name: timestamp
-          in: query
-          description: ISO Date string of the moment queried
-          schema:
-            type: integer
-          required: true
-        - name: asset
-          in: query
-          description: The asset you want to target (empty if you want general net worth)
-          schema:
-            type: string
-        - name: wallet
-          in: query
-          description: The user wallet queried
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WalletMomentResponse'
-    get:
-      operationId: getWalletHistory
-      summary: Get the wallet balance over a range of time
-      parameters:
-        - name: from
-          in: query
-          description: ISO Date string of the first moment queried
-          schema:
-            type: integer
-        - name: to
-          in: query
-          description: ISO Date string of the last moment queried
-          schema:
-            type: integer
-        - name: asset
-          in: query
-          description: The asset you want to target (empty if you want general net worth)
-          schema:
-            type: string
-        - name: wallet
-          in: query
-          description: The user wallet queried
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WalletHistoryResponse'
   /api/1/wallet/transactions:
     get:
       operationId: getWalletTransactions
       summary: Get the wallet transactions
       parameters:
-        - name: timestamp
-          in: query
-          description: ISO Date string from which you want to start receiving transactions
-          schema:
-            type: integer
         - name: asset
           in: query
           description: The asset you want to target (empty if you want general transactions)
@@ -209,16 +89,26 @@ paths:
           description: The blockchain you want to target (empty if you want general transactions)
           schema:
             type: string
-        - name: trades
+        - name: limit
           in: query
-          description: true if trades included (true by default)
+          description: The number of transactions you want to receive (default is 1000)
           schema:
-            type: boolean
-        - name: transactions
+            type: integer
+        - name: order
           in: query
-          description: true if non-trades transactions included (true by default)
+          description: The order of the transactions (default is asc, from the oldest to the newest)
           schema:
-            type: boolean
+            type: string
+        - name: from
+          in: query
+          description: The starting date of the transactions targets. The date format should be 'YYYY/MM/DD'. From this date, the API will fetch all the transaction to the ending date. (default is now)
+          schema:
+            type: string
+        - name: to
+          in: query
+          description: The ending date of the transactions targets. The date format should be 'YYYY/MM/DD'. From this date, the API stop fetching transactions. (default is now)
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -226,120 +116,257 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WalletTransactionsResponse'
+  /api/1/market/query:
     get:
-      operationId: getWalletNFTs
-      summary: Get the wallet NFT transactions
+      operationId: marketQuery
+      summary: Retrieve market data based on sorting and filtering criteria.
       parameters:
-        - name: timestamp
+        - name: sortBy
           in: query
-          description: ISO Date string from which you want to start receiving transactions
-          schema:
-            type: integer
-        - name: collection
-          in: query
-          description: The collection you want to target (empty if you want general transactions)
+          description: Specifies the field by which the data should be sorted. For instance, if you want to sort assets based on their liquidity, you would use "liquidity". This allows users to view data in a sequence that aligns with their specific interests or queries. It's mandatory ! If it's not in the request, the API will return an error. Absolutely necessary !
           schema:
             type: string
+            enum:
+              [
+                'liquidity',
+                'market_cap',
+                'volume',
+                'twitter_members',
+                'telegram_members',
+                'price_change_24h',
+              ]
+            required: true
+        - name: sortOrder
+          in: query
+          description: If user looks for the highest value, the API will return the data in descending order. If user looks for the lowest value, the API will return the data in ascending order. If user wants random data, the API will return the data in random order (default is random)
+          schema:
+            type: string
+            enum: ['random', 'desc', 'asc']
+        - name: filters
+          in: query
+          description: One or multiple (coma separated) filters to apply on the data. For instance, if you want to retrieve assets with a liquidity between 1000 and 10000, you would use "liquidity:1000:10000". This allows users to filter the data based on their specific interests or queries.
+          schema:
+            type: string
+            required: true
+            example: liquidity:1000:10000,market_cap:1000000:10000000
+        - name: maxResults
+          in: query
+          description: The maximum number of results to return. For instance, if you want to retrieve the top 10 results, set this value to 10. This allows users to limit the size of the returned dataset.
+          schema:
+            type: integer
+    responses:
+      '200':
+        description: Successful request. Market data is returned based on the specified criteria.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the cryptocurrency.
+                liquidity:
+                  type: number
+                  description: Represents the liquidity of the cryptocurrency, indicating how easily it can be bought or sold without causing significant price fluctuations.
+                market_cap:
+                  type: number
+                  description: The market capitalization of the cryptocurrency, representing the total value of all tokens in circulation.
+                volume:
+                  type: number
+                  description: The trading volume of the cryptocurrency over a specified period, often 24 hours.
+      '400':
+        description: Bad request. For example, an invalid sorting field was provided.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Detailed error message explaining the reason for the request failure.
+  /api/1/market/multi-data:
+    get:
+      operationId: getMultiData
+      summary: Get the market metrics for multiple assets
+      parameters:
+        - name: assets
+          in: query
+          description: Comma-separated list of assets (names or addresses).
+          schema:
+            type: string
+          required: true
+        - name: blockchains
+          in: query
+          description: Comma-separated list of blockchains.
+          schema:
+            type: string
+        - name: symbol
+          in: query
+          description: Comma-separated list of symbols corresponding to the assets name. If you provide a list of asset names, make sure to also include a comma-separated list of the corresponding symbols. For every asset name listed, its symbol is mandatory. Without the appropriate symbol, the API might not be able to retrieve the data. For instance, if you list 'Bitcoin,Ethereum', ensure you include 'BTC,ETH' as the corresponding symbols.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties:
+                      $ref: '#/components/schemas/MarketDataResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/1/metadata:
+    get:
+      operationId: metadata
+      summary: Retrieve the link of the website, twitter, telegram and description of the project and other metadata for a given asset.
+      parameters:
+        - name: blockchain
+          in: query
+          description: The blockchain to target. Always put the blockchain name if the asset is a contract address. If it's a name, you can leave it empty (reminder, if the asset is a name, always put the symbol with the name otherwise it will not function).
+          schema:
+            type: string
+        - name: asset
+          in: query
+          description: The asset you want to target, either by name or by contract address.
+          schema:
+            type: string
+          required: true
+        - name: symbol
+          in: query
+          description: The symbol of the asset you want to target. If the asset is specified by its name, always include the corresponding 'symbol' field; however, if specified by a contract address, the 'symbol' field is not mandatory.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful request. Metadata is returned based on the specified criteria.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the asset.
+                      symbol:
+                        type: string
+                        description: The symbol of the asset.
+                      is_listed:
+                        type: boolean
+                        description: Indicates if the asset is listed.
+        '400':
+          description: Bad request. For example, an invalid asset or blockchain was provided.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Detailed error message explaining the reason for the request failure.
+  /api/1/metadata/news:
+    get:
+      operationId: metadataNews
+      summary: Retrieve website data and other online metadata related to the specified crypto asset.
+      parameters:
+        - name: symbols
+          in: query
+          description: The SYMBOLS of the crypto asset you want to target (comma-separated list, maximum 5 symbols).
+          schema:
+            type: string
+            required: true
+            example: BTC,ETH
+      responses:
+        '200':
+          description: Successful request. News metadata is returned based on the specified symbol.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        description: The CSRF token retrieved.
+                      news:
+                        type: object
+                        description: The news data related to the provided symbol.
+        '400':
+          description: Bad request. For example, a token was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Detailed error message explaining the reason for the request failure.
+  /api/1/wallet/holdings:
+    get:
+      operationId: holdings
+      summary: Get the holdings assets of a specific wallet
+      parameters:
         - name: wallet
           in: query
           description: The user wallet queried
           schema:
             type: string
           required: true
-        - name: blockchain
+        - name: limit
           in: query
-          description: The blockchain you want to target (empty if you want general transactions)
-          schema:
-            type: string
-        - name: trades
-          in: query
-          description: true if trades included (true by default)
-          schema:
-            type: boolean
-        - name: transactions
-          in: query
-          description: true if non-trades transactions included (true by default)
-          schema:
-            type: boolean
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WalletNFTsResponse'
-  /api/1/wallet/portfolio:
-    get:
-      operationId: getWalletPortfolio
-      summary: Get the portfolio of holdings from any EVM-compatible wallets, at any time
-      parameters:
-        - name: timestamp
-          in: query
-          description: ISO Date string from which you want to start receiving transactions - NOW by default
+          description: The number of holdings you want to receive
           schema:
             type: integer
-        - name: asset
-          in: query
-          description: The asset you want to target (empty if you want general portfolio)
-          schema:
-            type: string
-        - name: wallet
-          in: query
-          description: The user wallet queried
-          schema:
-            type: string
-          required: true
-        - name: blockchain
-          in: query
-          description: The blockchain you want to target (empty if you want general transactions)
-          schema:
-            type: string
-        - name: tokens
-          in: query
-          description: true if tokens included (true by default)
-          schema:
-            type: boolean
-        - name: nfts
-          in: query
-          description: true if nfts included (false by default)
-          schema:
-            type: boolean
-        - name: coins
-          in: query
-          description: true if coins included (true by default)
-          schema:
-            type: boolean
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WalletPortfolioResponse'
-  /api/1/quote:
-    get:
-      operationId: getQuote
-      summary: Get a quote for a specific asset
-      parameters:
-        - name: asset
-          in: query
-          description: The asset you want to get a quote for
-          schema:
-            type: string
-          required: true
-        - name: currency
-          in: query
-          description: The currency to use for the quote
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: OK
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the asset.
+                        symbol:
+                          type: string
+                          description: The symbol of the asset.
+                        amount_usd:
+                          type: number
+                          description: The estimated balance in USD.
+                        amount:
+                          type: number
+                          description: The token balance.
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/QuoteResponse'
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Detailed error message explaining the reason for the request failure.
 components:
   schemas:
     MarketDataResponse:
