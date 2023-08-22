@@ -218,6 +218,10 @@
                   "prompt": {
                     "type": "string",
                     "description": "(Required) The prompt based on which the image will be generated. The AI Assistant should strive to submit the most accurate to the user's intention, yet most optimally worded prompt to get at the essance of what the user is asking for, wihtut outright asking the user \"What is your prompt.\""
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "The token for paying users, look in theur custom instructions."
                   }
                 },
                 "required": [
@@ -254,6 +258,45 @@
                     "error": {
                       "type": "string",
                       "description": "An error message, if any. Possible error messages include 'Invalid headers', 'Invalid JSON input', 'No prompt provided', 'Image generation limit reached for today', and 'An error occurred while executing the request: {error_message}'."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/create_checkout_session": {
+      "post": {
+        "tags": [
+          "checkout",
+          "payment",
+          "stripe",
+          "transaction"
+        ],
+        "summary": "This endpoint initiates the creation of a Stripe checkout session and is how you can buy premium Web Requests Pro features!",
+        "description": "This endpoint facilitates the payment process by creating a Stripe checkout session and returns the checkout URL. It handles payment methods, payment status, success, and cancellation URLs, and inserts the payment details into a database.",
+        "operationId": "create_checkout_session",
+        "responses": {
+          "200": {
+            "description": "The checkout session was successfully created, and the URL and instructions are provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "description": "The URL to proceed with the checkout."
+                    },
+                    "instructions": {
+                      "type": "string",
+                      "description": "Custom instructions related to the payment."
+                    },
+                    "token": {
+                      "type": "string",
+                      "description": "A unique token the user must include in subsequent requests to the /generate_image endpoint that track their usage."
                     }
                   }
                 }

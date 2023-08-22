@@ -30,7 +30,7 @@
                   "summary": "What were my calls from last week?",
                   "description": "This query will return calls from the past week.",
                   "value": {
-                    "after": "2023-08-12",
+                    "after": "2023-08-14",
                     "top_k": 20
                   }
                 },
@@ -39,7 +39,7 @@
                   "description": "This query will return segments of transcripts of calls that mention pricing in the past 60 days.",
                   "value": {
                     "query": "pricing",
-                    "after": "2023-06-20",
+                    "after": "2023-06-22",
                     "top_k": 20
                   }
                 },
@@ -48,8 +48,8 @@
                   "description": "This query will return segments of transcripts of calls that mention pricing two weeks ago.",
                   "value": {
                     "query": "pricing",
-                    "after": "2023-08-05",
-                    "before": "2023-08-12",
+                    "after": "2023-08-07",
+                    "before": "2023-08-14",
                     "top_k": 20
                   }
                 },
@@ -68,7 +68,7 @@
                   "summary": "Get all documents from a call",
                   "description": "This query will return the documents related to a call that will answer the question \"Summarize what Spencer did yesterday given the call with ID call-1\".",
                   "value": {
-                    "after": "2023-08-18",
+                    "after": "2023-08-20",
                     "source_id": [
                       "call-1"
                     ],
@@ -82,7 +82,7 @@
                   "description": "This query will return segments of transcripts of calls that mention Nikhil and what he was working on this week.",
                   "value": {
                     "query": "working on",
-                    "after": "2023-08-12",
+                    "after": "2023-08-14",
                     "people": [
                       "Nikhil"
                     ],
@@ -94,7 +94,7 @@
                   "description": "This query will return segments of transcripts of calls that mention Nikhil and what he was working on this week.",
                   "value": {
                     "query": "working on",
-                    "after": "2023-08-12",
+                    "after": "2023-08-14",
                     "people": [
                       "Nikhil"
                     ],
@@ -109,8 +109,8 @@
                   "description": "This query will return segments of transcripts of calls that are tagged with pricing two weeks ago.",
                   "value": {
                     "query": "pricing",
-                    "after": "2023-08-05",
-                    "before": "2023-08-12",
+                    "after": "2023-08-07",
+                    "before": "2023-08-14",
                     "top_k": 20,
                     "tags": [
                       "pricing"

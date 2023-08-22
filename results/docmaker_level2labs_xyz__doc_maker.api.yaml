@@ -102,6 +102,33 @@ components:
           type: string
       title: Markdown2ResumeRequest
       type: object
+    SimpleSlideContent:
+      properties:
+        content:
+          description: The content for this slide. Sub-content can be separated using
+            newline char.
+          title: Content
+          type: string
+        title:
+          description: The title of the slide.
+          title: Title
+          type: string
+      required:
+      - title
+      - content
+      title: SimpleSlideContent
+      type: object
+    SimpleSlidesRequest:
+      properties:
+        slides:
+          items:
+            $ref: '#/components/schemas/SimpleSlideContent'
+          title: Slides
+          type: array
+      required:
+      - slides
+      title: SimpleSlidesRequest
+      type: object
     ValidationError:
       properties:
         loc:
@@ -155,9 +182,7 @@ paths:
         '200':
           content:
             application/json:
-              schema:
-                title: Response Create Csv Create Csv Post
-                type: string
+              schema: {}
           description: Successful Response
         '422':
           content:
@@ -206,8 +231,10 @@ paths:
           content:
             application/json:
               schema:
+                additionalProperties:
+                  type: string
                 title: Response Create Html Create Html Post
-                type: string
+                type: object
           description: Successful Response
         '422':
           content:
@@ -242,6 +269,28 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Create Pdf
+  /create_pptx:
+    post:
+      operationId: create_pptx
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleSlidesRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Pptx Endpoint
   /create_resume:
     post:
       operationId: create_resume
@@ -281,9 +330,7 @@ paths:
         '200':
           content:
             application/json:
-              schema:
-                title: Response Create Xlsx Create Xlsx Post
-                type: string
+              schema: {}
           description: Successful Response
         '422':
           content:

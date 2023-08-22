@@ -374,7 +374,7 @@ paths:
   /extract_id_xpath/:
     post:
       operationId: extractIDxpath
-      summary: Gets a list of possible ids and then looks up an xpath by id. It needs a URL for web scpraper to return all possible id's where you can then try searching xpath by id. It's provide the list ID of the element for you want to extract ID.
+      summary: Retrieves a list of potential IDs and then searches for an XPath by ID. Requires a URL for the web scraper to return all possible IDs, allowing you to subsequently attempt searching for an XPath using an ID. Provides a list of IDs for the element from which you wish to extract the ID.
       requestBody:
         required: true
         content:
@@ -383,7 +383,7 @@ paths:
               $ref: "#/components/schemas/xpathIDRequest"
       responses:
         "200":
-          description: List of possible ids for looks up an xpath by id. After that you can try searching xpath by id.
+          description: Json of potential IDs for searching an XPath by ID. You can then attempt to search for an XPath using the provided ID.
           content:
             application/json:
               schema:

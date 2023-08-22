@@ -61,9 +61,7 @@ paths:
         '200':
           content:
             application/json:
-              schema:
-                title: Response Create Csv V2 Create Csv V2 Post
-                type: string
+              schema: {}
           description: Successful Response
         '422':
           content:

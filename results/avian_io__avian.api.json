@@ -226,6 +226,25 @@
         }
       }
     },
+    "/api/v1/linkedin_ads/data/": {
+      "get": {
+        "operationId": "v1_linkedin_ads_data_retrieve",
+        "description": "No Linkedin Ads connector authorised. Please visit https://avian.io/connector_auth?connector=linkedin_ads&destination=chatGPT to authorise a new connector.",
+        "summary": "No connector of this type",
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No Linkedin Ads connector authorised. Please visit https://avian.io/connector_auth?connector=linkedin_ads&destination=chatGPT to authorise a new connector."
+          }
+        }
+      }
+    },
     "/api/v1/tiktok_ads/data/": {
       "get": {
         "operationId": "v1_tiktok_ads_data_retrieve",
