@@ -1,0 +1,79 @@
+openapi: 3.0.1
+info:
+  title: Sponsored.pro
+  description: Background replacement request
+  version: 'v1'
+servers:
+  - url: https://www.sponsored.pro
+paths:
+  /api/template:
+    get:
+      operationId: getTemplate
+      summary: Generate a background replacement based on imageUrl and prompt
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          required: false
+          description: Image url
+        - in: query
+          name: productSize
+          schema:
+            type: string
+          required: false
+          description: Template meant for (small, medium, large) product sizes
+        - in: query
+          name: category
+          schema:
+            type: string
+          required: false
+          description: Category of the template
+        - in: query
+          name: props
+          schema:
+            type: string
+          required: false
+          description: Props mentioned in the template
+        - in: query
+          name: colors
+          schema:
+            type: string
+          required: false
+          description: Colors mentioned in the template
+        - in: query
+          name: setting
+          schema:
+            type: string
+          required: false
+          description: Setting described in the template
+        - in: query
+          name: lighting
+          schema:
+            type: string
+          required: false
+          description: Lighting mentioned in the template
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTemplateResponse'
+
+components:
+  schemas:
+    getTemplateResponse:
+      type: object
+      properties:
+        header:
+          description: Instructions on how to display the results to a human
+          type: string
+        footer:
+          description: Should be displayed at the end to guide the user
+          type: string
+        templates:
+          type: array
+          items:
+            type: string
+          description: The list of templates.

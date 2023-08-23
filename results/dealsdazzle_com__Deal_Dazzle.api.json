@@ -16,6 +16,36 @@
     }
   ],
   "paths": {
+    "/nonAuth/api/sameProduct/search": {
+      "post": {
+        "tags": [
+          "multi-model-controller"
+        ],
+        "operationId": "multiModelSearch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultiModelRecommendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultAlternativeProductInfoDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/bizLog/report": {
       "post": {
         "tags": [
@@ -1367,6 +1397,107 @@
   },
   "components": {
     "schemas": {
+      "MultiModelRecommendRequest": {
+        "type": "object",
+        "properties": {
+          "imageUrl": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "site": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "shipToCountry": {
+            "type": "string"
+          },
+          "userCountry": {
+            "type": "string"
+          },
+          "currencyCode": {
+            "type": "string"
+          }
+        }
+      },
+      "AlternativeProduct": {
+        "type": "object",
+        "properties": {
+          "mainImage": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "savedFee": {
+            "type": "string"
+          },
+          "shippingFee": {
+            "type": "string"
+          },
+          "orderLink": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "discountRate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "isFreeShipping": {
+            "type": "boolean"
+          },
+          "skuId": {
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string"
+          }
+        }
+      },
+      "AlternativeProductInfoDTO": {
+        "type": "object",
+        "properties": {
+          "productList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlternativeProduct"
+            }
+          }
+        }
+      },
+      "ResultAlternativeProductInfoDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AlternativeProductInfoDTO"
+          }
+        }
+      },
       "CommissionReportRequest": {
         "type": "object",
         "properties": {
@@ -2242,74 +2373,6 @@
           "type": {
             "type": "integer",
             "format": "int64"
-          }
-        }
-      },
-      "AlternativeProduct": {
-        "type": "object",
-        "properties": {
-          "mainImage": {
-            "type": "string"
-          },
-          "price": {
-            "type": "string"
-          },
-          "savedFee": {
-            "type": "string"
-          },
-          "shippingFee": {
-            "type": "string"
-          },
-          "orderLink": {
-            "type": "string"
-          },
-          "source": {
-            "type": "string"
-          },
-          "discountRate": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "isFreeShipping": {
-            "type": "boolean"
-          },
-          "skuId": {
-            "type": "string"
-          },
-          "itemId": {
-            "type": "string"
-          }
-        }
-      },
-      "AlternativeProductInfoDTO": {
-        "type": "object",
-        "properties": {
-          "productList": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AlternativeProduct"
-            }
-          }
-        }
-      },
-      "ResultAlternativeProductInfoDTO": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          },
-          "success": {
-            "type": "boolean"
-          },
-          "traceId": {
-            "type": "string"
-          },
-          "data": {
-            "$ref": "#/components/schemas/AlternativeProductInfoDTO"
           }
         }
       },

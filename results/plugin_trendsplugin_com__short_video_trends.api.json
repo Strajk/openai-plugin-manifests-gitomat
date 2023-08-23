@@ -1,0 +1,416 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "short_video_trends",
+    "description": "Use the short_video_trends plugin to find keywords and content for social media posts. The plugin provides keyword lists with advanced performance data and inspiration for chosen keywords through popular examples, associated keywords, and hashtags. Queries can cover the last 7, 30, or 120 days, with a default timeframe of 7 days if not specified. Lists have three additional input parameters; text, category, and country. None of these parameters are required, and the default is worldwide, all categories, and all keywords. Response time can go up to 35 seconds, because our algorythms gather and analyze the data of thousands of posts in real time. Make sure to explain the reason of the waiting time before using the plugin.",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/trends/available": {
+      "get": {
+        "operationId": "getAvailableParams",
+        "summary": "Get available countries, categories, and number of days to query on",
+        "responses": {
+          "200": {
+            "description": "Successfully returned the available parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "available_countries": {
+                      "description": "The available countries to query on. It's also possible ot not specify a country, the query will then run worldwide",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "available_categories": {
+                      "description": "The available categories to query on. It's also possible ot not specify a category, the query will then run on all categories",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "available_timeframe_days": {
+                      "description": "the available timeframes to query on in days. If not specified, the query will run on the 7 last days.",
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trends/list": {
+      "post": {
+        "operationId": "listKeywords",
+        "summary": "generate a list of trending keywords, with advanced performance statistics",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "type": "string",
+                    "description": "not required. The country we want the query to run on. if not required the query will run without category restrictions."
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "not required. The country we want the query to run on. if not required the query will run worldwide."
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "not required. A text expression that we want the proposed synonyms to be about."
+                  },
+                  "days": {
+                    "type": "number",
+                    "description": "not required. the number of days the query will run on. Dafault is 7."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully generated the list of popular keywords.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "description": "The generated list of popular keywords",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "rank": {
+                            "type": "number",
+                            "description": "the trending rank in the list"
+                          },
+                          "label": {
+                            "type": "number",
+                            "description": "the keyword"
+                          },
+                          "popularity": {
+                            "type": "number",
+                            "description": "the number of ads using the campaign"
+                          },
+                          "popularity_change": {
+                            "type": "number",
+                            "description": "the popularity change over the selected timeframe"
+                          },
+                          "ctr": {
+                            "type": "number",
+                            "description": "the click through rate, the percentage of clicks"
+                          },
+                          "cvr": {
+                            "type": "number",
+                            "description": "the conversion rate, the percentage of times the desired outcome was achieved (install an app, buy a product, ...)"
+                          },
+                          "cpa": {
+                            "type": "number",
+                            "description": "the cost per action. The average amount spent on a conversion"
+                          },
+                          "cost": {
+                            "type": "number",
+                            "description": "the amount spend on the keyword on campaigns during the timeframe"
+                          },
+                          "impressions": {
+                            "type": "number",
+                            "description": "the number of impressions of the posts with the keyword"
+                          },
+                          "six_seconds_wiew_rate": {
+                            "type": "number",
+                            "description": "the percentage of people who watched ads with the keyword for at least 6 seconds"
+                          },
+                          "likes": {
+                            "type": "number",
+                            "description": "the number of likes on the posts with the keyword"
+                          },
+                          "shares": {
+                            "type": "number",
+                            "description": "the number of sjared on the posts with the keyword"
+                          },
+                          "comments": {
+                            "type": "number",
+                            "description": "the number of comments on the posts with the keyword"
+                          }
+                        }
+                      }
+                    },
+                    "instructions": {
+                      "type": "string",
+                      "description": "Some context about the returned data"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trends/details": {
+      "post": {
+        "operationId": "getKeywordDetails",
+        "summary": "search for detailled examples using a keyword, similar keywords and hashtags with performance statistics",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keyword": {
+                    "type": "string",
+                    "description": "required. The keyword to run the analysis on"
+                  },
+                  "days": {
+                    "type": "number",
+                    "description": "not required. the number of days the query will run on. Dafault is 7."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully generated the examples, keywords, and hashtags",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "examples": {
+                          "type": "array",
+                          "description": "the list of examples using the keywords",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "phrase": {
+                                "type": "string",
+                                "description": "the phrase the keyword was used in"
+                              },
+                              "used_as": {
+                                "type": "string",
+                                "description": "the type of content the keyword was mostly used in (voice-over, text overlay, or ad text)"
+                              },
+                              "ctr": {
+                                "type": "string",
+                                "description": "the click through rate, the percentage of clicks"
+                              }
+                            }
+                          }
+                        },
+                        "keywords": {
+                          "type": "array",
+                          "description": "the list of similar suggested keywords",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ranking": {
+                                "type": "string",
+                                "description": "the popularity of the suggested keyword"
+                              },
+                              "keyword": {
+                                "type": "string",
+                                "description": "the keyword"
+                              },
+                              "popularity": {
+                                "type": "string",
+                                "description": "the popularity score of the suggested keyword"
+                              }
+                            }
+                          }
+                        },
+                        "hashtags": {
+                          "type": "array",
+                          "description": "the list of suggested hashtags",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ranking": {
+                                "type": "string",
+                                "description": "the popularity of the suggested hashtag"
+                              },
+                              "hashtag": {
+                                "type": "string",
+                                "description": "the hashtag"
+                              },
+                              "popularity": {
+                                "type": "string",
+                                "description": "the popularity score of the suggested hashtag"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "instructions": {
+                      "type": "string",
+                      "description": "Some context about the returned data"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://plugin.trendsplugin.com"
+    }
+  ]
+}

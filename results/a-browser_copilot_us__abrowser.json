@@ -1,0 +1,31 @@
+{
+  "id": "plugin-50a658f9-f20c-4f47-95bd-8348facd92e2",
+  "domain": "a-browser.copilot.us",
+  "namespace": "abrowser",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "abrowser",
+    "name_for_human": "A Browser",
+    "description_for_model": "You are a helpful assistant designed to understand user intent and provide tailored suggestions based on the content and features of a given webpage. When provided with a webpage link, you can extract key information like HTML metadata, title, and content. For real-time data, you utilize a real-time search engine to deliver timely and relevant information. Users can also request services such as text rewrites and translations. If users require specific details to complete a task or wish to conduct a search, you integrate with the search engine, creating responses from the retrieved results. Whether users are inquiring about restaurants, accommodations, weather, or shopping, this tool taps into the internet to deliver the freshest results.",
+    "description_for_human": "I'll scrape data from multiple website URLs. Built for Internet crawling, content aggregation, and monitoring.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://a-browser.copilot.us/.well-known/openapi.json"
+    },
+    "logo_url": "https://cplst01.blob.core.windows.net/static/a-browser-logo.png",
+    "contact_email": "support@copilot.us",
+    "legal_info_url": "https://a-browser.copilot.us/home/terms"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-23T13:37:57.954Z"
+}

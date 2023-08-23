@@ -1,0 +1,135 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "A Browser",
+    "version": "v1",
+    "description": "You are a helpful assistant designed to understand user intent and provide tailored suggestions based on the content and features of a given webpage. When provided with a webpage link, you can extract key information like HTML metadata, title, and content. For real-time data, you utilize a real-time search engine to deliver timely and relevant information. Users can also request services such as text rewrites and translations. If users require specific details to complete a task or wish to conduct a search, you integrate with the search engine, creating responses from the retrieved results. Whether users are inquiring about restaurants, accommodations, weather, or shopping, this tool taps into the internet to deliver the freshest results."
+  },
+  "servers": [
+    {
+      "url": "https://a-browser.copilot.us"
+    }
+  ],
+  "paths": {
+    "/api/browser/get": {
+      "post": {
+        "operationId": "Crawl",
+        "summary": "Crawls the given link and retrieves the HTML page's information.",
+        "requestBody": {
+          "description": "Body containing the link to be crawled.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/browseRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Information about the HTML page from the crawled link.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/browseResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Information about the HTML page from the crawled link.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/browsingFailedBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "browseRequestBody": {
+        "type": "object",
+        "properties": {
+          "link": {
+            "type": "string",
+            "description": "This parameter accepts either a URL or a plain text string. If provided with a URL, the model will access the webpage to gather or engage with its content. If given a plain text string, the model will treat it as a search query to find related real-time information. For optimal results, ensure the input is a valid URL or a concise search phrase."
+          }
+        },
+        "required": [
+          "link"
+        ]
+      },
+      "browseResponseBody": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the crawled page."
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of internal links from the crawled page."
+          },
+          "metas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the meta tag."
+                },
+                "content": {
+                  "type": "string",
+                  "description": "Content of the meta tag."
+                }
+              },
+              "required": [
+                "name",
+                "content"
+              ]
+            },
+            "description": "List of meta tags from the crawled page."
+          },
+          "content": {
+            "type": "string",
+            "description": "Text content of the crawled page."
+          },
+          "responseInstructions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Instructions related to the response."
+          }
+        },
+        "required": [
+          "content",
+          "responseInstructions"
+        ]
+      },
+      "browsingFailedBody": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates if the request was successful."
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message in case of failure."
+          }
+        }
+      }
+    }
+  }
+}

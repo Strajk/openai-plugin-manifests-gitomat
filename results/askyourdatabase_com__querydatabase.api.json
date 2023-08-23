@@ -61,34 +61,6 @@
           }
         }
       }
-    },
-    "/api/dashboard": {
-      "post": {
-        "operationId": "createDashboard",
-        "summary": "createDashboard",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/QueryRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/QueryResponse"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {

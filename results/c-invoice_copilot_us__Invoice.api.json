@@ -1,0 +1,344 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Invoice",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://c-invoice.copilot.us"
+    }
+  ],
+  "paths": {
+    "/api/user/vendor": {
+      "post": {
+        "operationId": "SaveVendorInfo",
+        "summary": "Saves vendor information.",
+        "requestBody": {
+          "description": "Body containing vendor details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VendorInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Information about the success of the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Occurs when there's an error in the request or processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/customer": {
+      "post": {
+        "operationId": "SaveCustomerInfo",
+        "summary": "Saves customer information",
+        "requestBody": {
+          "description": "Body containing customer details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Information about the success of the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/get-logo-upload-link": {
+      "get": {
+        "operationId": "GetLinkForLogoUpload",
+        "summary": "Provides a link for the user to upload their logo.",
+        "responses": {
+          "200": {
+            "description": "The generated link for the logo upload.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/save-logo": {
+      "get": {
+        "operationId": "SaveLogo",
+        "summary": "You must call with endpoint when the user provides logo: either its url or tells that he's uploaded it.'",
+        "parameters": [
+          {
+            "name": "logoUrl",
+            "in": "query",
+            "description": "URL of the logo to be saved. Populate this field only if the user has provided it. Otherwise, leave it empty.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Confirmation of the logo saving operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/invoice": {
+      "post": {
+        "operationId": "SaveInvoiceDetails",
+        "summary": "Saves invoice details for the user.",
+        "requestBody": {
+          "description": "Body containing invoice details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Invoice"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Confirmation of the invoice saving operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/items": {
+      "post": {
+        "operationId": "SaveItemsToInvoice",
+        "summary": "Saves items/services details to the invoice.",
+        "requestBody": {
+          "description": "Body containing items/services details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Items"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Confirmation of the items/services saving operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VendorInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the vendor."
+          },
+          "address": {
+            "type": "string",
+            "nullable": true,
+            "description": "Address of the vendor."
+          },
+          "email": {
+            "type": "string",
+            "nullable": true,
+            "description": "Email of the vendor."
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "Phone number of the vendor."
+          },
+          "registrationIDs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "description": "List of registration IDs for the vendor."
+          }
+        }
+      },
+      "CustomerInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the customer."
+          },
+          "address": {
+            "type": "string",
+            "nullable": true,
+            "description": "Address of the customer."
+          },
+          "email": {
+            "type": "string",
+            "nullable": true,
+            "description": "Email of the customer."
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "Phone number of the customer."
+          }
+        }
+      },
+      "Invoice": {
+        "type": "object",
+        "properties": {
+          "InvoiceNumber": {
+            "type": "string",
+            "default": "Auto-generated invoice number",
+            "nullable": true
+          },
+          "IssueDate": {
+            "type": "string",
+            "format": "date-time",
+            "default": "Today's date",
+            "nullable": true,
+            "description": "Populate this field in the following format: yyyy-mm-dd"
+          },
+          "DueDate": {
+            "type": "string",
+            "format": "date-time",
+            "default": "Date 30 days from today",
+            "nullable": true,
+            "description": "Populate this field in the following format: yyyy-mm-dd"
+          },
+          "CurrencyCode": {
+            "type": "string",
+            "default": "USD",
+            "nullable": true
+          },
+          "DiscountPercent": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "TaxPercent": {
+            "type": "number",
+            "format": "double"
+          },
+          "Notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "string",
+            "enum": [
+              "Draft",
+              "Sent",
+              "Paid"
+            ],
+            "default": "Draft",
+            "nullable": true
+          }
+        }
+      },
+      "InvoiceEntry": {
+        "type": "object",
+        "properties": {
+          "Description": {
+            "type": "string"
+          },
+          "Quantity": {
+            "type": "integer"
+          },
+          "UnitPrice": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "TotalPrice": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Calculated total price for the entry (quantity * unit price)"
+          }
+        }
+      },
+      "Items": {
+        "type": "object",
+        "properties": {
+          "Entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceEntry"
+            },
+            "description": "List of items/services being billed"
+          }
+        }
+      },
+      "SuccessfulResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates if the operation was successful."
+          },
+          "responseInstructions": {
+            "type": "string",
+            "description": "Instructions or feedback."
+          }
+        }
+      }
+    }
+  }
+}

@@ -157,7 +157,6 @@
             "schema": {
               "type": "string",
               "description": "The sort type for the search results",
-              "default": "DEFAULT",
               "enum": [
                 "DEFAULT",
                 "DEAL_SCORE",
@@ -166,7 +165,8 @@
                 "DISTANCE",
                 "NEWEST_MODEL_YEAR",
                 "LISTING_AGE"
-              ]
+              ],
+              "default": "DEFAULT"
             }
           },
           {
@@ -177,7 +177,6 @@
             "schema": {
               "type": "string",
               "description": "The sort order for the search results",
-              "default": "BEST_TO_WORST",
               "enum": [
                 "BEST_TO_WORST",
                 "WORST_TO_BEST",
@@ -185,7 +184,8 @@
                 "HIGHEST_TO_LOWEST",
                 "NEWEST_TO_OLDEST",
                 "OLDEST_TO_NEWEST"
-              ]
+              ],
+              "default": "BEST_TO_WORST"
             }
           },
           {

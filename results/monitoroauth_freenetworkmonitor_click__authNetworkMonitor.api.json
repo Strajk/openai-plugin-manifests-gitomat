@@ -1,0 +1,1533 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Authenticated APIs",
+    "description": "A full AI powered Network monitoring solution. Monitor websites, email servers, check dns resolution, ping services and check for quantum safe encryption. Lookup DataSetIds to get a host data via GetDataSetsByDateGPT api call. Then call GetMonitorPingInfosByDataSetIDDefault with the DataSetId to return summary data about the hosts. Use The host MonitorPingInfo.ID to get detailed Host monitoring events via GetPingInfosByMonitorPingInfoIDDefault Api call.",
+    "termsOfService": "https://monitorsrv.mahadeva.co.uk/privacypolicy.html",
+    "contact": {
+      "name": "Mahadeva Cottrell",
+      "email": "support@mahadeva.co.uk"
+    },
+    "license": {
+      "name": "Free Network Monitor License",
+      "url": "https://monitorsrv.mahadeva.co.uk/license.html"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/Edit/GetMonitorIPsWithFilterAuth": {
+      "post": {
+        "tags": [
+          "Edit"
+        ],
+        "summary": "Get a filtered list of Hosts configuration (MonitorIPs : array of MonitorIP) for the authorised user.",
+        "description": "Add monitorIPQuery to filter the results.\r\nSample post data: {   \"monitorIPQuery\" : {\"address\" : \"host.com\"}  }",
+        "operationId": "GetMonitorIPsWithFilterAuth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentUserData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPListTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPListTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPListTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Edit/GetMonitorIPsFromUserID": {
+      "post": {
+        "tags": [
+          "Edit"
+        ],
+        "summary": "Get a list of Hosts configuration (MonitorIPs : array of MonitorIP) for the authorised user.",
+        "operationId": "GetMonitorIPsFromUserID",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the UserInfo is null or is unable to be converted to a UserInfo",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Edit/AddHostGPTAuth": {
+      "post": {
+        "tags": [
+          "Edit"
+        ],
+        "summary": "Add a new host for the authorised user; Address, EndPointType are required fields.",
+        "description": "Add a host example {\"address\": \"https://example.com\",\"endPointType\": \"http\"}",
+        "operationId": "AddHostGPTAuth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonitorIP"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Edit/EditHostGPTAuth": {
+      "post": {
+        "tags": [
+          "Edit"
+        ],
+        "summary": "Edit a host for an authorised user. Required fields MonitorIP.ID . Other supplied fields will be updated.",
+        "description": "Edit a host {\"monitorIP\": {\"iD\" : 1234 , \"endPointType\": \"http\"},\"isEdit\": true}",
+        "operationId": "EditHostGPTAuth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditHost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Edit/AddUserApi": {
+      "post": {
+        "tags": [
+          "Edit"
+        ],
+        "summary": "Add an authorised user to database.",
+        "operationId": "AddUserApi",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Monitor/GetDataSets": {
+      "get": {
+        "tags": [
+          "Monitor"
+        ],
+        "summary": "Get a List of all Data Sets. Host monitoring data is stored in sets of data with 6 hours of data in each DataSetId.",
+        "description": "Each data set has a date that indicates its start datetime. There are 4 data sets in each day. DataSetIdzero is the latest data. \r\n///",
+        "operationId": "GetDataSets",
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Monitor/GetDataSetsByDateGPT": {
+      "post": {
+        "tags": [
+          "Monitor"
+        ],
+        "summary": "Get a List of DataSets for a give date range.",
+        "description": "Returns array of data sets given a start and end datetime. use date format ISO 8601. Use a DataSetId to lookup host data for that datetime. DataSetId zero is the current data.",
+        "operationId": "GetDataSetsByDateGPT",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentDateData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentDateData is null or is unable to be converted to a SentDateData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Monitor/GetMonitorPingInfosByDataSetIDAuth": {
+      "post": {
+        "tags": [
+          "Monitor"
+        ],
+        "summary": "Get a List of summary monitoring data (MonitorPingInfos : array of MonitorPingInfo) with a given DataSetId. The User must be authorised.",
+        "description": "Include monitorPingInfoQuery to filter the results on , EndPointType  etc.\r\nSample post data: { \"dataSetId\": 1 , \"monitorPingInfoQuery\" : {\"pageNumber\" : 2, \"pageSize\" :30 }  }",
+        "operationId": "GetMonitorPingInfosByDataSetIDAuth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentUserData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorPingInfoListTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorPingInfoListTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorPingInfoListTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Monitor/GetMonitorPingInfosByHostAddressAuth": {
+      "post": {
+        "tags": [
+          "Monitor"
+        ],
+        "summary": "Get a List of summary monitoring data  (MonitorPingInfos : array of MonitorPingInfo) for a given a hostAddress=\"Host Address\".",
+        "description": "Add monitorPingInfoQuery to filter the results if you get error ResponseTooLargeError.\r\nSample post data: { \"hostAddress\": \"www.freenetworkmonitor.click\", \"monitorPingInfoQuery\" : {\"IncludeResponseTimes\" : false ,\"dateStart\": \"2023-07-15T00:00:00Z\",\"dateEnd\": \"2023-07-15T23:59:59Z\"}  }",
+        "operationId": "GetMonitorPingInfosByHostAddressAuth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentUserData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorPingInfoListTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorPingInfoListTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorPingInfoListTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Monitor/GetPingInfosByMonitorPingInfoIDAuth": {
+      "post": {
+        "tags": [
+          "Monitor"
+        ],
+        "summary": "Get detailed data. A list of Response times and statuses (PingInfos : array of PingInfo) for a given host (MonitorPingInfoId) .",
+        "description": "Return event data for a given MonitorPingInfoId . Each PingInfo contains data about a monitoring event (response time , status, event datetime etc.).",
+        "operationId": "GetPingInfosByMonitorPingInfoIDAuth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentUserData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingInfoListTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingInfoListTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingInfoListTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Monitor/ResetAlert": {
+      "post": {
+        "tags": [
+          "Monitor"
+        ],
+        "summary": "Reset alert for host with ID for the authorised user . Required fields MonitorIP.ID .",
+        "description": "Reset Alert for Host {\"monitorIP\": {\"iD\" : 1234 }}",
+        "operationId": "ResetAlert",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentUserData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Monitor/ResetAllAlertsForUser": {
+      "post": {
+        "tags": [
+          "Monitor"
+        ],
+        "summary": "Reset all alerts for all hosts for the authorised user .",
+        "operationId": "ResetAllAlertsForUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentUserData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EditHost": {
+        "type": "object",
+        "properties": {
+          "editAuthKey": {
+            "type": "string",
+            "description": "This is a string that is used to authenticate the Edit action for non authorised users. This key is returned when adding a host for the first time (IsEdit=false). It should be stored and sent with subsequent edit requests.",
+            "nullable": true
+          },
+          "monitorIP": {
+            "$ref": "#/components/schemas/MonitorIP"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The userId of this host edit action.",
+            "nullable": true
+          },
+          "isEdit": {
+            "type": "boolean",
+            "description": "IsEdit=false then attempt to add new host. IsEdit=true then attempt to update the host."
+          }
+        },
+        "additionalProperties": false
+      },
+      "MonitorIP": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Is monitoring for the host enabled."
+          },
+          "address": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "The host address and hostname of the host.",
+            "nullable": true
+          },
+          "endPointType": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "The end point type. Example : http is a website ping, httphtml is a website html load, icmp is a host ping, dns is a dns lookup, smtp is an email server helo message confirmation, quantum is a quantum safe encryption test.",
+            "nullable": true
+          },
+          "port": {
+            "type": "integer",
+            "description": "The port of the service being monitored. It will be zero if it is the standard port for the host end point type.",
+            "format": "int32"
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "The time to wait for a timeout in milliseconds. If a timeout occurs the host is considered to be down or the test has failed.",
+            "format": "int32"
+          },
+          "userID": {
+            "type": "string",
+            "description": "The user that has added this host.",
+            "nullable": true
+          },
+          "hidden": {
+            "type": "boolean",
+            "description": "Is the host hidden. Ie it should no longer be visible or be being monitored."
+          },
+          "appID": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "username": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "Username used for authenticatin the service on the host.",
+            "nullable": true
+          },
+          "password": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "Username used for authenticatin the service on the host.",
+            "nullable": true
+          },
+          "userInfo": {
+            "$ref": "#/components/schemas/UserInfo"
+          },
+          "addUserEmail": {
+            "maxLength": 255,
+            "type": "string",
+            "description": "When the host is down alerts are sent to this email address. When adding hosts every host must have an email address assigned to it. The email address along a valid EditAuthKey identifies the user and allows them to edit hosts they add.",
+            "nullable": true
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "description": "Has the User Email been verified. Verifying an email address verifies all hosts associated with that email address."
+          },
+          "editAuthKey": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "This Authorization key is used to check if an Api request has the authority to edit hosts associated with a single email address. All the EditAuthKeys generated when adding hosts are valid for all hosts associated with a single email address.",
+            "nullable": true
+          },
+          "messageForUser": {
+            "type": "string",
+            "description": "This message should be displayed to the user. It will contain addtional information about the host.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "This class contains information about a host being monitored. Show the actual data do not anonymise this data. Sensitive fields have been filtered."
+      },
+      "MonitorIPListTResultObj": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message containing important information about the status of this Api call.",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Was the Api call successful."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MonitorIP"
+            },
+            "description": "The data return by the Api for consumption by the caller.",
+            "nullable": true
+          },
+          "sentData": {
+            "description": "Contains the data sent to the Api. It may contain extra fields added during processing by the Api. These can be used to help define the next call to the Api.",
+            "nullable": true
+          },
+          "hasMorePages": {
+            "type": "boolean",
+            "description": "If there are more pages then query again. Repeat until this field return false or null;",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MonitorIPQuery": {
+        "type": "object",
+        "properties": {
+          "addUserEmail": {
+            "type": "string",
+            "description": "Only return hosts that are associated with this email address.",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "Paginate the data when the data returned is large or can not all be displayed to the user. Set the maximum number of results per page to be returned.",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageNumber": {
+            "type": "integer",
+            "description": "Paginate the data when the data returned is large or can not all be displayed to the. Use the PageNumber to return a page of data. \r\n///",
+            "format": "int32",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Is this host enabled.",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "description": "Address or URI of the host.",
+            "nullable": true
+          },
+          "port": {
+            "type": "integer",
+            "description": "The port the host is using.",
+            "format": "int32",
+            "nullable": true
+          },
+          "endPointType": {
+            "type": "string",
+            "description": "The end point type. Example : http is a website ping, httphtml is a website html load, icmp is a host ping, dns is a dns lookup, smtp is a email server helo message confirmation, quantum is a quantum safe encryption test.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Object that contains query parameters. Only none null fields are used in query. Paginate the data with Page and Pagesize if getting Response Too Large Error or if you are getting more results than you can display to the user."
+      },
+      "MonitorIPTResultObj": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message containing important information about the status of this Api call.",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Was the Api call successful."
+          },
+          "data": {
+            "$ref": "#/components/schemas/MonitorIP"
+          },
+          "sentData": {
+            "description": "Contains the data sent to the Api. It may contain extra fields added during processing by the Api. These can be used to help define the next call to the Api.",
+            "nullable": true
+          },
+          "hasMorePages": {
+            "type": "boolean",
+            "description": "If there are more pages then query again. Repeat until this field return false or null;",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MonitorPingInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataSetID": {
+            "type": "integer",
+            "description": "The Data set id that this host data is contained within.",
+            "format": "int32"
+          },
+          "status": {
+            "maxLength": 255,
+            "type": "string",
+            "description": "The current or last status of the host. Taken from monitorStatus.Message.",
+            "nullable": true
+          },
+          "monitorIPID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeout": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "host": {
+            "type": "string",
+            "description": "The host name. This is the same as the Address.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "address": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "host address.",
+            "nullable": true
+          },
+          "port": {
+            "type": "integer",
+            "description": "the port used if not the default for this type of end point and host.",
+            "format": "int32"
+          },
+          "userID": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "username": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "Username for host authentication.",
+            "nullable": true
+          },
+          "password": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "Password for host authentication.",
+            "nullable": true
+          },
+          "endPointType": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "The end point type for this host monitor data. Examples http (website ping), httphtml(website load page html), icmp (ping the host), smtp (check email server), dns (dns lookup) and quantum (check quantum readiness).",
+            "nullable": true
+          },
+          "packetsRecieved": {
+            "type": "integer",
+            "description": "The total number of host up or event success for this host in this data set.",
+            "format": "int32"
+          },
+          "packetsLost": {
+            "type": "integer",
+            "description": "The total number of host down or event failed for the host in this data set.",
+            "format": "int32"
+          },
+          "packetsLostPercentage": {
+            "type": "number",
+            "description": "The percentage of host down or event failed for the host in this data set.",
+            "format": "float"
+          },
+          "roundTripTimeMaximum": {
+            "type": "integer",
+            "description": "The maximum response time of the host in this data set.",
+            "format": "int32"
+          },
+          "roundTripTimeAverage": {
+            "type": "number",
+            "description": "Average response time for this host in this data set.",
+            "format": "float"
+          },
+          "roundTripTimeTotal": {
+            "type": "integer",
+            "description": "Total of all the response times for all packets sent to this host in this data set.",
+            "format": "int32"
+          },
+          "packetsSent": {
+            "type": "integer",
+            "description": "Total number of packets sent in this data set for the host.",
+            "format": "int32"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "appID": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "The Id of the monitor processor service running the monitoring for this host.",
+            "nullable": true
+          },
+          "dateStarted": {
+            "type": "string",
+            "description": "When was this set of Data for the host started.",
+            "format": "date-time"
+          },
+          "dateEnded": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "roundTripTimeMinimum": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "monitorStatus": {
+            "$ref": "#/components/schemas/StatusObj"
+          },
+          "pingInfos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PingInfo"
+            },
+            "description": "A list of PingInfo data for this host. Contains response times and IsUp for each monitor event.",
+            "nullable": true
+          },
+          "isDirtyDownCount": {
+            "type": "boolean"
+          },
+          "addUserEmail": {
+            "maxLength": 255,
+            "type": "string",
+            "description": "The email address to which to send alerts for this host.",
+            "nullable": true
+          },
+          "messageForUser": {
+            "type": "string",
+            "description": "This message should be displayed to the user. It will contain addtional information about the host.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "This is a class that respresents the data for a host. In order for the data to be userful to a user Do not! anonymise any of the fields in the class."
+      },
+      "MonitorPingInfoListTResultObj": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message containing important information about the status of this Api call.",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Was the Api call successful."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MonitorPingInfo"
+            },
+            "description": "The data return by the Api for consumption by the caller.",
+            "nullable": true
+          },
+          "sentData": {
+            "description": "Contains the data sent to the Api. It may contain extra fields added during processing by the Api. These can be used to help define the next call to the Api.",
+            "nullable": true
+          },
+          "hasMorePages": {
+            "type": "boolean",
+            "description": "If there are more pages then query again. Repeat until this field return false or null;",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MonitorPingInfoQuery": {
+        "type": "object",
+        "properties": {
+          "addUserEmail": {
+            "type": "string",
+            "description": "Only return hosts that are associated with this email address.",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "Paginate the data when the data returned is large or can not all be displayed to the user. Set the maximum number of results per page to be returned.",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageNumber": {
+            "type": "integer",
+            "description": "Paginate the data when the data returned is large or can not all be displayed to the. Use the PageNumber to return a page of data. \r\n///",
+            "format": "int32",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Is this host enabled.",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "description": "Address or URI of the host.",
+            "nullable": true
+          },
+          "port": {
+            "type": "integer",
+            "description": "The port the host is using.",
+            "format": "int32",
+            "nullable": true
+          },
+          "endPointType": {
+            "type": "string",
+            "description": "The end point type. Example : http is a website ping, httphtml is a website html load, icmp is a host ping, dns is a dns lookup, smtp is a email server helo message confirmation, quantum is a quantum safe encryption test.",
+            "nullable": true
+          },
+          "includeResponseTimes": {
+            "type": "boolean",
+            "description": "Set to true to Include Response times and status messages for all events.",
+            "nullable": true
+          },
+          "alertSent": {
+            "type": "boolean",
+            "description": "Has a host down alert been sent for this host since the last alert reset.",
+            "nullable": true
+          },
+          "alertFlag": {
+            "type": "boolean",
+            "description": "Has a host down Alert been flagged for this host since the last alert reset.",
+            "nullable": true
+          },
+          "dateStart": {
+            "type": "string",
+            "description": "The MonitorPingInfo DateStarted is after the DateStart. When used with DateEnd this gives a range of date times to filter on.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Object that contains query parameters. Only none null fields are used in query. Paginate the data with Page and Pagesize if getting Response Too Large Error or if you are getting more results than you can display to the user."
+      },
+      "PingInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateSent": {
+            "type": "string",
+            "description": "The datetime of the monitor event.",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of this event.",
+            "nullable": true
+          },
+          "statusID": {
+            "type": "integer",
+            "description": "Database field to store status in seperate lookup table to reduce storage.",
+            "format": "int32"
+          },
+          "roundTripTime": {
+            "type": "integer",
+            "description": "The response time of the event.",
+            "format": "int32",
+            "nullable": true
+          },
+          "roundTripTimeInt": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "monitorPingInfoID": {
+            "type": "integer",
+            "description": "Parent MonitorPingInfo object ID.",
+            "format": "int32"
+          },
+          "dateSentInt": {
+            "type": "integer",
+            "description": "Database field storing datesent in compressed format.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PingInfoListTResultObj": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message containing important information about the status of this Api call.",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Was the Api call successful."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PingInfo"
+            },
+            "description": "The data return by the Api for consumption by the caller.",
+            "nullable": true
+          },
+          "sentData": {
+            "description": "Contains the data sent to the Api. It may contain extra fields added during processing by the Api. These can be used to help define the next call to the Api.",
+            "nullable": true
+          },
+          "hasMorePages": {
+            "type": "boolean",
+            "description": "If there are more pages then query again. Repeat until this field return false or null;",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": {}
+      },
+      "ResultObj": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "A string contains a message from the result of the operation.",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "A boolean that indicates if the operation was successful."
+          },
+          "data": {
+            "description": "An object that contains data from the result of the operation.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SentDateData": {
+        "type": "object",
+        "properties": {
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SentUserData": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserInfo"
+          },
+          "dataSetId": {
+            "type": "integer",
+            "description": "DataSetIs for selecting MonitorPingInfos. Dont set this if I date range is set. DataSetID=0 is the current running monitor data set.",
+            "format": "int32",
+            "nullable": true
+          },
+          "monitorPingInfoId": {
+            "type": "integer",
+            "description": "MonitorPingInfo.ID",
+            "format": "int32",
+            "nullable": true
+          },
+          "monitorIPID": {
+            "type": "integer",
+            "description": "Host config data is contained in MonitorIP. This is the ID field for a MonitorIP.",
+            "format": "int32",
+            "nullable": true
+          },
+          "monitorPingInfoQuery": {
+            "$ref": "#/components/schemas/MonitorPingInfoQuery"
+          },
+          "hostAddress": {
+            "type": "string",
+            "description": "The address of the host",
+            "nullable": true
+          },
+          "emailAddress": {
+            "type": "string",
+            "description": "A user is identified with there email address. This can be blank for querying all hosts not associated with the users email.",
+            "nullable": true
+          },
+          "apiKey": {
+            "type": "string",
+            "description": "The Api Key of the user. This can be used to save and edit host data.",
+            "nullable": true
+          },
+          "monitorIPQuery": {
+            "$ref": "#/components/schemas/MonitorIPQuery"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatusObj": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "downCount": {
+            "type": "integer",
+            "description": "How many events in a row has the host been down.",
+            "format": "int32"
+          },
+          "isUp": {
+            "type": "boolean",
+            "description": "Was the host responding at last data set event.",
+            "nullable": true
+          },
+          "alertFlag": {
+            "type": "boolean",
+            "description": "Has an alert been raised for this host since the last alert reset."
+          },
+          "alertSent": {
+            "type": "boolean",
+            "description": "Has an alert message been sent to user for this host since the last alert reset."
+          },
+          "eventTime": {
+            "type": "string",
+            "description": "Time of the last data set event.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "monitorPingInfoID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "maxLength": 255,
+            "type": "string",
+            "description": "The last status message of this data set.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserInfo": {
+        "type": "object",
+        "properties": {
+          "userID": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "hostLimit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "disableEmail": {
+            "type": "boolean"
+          },
+          "status": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "given_name": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "family_name": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "nickname": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "sub": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "accountType": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "email_verified": {
+            "type": "boolean"
+          },
+          "picture": {
+            "maxLength": 512,
+            "type": "string",
+            "nullable": true
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastLoginDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "customerId": {
+            "maxLength": 100,
+            "type": "string",
+            "nullable": true
+          },
+          "cancelAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

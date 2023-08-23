@@ -1,0 +1,339 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Chat with calendars",
+    "description": "Use the chat_with_calendars plugin to create or query events in the user's Google Calendar. There are two types of events, datetime events, which have a start and end time within the same day, and date events, which occur over one or more full days without specific time constraints. Use the ISO 8601 date and time format, for example 1995-12-17T03:24:00 for datetime events and the ISO 8601 date format for the date events (YYYY-MM-DD)",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/createTimeEvent": {
+      "post": {
+        "operationId": "createTimeEvent",
+        "summary": "Create an event with start and end times.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "summary",
+                  "start_date",
+                  "end_date"
+                ],
+                "properties": {
+                  "summary": {
+                    "type": "string",
+                    "description": "the title of the event"
+                  },
+                  "event_description": {
+                    "type": "string",
+                    "description": "can be empty. The event desription."
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "description": "the start of the event in ISO 8601 date and time format. For example 1995-12-17T03:24:00 represents the date December 17, 1995, at 3:24:00 AM."
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "description": "the end of the event in ISO 8601 date and time format."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created the event.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "event_data": {
+                      "type": "object",
+                      "description": "The newly created event data"
+                    },
+                    "context": {
+                      "type": "string",
+                      "description": "additional information"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/createDateEvent": {
+      "post": {
+        "operationId": "createDateEvent",
+        "summary": "Create an event with start and end dates. No specific time constraints, can happen over several days.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "summary",
+                  "start_date",
+                  "end_date"
+                ],
+                "properties": {
+                  "summary": {
+                    "type": "string",
+                    "description": "the title of the event"
+                  },
+                  "event_description": {
+                    "type": "string",
+                    "description": "can be empty. The event desription."
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "description": "the start of the event in ISO 8601 date format, the \"YYYY-MM-DD\" format, where YYYY is the year, MM the month, and DD the day."
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "description": "the end of the event in ISO 8601 date format, the \"YYYY-MM-DD\" format, where YYYY is the year, MM the month, and DD the day."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created the event.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "event_data": {
+                      "type": "object",
+                      "description": "The newly created event data"
+                    },
+                    "context": {
+                      "type": "string",
+                      "description": "additional information"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/getEvents": {
+      "post": {
+        "operationId": "getEvents",
+        "summary": "retrieve events between 2 dates. Use the ISO 8601 date and time format, for example 1995-12-17T03:24:00 for the start and end dates",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "summary",
+                  "start_date",
+                  "end_date"
+                ],
+                "properties": {
+                  "start_date": {
+                    "type": "string",
+                    "description": "the start of the period in ISO 8601 date and time format. For example 1995-12-17T03:24:00 represents the date December 17, 1995, at 3:24:00 AM."
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "description": "the end of the period in ISO 8601 date and time format. For example 1995-12-17T03:24:00 represents the date December 17, 1995, at 3:24:00 AM."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully fetched the events on the period.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "events": {
+                      "type": "object",
+                      "description": "The events found",
+                      "properties": {
+                        "start": {
+                          "type": "string",
+                          "description": "the start of the event"
+                        },
+                        "end": {
+                          "type": "string",
+                          "description": "the end of the event"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "the title of the event"
+                        }
+                      }
+                    },
+                    "context": {
+                      "type": "string",
+                      "description": "additional information"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The request or data sent is not conform.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://plugin.chatwithcalendars.com"
+    }
+  ]
+}

@@ -383,7 +383,7 @@ paths:
               $ref: "#/components/schemas/xpathIDRequest"
       responses:
         "200":
-          description: Json of potential IDs for searching an XPath by ID. You can then attempt to search for an XPath using the provided ID.
+          description: Json of potential IDs for searching an XPath by ID. You can then attempt to search for an XPath using the provided ID or NAME.
           content:
             application/json:
               schema:
@@ -415,6 +415,7 @@ components:
 
     string_object:
       type: string
+      description: Json response example:{name:value,id_url:value,type:value,context:value} or {id:value,id_url:value,type:value,Javascript:value,context:value}. The field NAME is for search is by NAME. The field ID is for search is by ID. The field TYPE describes if it is a button, input, etc. The field Javascript if has the value Execute Javascript use document.getElementById(ID).value for input. The field CONTEXT is the context of the element. The field ID_URL describe if use iframe or not.
 
     DeployResponse:
       type: object

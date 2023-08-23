@@ -1,0 +1,39 @@
+{
+  "id": "plugin-2d036632-4b6b-4ad4-8568-fd8c6332866d",
+  "domain": "monitoroauth.freenetworkmonitor.click",
+  "namespace": "authNetworkMonitor",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "authNetworkMonitor",
+    "name_for_human": "Auth Network Monitor",
+    "description_for_model": "An authenticated user can Monitor websites, email servers, check dns resolution, ping services and check for quantum safe encryption. The user can add hosts to monitor. View and query host monitoring data. They will receive alerts when the host they add is down. They can edit the host monitoring configuration; the host address , what end point type or service the host is using , if the host is hidden and if monitoring is enabled. The user can reset alerts after receiving an email to receive further host down events. ",
+    "description_for_human": "Elevate network monitoring with real-time, quantum-ready, HTTP, ICMP, DNS, SMTP checks, this tool alerts you 24/7.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://auth.freenetworkmonitor.click:8080/oauth2/authorize",
+      "scope": "openid offline_access",
+      "authorization_url": "https://monitoroauth.freenetworkmonitor.click/auth/callback",
+      "authorization_content_type": "application/x-www-form-urlencoded",
+      "verification_tokens": {
+        "openai": "b1e4024c9b7d4474b3b19f755e1e24eb"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://monitoroauth.freenetworkmonitor.click/swagger/auth/swagger.json"
+    },
+    "logo_url": "https://monitoroauth.freenetworkmonitor.click/logo-square.png",
+    "contact_email": "support@mahadeva.co.uk",
+    "legal_info_url": "https://monitoroauth.freenetworkmonitor.click/privacypolicy.html"
+  },
+  "oauth_client_id": "133e82f5-8325-40e2-be25-7e95a28b596e",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-23T13:37:57.954Z"
+}

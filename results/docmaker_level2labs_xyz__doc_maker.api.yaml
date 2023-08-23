@@ -102,6 +102,23 @@ components:
           type: string
       title: Markdown2ResumeRequest
       type: object
+    PptxRequest:
+      properties:
+        camelcase_filename:
+          default: Untitled
+          description: 'Mandatory: suggested CamelCase filename. Do NOT include file
+            extension.'
+          title: Camelcase Filename
+          type: string
+        slides:
+          items:
+            $ref: '#/components/schemas/SimpleSlideContent'
+          title: Slides
+          type: array
+      required:
+      - slides
+      title: PptxRequest
+      type: object
     SimpleSlideContent:
       properties:
         content:
@@ -117,17 +134,6 @@ components:
       - title
       - content
       title: SimpleSlideContent
-      type: object
-    SimpleSlidesRequest:
-      properties:
-        slides:
-          items:
-            $ref: '#/components/schemas/SimpleSlideContent'
-          title: Slides
-          type: array
-      required:
-      - slides
-      title: SimpleSlidesRequest
       type: object
     ValidationError:
       properties:
@@ -276,7 +282,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SimpleSlidesRequest'
+              $ref: '#/components/schemas/PptxRequest'
         required: true
       responses:
         '200':

@@ -394,6 +394,40 @@
         }
       }
     },
+    "/browse": {
+      "get": {
+        "operationId": "browse",
+        "summary": "Browse any website given its URL.",
+        "description": "Browse any website given its URL. This operation returns a lot more data than the search one, making it suitable for deeper analysis of a search result.",
+        "parameters": [
+          {
+            "name": "url",
+            "required": true,
+            "in": "query",
+            "description": "The URL to browse.",
+            "example": "https://www.vim.org",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResultDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The requested URL is not valid or the website is not responding."
+          }
+        }
+      }
+    },
     "/engines": {
       "get": {
         "operationId": "list_engines",
@@ -456,11 +490,17 @@
             "type": "string",
             "description": "The curated search result content as plain text.",
             "example": "Vim is a highly configurable text editor built to enable efficient text editing. It is an improved version of the vi editor distributed with most UNIX systems. Vim is distributed free as charityware."
+          },
+          "isTextContentTruncated": {
+            "type": "boolean",
+            "description": "Whether the text content is truncated or not. If true the user can use the browse function to get a longer version of this same search result.",
+            "example": false
           }
         },
         "required": [
           "title",
-          "link"
+          "link",
+          "isTextContentTruncated"
         ]
       },
       "SearchResponseDto": {
