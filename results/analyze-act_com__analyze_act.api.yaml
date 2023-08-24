@@ -1,0 +1,271 @@
+openapi: 3.0.1
+info:
+  title: Analyze Act API
+  description: An API that provides access to Google Analytics data.
+  version: 'v1'
+servers:
+  - url: https://analyze-act.com
+paths:
+  /api/v1/analytics-data:
+    get:
+      operationId: getAnalyticsData
+      summary: Get Google Analytics data. Use only the predefined enum values for specific parameters.If you don't know the website key, "/api/v1/user-websites" visit this endpoint to verify the exact key.
+      parameters:
+      - in: query
+        name: month
+        schema:
+          type: string
+          pattern: '^\d{4}-\d{2}$'
+        required: true
+        description: The target month. Use 'yyyy-mm' format. For the current month, data up to the previous day is available.
+      - in: query
+        name: dimension
+        schema:
+          type: string
+          default: "month"
+          enum:
+            - "month"
+            - "sessionDefaultChannelGroup"
+            - "sessionMedium"
+            - "sessionSource"
+            - "sessionSourceMedium"
+            - "pageTitle"
+            - "pagePath"
+            - "landingPage"
+            - "deviceCategory"
+            - "userAgeBracket"
+            - "userGender"
+            - "country"
+            - "city"
+            - "newVsReturning"
+            - "eventName"
+        required: true
+        description: The report dimension. Use only the predefined enum values for specific parameters. If unspecified, "month" is used. Only one dimension can be specified per request.
+      - in: query
+        name: metrics
+        schema:
+          type: string
+          enum:
+            - "sessions"
+            - "totalUsers"
+            - "newUsers"
+            - "screenPageViewsPerSession"
+            - "conversions"
+            - "sessionConversionRate"
+            - "screenPageViews"
+            - "engagementRate"
+            - "bounceRate"
+            - "averageSessionDuration"
+            - "eventCount"
+            - "eventValue"
+        required: true
+        description: "This parameter is used to specify report metrics, allowing up to 12. Metrics to be included in the report. Separate multiple metrics by comma. For example, 'metrics=sessions,conversions'."
+      - in: query
+        name: website_key
+        schema:
+          type: string
+        required: true
+        description: >-
+          The website_key managed in Analyze Act. Retrieve the valid website_key from /api/v1/user-websites before use. Invalid keys cause errors.
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+        required: true
+        description: >-
+          The page number for pagination. The default value is 1. If the next page may exist, notify the user of the possibility.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAnalyticsDataResponse'
+  /api/v1/user-websites:
+    get:
+      operationId: getUserWebsites
+      summary: Get user's websites and landing pages
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getUserWebsitesResponse'
+  /api/v1/goals-data:
+    get:
+      operationId: getGoalsData
+      summary: Get goals data
+      description: "Retrieves goals data. Each goal is a specific target to be achieved, associated with a metric and optionally a specific dimension and dimension value. Use this endpoint to track these goals."
+      parameters:
+      - in: query
+        name: website_key
+        schema:
+          type: string
+        required: true
+        description: The website_key managed in the Analyze Act system. This key corresponds to a website or landing page that the user has access to and has set goals for.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoalsDataResponse'
+    post:
+      operationId: setGoalsData
+      summary: Set goals data
+      description: "Sets a target or KPI for the website, symbolizing a quantifiable result or step in line with main goals. Targets include specific numbers, like 'Raise organic search sessions to 3200', based on existing metrics and user needs. **Note: Always confirm with the user before setting a goal.**"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                website_key:
+                  type: string
+                  description: The website_key managed in the Analyze Act system. This key corresponds to a website or landing page that the user has access to and has set goals for.
+                  required: true
+                goal_id:
+                  type: string
+                  description: The unique identifier for the goal to be updated. This field is required when updating a goal.
+                target:
+                  type: string
+                  description: "Specifies the target or KPI to be achieved or monitored for the website. It represents a measurable outcome or milestone that aligns with the overall objectives."
+                status:
+                  type: string
+                  enum:
+                    - achieved
+                    - not achieved
+                    - in progress
+                    - not started
+                  description: The status of the goal. For example, "achieved", "not achieved", "in progress".
+                action:
+                  type: string
+                  description: The action to be performed on the goal. For example, "add", "update".
+                  required: true
+                  enum:
+                    - "add"
+                    - "update"
+                time_frame:
+                  description: "Defines the target time frame for achieving the goal, using the 'YYYY-MM' format."
+                  type: string
+                  pattern: '^\d{4}-\d{2}$'
+                user_confirmation:
+                  type: boolean
+                  description: Always obtain user consent before sending the request to set a goal. This parameter does not need to be included in the actual API request.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setGoalsDataResponse'
+    delete:
+      operationId: deleteGoalsData
+      summary: Delete goals data
+      description: "Deletes goals data. Each goal is a specific target to be achieved, associated with a metric and optionally a specific dimension and dimension value. Use this endpoint to delete these goals. **Note: Always confirm with the user before deleting a goal.**"
+      parameters:
+      - in: query
+        name: website_key
+        schema:
+          type: string
+        required: true
+        description: The website_key managed in the Analyze Act system. This key corresponds to a website or landing page that the user has access to and has set goals for.
+      - in: query
+        name: goal_id
+        schema:
+          type: string
+        required: true
+        description: The unique identifier(s) for the goal(s) to be deleted. If multiple, separate by commas.
+      - in: query
+        name: user_confirmation
+        schema:
+          type: boolean
+        description: Always obtain user consent before sending the request to delete a goal. This parameter does not need to be included in the actual API request.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteGoalsDataResponse'
+
+components:
+  schemas:
+    getAnalyticsDataResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              dimension:
+                type: string
+                description: The dimension of the returned data.
+              metrics:
+                type: string
+                description: The metrics of the returned data.
+              value:
+                type: string
+                description: The value of the returned data.
+    getUserWebsitesResponse:
+      type: object
+      properties:
+        entities:
+          type: array
+          items:
+            type: object
+            properties:
+              website_key:
+                type: string
+                description: The key of the user-managed entity (either a website or a landing page).
+              website_name:
+                type: string
+                description: The name of the user-managed entity.
+              website_type:
+                type: string
+                description: The entity type ("website" or "landing_page").
+    getGoalsDataResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              action:
+                type: string
+                description: The action performed on the goal, e.g., "update".
+              status:
+                type: string
+                description: The status of the goal, e.g., "in progress".
+              target:
+                type: string
+                description: The target or KPI to be achieved or monitored.
+              goal_id:
+                type: number
+                description: The unique identifier for the goal.
+              time_frame:
+                type: string
+                description: The target time frame for achieving the goal, using the 'YYYY-MM' format.
+              website_key:
+                type: string
+                description: The website_key managed in the Analyze Act system.
+              user_confirmation:
+                type: boolean
+                description: User confirmation status.
+    setGoalsDataResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message indicating the result of the operation.
+    deleteGoalsDataResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message indicating the result of the operation.

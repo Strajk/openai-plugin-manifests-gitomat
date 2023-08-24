@@ -15,14 +15,12 @@ paths:
       parameters:
         - in: query
           name: query
-          required: true
           schema:
             type: string
           description: The search query. Provide keywords to search for news. The query should be translated to the German language. The search engine searches German data, and results will be in the German language. Translate the German result to the user according to the language.
           example: Schweizer Wirtschaft
         - in: query
           name: language
-          required: true
           schema:
             type: string
           description: Two letters iso code of the user input language (ISO 639-1). The language that the user is using to ask the question. Translate the German result to the user according to the language.

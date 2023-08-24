@@ -1,0 +1,1152 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Currency Converter",
+    "version": "0.1.0",
+    "description": "The Currency Converter API allows users to calculate currency values based on current or historical exchange rates. It provides a list of exchange rate sources and supported currencies, giving users the flexibility to choose their preferred data source. They can further tailor their experience by using the optional parameters available, such as the precision of calculated values (i.e., decimal places in results) and more. It's a simple, convenient, and customizable solution for currency value calculations from one currency to another.",
+    "contact": {
+      "email": "apiteam@lagogal.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.lagogal.com/v1/currency_converter",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/sources": {
+      "get": {
+        "tags": [
+          "Data Availability",
+          "Sources"
+        ],
+        "summary": "Get List of Available Sources",
+        "description": "This method returns a list of available *sources* (currency exchange rate data providers) for exchange rate data. The response is an array of objects, with each object representing a source.",
+        "operationId": "get_sources_all",
+        "parameters": [
+          {
+            "name": "language",
+            "in": "query",
+            "description": "The language in which to return the source names.",
+            "required": false,
+            "schema": {
+              "title": "Language",
+              "type": "string",
+              "default": "en_US"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Sources",
+                  "type": "array",
+                  "items": {
+                    "title": "SourceInfo",
+                    "allOf": [
+                      {
+                        "title": "Source",
+                        "required": [
+                          "source_id",
+                          "source_name",
+                          "base_currency"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "source_id": {
+                            "title": "Source Identifier",
+                            "type": "string"
+                          },
+                          "source_name": {
+                            "title": "Source Name",
+                            "type": "string"
+                          },
+                          "base_currency": {
+                            "title": "Source Base Currency Code",
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "required": [
+                          "description",
+                          "currencies"
+                        ],
+                        "properties": {
+                          "description": {
+                            "title": "Source Description",
+                            "type": "string"
+                          },
+                          "currencies": {
+                            "title": "Supported Currencies",
+                            "type": "array",
+                            "items": {
+                              "title": "CurrencyDateRange",
+                              "allOf": [
+                                {
+                                  "title": "Currency",
+                                  "required": [
+                                    "code"
+                                  ],
+                                  "type": "object",
+                                  "properties": {
+                                    "code": {
+                                      "title": "Currency Code",
+                                      "type": "string"
+                                    },
+                                    "currency_name": {
+                                      "title": "Currency Name",
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                {
+                                  "title": "DataAvailabilityDateRange",
+                                  "required": [
+                                    "since",
+                                    "until"
+                                  ],
+                                  "type": "object",
+                                  "properties": {
+                                    "since": {
+                                      "title": "Data Available Since Date",
+                                      "type": "string"
+                                    },
+                                    "until": {
+                                      "title": "Data Available Until Date",
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "currency_name"
+                                  ],
+                                  "properties": {
+                                    "currency_name": {
+                                      "title": "Currency Name",
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "HTTPValidationError",
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "title": "Detail",
+                      "type": "array",
+                      "items": {
+                        "title": "ValidationError",
+                        "required": [
+                          "loc",
+                          "msg",
+                          "type"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "loc": {
+                            "title": "Location",
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer"
+                                }
+                              ]
+                            }
+                          },
+                          "msg": {
+                            "title": "Message",
+                            "type": "string"
+                          },
+                          "type": {
+                            "title": "Error Type",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currencies": {
+      "get": {
+        "tags": [
+          "Data Availability",
+          "Currencies"
+        ],
+        "summary": "Get List of All Available Currencies",
+        "description": "Returns a list of all available currencies across all available sources (exchange rate data providers). The response is an array of objects, with each object representing a currency. Each currency object includes an additional information about which sources are supporting the particular currency.",
+        "operationId": "get_currencies_all",
+        "parameters": [
+          {
+            "name": "language",
+            "in": "query",
+            "description": "The language in which to return the currency names.",
+            "required": false,
+            "schema": {
+              "title": "Language",
+              "type": "string",
+              "default": "en_US"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Currencies of Source",
+                  "type": "array",
+                  "items": {
+                    "title": "CurrencyInfo",
+                    "allOf": [
+                      {
+                        "title": "Currency",
+                        "required": [
+                          "code"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "title": "Currency Code",
+                            "type": "string"
+                          },
+                          "currency_name": {
+                            "title": "Currency Name",
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "required": [
+                          "sources"
+                        ],
+                        "properties": {
+                          "sources": {
+                            "title": "Sources",
+                            "type": "array",
+                            "items": {
+                              "title": "SourceDateRange",
+                              "allOf": [
+                                {
+                                  "title": "Source",
+                                  "required": [
+                                    "source_id",
+                                    "source_name",
+                                    "base_currency"
+                                  ],
+                                  "type": "object",
+                                  "properties": {
+                                    "source_id": {
+                                      "title": "Source Identifier",
+                                      "type": "string"
+                                    },
+                                    "source_name": {
+                                      "title": "Source Name",
+                                      "type": "string"
+                                    },
+                                    "base_currency": {
+                                      "title": "Source Base Currency Code",
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                {
+                                  "title": "DataAvailabilityDateRange",
+                                  "required": [
+                                    "since",
+                                    "until"
+                                  ],
+                                  "type": "object",
+                                  "properties": {
+                                    "since": {
+                                      "title": "Data Available Since Date",
+                                      "type": "string"
+                                    },
+                                    "until": {
+                                      "title": "Data Available Until Date",
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "HTTPValidationError",
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "title": "Detail",
+                      "type": "array",
+                      "items": {
+                        "title": "ValidationError",
+                        "required": [
+                          "loc",
+                          "msg",
+                          "type"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "loc": {
+                            "title": "Location",
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer"
+                                }
+                              ]
+                            }
+                          },
+                          "msg": {
+                            "title": "Message",
+                            "type": "string"
+                          },
+                          "type": {
+                            "title": "Error Type",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currencies/source/{source}": {
+      "get": {
+        "tags": [
+          "Data Availability",
+          "Currencies"
+        ],
+        "summary": "Get List of Available Currencies by Sources",
+        "description": "This method returns a list of currencies available for the specified exchange rate provider (`source`). The response is an array of objects, with each object representing a currency.",
+        "operationId": "get_currencies_by_source",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "path",
+            "description": "The source of the exchange rate data. The source is indicated by a shortened name (`source_id`), for example, `\"ecb\"` for the **European Central Bank**, `\"frb\"` for the **Federal Reserve Bank of USA**, and so on.",
+            "required": true,
+            "schema": {
+              "title": "Source",
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "The language in which to return the currency names.",
+            "required": false,
+            "schema": {
+              "title": "Language",
+              "type": "string",
+              "default": "en_US"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Currencies of Source",
+                  "type": "array",
+                  "items": {
+                    "title": "CurrencyDateRange",
+                    "allOf": [
+                      {
+                        "title": "Currency",
+                        "required": [
+                          "code"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "title": "Currency Code",
+                            "type": "string"
+                          },
+                          "currency_name": {
+                            "title": "Currency Name",
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "title": "DataAvailabilityDateRange",
+                        "required": [
+                          "since",
+                          "until"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "since": {
+                            "title": "Data Available Since Date",
+                            "type": "string"
+                          },
+                          "until": {
+                            "title": "Data Available Until Date",
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "required": [
+                          "currency_name"
+                        ],
+                        "properties": {
+                          "currency_name": {
+                            "title": "Currency Name",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "HTTPValidationError",
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "title": "Detail",
+                      "type": "array",
+                      "items": {
+                        "title": "ValidationError",
+                        "required": [
+                          "loc",
+                          "msg",
+                          "type"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "loc": {
+                            "title": "Location",
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer"
+                                }
+                              ]
+                            }
+                          },
+                          "msg": {
+                            "title": "Message",
+                            "type": "string"
+                          },
+                          "type": {
+                            "title": "Error Type",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/convert/from/{from_currency}/to/{to_currency}/source/{source}": {
+      "get": {
+        "tags": [
+          "Calculations",
+          "Conversion"
+        ],
+        "summary": "Convert Currency",
+        "description": "This endpoint converts one currency to another, using exchange rate data from the specified source (`source`).",
+        "operationId": "convert_from_currency_to_currency_by_source",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "path",
+            "description": "The source of the exchange rate data. The source is indicated by a shortened name (`source_id`), for example, `\"ecb\"` for the **European Central Bank**, `\"nbg\"` for the **National Bank of Georgia**, and so on.",
+            "required": true,
+            "schema": {
+              "title": "Source",
+              "type": "string"
+            }
+          },
+          {
+            "name": "from_currency",
+            "in": "path",
+            "description": "The currency to convert from.",
+            "required": true,
+            "schema": {
+              "title": "From Currency",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to_currency",
+            "in": "path",
+            "description": "The currency to convert to.",
+            "required": true,
+            "schema": {
+              "title": "To Currency",
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "description": "The amount of the `from_currency` to convert.",
+            "required": false,
+            "schema": {
+              "title": "Amount",
+              "type": "number",
+              "default": 1
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "The date to use for the conversion rate. This is optional and defaults to the current date.",
+            "required": false,
+            "schema": {
+              "title": "Date",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "decimal_places",
+            "in": "query",
+            "description": "The number of decimal places to use in the converted amount (result).",
+            "required": false,
+            "schema": {
+              "title": "Decimal Places",
+              "type": "integer",
+              "default": 2
+            }
+          },
+          {
+            "name": "max_days_old",
+            "in": "query",
+            "description": "This parameter allows flexibility with exchange rates when some exchange rate sources do not publish rates daily (due to holidays, weekends, or other reasons), and the last published exchange rates for the applicable period remain valid until the source publishes the newer rates. The `max_days_old` setting determines how old an exchange rate used can be relative to the `date` parameter. The most recent exchange rate is selected for the range between the chosen `date` and up to `max_days_old` days before the date. If `max_days_old` is not specified, the default is 14 days -  which accommodates reasonably extended periods without worrying about holidays and weekends.",
+            "required": false,
+            "schema": {
+              "title": "Maximum Age of Exchange Rate",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 31,
+              "default": 14
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ConversionResult",
+                  "required": [
+                    "from_currency",
+                    "from_amount",
+                    "to_currency",
+                    "to_amount",
+                    "rate_source",
+                    "rate_date",
+                    "conversion_timestamp"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "from_currency": {
+                      "type": "string"
+                    },
+                    "from_amount": {
+                      "type": "number"
+                    },
+                    "to_currency": {
+                      "type": "string"
+                    },
+                    "to_amount": {
+                      "type": "number"
+                    },
+                    "rate_source": {
+                      "type": "string"
+                    },
+                    "rate_date": {
+                      "type": "string"
+                    },
+                    "conversion_timestamp": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "HTTPValidationError",
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "title": "Detail",
+                      "type": "array",
+                      "items": {
+                        "title": "ValidationError",
+                        "required": [
+                          "loc",
+                          "msg",
+                          "type"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "loc": {
+                            "title": "Location",
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer"
+                                }
+                              ]
+                            }
+                          },
+                          "msg": {
+                            "title": "Message",
+                            "type": "string"
+                          },
+                          "type": {
+                            "title": "Error Type",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ConversionResult": {
+        "title": "ConversionResult",
+        "required": [
+          "from_currency",
+          "from_amount",
+          "to_currency",
+          "to_amount",
+          "rate_source",
+          "rate_date",
+          "conversion_timestamp"
+        ],
+        "type": "object",
+        "properties": {
+          "from_currency": {
+            "type": "string"
+          },
+          "from_amount": {
+            "type": "number"
+          },
+          "to_currency": {
+            "type": "string"
+          },
+          "to_amount": {
+            "type": "number"
+          },
+          "rate_source": {
+            "type": "string"
+          },
+          "rate_date": {
+            "type": "string"
+          },
+          "conversion_timestamp": {
+            "type": "string"
+          }
+        }
+      },
+      "DataAvailabilityDateRange": {
+        "title": "DataAvailabilityDateRange",
+        "required": [
+          "since",
+          "until"
+        ],
+        "type": "object",
+        "properties": {
+          "since": {
+            "title": "Data Available Since Date",
+            "type": "string"
+          },
+          "until": {
+            "title": "Data Available Until Date",
+            "type": "string"
+          }
+        }
+      },
+      "Currency": {
+        "title": "Currency",
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Currency Code",
+            "type": "string"
+          },
+          "currency_name": {
+            "title": "Currency Name",
+            "type": "string"
+          }
+        }
+      },
+      "CurrencyInfo": {
+        "title": "CurrencyInfo",
+        "allOf": [
+          {
+            "title": "Currency",
+            "required": [
+              "code"
+            ],
+            "type": "object",
+            "properties": {
+              "code": {
+                "title": "Currency Code",
+                "type": "string"
+              },
+              "currency_name": {
+                "title": "Currency Name",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "sources"
+            ],
+            "properties": {
+              "sources": {
+                "title": "Sources",
+                "type": "array",
+                "items": {
+                  "title": "SourceDateRange",
+                  "allOf": [
+                    {
+                      "title": "Source",
+                      "required": [
+                        "source_id",
+                        "source_name",
+                        "base_currency"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "source_id": {
+                          "title": "Source Identifier",
+                          "type": "string"
+                        },
+                        "source_name": {
+                          "title": "Source Name",
+                          "type": "string"
+                        },
+                        "base_currency": {
+                          "title": "Source Base Currency Code",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "title": "DataAvailabilityDateRange",
+                      "required": [
+                        "since",
+                        "until"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "since": {
+                          "title": "Data Available Since Date",
+                          "type": "string"
+                        },
+                        "until": {
+                          "title": "Data Available Until Date",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "CurrencyDateRange": {
+        "title": "CurrencyDateRange",
+        "allOf": [
+          {
+            "title": "Currency",
+            "required": [
+              "code"
+            ],
+            "type": "object",
+            "properties": {
+              "code": {
+                "title": "Currency Code",
+                "type": "string"
+              },
+              "currency_name": {
+                "title": "Currency Name",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "title": "DataAvailabilityDateRange",
+            "required": [
+              "since",
+              "until"
+            ],
+            "type": "object",
+            "properties": {
+              "since": {
+                "title": "Data Available Since Date",
+                "type": "string"
+              },
+              "until": {
+                "title": "Data Available Until Date",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "currency_name"
+            ],
+            "properties": {
+              "currency_name": {
+                "title": "Currency Name",
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "Source": {
+        "title": "Source",
+        "required": [
+          "source_id",
+          "source_name",
+          "base_currency"
+        ],
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "title": "Source Identifier",
+            "type": "string"
+          },
+          "source_name": {
+            "title": "Source Name",
+            "type": "string"
+          },
+          "base_currency": {
+            "title": "Source Base Currency Code",
+            "type": "string"
+          }
+        }
+      },
+      "SourceInfo": {
+        "title": "SourceInfo",
+        "allOf": [
+          {
+            "title": "Source",
+            "required": [
+              "source_id",
+              "source_name",
+              "base_currency"
+            ],
+            "type": "object",
+            "properties": {
+              "source_id": {
+                "title": "Source Identifier",
+                "type": "string"
+              },
+              "source_name": {
+                "title": "Source Name",
+                "type": "string"
+              },
+              "base_currency": {
+                "title": "Source Base Currency Code",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "description",
+              "currencies"
+            ],
+            "properties": {
+              "description": {
+                "title": "Source Description",
+                "type": "string"
+              },
+              "currencies": {
+                "title": "Supported Currencies",
+                "type": "array",
+                "items": {
+                  "title": "CurrencyDateRange",
+                  "allOf": [
+                    {
+                      "title": "Currency",
+                      "required": [
+                        "code"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "title": "Currency Code",
+                          "type": "string"
+                        },
+                        "currency_name": {
+                          "title": "Currency Name",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "title": "DataAvailabilityDateRange",
+                      "required": [
+                        "since",
+                        "until"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "since": {
+                          "title": "Data Available Since Date",
+                          "type": "string"
+                        },
+                        "until": {
+                          "title": "Data Available Until Date",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "currency_name"
+                      ],
+                      "properties": {
+                        "currency_name": {
+                          "title": "Currency Name",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "SourceDateRange": {
+        "title": "SourceDateRange",
+        "allOf": [
+          {
+            "title": "Source",
+            "required": [
+              "source_id",
+              "source_name",
+              "base_currency"
+            ],
+            "type": "object",
+            "properties": {
+              "source_id": {
+                "title": "Source Identifier",
+                "type": "string"
+              },
+              "source_name": {
+                "title": "Source Name",
+                "type": "string"
+              },
+              "base_currency": {
+                "title": "Source Base Currency Code",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "title": "DataAvailabilityDateRange",
+            "required": [
+              "since",
+              "until"
+            ],
+            "type": "object",
+            "properties": {
+              "since": {
+                "title": "Data Available Since Date",
+                "type": "string"
+              },
+              "until": {
+                "title": "Data Available Until Date",
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "title": "ValidationError",
+              "required": [
+                "loc",
+                "msg",
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "loc": {
+                  "title": "Location",
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ]
+                  }
+                },
+                "msg": {
+                  "title": "Message",
+                  "type": "string"
+                },
+                "type": {
+                  "title": "Error Type",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

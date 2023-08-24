@@ -1,0 +1,65 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "A A+ Outreach",
+    "version": "1.0.0",
+    "description": "API for crafting personalized sales email for a potential client you'd like to approach about your services. Based on the data retrieved, write a concise and professional cold outreach sales email."
+  },
+  "paths": {
+    "/company-desc": {
+      "get": {
+        "summary": "Provide sender and recipient company information given the sender company information and the recipient client email ID.",
+        "operationId": "SalesOutreach",
+        "description": "Provide sender and recipient company information given the sender company information and the recipient client email ID.",
+        "parameters": [
+          {
+            "name": "recipient_email",
+            "in": "query",
+            "description": "The recipient client email ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "sender_company_desc",
+            "in": "query",
+            "description": "The sender company description",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved recipient company information given the sender company information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recipient_company_desc": {
+                      "type": "string",
+                      "description": "Recipient company description"
+                    },
+                    "sender_company_desc": {
+                      "type": "uri",
+                      "description": "Sender company description"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://1378bc16e5b2deda21742618d30aef37.preview.pluginlab.ai"
+    }
+  ]
+}

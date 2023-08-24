@@ -1,15 +1,17 @@
 openapi: 3.0.1
 info:
   title: Tickets API Wrapper
-  description: A powerful tool that allows users to access events data from popular tickets websites using ChatGPT.
-  version: 'v1'
+  description: >-
+    A powerful tool that allows users to access events data from popular tickets
+    websites using ChatGPT.
+  version: v1
 servers:
-- url: https://www.smartticketsai.com
+  - url: https://www.smartticketsai.com
 tags:
-- name: events
-  description: Event search
-- name: venues
-  description: Venue searches
+  - name: events
+    description: Event search
+  - name: venues
+    description: Venue searches
 paths:
   /inventory-status/v1/availability:
     post:
@@ -21,7 +23,9 @@ paths:
           required: true
           schema:
             type: string
-          description: Comma separated list of universal event IDs. Maximum of 1000 universal event IDs.
+          description: >-
+            Comma separated list of universal event IDs. Maximum of 1000
+            universal event IDs.
         - in: query
           name: region
           required: false
@@ -44,10 +48,9 @@ paths:
                       type: string
                     resaleStatus:
                       type: string
-
   /inventory-status/v1/availability/legacy:
     post:
-      operationId: getLegacyEventAvailabilityStatus   
+      operationId: getLegacyEventAvailabilityStatus
       summary: Retrieve availability status for a list of legacy event IDs
       parameters:
         - in: query
@@ -55,7 +58,9 @@ paths:
           required: true
           schema:
             type: string
-          description: Comma separated list of legacy event IDs. Maximum of 1000 legacy event IDs.
+          description: >-
+            Comma separated list of legacy event IDs. Maximum of 1000 legacy
+            event IDs.
         - in: query
           name: region
           required: false
@@ -81,782 +86,662 @@ paths:
   /events/{id}:
     get:
       tags:
-      - events
+        - events
       summary: Get event details by ID
       operationId: event_details
       parameters:
-      - name: id
-        in: path
-        description: Event ID
-        required: true
-        schema:
-          type: string
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
+        - name: id
+          in: path
+          description: Event ID
+          required: true
+          schema:
+            type: string
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: includeLicensedContent
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
       responses:
-        200:
+        '200':
           description: Event details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Event'
-        400:
+        '400':
           description: Invalid ID supplied
           content: {}
-        404:
+        '404':
           description: Pet not found
           content: {}
-        405:
+        '405':
           description: Validation exception
           content: {}
   /events/{id}/images:
     get:
       tags:
-      - events
+        - events
       summary: Get event images
       operationId: event_images
       parameters:
-      - name: id
-        in: path
-        description: Event ID
-        required: true
-        schema:
-          type: string
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
+        - name: id
+          in: path
+          description: Event ID
+          required: true
+          schema:
+            type: string
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: includeLicensedContent
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
       responses:
-        200:
+        '200':
           description: Event details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventImages'
-        400:
+        '400':
           description: Invalid ID supplied
           content: {}
-        404:
+        '404':
           description: Pet not found
           content: {}
-        405:
+        '405':
           description: Validation exception
           content: {}
   /events:
     get:
       tags:
-      - events
+        - events
       summary: Event search
       description: Event search
       operationId: search_events
       parameters:
-      - name: id
-        in: query
-        description: Event ID
-        schema:
-          type: string
-      - name: keyword
-        in: query
-        description: Search by keyword
-        schema:
-          type: string
-      - name: attractionId
-        in: query
-        schema:
-          type: string
-      - name: venueId
-        in: query
-        schema:
-          type: string
-      - name: postalCode
-        in: query
-        schema:
-          type: string
-      - name: latlong
-        in: query
-        schema:
-          type: string
-      - name: radius
-        in: query
-        schema:
-          type: string
-      - name: unit
-        in: query
-        schema:
-          type: string
-          enum:
-          - miles
-          - km
-      - name: source
-        in: query
-        schema:
-          type: string
-          enum:
-          - ticketmaster
-          - universe
-          - frontgate
-          - tmr
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: marketId
-        in: query
-        schema:
-          type: string
-      - name: startDateTime
-        in: query
-        schema:
-          type: string
-      - name: endDateTime
-        in: query
-        schema:
-          type: string
-      - name: includeTBA
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
-          - only
-      - name: includeTBD
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
-          - only
-      - name: includeTest
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
-          - only
-      - name: size
-        in: query
-        schema:
-          type: string
-      - name: page
-        in: query
-        schema:
-          type: string
-      - name: sort
-        in: query
-        schema:
-          type: string
-          enum:
-          - name,asc
-          - name,desc
-          - date,asc
-          - date,desc
-          - relevance,asc
-          - relevance,desc
-          - distance,asc
-          - name,date,asc
-          - name,date,desc
-          - date,name,asc
-          - date,name,desc
-          - onsaleStartDate,asc
-      - name: onsaleStartDateTime
-        in: query
-        schema:
-          type: string
-      - name: onsaleEndDateTime
-        in: query
-        schema:
-          type: string
-      - name: city
-        in: query
-        schema:
-          type: string
-      - name: countryCode
-        in: query
-        schema:
-          type: string
-      - name: stateCode
-        in: query
-        schema:
-          type: string
-      - name: classificationName
-        in: query
-        schema:
-          type: string
-      - name: classificationId
-        in: query
-        schema:
-          type: string
-      - name: dmaId
-        in: query
-        schema:
-          type: string
-      - name: onsaleOnStartDate
-        in: query
-        schema:
-          type: string
-      - name: onsaleOnAfterStartDate
-        in: query
-        schema:
-          type: string
-      - name: segmentId
-        in: query
-        schema:
-          type: string
-      - name: segmentName
-        in: query
-        schema:
-          type: string
-      - name: promoterId
-        in: query
-        schema:
-          type: string
-      - name: clientVisibility
-        in: query
-        schema:
-          type: string
-      - name: nlp
-        in: query
-        schema:
-          type: string
-          enum:
-          - location
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
+        - name: id
+          in: query
+          description: Event ID
+          schema:
+            type: string
+        - name: keyword
+          in: query
+          description: Search by keyword
+          schema:
+            type: string
+        - name: attractionId
+          in: query
+          schema:
+            type: string
+        - name: venueId
+          in: query
+          schema:
+            type: string
+        - name: postalCode
+          in: query
+          schema:
+            type: string
+        - name: latlong
+          in: query
+          schema:
+            type: string
+        - name: radius
+          in: query
+          schema:
+            type: string
+        - name: unit
+          in: query
+          schema:
+            type: string
+            enum:
+              - miles
+              - km
+        - name: source
+          in: query
+          schema:
+            type: string
+            enum:
+              - ticketmaster
+              - universe
+              - frontgate
+              - tmr
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: marketId
+          in: query
+          schema:
+            type: string
+        - name: startDateTime
+          in: query
+          schema:
+            type: string
+        - name: endDateTime
+          in: query
+          schema:
+            type: string
+        - name: includeTBA
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
+              - only
+        - name: includeTBD
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
+              - only
+        - name: includeTest
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
+              - only
+        - name: size
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: string
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum:
+              - name,asc
+              - name,desc
+              - date,asc
+              - date,desc
+              - relevance,asc
+              - relevance,desc
+              - distance,asc
+              - name,date,asc
+              - name,date,desc
+              - date,name,asc
+              - date,name,desc
+              - onsaleStartDate,asc
+        - name: onsaleStartDateTime
+          in: query
+          schema:
+            type: string
+        - name: onsaleEndDateTime
+          in: query
+          schema:
+            type: string
+        - name: city
+          in: query
+          schema:
+            type: string
+        - name: countryCode
+          in: query
+          schema:
+            type: string
+        - name: stateCode
+          in: query
+          schema:
+            type: string
+        - name: classificationName
+          in: query
+          schema:
+            type: string
+        - name: classificationId
+          in: query
+          schema:
+            type: string
+        - name: dmaId
+          in: query
+          schema:
+            type: string
+        - name: onsaleOnStartDate
+          in: query
+          schema:
+            type: string
+        - name: onsaleOnAfterStartDate
+          in: query
+          schema:
+            type: string
+        - name: segmentId
+          in: query
+          schema:
+            type: string
+        - name: segmentName
+          in: query
+          schema:
+            type: string
+        - name: promoterId
+          in: query
+          schema:
+            type: string
+        - name: clientVisibility
+          in: query
+          schema:
+            type: string
+        - name: nlp
+          in: query
+          schema:
+            type: string
+            enum:
+              - location
+        - name: includeLicensedContent
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
       responses:
-        200:
+        '200':
           description: List of event results
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/container'
-        400:
+        '400':
           description: Invalid ID supplied
           content: {}
-        404:
+        '404':
           description: Pet not found
           content: {}
-        405:
+        '405':
           description: Validation exception
           content: {}
   /venues/{id}:
     get:
       tags:
-      - venues
+        - venues
       summary: Get venue details by ID
       operationId: venue_details
       parameters:
-      - name: id
-        in: path
-        description: Venue ID
-        required: true
-        schema:
-          type: string
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
+        - name: id
+          in: path
+          description: Venue ID
+          required: true
+          schema:
+            type: string
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: includeLicensedContent
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
       responses:
-        200:
+        '200':
           description: Venue details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Venue'
-        400:
+        '400':
           description: Invalid ID supplied
           content: {}
-        404:
+        '404':
           description: Pet not found
           content: {}
-        405:
+        '405':
           description: Validation exception
           content: {}
   /venues:
     get:
       tags:
-      - venues
+        - venues
       summary: Venue search
       description: Venue search
       operationId: search_venues
       parameters:
-      - name: id
-        in: query
-        description: Venue ID
-        schema:
-          type: string
-      - name: keyword
-        in: query
-        description: Search by keyword
-        schema:
-          type: string
-      - name: latlong
-        in: query
-        schema:
-          type: string
-      - name: radius
-        in: query
-        schema:
-          type: string
-      - name: unit
-        in: query
-        schema:
-          type: string
-          enum:
-          - miles
-          - km
-      - name: source
-        in: query
-        schema:
-          type: string
-          enum:
-          - ticketmaster
-          - universe
-          - frontgate
-          - tmr
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeTest
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
-          - only
-      - name: size
-        in: query
-        schema:
-          type: string
-      - name: page
-        in: query
-        schema:
-          type: string
-      - name: sort
-        in: query
-        schema:
-          type: string
-          enum:
-          - name,asc
-          - name,desc
-          - date,asc
-          - date,desc
-          - relevance,asc
-          - relevance,desc
-          - distance,asc
-          - name,date,asc
-          - name,date,desc
-          - date,name,asc
-          - date,name,desc
-          - onsaleStartDate,asc
-      - name: countryCode
-        in: query
-        schema:
-          type: string
-      - name: stateCode
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
+        - name: id
+          in: query
+          description: Venue ID
+          schema:
+            type: string
+        - name: keyword
+          in: query
+          description: Search by keyword
+          schema:
+            type: string
+        - name: latlong
+          in: query
+          schema:
+            type: string
+        - name: radius
+          in: query
+          schema:
+            type: string
+        - name: unit
+          in: query
+          schema:
+            type: string
+            enum:
+              - miles
+              - km
+        - name: source
+          in: query
+          schema:
+            type: string
+            enum:
+              - ticketmaster
+              - universe
+              - frontgate
+              - tmr
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: includeTest
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
+              - only
+        - name: size
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: string
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum:
+              - name,asc
+              - name,desc
+              - date,asc
+              - date,desc
+              - relevance,asc
+              - relevance,desc
+              - distance,asc
+              - name,date,asc
+              - name,date,desc
+              - date,name,asc
+              - date,name,desc
+              - onsaleStartDate,asc
+        - name: countryCode
+          in: query
+          schema:
+            type: string
+        - name: stateCode
+          in: query
+          schema:
+            type: string
+        - name: includeLicensedContent
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
       responses:
-        200:
+        '200':
           description: List of event results
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/container'
-        400:
+        '400':
           description: Invalid ID supplied
           content: {}
-        404:
+        '404':
           description: Pet not found
           content: {}
-        405:
-          description: Validation exception
-          content: {}
-  /attractions:
-    get:
-      tags:
-      - attractions
-      summary: Search attractions
-      operationId: search_attractions
-      parameters:
-      - name: id
-        in: query
-        schema:
-          type: string
-      - name: keyword
-        in: query
-        schema:
-          type: string
-      - name: source
-        in: query
-        schema:
-          type: string
-          enum:
-          - ticketmaster
-          - universe
-          - frontgate
-          - tmr
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeTest
-        in: query
-        schema:
-          type: string
-      - name: size
-        in: query
-        schema:
-          type: string
-      - name: page
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
-      - name: sort
-        in: query
-        schema:
-          type: string
-          enum:
-          - name,asc
-          - name,desc
-          - relevance,asc
-          - relevance,desc
-      - name: classificationName
-        in: query
-        schema:
-          type: string
-      - name: classificationId
-        in: query
-        schema:
-          type: string
-      responses:
-        200:
-          description: List of event results
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/container'
-        400:
-          description: Invalid ID supplied
-          content: {}
-        404:
-          description: Pet not found
-          content: {}
-        405:
-          description: Validation exception
-          content: {}
-  /attractions/{id}:
-    get:
-      tags:
-      - attractions
-      summary: Get attraction details by ID
-      operationId: attraction_details
-      parameters:
-      - name: id
-        in: path
-        description: Attraction ID
-        required: true
-        schema:
-          type: string
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
-      responses:
-        200:
-          description: Event details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attraction'
-        400:
-          description: Invalid ID supplied
-          content: {}
-        404:
-          description: Pet not found
-          content: {}
-        405:
+        '405':
           description: Validation exception
           content: {}
   /classifications/genres/{id}:
     get:
       tags:
-      - classifications
+        - classifications
       summary: Get genre details by ID
       operationId: genre_details
       parameters:
-      - name: id
-        in: path
-        description: Genre ID
-        required: true
-        schema:
-          type: string
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
+        - name: id
+          in: path
+          description: Genre ID
+          required: true
+          schema:
+            type: string
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: includeLicensedContent
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
       responses:
-        200:
+        '200':
           description: Genre details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenreDetails'
-        400:
+        '400':
           description: Invalid ID supplied
           content: {}
-        404:
+        '404':
           description: Pet not found
           content: {}
-        405:
+        '405':
           description: Validation exception
           content: {}
   /classifications/subgenres/{id}:
     get:
       tags:
-      - classifications
+        - classifications
       summary: Get subgenre details by ID
       operationId: subgenre_details
       parameters:
-      - name: id
-        in: path
-        description: Sub-genre ID
-        required: true
-        schema:
-          type: string
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
+        - name: id
+          in: path
+          description: Sub-genre ID
+          required: true
+          schema:
+            type: string
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: includeLicensedContent
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
       responses:
-        200:
+        '200':
           description: Sub-genre details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SubGenreDetails'
-        400:
+        '400':
           description: Invalid ID supplied
           content: {}
-        404:
+        '404':
           description: Pet not found
           content: {}
-        405:
+        '405':
           description: Validation exception
           content: {}
   /classifications/segments/{id}:
     get:
       tags:
-      - classifications
+        - classifications
       summary: Get segment details by ID
       operationId: segment_details
       parameters:
-      - name: id
-        in: path
-        description: Sub-genre ID
-        required: true
-        schema:
-          type: string
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
+        - name: id
+          in: path
+          description: Sub-genre ID
+          required: true
+          schema:
+            type: string
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: includeLicensedContent
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
       responses:
-        200:
+        '200':
           description: Segment details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SegmentDetails'
-        400:
+        '400':
           description: Invalid ID supplied
           content: {}
-        404:
+        '404':
           description: Pet not found
           content: {}
-        405:
+        '405':
           description: Validation exception
           content: {}
   /classifications:
     get:
       tags:
-      - classifications
+        - classifications
       summary: Search classifications
       operationId: search_classifications
       parameters:
-      - name: id
-        in: query
-        schema:
-          type: string
-      - name: keyword
-        in: query
-        schema:
-          type: string
-      - name: source
-        in: query
-        schema:
-          type: string
-          enum:
-          - ticketmaster
-          - universe
-          - frontgate
-          - tmr
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeTest
-        in: query
-        schema:
-          type: string
-      - name: size
-        in: query
-        schema:
-          type: string
-      - name: page
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
-      - name: sort
-        in: query
-        schema:
-          type: string
+        - name: id
+          in: query
+          schema:
+            type: string
+        - name: keyword
+          in: query
+          schema:
+            type: string
+        - name: source
+          in: query
+          schema:
+            type: string
+            enum:
+              - ticketmaster
+              - universe
+              - frontgate
+              - tmr
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: includeTest
+          in: query
+          schema:
+            type: string
+        - name: size
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: string
+        - name: includeLicensedContent
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
+        - name: sort
+          in: query
+          schema:
+            type: string
       responses:
-        200:
+        '200':
           description: List of classification results
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/container'
-        400:
+        '400':
           description: Invalid ID supplied
           content: {}
-        404:
+        '404':
           description: Pet not found
           content: {}
-        405:
+        '405':
           description: Validation exception
           content: {}
   /classifications/{id}:
     get:
       tags:
-      - classifications
+        - classifications
       summary: Get classification details by ID
       operationId: classification_details
       parameters:
-      - name: id
-        in: path
-        description: Classification ID
-        required: true
-        schema:
-          type: string
-      - name: locale
-        in: query
-        schema:
-          type: string
-      - name: includeLicensedContent
-        in: query
-        schema:
-          type: string
-          enum:
-          - yes
-          - no
+        - name: id
+          in: path
+          description: Classification ID
+          required: true
+          schema:
+            type: string
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: includeLicensedContent
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
       responses:
-        200:
+        '200':
           description: Classification details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Classification'
-        400:
+        '400':
           description: Invalid ID supplied
           content: {}
-        404:
+        '404':
           description: Pet not found
           content: {}
-        405:
+        '405':
           description: Validation exception
           content: {}
 components:
@@ -1542,18 +1427,18 @@ components:
       schema:
         type: string
         enum:
-        - ticketmaster
-        - universe
-        - frontgate
-        - tmr
+          - ticketmaster
+          - universe
+          - frontgate
+          - tmr
     include_licensed_content:
       name: includeLicensedContent
       in: query
       schema:
         type: string
         enum:
-        - yes
-        - no
+          - 'yes'
+          - 'no'
     country_code:
       name: countryCode
       in: query

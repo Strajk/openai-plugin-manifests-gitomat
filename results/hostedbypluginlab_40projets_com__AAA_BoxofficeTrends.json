@@ -1,0 +1,39 @@
+{
+  "id": "plugin-58a8ca64-073c-49e7-b490-a955088df718",
+  "domain": "hostedbypluginlab.40projets.com",
+  "namespace": "AAA_BoxofficeTrends",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "AAA_BoxofficeTrends",
+    "name_for_human": "AAA Boxoffice Trends",
+    "description_for_model": "Welcome to the AAA Boxoffice Trends Plugin – your comprehensive guide to movie happenings across the globe. With this plugin, immerse yourself in the cinematic world, discovering what's trending, and which movies have just been released in theaters near you. Here's how to use the plugin:\n\nEndpoint 1 : Box Office Movies:\nWant to know the top movies playing now?\nEndpoint: api/v1/boxoffice/trendings/:area\nReplace :area with your country code like US for the USA or FR for France. See complete list in endpoint 2 : api/v1/boxoffice/available_areas\nOutput: You'll receive a comprehensive list, including:\narea: The specified country code.\nyear: The current year.\nweek: The current week number.\ndata: An array that showcases:\nrank: The movie's position in the box office.\nrelease_text: The movie's title.\ndistributor_text: The movie's distributor.\n\nIn the same endpoint : Eager to find out the fresh releases of the week?\nAdd in the query \"?new_this_week=true\"\n\n\nEndpoint 2 : Available Country Codes:\nNot sure what country codes are supported?\nEndpoint: api/v1/boxoffice/available_areas\nHere, you can get the full list of available country codes (area_code) and country description (area_text) that you can query against.\n\nHistorical Data:\nPlease note, this plugin doesn't provide endpoints for historical movie performance data.\n\nEnjoy the experience and keep yourself updated with the latest in the movie world with the AAA Boxoffice Trends Plugin !",
+    "description_for_human": "Discover current box office hits and recent movie releases from multiple countries!",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://a182bd79b43307b4360023ecc645baa6.auth.portal-pluginlab.ai/oauth/authorize",
+      "scope": "all",
+      "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "78d4df0f20d44a4ba1b0b956cc8ba3f1"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://hostedbypluginlab.40projets.com/.well-known/pluginlab/openapi.json"
+    },
+    "logo_url": "https://chatgpt-plugins.40projets.com/boxoffice/logo.svg",
+    "contact_email": "contact@40projets.com",
+    "legal_info_url": "https://chatgpt-plugins.40projets.com/boxoffice/terms_of_service.html"
+  },
+  "oauth_client_id": "abbb7467ab08e025b8aa92cfff8686cf",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-24T13:37:39.353Z"
+}

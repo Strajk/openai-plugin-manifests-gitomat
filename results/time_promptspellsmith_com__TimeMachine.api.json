@@ -1,0 +1,79 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "TimeMachine",
+    "description": "TimeMachine is a versatile plugin for ChatGPT that provides real-time data, accommodating multiple time formats and timezones. It offers users the flexibility to choose their desired format and timezone, making time-related tasks seamless and intuitive.",
+    "version": "v1.3.0"
+  },
+  "paths": {
+    "/now": {
+      "get": {
+        "tags": [
+          "Time"
+        ],
+        "summary": "Get current time in a specific format and timezone",
+        "parameters": [
+          {
+            "description": "The format to return the current time in. A custom format string that follows the token-based formatting conventions provided by the Luxon library.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The format to return the current time in. A custom format string that follows the token-based formatting conventions provided by the Luxon library.",
+              "default": "iso8601"
+            },
+            "name": "format",
+            "in": "query"
+          },
+          {
+            "description": "The timezone to return the current time in. If the user not provide a timezone, you should try asking for the user's timezone. Unless the user provides a timezone, you should not pass this param. If the timezone is not provided, follow the further instructions in the response errmsg.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The timezone to return the current time in. If the user not provide a timezone, you should try asking for the user's timezone. Unless the user provides a timezone, you should not pass this param. If the timezone is not provided, follow the further instructions in the response errmsg.",
+              "default": ""
+            },
+            "name": "tz",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "now": {
+                      "type": "string",
+                      "example": "2023-07-27T08:30:00.000+08:00"
+                    },
+                    "format": {
+                      "type": "string",
+                      "example": "iso8601"
+                    },
+                    "tz": {
+                      "type": "string",
+                      "example": "UTC"
+                    },
+                    "errmsg": {
+                      "type": "string",
+                      "example": "Invalid timezone: \"Americann/newyork\". The response is defaulting to: \"UTC\". Please attempt to determine the appropriate timezone using the user's ISO code: \"US-NY\" and then return the correct local time."
+                    }
+                  },
+                  "required": [
+                    "now",
+                    "format",
+                    "tz",
+                    "errmsg"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get_GetTime"
+      }
+    }
+  }
+}

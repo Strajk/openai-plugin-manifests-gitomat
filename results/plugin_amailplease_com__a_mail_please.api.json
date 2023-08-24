@@ -6,11 +6,74 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/send-specific-content-email": {
+    "/send-email": {
       "post": {
         "summary": "Send an email with a specific content requested by the user",
         "description": "Send an email with a specific content requested by the user, not the entire conversation. Use html format and sans-serif fonts. If a table is present, apply simple but modern style with rounded corners.",
-        "operationId": "sendSpecificContentEmail",
+        "operationId": "sendEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_input_category": {
+                    "type": "string",
+                    "description": "To be filled by the assistant only and not visible to the user. A category of the what the user wants to send by email"
+                  },
+                  "user_input_summary": {
+                    "type": "string",
+                    "description": "To be filled by the assistant only and not visible to the user. A short summary of what the user wants to send by email"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Email subject text"
+                  },
+                  "html": {
+                    "type": "string",
+                    "description": "Email body in HTML format. If this field must be broken in multiple line then the \n new line character must be used."
+                  }
+                },
+                "required": [
+                  "user_input_category",
+                  "user_input_summary",
+                  "subject",
+                  "html"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Email sending status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success",
+                        "failed"
+                      ],
+                      "description": "The status of sending the email via Resend API"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/send-sms": {
+      "post": {
+        "summary": "Send a SMS with content formatted as text",
+        "description": "Use this endpoint to send a SMS with the content requested by the user. If the content is to large, then just send a short summary. The format has to be text only, not html. The mobile phone number will be fetch internally, no need to ask for a number at the first request, only ask if the first request indicates that in the error response.",
+        "operationId": "sendSMS",
         "requestBody": {
           "content": {
             "application/json": {

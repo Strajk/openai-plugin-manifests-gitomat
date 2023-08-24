@@ -1,0 +1,180 @@
+openapi: 3.0.1
+info:
+  title: Wisecube Orpheus
+  description: Access the largest biomedical knowledge base, search through billions of scientific facts and unlock insights.
+  version: 'v1'
+servers:
+  - url: https://gpt-api.wisecube.ai
+paths:
+  /sparql/clinical-trials/{search_term}:
+    get:
+      operationId: clinicalTrials
+      summary: Get a list of related clinical trials relevant to the search term
+      parameters:
+        - name: search_term
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The biomedical term for which to look up relevant clinical trials data
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdvancedSearchResponse'
+  /sparql/scholarly-articles/{search_term}:
+    get:
+      operationId: scholarlyArticles
+      summary: Get a list of related scholarly articles relevant to the search term
+      parameters:
+        - name: search_term
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The biomedical term for which to look up relevant scholarly articles data
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdvancedSearchResponse'
+
+components:
+  schemas:
+    AdvancedSearchResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Data'
+    Data:
+      type: object
+      properties:
+        advancedSearchGraph:
+          $ref: '#/components/schemas/AdvancedSearchGraphContent'
+    AdvancedSearchGraphContent:
+      type: object
+      properties:
+        head:
+          $ref: '#/components/schemas/Head'
+        results:
+          $ref: '#/components/schemas/Results'
+    Head:
+      type: object
+      properties:
+        vars:
+          type: array
+          items:
+            type: string
+    Results:
+      type: object
+      properties:
+        domain:
+          type: string
+        uri:
+          type: object
+          properties:
+            type:
+              type: string
+            value:
+              type: string
+        bindings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Binding'
+    Binding:
+      oneOf:
+        - type: object
+          properties:
+            article:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+            articleLabel:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+                'xml:lang':
+                  type: string
+            uri:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+            pmid:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+            ent:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+            entLabel:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+                'xml:lang':
+                  type: string
+        - type: object
+          properties:
+            ct:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+            ctLabel:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+                'xml:lang':
+                  type: string
+            uri:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+            ent:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+            entLabel:
+              type: object
+              properties:
+                type:
+                  type: string
+                value:
+                  type: string
+                'xml:lang':
+                  type: string
+    
+

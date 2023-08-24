@@ -157,6 +157,7 @@
             "schema": {
               "type": "string",
               "description": "The sort type for the search results",
+              "default": "DEFAULT",
               "enum": [
                 "DEFAULT",
                 "DEAL_SCORE",
@@ -165,8 +166,7 @@
                 "DISTANCE",
                 "NEWEST_MODEL_YEAR",
                 "LISTING_AGE"
-              ],
-              "default": "DEFAULT"
+              ]
             }
           },
           {
@@ -177,6 +177,7 @@
             "schema": {
               "type": "string",
               "description": "The sort order for the search results",
+              "default": "BEST_TO_WORST",
               "enum": [
                 "BEST_TO_WORST",
                 "WORST_TO_BEST",
@@ -184,8 +185,7 @@
                 "HIGHEST_TO_LOWEST",
                 "NEWEST_TO_OLDEST",
                 "OLDEST_TO_NEWEST"
-              ],
-              "default": "BEST_TO_WORST"
+              ]
             }
           },
           {
@@ -258,28 +258,6 @@
   },
   "components": {
     "schemas": {
-      "InvalidInputError": {
-        "type": "object",
-        "properties": {
-          "parameterName": {
-            "type": "string",
-            "description": "The name of the parameter that invalid data was provided for"
-          },
-          "errorMessage": {
-            "type": "string",
-            "description": "A description of what invalid data was provided"
-          },
-          "validInputConstraints": {
-            "type": "string",
-            "description": "Information about what data is considered valid"
-          },
-          "suggestedRequestModification": {
-            "type": "string",
-            "description": "Suggestions for AI assistants for how to respond to this error"
-          }
-        },
-        "description": "An error message that is returned when invalid data was provided to the API"
-      },
       "UncategorizedError": {
         "type": "object",
         "properties": {
@@ -519,6 +497,28 @@
           }
         },
         "description": "The results of the search operation"
+      },
+      "InvalidInputError": {
+        "type": "object",
+        "properties": {
+          "parameterName": {
+            "type": "string",
+            "description": "The name of the parameter that invalid data was provided for"
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "A description of what invalid data was provided"
+          },
+          "validInputConstraints": {
+            "type": "string",
+            "description": "Information about what data is considered valid"
+          },
+          "suggestedRequestModification": {
+            "type": "string",
+            "description": "Suggestions for AI assistants for how to respond to this error"
+          }
+        },
+        "description": "An error message that is returned when invalid data was provided to the API"
       }
     },
     "securitySchemes": {

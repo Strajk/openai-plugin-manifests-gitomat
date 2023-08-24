@@ -1,74 +1,98 @@
-openapi: 3.0.1
-info:
-  title: ChatWithWebsite
-  description: A plugin that allows users to load and query websites using ChatGPT. Users must first provide a website URL for processing. You must only use the URL they specify do not add www and remove any query parameters or path names that is not specifically the domain name that the user has specified. If the domain does not work, remove www if is in the domain url. If not add www. If that does not work add / at the end. Once the text file of website is loaded, help the user learn more about the company and website in the conversation without them needing to specify it everytime.
-  version: "v1"
-servers:
-  - url: https://chatwithwebsite.sdan.io
-paths:
-  /url/load:
-    post:
-      operationId: loadWebUrl
-      summary: Load a webpage from a URL
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/loadWebUrlRequest"
-      responses:
-        "200":
-          description: OK
-  /url/query:
-    post:
-      operationId: queryWebUrl
-      summary: Query a loaded website contents
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/queryWebUrlRequest"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/queryWebUrlResponse"
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Server Error</title>
+    <style media="screen">
+      :root {
+        --bg: hsl(250, 24%, 9%);
+        --fg: hsl(0, 0%, 100%);
+        --pink: hsl(270, 60%, 52%);
+      }
 
-components:
-  schemas:
-    loadWebUrlRequest:
-      type: object
-      required:
-        - web_url
-      properties:
-        web_url:
-          type: string
-          format: uri
-          description: The URL of the web page to load, including scheme and netloc
-          required: true
-    queryWebUrlRequest:
-      type: object
-      required:
-        - query
-        - web_url
-      properties:
-        query:
-          type: string
-          description: The query or question to ask based on the target webpage(s).
-          required: true
-        web_url:
-          type: string
-          description: The Web URL of the target webpage(s).
-          required: true
-    queryWebUrlResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            type: string
-          description: The list of text chunks from the website URL that are relevant to the user's query.
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background-color: var(--bg);
+        color: var(--fg);
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+          Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif,
+          Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        height: 100%;
+      }
+
+      .logo {
+        width: 160px;
+        height: 160px;
+      }
+
+      main h1 {
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      main a {
+        appearance: none;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: var(--fg);
+        background-color: var(--pink);
+        padding: 12px 24px;
+        border-radius: 6px;
+      }
+
+      main a:hover {
+        background-color: hsl(270, 60%, 42%);
+      }
+
+      h1 {
+        display: none;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .error-503 {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <svg
+        class="logo"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1024 1024"
+        fill="none"
+      >
+        <path
+          d="M4.756 438.175A520.713 520.713 0 0 0 0 489.735h777.799c-2.716-5.306-6.365-10.09-10.045-14.772-132.97-171.791-204.498-156.896-306.819-161.26-34.114-1.403-57.249-1.967-193.037-1.967-72.677 0-151.688.185-228.628.39-9.96 26.884-19.566 52.942-24.243 74.14h398.571v51.909H4.756ZM783.93 541.696H.399c.82 13.851 2.112 27.517 3.978 40.999h723.39c32.248 0 50.299-18.297 56.162-40.999ZM45.017 724.306S164.941 1018.77 511.46 1024c207.112 0 385.071-123.006 465.907-299.694H45.017Z"
+          fill="#fff"
+        />
+        <path
+          d="M511.454 0C319.953 0 153.311 105.16 65.31 260.612c68.771-.144 202.704-.226 202.704-.226h.031v-.051c158.309 0 164.193.707 195.118 1.998l19.149.706c66.7 2.224 148.683 9.384 213.19 58.19 35.015 26.471 85.571 84.896 115.708 126.52 27.861 38.499 35.876 82.756 16.933 125.158-17.436 38.97-54.952 62.215-100.383 62.215H16.69s4.233 17.944 10.58 37.751h970.632A510.385 510.385 0 0 0 1024 512.218C1024.01 229.355 794.532 0 511.454 0Z"
+          fill="#fff"
+        />
+      </svg>
+
+      <h1 class="error-404">Nothing here... yet</h1>
+      <h1 class="error-503">Application failed to respond</h1>
+
+      <a href="https://railway.app" target="_blank"> Go to Railway </a>
+    </main>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8b253dfea2ab4077af8c6f58422dfbfd1689876627854" integrity="sha512-bjgnUKX4azu3dLTVtie9u6TKqgx29RBwfj3QXYt5EKfWM/9hPSAI/4qcV5NACjwAo8UtTeWefx6Zq5PHcMm7Tg==" data-cf-beacon='{"rayId":"7fbc0111d840cf09","version":"2023.8.0","r":1,"b":1,"token":"34a90e9615aa42a488c527e3a3dffb6b","si":100}' crossorigin="anonymous"></script>
+</body>
+</html>

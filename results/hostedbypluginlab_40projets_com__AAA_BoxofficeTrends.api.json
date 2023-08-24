@@ -1,0 +1,198 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AAA Boxoffice Trends",
+    "description": "Discover current box office hits and recent movie releases from multiple countries!",
+    "version": "1.1"
+  },
+  "paths": {
+    "/api/v1/boxoffice/trendings/{area}": {
+      "get": {
+        "operationId": "get-trendings",
+        "summary": "Current Box Office Movies",
+        "description": "Get the list of top movies currently playing in a specified area. You can get all movies or new movies.",
+        "parameters": [
+          {
+            "name": "area",
+            "in": "path",
+            "required": true,
+            "description": "Country code (e.g., US, FR)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "new_this_week",
+            "in": "query",
+            "required": false,
+            "description": "Filter movies that are new this week",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "area": {
+                      "type": "string",
+                      "example": "FR"
+                    },
+                    "year": {
+                      "type": "integer",
+                      "example": 2023
+                    },
+                    "week": {
+                      "type": "integer",
+                      "example": 32
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "rank": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "release_text": {
+                            "type": "string",
+                            "example": "Awesome Movie"
+                          },
+                          "distributor_text": {
+                            "type": "string",
+                            "example": "Awesome Distributor"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "206": {
+            "description": "No data, partial content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "area": {
+                      "type": "string",
+                      "example": "FR"
+                    },
+                    "warning": {
+                      "type": "string",
+                      "example": "There are no movies in the backoffice matching the request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Area not Supported"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid Token"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Error Message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/boxoffice/available_areas": {
+      "get": {
+        "operationId": "get-available-areas",
+        "summary": "Available Country Codes",
+        "description": "Get the list of supported country codes.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "area_code": {
+                        "type": "string"
+                      },
+                      "area_text": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "area_code",
+                      "area_text"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid token"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Error Message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://hostedbypluginlab.40projets.com"
+    }
+  ]
+}

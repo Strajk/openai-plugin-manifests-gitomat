@@ -1,0 +1,39 @@
+{
+  "id": "plugin-6d9e5a07-5d9d-40e3-b8d6-64e9cbf1a291",
+  "domain": "memory-openai.langdock.com",
+  "namespace": "Papr_Memory",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "Papr_Memory",
+    "name_for_human": "Papr Memory",
+    "description_for_model": "This plugin allows the model to access and interact with the user's personal memory graph. It can retrieve information from past conversations, meeting transcripts, documents, and more. Use it when the user's query pertains to information that may be stored in their personal memory.",
+    "description_for_human": "Retrieve information from your personal memory includes past conversations.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://memory.papr.ai/login",
+      "scope": "openid profile email offline_access",
+      "authorization_url": "https://memory.papr.ai/token",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "a4d44f9b36ab4dc8b7dbb881f3df086a"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://memory-openai.langdock.com/openapi.yaml"
+    },
+    "logo_url": "https://firebasestorage.googleapis.com/v0/b/security-web-app-e4217.appspot.com/o/c0d70e06-b384-4c7b-a3a7-7b9d69e5bba1%2FiconSymbol%2032x32%403x.png?alt=media&token=e92f43c0-a593-4d10-b9af-d7f98d37033d",
+    "contact_email": "contact@langdock.com",
+    "legal_info_url": "https://www.langdock.com/terms-and-conditions"
+  },
+  "oauth_client_id": "Wqht3PESEA9UV7lK9Dooi6vx0uTDCFtt",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-24T13:37:39.353Z"
+}

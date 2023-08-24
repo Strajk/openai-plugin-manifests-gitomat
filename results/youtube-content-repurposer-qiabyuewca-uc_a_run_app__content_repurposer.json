@@ -1,0 +1,39 @@
+{
+  "id": "plugin-5caecc06-cc42-4447-9a61-776d2f707769",
+  "domain": "youtube-content-repurposer-qiabyuewca-uc.a.run.app",
+  "namespace": "content_repurposer",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "content_repurposer",
+    "name_for_human": "AISEO Repurposer",
+    "description_for_model": "Convert any article or YouTube video into blogs, tweets, emails, scripts, press releases, landing pages & more.",
+    "description_for_human": "Convert any article or YouTube video into blogs, tweets, emails, scripts, press releases, landing pages & more.",
+    "auth": {
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://youtube-content-repurposer-qiabyuewca-uc.a.run.app/oauth",
+      "scope": "",
+      "authorization_url": "https://youtube-content-repurposer-qiabyuewca-uc.a.run.app/auth/oauth_exchange",
+      "authorization_content_type": "application/json",
+      "verification_tokens": {
+        "openai": "53c028ae79df47d795ae913922fd62c1"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://youtube-content-repurposer-qiabyuewca-uc.a.run.app/openapi.yaml"
+    },
+    "logo_url": "https://youtube-content-repurposer-qiabyuewca-uc.a.run.app/logo.png",
+    "contact_email": "support@aiseo.ai",
+    "legal_info_url": "https://youtube-content-repurposer-qiabyuewca-uc.a.run.app/legal"
+  },
+  "oauth_client_id": "DDDDD",
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-24T13:37:39.353Z"
+}

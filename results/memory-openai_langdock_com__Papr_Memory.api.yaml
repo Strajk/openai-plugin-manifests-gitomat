@@ -1,0 +1,345 @@
+openapi: 3.0.1
+info:
+  title: Papr_Memory
+  description: >-
+    This plugin allows the model to access and interact with the user's personal
+    memory graph. It can retrieve information from past conversations, meeting
+    transcripts, documents, and more. Use it when the user's query pertains to
+    information that may be stored in their personal memory.
+  version: v1
+servers:
+  - url: https://memory-openai.langdock.com
+paths:
+  /add_memory:
+    post:
+      operationId: add_memory_post
+      summary: >-
+        Accepts memory item objects with content, type, metadata, context, and
+        relationships_json.
+      parameters:
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: What was my last message?
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddMemoryRequest'
+        '400':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+      requestBody:
+        description: ''
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMemoryRequest'
+  /get_memory:
+    post:
+      operationId: get_memory_post
+      summary: Accepts search query objects with query, context, and relation_type.
+      parameters:
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: What was my last message?
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMemoryResponse'
+        '400':
+          description: Memory Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ''
+              properties:
+                query:
+                  type: string
+                  description: Question or query from the user to search an item in memory
+                context:
+                  type: array
+                  description: ''
+                  items:
+                    type: object
+                    description: ''
+                    properties:
+                      role:
+                        type: string
+                        description: 'Person who created the memory item in context '
+                        enum:
+                          - user
+                          - assistant
+                      content:
+                        type: string
+                        description: >-
+                          Content of a memory item or conversation that is
+                          related to query 
+                    required:
+                      - role
+                      - content
+                relation_type:
+                  type: string
+                  description: >-
+                    Relationship type given query and context that defines
+                    relationship type between memory items you want to find in
+                    memory 
+              required:
+                - query
+  /update_memory:
+    put:
+      operationId: update_memory_post
+      summary: >-
+        Update an existing memory item objects with content, type, metadata,
+        context, and relationships_json.
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the memory item that needs to be updated
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: What was my last message?
+      responses:
+        '200':
+          description: Successful Response
+        '400':
+          description: Memory Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+      requestBody:
+        description: ''
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditMemoryRequest'
+components:
+  schemas:
+    AddMemoryRequest:
+      type: object
+      description: AddMemoryRequest Schema
+      properties:
+        content:
+          type: string
+          description: The content of the memory item you want to add to memory
+        type:
+          type: string
+          description: Content type of the memory item we currently only support text
+          enum:
+            - text
+        metadata:
+          type: object
+          description: >-
+            Metadata used in Neo4J and Pinecone for a memory item. You can use
+            the properties listed for this metadata and add additional
+            properties as you see fit. 
+          properties:
+            topics:
+              type: string
+              description: >-
+                List of topics related to the content, context & conversation
+                history 
+            hierarchical structures:
+              type: string
+              description: >-
+                We tend to organize information hierarchically, from broad
+                categories to specific details. Add Hierarchical Structures to
+                enable users to navigate from broad topics to more specific
+                ones.
+            createdAt:
+              type: string
+              description: Time of when this memory item was created
+            location:
+              type: string
+              description: >-
+                Location where the meeting item was captured, could be a meeting
+                room or users physical location
+            emoji tags:
+              type: string
+              description: Emoji tags related to the memory item and conversation history
+            emotion tags:
+              type: string
+              description: Emotion tags related to the memory item and conversation history
+        context:
+          type: array
+          description: >-
+            Context can be conversation history or any relevant context for a
+            memory item. Don't include the memory item you are already adding in
+            content.
+          items:
+            type: object
+            description: ''
+            properties:
+              role:
+                type: string
+                description: Person who created content for a context list
+                enum:
+                  - user
+                  - assistant
+              content:
+                type: string
+                description: >-
+                  Content of the previous message that was in conversation
+                  history either from user or assistant
+            required:
+              - role
+              - content
+        relationships_json:
+          type: array
+          description: >-
+            Array of relationships that we can use in Graph DB (neo4J) that
+            define the relationships between content and context  
+          items:
+            type: object
+            description: ''
+            properties:
+              related_item_id:
+                type: string
+                description: >-
+                  Relationship that will be used in Graph DB between content and
+                  list of context
+                enum:
+                  - TextMemoryItem
+                  - all_previous_memory_items
+              relation_type:
+                type: string
+                description: >-
+                  The relationship type of the content memory item that you want
+                  to add to the context item
+              related_item_type:
+                type: string
+                description: Memory item type inside context that you want to relate
+                enum:
+                  - TextMemoryItem
+              metadata:
+                type: object
+                description: >-
+                  metadata for the relation between content and memory item in
+                  context
+                properties: {}
+            required:
+              - related_item_id
+              - relation_type
+              - related_item_type
+              - metadata
+      required:
+        - content
+        - type
+        - metadata
+        - relationships_json
+    HTTPValidationError:
+      type: object
+      description: HTTP Validation Error
+      properties:
+        Detail:
+          type: array
+          description: ''
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    ValidationError:
+      type: object
+      properties:
+        Location:
+          type: array
+          description: ''
+          items:
+            type: string
+            description: ''
+        Message:
+          type: string
+          description: ''
+        Error Type:
+          type: string
+          description: ''
+      required:
+        - Location
+        - Message
+        - Error Type
+    GetMemoryResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          description: ''
+          items:
+            type: object
+            description: ''
+            properties: {}
+      required:
+        - results
+    EditMemoryRequest:
+      type: object
+      description: EditMemoryRequest
+      properties:
+        content:
+          type: string
+          description: >-
+            New content for the memory item, this will replace existing content
+            for this memory item
+        metadata:
+          type: object
+          description: >-
+            Metadata used in Neo4J and Pinecone for a memory item. You can use
+            the properties listed for this metadata and add additional
+            properties as you see fit. 
+          properties:
+            topics:
+              type: string
+              description: >-
+                List of topics related to the content, context & conversation
+                history 
+            hierarchical structures:
+              type: string
+              description: >-
+                We tend to organize information hierarchically, from broad
+                categories to specific details. Add Hierarchical Structures to
+                enable users to navigate from broad topics to more specific
+                ones.
+            updatedAt:
+              type: string
+              description: Time of when this memory item was updated
+            location:
+              type: string
+              description: >-
+                Location where the meeting item was captured, could be a meeting
+                room or users physical location
+            emoji tags:
+              type: string
+              description: Emoji tags related to the memory item and conversation history
+            emotion tags:
+              type: string
+              description: Emotion tags related to the memory item and conversation history
+          required:
+            - updatedAt
+      required:
+        - content

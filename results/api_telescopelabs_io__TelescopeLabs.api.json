@@ -49,16 +49,54 @@
         }
       }
     },
-    "/gpt/get_metrics": {
+    "/gpt/get_kpis": {
       "post": {
-        "operationId": "get_metrics",
-        "summary": "Define metrics",
-        "description": "to access pre-defined charts (aka. KPIs) inside dashboards or to get information about events (datasets) such as event name, fields, and metrics information",
+        "operationId": "get_kpis",
+        "summary": "Define KPIs",
+        "description": "to access pre-defined charts (aka. KPIs) inside dashboards.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/get_metrics"
+                "$ref": "#/components/schemas/get_kpis"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/get_events": {
+      "post": {
+        "operationId": "get_events",
+        "summary": "Define Events",
+        "description": "to get information about events (datasets) such as event name, fields, and metrics information when pre-defined KPIs are not available.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_events"
               }
             }
           }
@@ -344,15 +382,15 @@
           "name"
         ]
       },
-      "get_metrics": {
+      "get_kpis": {
         "type": "object",
         "properties": {
-          "metricNames": {
+          "kpiParameters": {
             "type": "array",
-            "description": "List of detected metric names for obtaining relevant information",
+            "description": "List of KPI Ids that are going to be searched",
             "items": {
               "type": "string",
-              "description": "Metric name mentioned to search for"
+              "description": "KPI id which starts with TL"
             }
           },
           "gameId": {
@@ -362,33 +400,45 @@
           },
           "showSample": {
             "type": "integer",
-            "description": "If the user requires to see some sample metrics as a list, find the number of metric samples needed, if not specifically given the number of metrics although sample metrics is required, take 5. If the aim is not listing some sample metrics, do not return anything in here "
+            "description": "If requires a list of sample (some available) kpis, find the number of KPI samples needed (if not specified take 5)"
           },
           "listAllRecords": {
             "type": "boolean",
-            "description": "If the metric name is not specified and all of the available metrics wants to be listed, provide 'true', if not provide 'false'.",
+            "description": "If the KPI name is not specified and all of the available KPIs wants to be listed, provide 'true', if not provide 'false'.",
             "default": false
-          },
-          "metricTypeforListing": {
-            "type": "array",
-            "description": "This is just for showSample and listAllRecords cases. This variable should have a value only when showSample and listAllRecords have a value.",
-            "items": {
-              "type": "string",
-              "description": "If the user expressed that detected metric is a 'KPI' explicitly, then set to 'KPI'. If the user stated that detected metric is a 'table', 'database' or 'event definition' then set to 'event definition'",
-              "enum": [
-                "event definition",
-                "KPI"
-              ]
-            }
-          },
-          "pageNum": {
-            "type": "integer",
-            "description": "Page number to navigate through results when more than 3 metrics detected by metrics module. Increase this number by 1 to view the next page of results. The default page number is 1.",
-            "default": 1
           }
         },
         "required": [
-          "metricNames"
+          "kpiParameters"
+        ]
+      },
+      "get_events": {
+        "type": "object",
+        "properties": {
+          "eventLabels": {
+            "type": "array",
+            "description": "List all Event label to search for",
+            "items": {
+              "type": "string",
+              "description": "Event label to look for"
+            }
+          },
+          "gameId": {
+            "type": "string",
+            "description": "Id of the game"
+          },
+          "showSample": {
+            "type": "integer",
+            "description": "If requires a list of sample event definitions, find the number of event definition samples needed (if not specified take 5)."
+          },
+          "listAllRecords": {
+            "type": "boolean",
+            "description": "If the event name is not specified and all of the available event definitions wants to be listed, provide 'true', if not provide 'false'.",
+            "default": false
+          }
+        },
+        "required": [
+          "eventLabels"
         ]
       },
       "about_us": {
@@ -428,20 +478,13 @@
               },
               "aggregate": {
                 "type": "integer",
-                "description": "Aggregation period in terms of number of seconds, default is daily 86400.",
-                "enum": [
-                  3600,
-                  86400,
-                  604800,
-                  2592000
-                ],
+                "description": "Aggregation period in terms of number of seconds, default is daily 86400, the possible values are 3600, 86400, 604800, 2592000.",
                 "default": 86400
               }
             },
             "required": [
               "start",
-              "end",
-              "aggregate"
+              "end"
             ]
           },
           "kpiParameters": {
@@ -524,7 +567,6 @@
         },
         "required": [
           "interval",
-          "chartType",
           "gameId"
         ]
       },
@@ -639,20 +681,13 @@
               },
               "aggregate": {
                 "type": "integer",
-                "description": "Aggregation period in terms of number of seconds, default is daily 86400.",
-                "enum": [
-                  3600,
-                  86400,
-                  604800,
-                  2592000
-                ],
+                "description": "Aggregation period in terms of number of seconds, default is daily 86400, the possible options are 3600, 86400, 604800, 2592000.",
                 "default": 86400
               }
             },
             "required": [
               "start",
-              "end",
-              "aggregate"
+              "end"
             ]
           },
           "steps": {

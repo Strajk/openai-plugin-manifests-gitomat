@@ -23,7 +23,7 @@
           "Search"
         ],
         "summary": "Search flights",
-        "description": "Parameters 'date_from=01/04/2023' and 'date_to=01/05/2023' mean departure is anytime between the specified dates. If dates are not specified, use today's date for date_from and +1 month for date_to. Include a search_link to every item. Do not hallucinate details.",
+        "description": "Parameters 'date_from=01/04/2023' and 'date_to=01/05/2023' mean departure is anytime between the specified dates. If dates are not specified, use today's date for date_from and +1 month for date_to. Do not hallucinate details.",
         "parameters": [
           {
             "description": "IATA code of the departure location. Accepting multiple values separated by comma.",
@@ -360,6 +360,39 @@
             },
             "name": "currency",
             "in": "query"
+          },
+          {
+            "description": "Used to specify the number of adults. The sum of adults, children and infants cannot be greater than 9. Please note, that most of the airlines consider children older than 12 as adults.",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "description": "Used to specify the number of adults. The sum of adults, children and infants cannot be greater than 9. Please note, that most of the airlines consider children older than 12 as adults.",
+              "default": 1
+            },
+            "name": "adults",
+            "in": "query"
+          },
+          {
+            "description": "Used to specify the number of children. The sum of adults, children and infants cannot be greater than 9. Please note, that most of the airlines consider children older than 12 as adults.",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "description": "Used to specify the number of children. The sum of adults, children and infants cannot be greater than 9. Please note, that most of the airlines consider children older than 12 as adults.",
+              "default": 0
+            },
+            "name": "children",
+            "in": "query"
+          },
+          {
+            "description": "Used to specify the number of infants. The sum of adults, children and infants cannot be greater than 9.",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "description": "Used to specify the number of infants. The sum of adults, children and infants cannot be greater than 9.",
+              "default": 0
+            },
+            "name": "infants",
+            "in": "query"
           }
         ],
         "responses": {
@@ -430,8 +463,21 @@
                                           "example": "string"
                                         },
                                         "search_link": {
-                                          "type": "string",
-                                          "example": "string"
+                                          "type": "object",
+                                          "properties": {
+                                            "type": {
+                                              "type": "string",
+                                              "example": "string"
+                                            },
+                                            "description": {
+                                              "type": "string",
+                                              "example": "Leads to the kiwi.com search page. When showing the URL to the user, name it the Search URL"
+                                            }
+                                          },
+                                          "required": [
+                                            "type",
+                                            "description"
+                                          ]
                                         },
                                         "duration": {
                                           "type": "object",

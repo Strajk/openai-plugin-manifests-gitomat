@@ -1,0 +1,36 @@
+{
+  "id": "plugin-48cf3945-f5a0-42bf-a17e-5aaefd89c658",
+  "domain": "time.promptspellsmith.com",
+  "namespace": "TimeMachine",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "TimeMachine",
+    "name_for_human": "TimeMachine",
+    "description_for_model": "TimeMachine is a tool that provides current time data in various formats and timezones. It integrates with ChatGPT to offer users real-time information based on their preferences.",
+    "description_for_human": "Time is an illusion, especially for ChatGPT. With TimeMachine, you can travel through different timezones and formats.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "472e5541fddb4dd685490f86db7c0217"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://time.promptspellsmith.com/openapi.json"
+    },
+    "logo_url": "https://cdn.jsdelivr.net/gh/lroolle/p/s/20230727T163620-timemachine-logo.png",
+    "contact_email": "hello@promptspellsmith.com",
+    "legal_info_url": "https://time.promptspellsmith.com/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-24T13:37:39.353Z"
+}
