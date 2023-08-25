@@ -210,6 +210,11 @@
       "uploadCoverLetterBody": {
         "type": "object",
         "properties": {
+          "conversationLanguage": {
+            "type": "string",
+            "description": "You must always populate this field. The language of the conversation. Represent as country code: en, de, etc.",
+            "required": true
+          },
           "fileName": {
             "type": "string",
             "description": "Make up the fileName for user's resume."

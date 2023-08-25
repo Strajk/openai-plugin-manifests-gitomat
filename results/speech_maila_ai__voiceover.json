@@ -8,9 +8,17 @@
     "name_for_model": "voiceover",
     "name_for_human": "VoiceOver",
     "description_for_model": "Text-to-speech synthesis.",
-    "description_for_human": "Convert text into natural-sounding speech.",
+    "description_for_human": "Convert text into studio-quality audio. Create realistic AI voices for your next videos, podcasts, and more.",
     "auth": {
-      "type": "none"
+      "type": "oauth",
+      "instructions": "",
+      "client_url": "https://auth.maila.ai/oauth2/authorize",
+      "scope": "email openid",
+      "authorization_url": "https://auth.maila.ai/oauth2/token",
+      "authorization_content_type": "application/x-www-form-urlencoded",
+      "verification_tokens": {
+        "openai": "737ff3c9c16f4467b332734a1d1a6b7c"
+      }
     },
     "api": {
       "type": "openapi",
@@ -20,12 +28,12 @@
     "contact_email": "kevin@maila.ai",
     "legal_info_url": "https://speech.maila.ai/legal"
   },
-  "oauth_client_id": null,
+  "oauth_client_id": "1hmilmnqutfd4t8oqt4sgfuc08",
   "categories": [
     {
       "id": "newly_added",
       "title": "New"
     }
   ],
-  "__scrapedAt": "2023-08-22T13:37:55.336Z"
+  "__scrapedAt": "2023-08-25T13:37:45.736Z"
 }

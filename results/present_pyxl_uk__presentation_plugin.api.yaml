@@ -1,0 +1,72 @@
+openapi: 3.0.1
+info:
+  title: 'Present It: ShowME'
+  description: PPTX Presentation generator, create slides easily! Generates a downloadable document
+  version: 'v1'
+servers:
+  - url: https://present.pyxl.uk:443
+paths:
+    /{value}:
+        get:
+            operationId: getslide
+            summary: Get slide
+
+        post:
+            operationId: addslide
+            summary: add slide to server
+            parameters:
+                - in: path
+                  name: value
+                  schema:
+                      type: string
+                  required: true
+                  description: text
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/addslide"
+            responses:
+                "200":
+                    description: OK
+
+components:
+    schemas:
+        addslide:
+            type: object
+            properties:
+                slide:
+                    type: string
+                    description: slide
+                    required: false
+                last:
+                    type: string
+                    description: last or not
+                    required: true
+                content:
+                    type: array
+                    items:
+                      type: string
+                    description: content_text
+                    required: false
+                layout:
+                    type: string
+                    description: content_text
+                    required: false
+                style:
+                    type: object
+                    description: presentation parameters
+                    properties:
+                        font:
+                            type: string
+                            description: font name
+                            required: true
+                        font_color:
+                            type: string
+                            description: font color
+                            required: true
+                        bg_query:
+                            type: string
+                            description: bg_query
+                            required: true

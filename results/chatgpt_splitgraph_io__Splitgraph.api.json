@@ -1,0 +1,160 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Splitgraph Plugin API",
+    "description": "An API for the Splitgraph ChatGPT plugin for querying the Splitgraph Data Delivery Network from chat sessions.",
+    "version": "1.0.0",
+    "servers": [
+      {
+        "url": "http://localhost:3333"
+      }
+    ]
+  },
+  "paths": {
+    "/find_relevant_tables": {
+      "get": {
+        "operationId": "find_relevant_tables",
+        "summary": "Find tables in the Splitgraph Data Delivery Network relevant to the user's prompt.",
+        "description": "Accepts search query objects array each with query. Break down complex questions into sub-questions. Refine results by criteria, e.g. time / source, don't do this often. Split queries if ResponseTooLargeError occurs.",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindRelevantTablesResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error"
+          }
+        },
+        "parameters": [
+          {
+            "name": "prompt",
+            "in": "query",
+            "description": "the input prompt from the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/run_sql": {
+      "get": {
+        "operationId": "run_sql",
+        "summary": "Execute SQL queries on the Splitgraph Data Delivery Network",
+        "description": "Accepts a SQL query to execute on the Splitgraph Data Delivery Network",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunSQLResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error"
+          }
+        },
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "The SQL query to execute on the Splitgraph Data Deliery Network",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FindRelevantTablesResponse": {
+        "title": "FindRelevantTablesResponse",
+        "type": "object",
+        "required": [
+          "tables"
+        ],
+        "properties": {
+          "tables": {
+            "title": "Tables",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TableInfo"
+            }
+          }
+        }
+      },
+      "TableInfo": {
+        "title": "TableInfo",
+        "type": "object",
+        "required": [
+          "name",
+          "columns"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TableColumn"
+            }
+          }
+        }
+      },
+      "TableColumn": {
+        "title": "TableColumn",
+        "type": "object",
+        "required": [
+          "name",
+          "postgresql_type",
+          "is_primary_key"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "postgresql_type": {
+            "type": "string"
+          },
+          "is_primary_key": {
+            "type": "boolean"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+      "RunSQLResponse": {
+        "title": "RunSQLResponse",
+        "type": "object",
+        "required": [],
+        "properties": {
+          "query_editor_url": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          },
+          "rows": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      }
+    }
+  }
+}

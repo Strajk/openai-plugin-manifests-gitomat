@@ -388,12 +388,13 @@ paths:
                 originalMessage:
                   description: >-
                     The complete original message from the user. Do not omit any
-                    words.
+                    words. Translate to english if necessary.
                   type: string
                 queries:
                   description: >-
                     The queries to search against. Each topic should be a
-                    separate query. Maximum of 4 queries.
+                    separate query. There must be no more than 3 individual
+                    queries. Each query must be no longer than 3 words.
                   type: array
                   items:
                     type: string
@@ -490,14 +491,16 @@ paths:
               type: object
               required:
                 - originalMessage
-                - query
+                - queries
                 - name
                 - type
+                - findAppearances
+                - findVotes
               properties:
                 originalMessage:
                   description: >-
                     The complete original message from the user. Do not omit any
-                    words.
+                    words. Translate to english if necessary.
                   type: string
                 relevantTextChunksToExclude:
                   description: >-
@@ -507,12 +510,6 @@ paths:
                   type: array
                   items:
                     type: string
-                publishedAfter:
-                  description: The date to search after
-                  type: string
-                publishedBefore:
-                  description: The date to search before
-                  type: string
                 returnCompletion:
                   description: Whether to return llm created completion
                   type: boolean
@@ -524,9 +521,14 @@ paths:
                   type: string
                   enum:
                     - Member of Parliament
-                query:
-                  description: The query to search against
-                  type: string
+                queries:
+                  description: >-
+                    The queries to search against. Each topic should be a
+                    separate query. There must be no more than 3 individual
+                    queries. Each query must be no longer than 3 words.
+                  type: array
+                  items:
+                    type: string
                 findAppearances:
                   description: >-
                     Whether to return appearances, such as speeches and written
@@ -553,10 +555,19 @@ paths:
                       $ref: '#/components/schemas/Person'
                     completion:
                       type: string
-                    relevantTextChunks:
+                    appearances:
                       type: array
                       items:
-                        $ref: '#/components/schemas/DocumentChunk'
+                        title:
+                          type: string
+                        date:
+                          type: string
+                        type:
+                          type: string
+                        text:
+                          type: string
+                        referenceUrl:
+                          type: string
                     votes:
                       type: array
                       items:
@@ -612,7 +623,7 @@ paths:
                 originalMessage:
                   description: >-
                     The complete original message from the user. Do not omit any
-                    words.
+                    words. Translate to english if necessary.
                   type: string
                 name:
                   description: The name of the politician
@@ -634,17 +645,6 @@ paths:
                     issues. Include unless the user asks just for what the
                     politician has said.
                   type: boolean
-                appearanceLimit:
-                  type: number
-                  description: >-
-                    Pass to specify number of appearances to return. Use with
-                    appearanceOffset to page over results. The default and
-                    maximum is 5.
-                appearanceOffset:
-                  type: number
-                  description: >-
-                    Pass to specify vote to start from. Use with appearanceLimit
-                    to page over results.
                 voteLimit:
                   type: number
                   description: >-
@@ -670,10 +670,19 @@ paths:
                   properties:
                     person:
                       $ref: '#/components/schemas/Person'
-                    relevantTextChunks:
+                    appearances:
                       type: array
                       items:
-                        $ref: '#/components/schemas/DocumentChunk'
+                        title:
+                          type: string
+                        date:
+                          type: string
+                        type:
+                          type: string
+                        text:
+                          type: string
+                        referenceUrl:
+                          type: string
                     relevantTextChunkCount:
                       type: number
                     votes:
@@ -707,10 +716,10 @@ paths:
       operationId: peopleQuery
       summary: Query a group of politicians appearances
       description: >-
-        Accepts search queries with filters to specify the group of politicians
-        and publication dates. Use to find which politicians from a group have
-        mentioned a topic in such places as the House of Commons, House of
-        Lords, or in a committee meeting.
+        Accepts a search query and returns information to answer questions about
+        groups UK politicians. Use when the user asks a question about "MPs" or
+        "politicians" or similar, or is asking about a specific political
+        location like the House of Commons.
       requestBody:
         content:
           application/json:
@@ -719,56 +728,20 @@ paths:
               required:
                 - originalMessage
                 - queries
-                - parties
-                - type
               properties:
                 originalMessage:
                   description: >-
                     The complete original message from the user. Do not omit any
-                    words.
+                    words. Translate to english if necessary.
                   type: string
                 queries:
                   description: >-
                     The queries to search against. Each topic should be a
-                    separate query. Maximum of 4 queries.
+                    separate query. There must be no more than 3 individual
+                    queries. Each query must be no longer than 3 words.
                   type: array
                   items:
                     type: string
-                relevantTextChunksToExclude:
-                  description: >-
-                    The ids of text chunks to exclude from the search. This is
-                    used to exclude chunks that have already been returned in a
-                    previous search. To be used when asked for more results.
-                  type: array
-                  items:
-                    type: string
-                publishedAfter:
-                  description: The date to search after
-                  type: string
-                publishedBefore:
-                  description: The date to search before
-                  type: string
-                returnCompletion:
-                  description: Whether to return llm created completion
-                  type: boolean
-                parties:
-                  description: >-
-                    The parties to search against. To search all parties send an
-                    empty array.
-                  type: array
-                  items:
-                    type: string
-                    enum:
-                      - Labour
-                      - Conservative
-                      - Green Party
-                      - Liberal Democrats
-                      - Scottish National Party
-                type:
-                  description: The type of politician
-                  type: string
-                  enum:
-                    - Member of Parliament
         required: true
       responses:
         '200':
@@ -779,29 +752,16 @@ paths:
                 description: Successful response
                 type: object
                 schema:
-                  type: object
-                  properties:
-                    documentChunks:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          relevantTextChunks:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/DocumentChunk'
-                    completion:
-                      type: string
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                description: Bad request
-                type: object
-                properties:
-                  error:
-                    type: string
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                      title:
+                        type: string
+                      text:
+                        type: string
         '500':
           description: Internal server error
           content:
@@ -829,7 +789,7 @@ paths:
                 originalMessage:
                   description: >-
                     The complete original message from the user. Do not omit any
-                    words.
+                    words. Translate to english if necessary.
                   type: string
                 coords:
                   type: string
@@ -954,7 +914,7 @@ paths:
                 originalMessage:
                   description: >-
                     The complete original message from the user. Do not omit any
-                    words.
+                    words. Translate to english if necessary.
                   type: string
                 id:
                   type: string
@@ -1194,7 +1154,7 @@ paths:
                 originalMessage:
                   description: >-
                     The complete original message from the user. Do not omit any
-                    words.
+                    words. Translate to english if necessary.
                   type: string
         required: true
       responses:

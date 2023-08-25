@@ -1,0 +1,31 @@
+{
+  "id": "plugin-440f2087-c9f1-48e2-8d20-ec31d51e8f81",
+  "domain": "plugin-bot-dot-health-hero-bot.oa.r.appspot.com",
+  "namespace": "go_fitness_workout_meal",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "go_fitness_workout_meal",
+    "name_for_human": "Go!",
+    "description_for_model": "Plugin for recommending personalized workout, fitness, and meal routines, complete with exercise guides.",
+    "description_for_human": "A Plugin for recommending personalized workout, fitness, and meal routines, complete with exercise guides.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://plugin-bot-dot-health-hero-bot.oa.r.appspot.com/openapi.yaml"
+    },
+    "logo_url": "https://plugin-bot-dot-health-hero-bot.oa.r.appspot.com/logo.png",
+    "contact_email": "hello@goplatform.io",
+    "legal_info_url": "https://www.goplatform.io/legal"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-25T13:37:45.736Z"
+}

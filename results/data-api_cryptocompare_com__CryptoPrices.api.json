@@ -13,7 +13,7 @@
       "name": "CCData.io API License Agreement",
       "url": "https://www.cryptocompare.com/api-licence-agreement/"
     },
-    "version": "2.1.14881"
+    "version": "2.1.14958"
   },
   "servers": [
     {
@@ -2564,12 +2564,12 @@
           "NUMBER": {
             "type": "integer",
             "description": "The current block number",
-            "example": 2
+            "example": 46147
           },
           "TIMESTAMP": {
             "type": "number",
             "description": "The current block timestamp",
-            "example": 1230940800
+            "example": 1438918233
           },
           "RECEIVED_TIMESTAMP": {
             "type": "number",
@@ -2579,7 +2579,118 @@
           "METADATA": {
             "type": "object",
             "description": "The current block full metadata",
-            "properties": {},
+            "properties": {
+              "TYPE": {
+                "type": "string",
+                "description": "Type of the message.",
+                "example": "1021"
+              },
+              "NUMBER": {
+                "type": "integer",
+                "description": "The sequential order of the block within the blockchain. Each block's number is one greater than the number of the previous block.",
+                "example": 2
+              },
+              "TIMESTAMP": {
+                "type": "number",
+                "description": "The exact time when the block was mined. It's a crucial piece of information for tracking the chronological order of blocks.",
+                "example": 1438270017
+              },
+              "HASH": {
+                "type": "string",
+                "description": "The unique identifier for the block, generated using cryptographic algorithms. It represents the content of the block and is used for verification and linking blocks together.",
+                "example": "0xb495a1d7e6663152ae92708da4843337b958146015a2802f4193a410044698c9"
+              },
+              "PARENT_HASH": {
+                "type": "string",
+                "description": "The hash of the previous block in the blockchain. It establishes the chronological link between blocks.",
+                "example": "00x88e96d4537bea4d9c05d12549907b32561d3bf31f45aae734cdc119f13406cb6xf"
+              },
+              "NONCE": {
+                "type": "string",
+                "description": "This is a random number used in the process of mining. It's combined with other block data to create a hash that meets specific mining criteria.",
+                "example": "0xb853fa261a86aa9e"
+              },
+              "SHA3_UNCLES": {
+                "type": "string",
+                "description": "This stores the hash of the block's uncles, which are valid blocks that were not included in the main blockchain but can provide additional rewards to miners.",
+                "example": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347"
+              },
+              "LOGS_BLOOM": {
+                "type": "string",
+                "description": "This is a data structure that represents the presence of log entries in the block's transactions. It's used for efficient retrieval of logs associated with transactions.",
+                "example": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+              },
+              "TRANSACTIONS_ROOT": {
+                "type": "string",
+                "description": "The hash of the root node of the Merkle tree that organizes the transactions in the block. It enables quick verification of included transactions.",
+                "example": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421"
+              },
+              "STATE_ROOT": {
+                "type": "string",
+                "description": "This hash represents the state of the blockchain after all transactions in the block have been executed. It's used to ensure the consistency of the blockchain's state.",
+                "example": "0x4943d941637411107494da9ec8bc04359d731bfd08b72b4d0edcbd4cd2ecb341"
+              },
+              "RECEIPTS_ROOT": {
+                "type": "string",
+                "description": "This is similar to the transactions root, the receipts root hash is the root of a Merkle tree, but it stores the receipts of transactions, including information about their success or failure.",
+                "example": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421"
+              },
+              "MINER": {
+                "type": "string",
+                "description": "This specifies the address of the miner who successfully mined the block. This miner is rewarded with cryptocurrency for their effort.",
+                "example": "0xdd2f1e6e498202e86d8f5442af596580a4f03c2c"
+              },
+              "DIFFICULTY": {
+                "type": "integer",
+                "description": "This indicates how hard it was to mine the block. It's adjusted based on the overall network's hash rate to maintain a consistent block generation rate.",
+                "example": 17163096064
+              },
+              "TOTAL_DIFFICULTY": {
+                "type": "integer",
+                "description": "This field accumulates the difficulty values of all previous blocks, providing a measure of the blockchain's security.",
+                "example": 51514445824
+              },
+              "SIZE": {
+                "type": "integer",
+                "description": "The size of the block in bytes. It includes all the data and metadata within the block.",
+                "example": 544
+              },
+              "BLOCK_TIME": {
+                "type": "integer",
+                "description": "The time taken in seconds between mining the previous and current block. It's an important metric for understanding the network's performance and stability.",
+                "example": 29
+              },
+              "EXTRA_DATA": {
+                "type": "string",
+                "description": "This allows miners to include arbitrary information in the block. It's often used to add contextual information or messages.",
+                "example": "\u0000Geth/v1.0.0-0cdc7647/linux/go1.4"
+              },
+              "GAS_LIMIT": {
+                "type": "integer",
+                "description": "The maximum amount of computational work a block can contain. Each transaction consumes a specific amount of gas, and this limit prevents abuse of the network's resources.",
+                "example": 5000
+              },
+              "GAS_USED": {
+                "type": "integer",
+                "description": "The total amount of gas consumed by all transactions in the block. It helps in understanding the efficiency of transactions.",
+                "example": 0
+              },
+              "TRANSACTION_COUNT": {
+                "type": "integer",
+                "description": "This indicates how many transactions are included in the block.",
+                "example": 0
+              },
+              "BASE_FEE_PER_GAS": {
+                "type": "integer",
+                "description": "The base fee for each unit of gas in transactions. It's part of Ethereum's fee market mechanism.",
+                "example": null
+              },
+              "WITHDRAWALS_ROOT": {
+                "type": "string",
+                "description": "The hash value that represents a data structure containing information about the withdrawals that occurred in the block.",
+                "example": null
+              }
+            },
             "example": {}
           },
           "TRANSACTIONS": {
@@ -2596,7 +2707,7 @@
                 "HASH": {
                   "type": "string",
                   "description": "Block Transaction internal mapped hash",
-                  "example": "0xf"
+                  "example": "0x5c504ed432cb51138bcf09aa5e8a410dd4a1e204ef84bfed1be16dfba1b22060"
                 },
                 "TRANSACTION_TYPE": {
                   "type": "integer",
@@ -2605,111 +2716,265 @@
                 },
                 "NONCE": {
                   "type": "integer",
-                  "description": "The number of transactions made by the sender prior to this one encoded as hexadecimal",
-                  "example": 1
+                  "description": "The number of transactions made by the sender prior to this one encoded as hexadecimal. It prevents duplicate transactions and maintains order in the blockchain.",
+                  "example": 0
                 },
                 "INDEX": {
                   "type": "integer",
-                  "description": "Block Transaction internal mapped transaction index",
-                  "example": 1
+                  "description": "The position of the transaction within the block. Helps in identifying the order of transactions in the block.",
+                  "example": 0
                 },
                 "FROM_ADDRESS": {
                   "type": "string",
-                  "description": "The address of the sender",
-                  "example": "0xf"
+                  "description": "The address of the sender.",
+                  "example": "0xa1e4380a3b1f749673e270229993ee55f35663b4"
                 },
                 "TO_ADDRESS": {
                   "type": "string",
-                  "description": "The address of the receiver. Null when its a contract creation transaction",
-                  "example": "0xf"
+                  "description": "The address of the recipient. Null when its a contract creation transaction",
+                  "example": "0x5df9b87991262f6ba471f09758cde1c0fc1de734"
                 },
                 "VALUE": {
                   "type": "integer",
-                  "description": "Block Transaction internal mapped value",
-                  "example": 100
+                  "description": "The amount of cryptocurrency being transferred from the sender to the recipient.",
+                  "example": 31337
                 },
                 "GAS": {
                   "type": "integer",
-                  "description": "Block Transaction internal mapped gas",
-                  "example": 100
+                  "description": "The amount of computational work a transaction requires to be executed. This is used to determine the fees paid by the sender to incentivize miners to include the transaction in a block.",
+                  "example": 21000
                 },
                 "GAS_PRICE": {
                   "type": "integer",
-                  "description": "Block Transaction internal mapped gas price",
-                  "example": 100
+                  "description": "The price the sender is willing to pay for each unit of gas. Together with the gas limit, it determines the total fee for the transaction.",
+                  "example": 50000000000000
                 },
                 "INPUT": {
                   "type": "string",
-                  "description": "Block Transaction internal mapped input contains the data sent along with the transaction",
-                  "example": "0xf"
+                  "description": "The data associated with the transaction, often used in smart contract interactions. It can contain parameters and instructions for contract execution.",
+                  "example": "0x"
                 },
                 "RECEIPT_CUMULATIVE_GAS_USED": {
                   "type": "integer",
-                  "description": "The total gas used up to when this transaction was executed in the block",
-                  "example": 100
+                  "description": "The total amount of gas used by the transaction and all preceding transactions within the same block.",
+                  "example": 21000
                 },
                 "RECEIPT_GAS_USED": {
                   "type": "integer",
-                  "description": "Block Transaction internal mapped receipt gas used",
-                  "example": 100
+                  "description": "The amount of gas used specifically by the current transaction.",
+                  "example": 21000
                 },
                 "RECEIPT_CONTRACT_ADDRESS": {
                   "type": "string",
-                  "description": "This is the address created when a contract is deployed. The *TO* field should be null in this case",
-                  "example": "0xf"
+                  "description": "This is the address created when a contract is deployed. The *TO* field should be null in this case.",
+                  "example": null
                 },
                 "RECEIPT_ROOT": {
                   "type": "string",
                   "description": "Only transactions included in blocks before the Byzantium Hard Fork have this field, as it was replaced by the *STATUS* field.",
-                  "example": "0xf"
+                  "example": null
                 },
                 "RECEIPT_STATUS": {
                   "type": "integer",
-                  "description": "The status of a transaction is 1 if successful or 0 if it was reverted. Only transactions included in blocks post-Byzantium Hard Fork have this field",
-                  "example": "1"
+                  "description": "The status of a transaction is \"1\" if successful or \"0\" if it was a failure or reverted. Only transactions included in blocks post-Byzantium Hard Fork have this field.",
+                  "example": 1
                 },
                 "MAX_FEE_PER_GAS": {
                   "type": "integer",
-                  "description": "Block Transaction internal mapped max fee per gas",
-                  "example": 100
+                  "description": "The maximum fee per gas unit that the sender is willing to pay for a transaction to be included promptly in a block.",
+                  "example": null
                 },
                 "MAX_PRIORITY_FEE_PER_GAS": {
                   "type": "integer",
-                  "description": "Block Transaction internal mapped max priority fee per gas",
-                  "example": 100
+                  "description": "The maximum fee per gas unit that the sender is willing to pay for higher priority processing of the transaction.",
+                  "example": null
                 },
                 "RECEIPT_EFFECTIVE_GAS_PRICE": {
                   "type": "integer",
-                  "description": "The total base charge plus tip paid for each unit of gas",
-                  "example": 100
+                  "description": "The total base charge plus tip paid for each unit of gas.",
+                  "example": 50000000000000
                 },
                 "ACCESS_LIST": {
                   "type": "array",
-                  "description": "This causes a transaction to warm (i.e. pre-cache) another addresses state and the specified storage keys, Available on EIP-2930 transactions",
-                  "example": [
-                    {
-                      "ADDRESS": "0xf",
-                      "STORAGE_KEYS": []
-                    }
-                  ],
+                  "description": "This causes a transaction to warm (i.e. pre-cache) another addresses state and the specified storage keys, Available on EIP-2930 transactions.",
                   "items": {
-                    "type": "string"
+                    "type": "object",
+                    "properties": {
+                      "TYPE": {
+                        "type": "string",
+                        "description": "Type of the message.",
+                        "example": "1029"
+                      },
+                      "ADDRESS": {
+                        "type": "string",
+                        "description": "Internal mapped Block Transaction Access address state",
+                        "example": "0xf"
+                      },
+                      "STORAGE_KEYS": {
+                        "type": "array",
+                        "description": "An array of storage keys associated with the address mentioned above. Storage keys are unique identifiers used to access data within a smart contract's storage on the blockchain. Smart contracts often store data in a key-value format, where the storage keys are used to retrieve specific values. ",
+                        "example": [
+                          "0xf"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
                   }
                 },
                 "ECDSA_V": {
                   "type": "integer",
-                  "description": "This is part of ECDSA (Elliptic Curve Digital Signature Algorithm) signature. This value helps to recover which public key was used to sign the transaction. Calculated as (CHAIN_ID * 2 + 35) or (CHAIN_ID * 2 + 36)",
-                  "example": 1
+                  "description": "This is part of ECDSA (Elliptic Curve Digital Signature Algorithm) signature. This value helps to recover which public key was used to sign the transaction. Calculated as (CHAIN_ID * 2 + 35) or (CHAIN_ID * 2 + 36).",
+                  "example": 28
                 },
                 "ECDSA_R": {
                   "type": "string",
-                  "description": "This is part of ECDSA (Elliptic Curve Digital Signature Algorithm) signature. It is derived from the private key and the data to be signed",
-                  "example": "0xf"
+                  "description": "This is part of ECDSA (Elliptic Curve Digital Signature Algorithm) signature. It is derived from the private key and the data to be signed.",
+                  "example": "0x88ff6cf0fefd94db46111149ae4bfc179e9b94721fffd821d38d16464b3f71d0"
                 },
                 "ECDSA_S": {
                   "type": "string",
-                  "description": "This is part of ECDSA (Elliptic Curve Digital Signature Algorithm) signature. It is derived from the private key and the data to be signed",
-                  "example": "0xf"
+                  "description": "This is part of ECDSA (Elliptic Curve Digital Signature Algorithm) signature. It is derived from the private key and the data to be signed.",
+                  "example": "0x45e0aff800961cfce805daef7016b9b675c137a6a41a548f7b60a3484c06a33a"
+                },
+                "TRACES": {
+                  "type": "array",
+                  "description": "The detailed records of the steps and interactions that occured during the execution of this transaction.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "TYPE": {
+                        "type": "string",
+                        "description": "Type of the message.",
+                        "example": "1023"
+                      },
+                      "ID": {
+                        "type": "string",
+                        "description": "This is a unique identifier generated by combining the root trace type + transaction hash + trace addresses if available",
+                        "example": "call_0x5c504ed432cb51138bcf09aa5e8a410dd4a1e204ef84bfed1be16dfba1b22060"
+                      },
+                      "TRACE_TYPE": {
+                        "type": "string",
+                        "description": "The type of trace being recorded. It could be either \"call\", \"reward\", \"suicide\", \"create\", etc. depending on the type of action being traced",
+                        "example": "call"
+                      },
+                      "ADDRESS": {
+                        "type": "array",
+                        "description": "This represents the address associated with the trace. This could refer to the contract address, external user address, or any other relevant address in the context of the blockchain transaction",
+                        "example": [],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "ACTION_FROM": {
+                        "type": "string",
+                        "description": "This specifies the sender's address initiating the action",
+                        "example": "0xa1e4380a3b1f749673e270229993ee55f35663b4"
+                      },
+                      "ACTION_TO": {
+                        "type": "string",
+                        "description": "This specifies the recipient's address receiving the action, which could be a contract or an external address.",
+                        "example": "0x5df9b87991262f6ba471f09758cde1c0fc1de734"
+                      },
+                      "ACTION_VALUE": {
+                        "type": "string",
+                        "description": "The value or amount of cryptocurrency involved in the action. This is particularly important for actions like transactions where cryptocurrency is transferred.",
+                        "example": "3787"
+                      },
+                      "ACTION_INPUT": {
+                        "type": "string",
+                        "description": "The input data for the action (encoded in hexadecimal). For contract calls, this data includes function signatures and parameters.",
+                        "example": "0x"
+                      },
+                      "RESULT_OUTPUT": {
+                        "type": "string",
+                        "description": "The output data produced by the action (encoded in hexadecimal), often used for reading the results of a contract call.",
+                        "example": "0x"
+                      },
+                      "ACTION_CALL_TYPE": {
+                        "type": "string",
+                        "description": "The type of call made, such as \"call\", \"delegate call\", or \"static call\". This is relevant when one contract invokes another.",
+                        "example": "call"
+                      },
+                      "ACTION_REWARD_TYPE": {
+                        "type": "string",
+                        "description": "The type of reward associated with the action, which might include mining rewards, staking rewards, or other types of incentives.",
+                        "example": null
+                      },
+                      "ACTION_GAS": {
+                        "type": "string",
+                        "description": "The gas cost of executing the action. Gas is a measure of computational effort required for executing transactions and contract calls on the blockchain network.",
+                        "example": "0"
+                      },
+                      "RESULT_GAS_USED": {
+                        "type": "string",
+                        "description": "The amount of gas actually consumed by the action during execution. This can be compared with the initial gas estimate to measure efficiency.",
+                        "example": "0"
+                      },
+                      "SUBTRACES": {
+                        "type": "integer",
+                        "description": "Indicates the number of subtraces created as a result of the action. Subtraces are typically generated when a complex transaction or contract call triggers multiple internal calls.",
+                        "example": null
+                      },
+                      "ERROR": {
+                        "type": "string",
+                        "description": "Records any errors encountered during the execution of the action, providing information about the nature of the error. Example: *Reverted* or *invalid opcode*.",
+                        "example": null
+                      },
+                      "STATUS": {
+                        "type": "string",
+                        "description": "The overall status of the trace. Common values include \"1\" which means success and \"0\" which means failure, indicating whether the action was executed without errors.",
+                        "example": "1"
+                      }
+                    }
+                  }
+                },
+                "LOGS": {
+                  "type": "array",
+                  "description": "The chronological records of all activities such as transaction executions, contract interactions, errors, and changes that occur within a blockchain network.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "TYPE": {
+                        "type": "string",
+                        "description": "Type of the message.",
+                        "example": "1024"
+                      },
+                      "ADDRESS": {
+                        "type": "string",
+                        "description": "The address of the contract or account that generated the log entry. It serves as an identifier for the source of the event or action that triggered the log.",
+                        "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+                      },
+                      "INDEX": {
+                        "type": "integer",
+                        "description": "The position of the log entry within the sequence of logs generated by a transaction. It's usually an incremental integer starting from 0 for the first log in a transaction. This field helps in distinguishing and organizing logs generated during a transaction.",
+                        "example": 0
+                      },
+                      "DATA": {
+                        "type": "string",
+                        "description": "This contains the arbitrary data associated with the log entry. This data can vary depending on the specific smart contract and event that generated the log. It might include relevant information about the state change or action represented by the log.",
+                        "example": "0x0000000000000000000000000000000000000000000000013125faba00000000"
+                      },
+                      "TOPICS": {
+                        "type": "array",
+                        "description": "An array of one or more indexed event topics. These topics are hash values of event signatures or indexed arguments. They provide a way to filter and search for specific types of events within the logs efficiently.",
+                        "example": [
+                          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+                          "0x0000000000000000000000007054b0f980a7eb5b3a6b3446f3c947d80162775c",
+                          "0x0000000000000000000000006b75d8af000000e20b7a7ddf000ba900b4009a80"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "REMOVED": {
+                        "type": "boolean",
+                        "description": "A a boolean indicator that signals whether the log entry has been removed or undone due to a chain reorganization or a consensus rule change. It helps applications differentiate between active and reverted logs. It is \"true\" if log was removed, otherwise false.",
+                        "example": false
+                      }
+                    }
+                  }
                 }
               }
             },
@@ -2719,7 +2984,92 @@
             "type": "array",
             "description": "Block traces not linked to a transaction",
             "items": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "TYPE": {
+                  "type": "string",
+                  "description": "Type of the message.",
+                  "example": "1023"
+                },
+                "ID": {
+                  "type": "string",
+                  "description": "This is a unique identifier generated by combining the root trace type + transaction hash + trace addresses if available",
+                  "example": "call_0x5c504ed432cb51138bcf09aa5e8a410dd4a1e204ef84bfed1be16dfba1b22060"
+                },
+                "TRACE_TYPE": {
+                  "type": "string",
+                  "description": "The type of trace being recorded. It could be either \"call\", \"reward\", \"suicide\", \"create\", etc. depending on the type of action being traced",
+                  "example": "call"
+                },
+                "ADDRESS": {
+                  "type": "array",
+                  "description": "This represents the address associated with the trace. This could refer to the contract address, external user address, or any other relevant address in the context of the blockchain transaction",
+                  "example": [],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "ACTION_FROM": {
+                  "type": "string",
+                  "description": "This specifies the sender's address initiating the action",
+                  "example": "0xa1e4380a3b1f749673e270229993ee55f35663b4"
+                },
+                "ACTION_TO": {
+                  "type": "string",
+                  "description": "This specifies the recipient's address receiving the action, which could be a contract or an external address.",
+                  "example": "0x5df9b87991262f6ba471f09758cde1c0fc1de734"
+                },
+                "ACTION_VALUE": {
+                  "type": "string",
+                  "description": "The value or amount of cryptocurrency involved in the action. This is particularly important for actions like transactions where cryptocurrency is transferred.",
+                  "example": "3787"
+                },
+                "ACTION_INPUT": {
+                  "type": "string",
+                  "description": "The input data for the action (encoded in hexadecimal). For contract calls, this data includes function signatures and parameters.",
+                  "example": "0x"
+                },
+                "RESULT_OUTPUT": {
+                  "type": "string",
+                  "description": "The output data produced by the action (encoded in hexadecimal), often used for reading the results of a contract call.",
+                  "example": "0x"
+                },
+                "ACTION_CALL_TYPE": {
+                  "type": "string",
+                  "description": "The type of call made, such as \"call\", \"delegate call\", or \"static call\". This is relevant when one contract invokes another.",
+                  "example": "call"
+                },
+                "ACTION_REWARD_TYPE": {
+                  "type": "string",
+                  "description": "The type of reward associated with the action, which might include mining rewards, staking rewards, or other types of incentives.",
+                  "example": null
+                },
+                "ACTION_GAS": {
+                  "type": "string",
+                  "description": "The gas cost of executing the action. Gas is a measure of computational effort required for executing transactions and contract calls on the blockchain network.",
+                  "example": "0"
+                },
+                "RESULT_GAS_USED": {
+                  "type": "string",
+                  "description": "The amount of gas actually consumed by the action during execution. This can be compared with the initial gas estimate to measure efficiency.",
+                  "example": "0"
+                },
+                "SUBTRACES": {
+                  "type": "integer",
+                  "description": "Indicates the number of subtraces created as a result of the action. Subtraces are typically generated when a complex transaction or contract call triggers multiple internal calls.",
+                  "example": null
+                },
+                "ERROR": {
+                  "type": "string",
+                  "description": "Records any errors encountered during the execution of the action, providing information about the nature of the error. Example: *Reverted* or *invalid opcode*.",
+                  "example": null
+                },
+                "STATUS": {
+                  "type": "string",
+                  "description": "The overall status of the trace. Common values include \"1\" which means success and \"0\" which means failure, indicating whether the action was executed without errors.",
+                  "example": "1"
+                }
+              }
             },
             "example": []
           },
@@ -2751,40 +3101,32 @@
                 },
                 "INDEX": {
                   "type": "integer",
-                  "description": "Internal mapped Block Withdrawal index",
+                  "description": "The unique identifier or index associated with a blockchain withdrawal transaction. It helps in keeping track of individual withdrawals and organizing them in a sequential or ordered manner.",
                   "example": 1
                 },
                 "VALIDATOR_INDEX": {
                   "type": "integer",
-                  "description": "Internal mapped Block Withdrawal validator index",
-                  "example": 1
+                  "description": "The identifier of the validator or node that approved or validated the withdrawal transaction. In proof-of-stake or similar consensus mechanisms, validators play a crucial role in ensuring the legitimacy of transactions, and this field ties a withdrawal to a specific validator.",
+                  "example": 145205
                 },
                 "ADDRESS": {
                   "type": "string",
-                  "description": "Internal mapped Block Withdrawal address",
-                  "example": "0xf"
+                  "description": "The destination address to which the withdrawn cryptocurrency is being sent. This address is usually a cryptographic public key or a combination of alphanumeric characters that uniquely identifies the recipient's wallet or account on the blockchain.",
+                  "example": "0xf7c6c5d35cc24beeed0c93ff2acb6f7f3e2b89aa"
                 },
                 "AMOUNT": {
                   "type": "integer",
-                  "description": "Total Block Withdrawal amount",
-                  "example": 10
+                  "description": "The quantity of cryptocurrency being withdrawn in the transaction. It specifies the numerical value of the cryptocurrency units being transferred from the withdrawal source to the recipient's address.",
+                  "example": 13106144
                 },
                 "UNIT": {
                   "type": "string",
-                  "description": "Total Block Withdrawal amount unit",
+                  "description": "The type of cryptocurrency being withdrawn. It could be a symbol or code that represents the specific cryptocurrency asset being transferred, such as \"BTC\" for Bitcoin or \"GWEI\" for Ethereum.",
                   "example": "GWEI"
                 }
               }
             },
-            "example": [
-              {
-                "TYPE": 1028,
-                "INDEX": 1,
-                "VALIDATOR_INDEX": 2,
-                "ADDRESS": "0xf",
-                "AMOUNT": 10
-              }
-            ]
+            "example": []
           }
         }
       }

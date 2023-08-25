@@ -1,9 +1,9 @@
 openapi: 3.1.0
 info:
   title: Text to Speech API
-  version: 1.0.2
+  version: 1.1.5
 paths:
-  /voice:
+  /api/audio-process:
     post:
       operationId: convertTextToSpeech
       summary: Convert text to speech
@@ -16,21 +16,37 @@ paths:
               properties:
                 input:
                   type: string
+                  required: true
                   description: The input text to be converted to speech as a string.
                 locale:
                   type: string
-                  default: "en-US"
+                  required: true
                   description: The locale of the text, following the BCP-47 format.
                 gender:
                   type: string
                   default: "Female"
                   enum: ["Male", "Female"]
+                  required: true
                   description: The gender of the narrator as a string.
+                age:
+                  type: string
+                  enum: ["teen", "young", "middle_age", "senior", "kid"]
+                  description: The age group of the narrator.
                 style:
                   type: string
-                  default: "assistant"
-                  enum: ["news", "audiobook", "conversation"]
-                  description: The style of the speech which the text is based on.
+                  enum:
+                    [
+                      "news",
+                      "audiobook",
+                      "conversation",
+                      "commercial",
+                      "cheerful",
+                    ]
+                  description: The style attributes of the speech on which the text is based.
+                narratorName:
+                  type: string
+                  description: The name of the narrator by whom the audio should be created.
+
       responses:
         "200":
           description: Successful operation
@@ -39,15 +55,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  url:
+                  link:
                     type: string
                     description: The URL of the audio file.
-                  url2:
-                    type: string
-                    description: The URL of the audio file, in different style
-                  url3:
-                    type: string
-                    description: The URL of the audio file, in different style
                   description:
                     type: string
                     description: A description of the audio file.
@@ -57,8 +67,13 @@ paths:
                   fragmentsUrls:
                     type: string
                     description: URLs of other audio files that comprise the current audio file, if applicable.
+                  alternative:
+                    type: string
+                    description: Alternative voice options for the same text, if available.
         "400":
-          description: Bad request
+          description: Bad Request
+        "401":
+          description: Authentication Required
         "500":
           description: Internal Server Error
         "503":

@@ -76,6 +76,34 @@
           }
         }
       }
+    },
+    "/api/posts/delete/{id}": {
+      "delete": {
+        "operationId": "update",
+        "summary": "Deletes an existing post by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated post URL.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePostResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

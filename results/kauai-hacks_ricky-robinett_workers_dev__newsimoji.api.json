@@ -1,0 +1,79 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Newsimoji",
+    "description": "A fun game where you guess a news story based on solely on emojis.",
+    "version": "v0.0.1"
+  },
+  "paths": {
+    "/search": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Get current events for a website",
+        "parameters": [
+          {
+            "description": "website url to crawl",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "website url to crawl",
+              "default": "www.nytimes.com"
+            },
+            "name": "q",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "repos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "itty-router-openapi"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "OpenAPI 3 schema generator and validator for Cloudflare Workers"
+                          },
+                          "stars": {
+                            "type": "string",
+                            "example": "80"
+                          },
+                          "url": {
+                            "type": "string",
+                            "example": "https://github.com/cloudflare/itty-router-openapi"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "description",
+                          "stars",
+                          "url"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "repos"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get_GetSearch"
+      }
+    }
+  }
+}

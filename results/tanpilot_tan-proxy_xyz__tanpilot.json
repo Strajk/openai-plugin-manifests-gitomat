@@ -1,0 +1,36 @@
+{
+  "id": "plugin-65b4adeb-a5f1-4160-a601-1d6abbded327",
+  "domain": "tanpilot.tan-proxy.xyz",
+  "namespace": "tanpilot",
+  "status": "approved",
+  "manifest": {
+    "schema_version": "v1",
+    "name_for_model": "tanpilot",
+    "name_for_human": "Tan Pilot",
+    "description_for_model": "Search about the question before you answer any questions.\n- Do not search through baidu.com at any time.\n- If you need to search somthing, visit https://www.google.com/search?q=xxx.\n- If user ask you to open a url (start with http:// or https://), visit it directly.\n- Summary the plain content result by yourself, DO NOT directly output anything in the result you got.",
+    "description_for_human": "Provides optimized web access ability.",
+    "auth": {
+      "type": "service_http",
+      "instructions": "",
+      "authorization_type": "bearer",
+      "verification_tokens": {
+        "openai": "3c0464a38db74fa68414706a7284823a"
+      }
+    },
+    "api": {
+      "type": "openapi",
+      "url": "https://tanpilot.tan-proxy.xyz/openapi.yaml"
+    },
+    "logo_url": "https://tanpilot.tan-proxy.xyz/logo.png",
+    "contact_email": "1010553892@qq.com",
+    "legal_info_url": "https://tanpilot.tan-proxy.xyz/legal_info.html"
+  },
+  "oauth_client_id": null,
+  "categories": [
+    {
+      "id": "newly_added",
+      "title": "New"
+    }
+  ],
+  "__scrapedAt": "2023-08-25T13:37:45.736Z"
+}

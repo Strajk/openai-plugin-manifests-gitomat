@@ -15,14 +15,14 @@
     "version": "v1"
   },
   "paths": {
-    "/Edit/GetMonitorIPsWithFilterAuth": {
+    "/Alerts/ResetAlert": {
       "post": {
         "tags": [
-          "Edit"
+          "Alerts"
         ],
-        "summary": "Get a filtered list of Hosts configuration (MonitorIPs : array of MonitorIP) for the authorised user.",
-        "description": "Add monitorIPQuery to filter the results.\r\nSample post data: {   \"monitorIPQuery\" : {\"address\" : \"host.com\"}  }",
-        "operationId": "GetMonitorIPsWithFilterAuth",
+        "summary": "Reset alert for host with ID for the authorised user . Required fields MonitorIP.ID .",
+        "description": "Reset Alert for Host {\"monitorIP\": {\"iD\" : 1234 }}",
+        "operationId": "ResetAlert",
         "requestBody": {
           "content": {
             "application/json": {
@@ -38,17 +38,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/MonitorIPListTResultObj"
+                  "$ref": "#/components/schemas/ResultObj"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MonitorIPListTResultObj"
+                  "$ref": "#/components/schemas/ResultObj"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MonitorIPListTResultObj"
+                  "$ref": "#/components/schemas/ResultObj"
                 }
               }
             }
@@ -76,18 +76,18 @@
         }
       }
     },
-    "/Edit/GetMonitorIPsFromUserID": {
+    "/Alerts/ResetAllAlertsForUser": {
       "post": {
         "tags": [
-          "Edit"
+          "Alerts"
         ],
-        "summary": "Get a list of Hosts configuration (MonitorIPs : array of MonitorIP) for the authorised user.",
-        "operationId": "GetMonitorIPsFromUserID",
+        "summary": "Reset all alerts for all hosts for the authorised user .",
+        "operationId": "ResetAllAlertsForUser",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserInfo"
+                "$ref": "#/components/schemas/SentUserData"
               }
             }
           }
@@ -114,7 +114,7 @@
             }
           },
           "400": {
-            "description": "If the UserInfo is null or is unable to be converted to a UserInfo",
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
             "content": {
               "text/plain": {
                 "schema": {
@@ -136,10 +136,10 @@
         }
       }
     },
-    "/Edit/AddHostGPTAuth": {
+    "/HostConfig/AddHostGPTAuth": {
       "post": {
         "tags": [
-          "Edit"
+          "HostConfig"
         ],
         "summary": "Add a new host for the authorised user; Address, EndPointType are required fields.",
         "description": "Add a host example {\"address\": \"https://example.com\",\"endPointType\": \"http\"}",
@@ -197,10 +197,10 @@
         }
       }
     },
-    "/Edit/EditHostGPTAuth": {
+    "/HostConfig/EditHostGPTAuth": {
       "post": {
         "tags": [
-          "Edit"
+          "HostConfig"
         ],
         "summary": "Edit a host for an authorised user. Required fields MonitorIP.ID . Other supplied fields will be updated.",
         "description": "Edit a host {\"monitorIP\": {\"iD\" : 1234 , \"endPointType\": \"http\"},\"isEdit\": true}",
@@ -258,13 +258,74 @@
         }
       }
     },
-    "/Edit/AddUserApi": {
+    "/HostInfo/GetMonitorIPsWithFilterAuth": {
       "post": {
         "tags": [
-          "Edit"
+          "HostInfo"
         ],
-        "summary": "Add an authorised user to database.",
-        "operationId": "AddUserApi",
+        "summary": "Get a filtered list of Hosts configuration (MonitorIPs : array of MonitorIP) for the authorised user.",
+        "description": "Add monitorIPQuery to filter the results.\r\nSample post data: {   \"monitorIPQuery\" : {\"address\" : \"host.com\"}  }",
+        "operationId": "GetMonitorIPsWithFilterAuth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentUserData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPListTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPListTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorIPListTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/HostInfo/GetMonitorIPsFromUserID": {
+      "post": {
+        "tags": [
+          "HostInfo"
+        ],
+        "summary": "Get a list of Hosts configuration (MonitorIPs : array of MonitorIP) for the authorised user.",
+        "operationId": "GetMonitorIPsFromUserID",
         "requestBody": {
           "content": {
             "application/json": {
@@ -296,7 +357,7 @@
             }
           },
           "400": {
-            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "description": "If the UserInfo is null or is unable to be converted to a UserInfo",
             "content": {
               "text/plain": {
                 "schema": {
@@ -431,10 +492,145 @@
         }
       }
     },
-    "/Monitor/GetMonitorPingInfosByDataSetIDAuth": {
+    "/ResponseTime/GetPingInfosByMonitorPingInfoIDAuth": {
       "post": {
         "tags": [
-          "Monitor"
+          "ResponseTime"
+        ],
+        "summary": "Get a detailed list of Response times and statuses (PingInfos) for a given host (MonitorPingInfoId) .",
+        "description": "Return event data for a given MonitorPingInfoId . Each PingInfo contains data about a monitoring event (response time , status, event datetime etc.).",
+        "operationId": "GetPingInfosByMonitorPingInfoIDAuth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentUserData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a result object",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingInfoListTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingInfoListTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingInfoListTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ResponseTime/GetPingInfosByDateRangeAuth": {
+      "post": {
+        "tags": [
+          "ResponseTime"
+        ],
+        "summary": "Get detailed Response times and status (PingInfo) data for a date range and MonitorPingInfoID.",
+        "description": "Returns a list of PingInfo objects within the provided start and end date range.\r\nDates are converted to integer values for querying the DateSentInt database field.",
+        "operationId": "GetPingInfosByDateRangeAuth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DateRangeQuery"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DateRangeQuery"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DateRangeQuery"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the PingInfo data"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingInfoListTResultObj"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingInfoListTResultObj"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingInfoListTResultObj"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If parameters are invalid",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Summary/GetMonitorPingInfosByDataSetIDAuth": {
+      "post": {
+        "tags": [
+          "Summary"
         ],
         "summary": "Get a List of summary monitoring data (MonitorPingInfos : array of MonitorPingInfo) with a given DataSetId. The User must be authorised.",
         "description": "Include monitorPingInfoQuery to filter the results on , EndPointType  etc.\r\nSample post data: { \"dataSetId\": 1 , \"monitorPingInfoQuery\" : {\"pageNumber\" : 2, \"pageSize\" :30 }  }",
@@ -492,10 +688,10 @@
         }
       }
     },
-    "/Monitor/GetMonitorPingInfosByHostAddressAuth": {
+    "/Summary/GetMonitorPingInfosByHostAddressAuth": {
       "post": {
         "tags": [
-          "Monitor"
+          "Summary"
         ],
         "summary": "Get a List of summary monitoring data  (MonitorPingInfos : array of MonitorPingInfo) for a given a hostAddress=\"Host Address\".",
         "description": "Add monitorPingInfoQuery to filter the results if you get error ResponseTooLargeError.\r\nSample post data: { \"hostAddress\": \"www.freenetworkmonitor.click\", \"monitorPingInfoQuery\" : {\"IncludeResponseTimes\" : false ,\"dateStart\": \"2023-07-15T00:00:00Z\",\"dateEnd\": \"2023-07-15T23:59:59Z\"}  }",
@@ -552,192 +748,35 @@
           }
         }
       }
-    },
-    "/Monitor/GetPingInfosByMonitorPingInfoIDAuth": {
-      "post": {
-        "tags": [
-          "Monitor"
-        ],
-        "summary": "Get detailed data. A list of Response times and statuses (PingInfos : array of PingInfo) for a given host (MonitorPingInfoId) .",
-        "description": "Return event data for a given MonitorPingInfoId . Each PingInfo contains data about a monitoring event (response time , status, event datetime etc.).",
-        "operationId": "GetPingInfosByMonitorPingInfoIDAuth",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SentUserData"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Returns a result object",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PingInfoListTResultObj"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PingInfoListTResultObj"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PingInfoListTResultObj"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Monitor/ResetAlert": {
-      "post": {
-        "tags": [
-          "Monitor"
-        ],
-        "summary": "Reset alert for host with ID for the authorised user . Required fields MonitorIP.ID .",
-        "description": "Reset Alert for Host {\"monitorIP\": {\"iD\" : 1234 }}",
-        "operationId": "ResetAlert",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SentUserData"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Returns a result object",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultObj"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultObj"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultObj"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Monitor/ResetAllAlertsForUser": {
-      "post": {
-        "tags": [
-          "Monitor"
-        ],
-        "summary": "Reset all alerts for all hosts for the authorised user .",
-        "operationId": "ResetAllAlertsForUser",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SentUserData"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Returns a result object",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultObj"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultObj"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultObj"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "If the SentUserData is null or is unable to be converted to a SentUserData",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
+      "DateRangeQuery": {
+        "type": "object",
+        "properties": {
+          "monitorPingInfoID": {
+            "type": "integer",
+            "description": "Required MonitorPingInfoID to filter PingInfos by.",
+            "format": "int32"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date for the range filter. \r\nWill be converted to integer for querying.",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date for the range filter.\r\nWill be converted to integer for querying.",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserInfo"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Query parameters for fetching PingInfo data by date range and MonitorPingInfo."
+      },
       "EditHost": {
         "type": "object",
         "properties": {

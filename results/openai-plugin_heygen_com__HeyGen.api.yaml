@@ -1,0 +1,117 @@
+openapi: 3.0.1
+info:
+    title: HeyGen
+    description: A tool that allows the user to create a video. The user only needs to provide a transcript text to create a video.
+    version: "v2"
+servers:
+    - url: https://openai-plugin.heygen.com
+paths:
+    /simple.video.generate:
+        post:
+            operationId: generateSimpleAvatarVideo
+            summary: Generate a simple video with a piece of transcript text.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/generateSimpleAvatarVideoRequest"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/generateSimpleAvatarVideoResponse"
+                "400":
+                    description: Bad Request. Cannot create a video based on the parameter(s) provided.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/generateSimpleAvatarVideoError"
+    /presentation.video.generate:
+        post:
+            operationId: generatePresentationAvatarVideo
+            summary: Generate a presentation video with an image and a piece of transcript text.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/generatePresentationAvatarVideoRequest"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/generateSimpleAvatarVideoResponse"
+                "400":
+                    description: Bad Request. Cannot create a presentation  video based on the parameter(s) provided.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/generateSimpleAvatarVideoError"
+
+components:
+    schemas:
+        generateSimpleAvatarVideoRequest:
+            type: object
+            required:
+                - text
+            properties:
+                text:
+                    type: string
+                    description: The text transcript for the speech/voiceover to the video that the user wants to generate. Should be short and concise.
+                    required: true
+                title:
+                    type: string
+                    description: A short title for the video that the user wants to generate. Must be very short and concise.
+                gender:
+                    type: string
+                    description: The gender of the avatar that appears in the user's requested video.
+                    enum:
+                        - male
+                        - female
+                skintone:
+                    type: string
+                    description: The skin tone of the avatar that appears in the user's requested video.
+                    enum:
+                        - light
+                        - dark
+                        - asian
+        generateSimpleAvatarVideoResponse:
+            type: object
+            properties:
+                link:
+                    type: string
+                    description: The link for the newly generated video. The user can view the video from the link after the video completed generation.
+        generateSimpleAvatarVideoError:
+            type: object
+            properties:
+                message:
+                    type: string
+                    description: The error message containing the reason(s) that why the video failed to create.
+        generatePresentationAvatarVideoRequest:
+            type: object
+            required:
+                - text
+                - image
+            properties:
+                text:
+                    type: string
+                    description: The text transcript for the speech/voiceover to the presentation video that the user wants to generate. Should be short and concise.
+                    required: true
+                image:
+                    type: string
+                    description: The URL to the image to be shown in the presentation video that the user wants to generate. Must be in jpg/jpeg/png/svg format.
+                    required: true
+                title:
+                    type: string
+                    description: A short title for the presentation video that the user wants to generate. Must be very short and concise.
+                gender:
+                    type: string
+                    description: The gender of the avatar that appears in the user's requested presentation video.
+                    enum:
+                        - male
+                        - female

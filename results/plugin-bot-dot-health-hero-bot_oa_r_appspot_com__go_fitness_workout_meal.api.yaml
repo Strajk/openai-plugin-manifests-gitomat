@@ -1,0 +1,206 @@
+openapi: 3.0.1
+info:
+  title: Go!
+  description: A Plugin for recommending personalized workout plans, fitness tips, and meal plans
+  version: "v1"
+servers:
+  - url: https://plugin-bot-dot-health-hero-bot.oa.r.appspot.com
+
+paths:
+  /get-workout-plans/:
+    post:
+      operationId: getRoutines
+      summary: Get customized workout plan based on user preferences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/recommendWorkoutRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkoutResponse"
+
+  /get-meal-plans/:
+    post:
+      operationId: getMealPlan
+      summary: Get customized meal plan based on user preferences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/recommendMealRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MealResponse"
+
+  /get-fitness-tips/:
+    post:
+      operationId: getFitnessTips
+      summary: Get fitness tips for users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/fitnessTipsRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FitnessTipsResponse"
+
+components:
+  schemas:
+    recommendWorkoutRequest:
+      type: object
+      properties:
+        fitness_goals:
+          type: string
+          description: User fitness goal e.g., weight loss, muscle gain, general fitness
+          required: true
+        gender:
+          type: string
+          description: User's Gender. M is Male, F is Female, O is Other.
+          required: true
+        fitness_level:
+          type: integer
+          description: User's level of fitness. 1 is Introductory, 2 is Beginner, 3 is Intermediate, 4 is Advanced, 5 is Expert.
+          required: true
+        body_weight:
+          type: number
+          description: User's Body weight. If the user doesn't want to tell, it has to be null. If the user enters it as pounds, it should be converted to kg.
+          required: true
+        user_language_code:
+          type: string
+          description: User's language code that should be recognized from user's prompts.
+          required: true
+
+    recommendMealRequest:
+      type: object
+      properties:
+        dietary_goals:
+          type: string
+          description: User dietary goal e.g. lose weight, gain muscle, or maintain your current weight
+        gender:
+          type: string
+          description: User's Gender. M is Male, F is Female, O is Other.
+          required: true
+        meal_preference:
+          type: integer
+          description: User's meal preferences. 1 is Vegetarian, 2 is Non-Vegetarian, 3 is GlutenFree, 4 is Keto, 5 is Other.
+          required: true
+        body_weight:
+          type: number
+          description: User's Body weight. If the user doesn't want to tell, it has to be null. If the user enters it as pounds, it should be converted to kg.
+        user_language_code:
+          type: string
+          description: User's language code that should be recognized from user's prompts.
+
+    fitnessTipsRequest:
+      type: object
+      properties:
+        gender:
+          type: string
+          description: User's Gender. M is Male, F is Female, O is Other.
+          required: true
+        body_weight:
+          type: number
+          description: User's Body weight. If the user doesn't want to tell, it has to be null. If the user enters it as pounds, it should be converted to kg.
+        user_language_code:
+          type: string
+          description: User's language code that should be recognized from user's prompts.
+
+    WorkoutResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/getWorkoutRoutineResponseItem"
+
+    MealResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/getMealResponseItem"
+
+    FitnessTipsResponse:
+      type: object
+      properties:
+        tips:
+          type: array
+          items:
+            type: string
+          description: Fitness tips based on user preferences
+
+    getWorkoutRoutineResponseItem:
+      type: object
+      properties:
+        day:
+          type: string
+          description: Day of the routine (e.g., "Monday", "Tuesday").
+        workout:
+          type: array
+          items:
+            $ref: "#/components/schemas/exercise"
+          description: List of exercises for the day's workout.
+
+    getMealResponseItem:
+      type: object
+      properties:
+        day:
+          type: string
+          description: Day of the meal plan (e.g., "Monday", "Tuesday").
+        meals:
+          type: array
+          items:
+            $ref: "#/components/schemas/meal"
+          description: List of meals for the day.
+
+    exercise:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the exercise.
+        duration:
+          type: integer
+          description: Duration of the exercise in minutes.
+        sets:
+          type: integer
+          description: Number of sets for the exercise.
+        repetitions:
+          type: integer
+          description: Number of repetitions per set.
+        intensity:
+          type: string
+          description: Intensity level of the exercise (e.g., low, medium, high).
+        description:
+          type: string
+          description: Description or instructions for performing the exercise.
+
+    meal:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the meal.
+        type:
+          type: string
+          description: Type of the meal (e.g., breakfast, lunch, dinner, snack).
+        ingredients:
+          type: array
+          items:
+            type: string
+          description: List of ingredients for the meal.
+        instructions:
+          type: string
+          description: Cooking or preparation instructions for the meal.

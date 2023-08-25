@@ -78,6 +78,12 @@ components:
           type: integer
         listed_count:
           type: integer
+        data_available_for_purchase_for_the_requested_username:
+          type: string
+        manual_how_to_use_the_plugin:
+          type: string
+        analytic_blog_for_the_account:
+          type: string
       required:
         - account_found
       description: Twitter account stats.
